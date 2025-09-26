@@ -6,7 +6,7 @@ all:
 clear:
 	@echo "Cache cleanup ..."
 	@-find ./cache/ -type f -mtime +5 -delete -print 2> /dev/null || true
-	@-find ./cache/ -type f -mtime +1 2> /dev/null \
+	@-find ./cache/ -type f -mtime +2 2> /dev/null \
 		| head -n 1000 \
 		| shuf \
 		| head -n 20 \

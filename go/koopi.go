@@ -130,8 +130,6 @@ var CZreplacer = strings.NewReplacer(
 	"ě", "e",
 	"ň", "n",
 	"ř", "r",
-	"ř", "r",
-	"š", "s",
 	"š", "s",
 	"ť", "t",
 	"ů", "u",
