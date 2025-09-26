@@ -1,0 +1,16 @@
+*.bak
+*.tar
+*.tgz
+*.zip
+*~
+.DS_Store
+.Trash-1000
+.editorconfig
+.env
+Thumbs.db
+cache/
+go/koopi
+go/koopi.csv
+go/koopi.json
+images/
+vendor/
