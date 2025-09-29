@@ -9,7 +9,7 @@ clear:
 	@-find ./cache/ -type f -mtime +2 2> /dev/null \
 		| head -n 1000 \
 		| shuf \
-		| head -n 20 \
+		| head -n 50 \
 		| xargs -r -d '\n' rm -f 2> /dev/null || true
 
 build:
