@@ -76,6 +76,8 @@ var FORBIDDEN_GOODS = []string{
 	"kolekce",
 	"kolínská",
 	"konkor",
+	"koupele",
+	"krku",
 	"křeslo",
 	"lepidlo",
 	"lis",
