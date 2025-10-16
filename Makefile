@@ -21,7 +21,13 @@ db: build
 
 img:
 	@echo "Converting images ..."
-	@cd images && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c 'convert "$$1" -quality 75 "$${1%.*}.webp"' _ {}
+	@cd images && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
+		INPUT="$$1"; \
+		OUTPUT=$${INPUT%.*}.webp; \
+		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
+			convert "$$INPUT" -quality 75 "$$OUTPUT"; \
+		fi \
+	' _ {}
 
 # macro
 everything: clear db img

@@ -419,7 +419,7 @@ func saveImageToCache(imageUrl string) {
 func scrapePage(ctx context.Context, urlToScrape string, cacheName string, category string, query string, allGoods *[]Goods, mutex *sync.Mutex, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	// try cache first
+	// 1. try cache first
 	doc, err := loadFromCache(cacheName)
 	if err == nil {
 		goodsList := extractGoodsFromHtml(doc, category, query)
@@ -439,17 +439,30 @@ func scrapePage(ctx context.Context, urlToScrape string, cacheName string, categ
 		return
 	}
 
-	// rate limiter injection
-	defer func() {
-		sleepTime := time.Duration(rand.Intn(15000)+5000) * time.Millisecond
-		time.Sleep(sleepTime)
-		rateLimiter <- struct{}{}
-	}()
-
+	// 2. Rate Limiter Acquisition (Only for network scrape)
 	select {
 	case <-ctx.Done():
-		return // task cancelled
+		// Task cancelled before acquiring token
+		return
 	case <-rateLimiter:
+		defer func() {
+			// A. Calculate sleep time
+			sleepTime := time.Duration(rand.Intn(15000)+5000) * time.Millisecond
+
+			// B. Wait on a Timer or Context Done (INTERRUPTIBLE SLEEP!)
+			timer := time.NewTimer(sleepTime)
+
+			select {
+			case <-ctx.Done():
+				timer.Stop()
+				log.Printf("❌ [%s] sleep interrupted", query)
+			case <-timer.C:
+				// Timer finished normally.
+			}
+
+			// C. Return the token.
+			rateLimiter <- struct{}{}
+		}()
 	}
 
 	log.Printf("🔎 [%s] scrape %s%s%s", query, ColorCyan, urlToScrape, ColorReset)
@@ -465,7 +478,7 @@ func scrapePage(ctx context.Context, urlToScrape string, cacheName string, categ
 	req.Header.Set("User-Agent", UA)
 	res, err := client.Do(req)
 	if err != nil {
-		log.Printf("[%s] 💥 error during request: %v", query, err)
+		//		log.Printf("[%s] 💥 error during request: %v", query, err)
 		return
 	}
 	defer res.Body.Close()
