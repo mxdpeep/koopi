@@ -131,19 +131,20 @@ type Goods struct {
 
 var CZreplacer = strings.NewReplacer(
 	"á", "a",
-	"é", "e",
-	"í", "i",
-	"ó", "o",
-	"ú", "u",
-	"ý", "y",
 	"č", "c",
 	"ď", "d",
+	"é", "e",
 	"ě", "e",
+	"í", "i",
+	"ľ", "l",
 	"ň", "n",
+	"ó", "o",
 	"ř", "r",
 	"š", "s",
 	"ť", "t",
+	"ú", "u",
 	"ů", "u",
+	"ý", "y",
 	"ž", "z",
 )
 
@@ -151,13 +152,13 @@ var nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
 
 // normalization - helper function to normalize Czech strings for comparison
 func normalization(s string) string {
-	// 1. převod na malá písmena
+	// 1. malá písmena
 	s = strings.ToLower(s)
 	// 2. odstranění diakritiky
 	s = CZreplacer.Replace(s)
-	// 3. nahrazení nealfanumerických znaků mezerou (čísla, písmena zůstanou)
+	// 3. nahrazení nealfanumerických znaků mezerou
 	s = nonAlphanumeric.ReplaceAllString(s, " ")
-	// 4. ořezání white space
+	// 4. ořez white space
 	s = strings.TrimSpace(s)
 	return s
 }
