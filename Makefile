@@ -1,7 +1,7 @@
 #@author Fred Brooker <git@gscloud.cz>
 
 all:
-	@echo "build | clear | db | img | everything";
+	@echo "backup | build | clear | db | img | everything";
 
 clear:
 	@echo "Cache cleanup ..."
@@ -15,6 +15,10 @@ clear:
 build:
 	@echo "Building app ..."
 	@cd go/ && go build -o koopi .
+
+backup:
+	@echo "Making backup ..."
+	@rclone copy -P --exclude '.git/**' --exclude 'cache/' . gsc:koopi/
 
 db: build
 	@cd go/ && ./koopi
