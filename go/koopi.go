@@ -589,6 +589,14 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	mutex.Lock()
 	defer mutex.Unlock()
 
+	// 1. Pre-calculate count of generic products (Name + Volume + Category + SubCat)
+	// This map is used to find how many offers exist for a given product name/volume combination.
+	genericProductCounts := make(map[string]int)
+	for _, item := range goods {
+		genericHashKey := item.Name + item.Volume + item.Category + item.SubCat
+		genericProductCounts[genericHashKey]++
+	}
+
 	file, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("[%s] 💥 error opening for writing: %v", filename, err)
@@ -598,9 +606,13 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	var cleanedGoods []map[string]any
 	for _, item := range goods {
 
-		hashString := item.Name + item.Volume + item.Category + item.SubCat // unique good hash
+		hashString := item.Name + item.Volume + item.Category + item.SubCat // unique good hash (for ID)
 		hash := md5.Sum([]byte(hashString))
 		md5Hash := hex.EncodeToString(hash[:])
+
+		// Retrieve the offer count for this generic product
+		genericHashKey := item.Name + item.Volume + item.Category + item.SubCat
+		offerCount := genericProductCounts[genericHashKey]
 
 		cleanedItem := make(map[string]any)
 		cleanedItem["id"] = md5Hash
@@ -627,6 +639,9 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		imageURL = strings.TrimPrefix(imageURL, "https://img.kupi.cz/kupi/thumbs/")
 		imageURL = strings.TrimPrefix(imageURL, "https://img.kupi.cz/img/no_img/no_discounts.png")
 		cleanedItem["image"] = imageURL
+
+		// NOVÉ POLE: Počet nalezených nabídek pro tento generický produkt
+		cleanedItem["offer_count"] = offerCount
 
 		cleanedGoods = append(cleanedGoods, cleanedItem)
 	}
