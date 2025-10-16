@@ -25,7 +25,7 @@ img:
 		INPUT="$$1"; \
 		OUTPUT=$${INPUT%.*}.webp; \
 		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
-			convert "$$INPUT" -quality 75 "$$OUTPUT"; \
+			convert "$$INPUT" -quality 80 "$$OUTPUT"; \
 		fi \
 	' _ {}
 
