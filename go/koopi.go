@@ -95,6 +95,7 @@ var FORBIDDEN_GOODS = []string{
 	"pleť",
 	"pleťová",
 	"postel",
+	"razítko",
 	"rostoucí vejce",
 	"rty",
 	//"ruské vejce",
@@ -798,7 +799,7 @@ func main() {
 
 	// console printouts
 	fmt.Println("\n🏪 Markets:", strings.Join(marketStatsList, ", "))
-	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
+	fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
 
 	// Czech sorting
 	c := collate.New(language.Czech)
