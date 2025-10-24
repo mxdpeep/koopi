@@ -71,7 +71,6 @@ var FORBIDDEN_GOODS = []string{
 	"holení",
 	"hotovky",
 	"inspirace",
-	//"jogurtový nápoj",
 	"kartáček",
 	"kolekce",
 	"kolínská",
@@ -91,20 +90,19 @@ var FORBIDDEN_GOODS = []string{
 	"okrasná",
 	"pamlsky",
 	"parfém",
-	//"pečivo",
 	"pleť",
 	"pleťová",
 	"postel",
 	"razítko",
 	"rostoucí vejce",
 	"rty",
-	//"ruské vejce",
 	"sklenice",
 	"tablety",
 	"toaletní",
 	"tělo",
 	"vitamín",
 	"vlasová voda",
+	"vykrajovátka",
 	"zdravá zahrada",
 	"zuby",
 	"úklid",
@@ -655,7 +653,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	}
 }
 
-// MAIN * MAIN * MAIN * MAIN * MAIN *
+// MAIN * MAIN * MAIN
 func main() {
 	if !CheckLock() {
 		os.Exit(1)
