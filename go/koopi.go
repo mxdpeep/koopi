@@ -65,6 +65,7 @@ var rateLimiter chan struct{}
 // product names to ignore (case-insensitive)
 var FORBIDDEN_GOODS = []string{
 	"alverde",
+	"bambucké",
 	"do myčky",
 	"doplněk stravy",
 	"express menu",
