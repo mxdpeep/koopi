@@ -59,8 +59,8 @@ MLÉKO,slehačka,1
 MLÉKO,smetana ke šlehání,1
 MLÉKO,smetana na vaření,1
 MLÉKO,smetana zakysaná,1
-MLÉKO,tvaroh,2
-NÁPOJE,džus,2
+MLÉKO,tvaroh,1
+NÁPOJE,džus,1
 NÁPOJE,instantní káva,2
 NÁPOJE,lager,2
 NÁPOJE,ležák,2
@@ -86,6 +86,7 @@ OBILÍ,pečivo,1
 OBILÍ,pohanka,1
 OBILÍ,rýže,1
 OBILÍ,těstoviny,1
+OBILÍ,zavářka,1
 OSTATNÍ,bujón,1
 OSTATNÍ,droždí,1
 OSTATNÍ,hořčice,1
@@ -106,18 +107,24 @@ OVOCE,hrušky,1
 OVOCE,jablka,2
 OVOCE,jahody,1
 OVOCE,kiwi,1
+OVOCE,maliny,1
 OVOCE,mandarinky,1
 OVOCE,meloun,1
 OVOCE,nektarinky,1
 OVOCE,pomelo,1
 OVOCE,pomeranče,1
+OVOCE,rozinky,1
 OVOCE,sušené ovoce,1
 OVOCE,švestky,1
 OŘECHY,arašídy,1
 OŘECHY,kešu,1
+OŘECHY,kokos,1
+OŘECHY,lískové ořechy,1
 OŘECHY,mandle,1
+OŘECHY,para ořechy,1
+OŘECHY,pekanové ořechy,1
+OŘECHY,piniové oříšky,1
 OŘECHY,pistácie,1
-OŘECHY,rozinky,1
 OŘECHY,vlašské ořechy,1
 SÝRY,brie,1
 SÝRY,camembert,1
