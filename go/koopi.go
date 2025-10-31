@@ -188,7 +188,7 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// check the app lock
+// check the lock
 func CheckLock() bool {
 	pid := os.Getpid()
 
@@ -232,7 +232,7 @@ func CheckLock() bool {
 	return true
 }
 
-// unlock the lock file
+// unlock the lock
 func Unlock() {
 	pid := os.Getpid()
 	content, err := os.ReadFile(LOCK_FILE)
@@ -277,6 +277,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 		// extract general product info once per group
 		nameSelection := s.Find("div.product_name h2 a")
 		productName := strings.TrimSpace(nameSelection.Text())
+		productName = sanitizeString(productName)
 
 		// skip forbidden goods
 		if isForbidden(productName, FORBIDDEN_GOODS) {
