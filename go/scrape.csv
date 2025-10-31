@@ -1,15 +1,24 @@
 CATEGORY,QUERY,PAGES
 CUKROVINKY,bonbony jojo,1
+CUKROVINKY,bonbony,2
 CUKROVINKY,cukr,2
 CUKROVINKY,džem,2
+CUKROVINKY,lízátka,2
+CUKROVINKY,marshmallow,2
 CUKROVINKY,med,2
 CUKROVINKY,nutella,2
 CUKROVINKY,tutti frutti,1
-CUKROVINKY,třtinový CUKROVINKY,1
+CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
 CUKROVINKY,zmrzlina,2
 CUKROVINKY,čokoláda,2
-CUKROVINKY,želé,1
+CUKROVINKY,želé,2
+KOŘENÍ,bazalka,1
+KOŘENÍ,majoránka,1
+KOŘENÍ,oregano,1
+KOŘENÍ,pepř,1
+KOŘENÍ,sůl,1
+KOŘENÍ,tymián,1
 LUŠTĚNINY,cizrna,1
 LUŠTĚNINY,fazole,1
 LUŠTĚNINY,hrách,1
@@ -17,6 +26,7 @@ LUŠTĚNINY,sója,1
 LUŠTĚNINY,čočka,1
 MASO,bůček,1
 MASO,hovězí zadní,1
+MASO,kapr,1
 MASO,kližka,1
 MASO,krůta,1
 MASO,kuřecí prsní řízky,1
@@ -24,7 +34,9 @@ MASO,kuřecí stehna,1
 MASO,kuřecí,1
 MASO,losos,1
 MASO,makrela,1
+MASO,pražma,1
 MASO,pstruh,1
+MASO,roštěnec,1
 MASO,rybí filé,1
 MASO,rybí prsty,1
 MASO,sardinky,1
@@ -47,15 +59,15 @@ MLÉKO,slehačka,1
 MLÉKO,smetana ke šlehání,1
 MLÉKO,smetana na vaření,1
 MLÉKO,smetana zakysaná,1
-MLÉKO,tvaroh,1
+MLÉKO,tvaroh,2
 NÁPOJE,džus,2
 NÁPOJE,instantní káva,2
 NÁPOJE,lager,2
 NÁPOJE,ležák,2
 NÁPOJE,likér,1
-NÁPOJE,mletá káva,2
+NÁPOJE,mletá káva,3
 NÁPOJE,ovocný čaj,2
-NÁPOJE,pivo,8
+NÁPOJE,pivo,7
 NÁPOJE,rum,3
 NÁPOJE,voda,3
 NÁPOJE,víno,3
@@ -81,9 +93,8 @@ OSTATNÍ,kečup,1
 OSTATNÍ,kvasnice,1
 OSTATNÍ,ocet,1
 OSTATNÍ,omáčka,1
-OSTATNÍ,pepř,1
 OSTATNÍ,pomazánka,1
-OSTATNÍ,sůl,1
+OSTATNÍ,pudink,1
 OSTATNÍ,škrob,1
 OVOCE,banány,1
 OVOCE,blumy,1
@@ -160,6 +171,7 @@ ZELENINA,hlávkové zelí,1
 ZELENINA,hlíva,1
 ZELENINA,hranolky,1
 ZELENINA,hrášek,1
+ZELENINA,kadeřavá petržel,1
 ZELENINA,kapusta,1
 ZELENINA,kopr,1
 ZELENINA,kukuřice,1
