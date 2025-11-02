@@ -105,6 +105,7 @@ var FORBIDDEN_GOODS = []string{
 	"sklenice",
 	"škrobenka",
 	"tablety",
+	"tescoma",
 	"toaletní",
 	"tělo",
 	"vitamín",
