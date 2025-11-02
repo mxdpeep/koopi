@@ -93,8 +93,8 @@ var FORBIDDEN_GOODS = []string{
 	"nosní",
 	"okrasná",
 	"pamlsky",
-	"parfém",
 	"parfemovaná",
+	"parfém",
 	"pleť",
 	"pleťová",
 	"postel",
@@ -103,7 +103,6 @@ var FORBIDDEN_GOODS = []string{
 	"rty",
 	"severochema",
 	"sklenice",
-	"škrobenka",
 	"tablety",
 	"tescoma",
 	"toaletní",
@@ -115,6 +114,7 @@ var FORBIDDEN_GOODS = []string{
 	"zuby",
 	"úklid",
 	"ústní",
+	"škrobenka",
 	"šťouchadlo",
 }
 
