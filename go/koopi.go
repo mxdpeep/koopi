@@ -467,7 +467,7 @@ func scrapePage(ctx context.Context, urlToScrape string, cacheName string, categ
 	case <-rateLimiter:
 		defer func() {
 			// A. Calculate sleep time
-			sleepTime := time.Duration(rand.Intn(15000)+5000) * time.Millisecond
+			sleepTime := time.Duration(rand.Intn(25000)+8000) * time.Millisecond
 
 			// B. Wait on a Timer or Context Done (INTERRUPTIBLE SLEEP!)
 			timer := time.NewTimer(sleepTime)
