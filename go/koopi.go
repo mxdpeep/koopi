@@ -112,6 +112,7 @@ var FORBIDDEN_GOODS = []string{
 	"vlasová voda",
 	"vykrajovátka",
 	"zdravá zahrada",
+	"zubní",
 	"zuby",
 	"úklid",
 	"ústní",
