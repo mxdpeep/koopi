@@ -6,6 +6,7 @@ CUKROVINKY,džem,2
 CUKROVINKY,lízátka,2
 CUKROVINKY,marshmallow,2
 CUKROVINKY,med,2
+CUKROVINKY,nanuk,2
 CUKROVINKY,nutella,2
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
@@ -55,11 +56,11 @@ MLÉKO,mléko polotučné,1
 MLÉKO,mléko trvanlivé,1
 MLÉKO,podmáslí,1
 MLÉKO,pomazánka,1
-MLÉKO,šlehačka,1
 MLÉKO,smetana ke šlehání,2
 MLÉKO,smetana na vaření,2
 MLÉKO,smetana zakysaná,2
 MLÉKO,tvaroh,1
+MLÉKO,šlehačka,1
 NÁPOJE,džus,1
 NÁPOJE,instantní káva,2
 NÁPOJE,lager,2
@@ -75,6 +76,9 @@ NÁPOJE,víno,3
 NÁPOJE,zelený čaj,2
 NÁPOJE,zrnková káva,3
 NÁPOJE,černý čaj,2
+OBILÍ,cereálie,1
+OBILÍ,chleba,1
+OBILÍ,houska,1
 OBILÍ,instantní nudle,1
 OBILÍ,knedlíky,1
 OBILÍ,krupička,1
@@ -85,6 +89,7 @@ OBILÍ,nudle,1
 OBILÍ,ovesné vločky,1
 OBILÍ,pečivo,1
 OBILÍ,pohanka,1
+OBILÍ,rohlíky,1
 OBILÍ,rýže,1
 OBILÍ,těstoviny,1
 OBILÍ,zavářka,1
@@ -136,8 +141,10 @@ SÝRY,halloumi,1
 SÝRY,hermelín,1
 SÝRY,krolewski,1
 SÝRY,limburger,1
+SÝRY,lučina,1
 SÝRY,mozzarella,1
 SÝRY,niva,1
+SÝRY,parmazán,1
 SÝRY,romadur,1
 SÝRY,smažený sýr,1
 SÝRY,tavený sýr,1
