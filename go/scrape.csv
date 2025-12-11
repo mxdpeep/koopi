@@ -65,11 +65,11 @@ NÁPOJE,cider,1
 NÁPOJE,džus,1
 NÁPOJE,instantní káva,2
 NÁPOJE,lager,2
-NÁPOJE,ležák,2
+NÁPOJE,ležák,3
 NÁPOJE,likér,1
 NÁPOJE,mletá káva,3
 NÁPOJE,ovocný čaj,2
-NÁPOJE,pivo,8
+NÁPOJE,pivo,5
 NÁPOJE,rum,3
 NÁPOJE,sekt,3
 NÁPOJE,voda,3
@@ -90,10 +90,11 @@ OBILÍ,nudle,1
 OBILÍ,ovesné vločky,1
 OBILÍ,pečivo,1
 OBILÍ,pohanka,1
-OBILÍ,rohlíky,1
+OBILÍ,rohlík,1
 OBILÍ,rýže,1
 OBILÍ,těstoviny,1
 OBILÍ,zavářka,1
+OBILÍ,závin,1
 OSTATNÍ,bujón,1
 OSTATNÍ,droždí,1
 OSTATNÍ,hořčice,1
