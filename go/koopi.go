@@ -80,6 +80,7 @@ var FORBIDDEN_GOODS = []string{
 	"kolínská",
 	"jídelní set",
 	"sůl koupelová",
+	"společenská hra",
 	"konkor",
 	"koupele",
 	"kráječ",
