@@ -1,13 +1,15 @@
 CATEGORY,QUERY,PAGES
-CUKROVINKY,bonbony jojo,1
-CUKROVINKY,bonbony,2
+CUKROVINKY,bonbony jojo,2
+CUKROVINKY,bonbony,3
 CUKROVINKY,cukr,2
 CUKROVINKY,džem,2
+CUKROVINKY,hambáče,1
 CUKROVINKY,lízátka,2
 CUKROVINKY,marshmallow,2
 CUKROVINKY,med,2
 CUKROVINKY,nanuk,2
 CUKROVINKY,nutella,2
+CUKROVINKY,sovičky,1
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
@@ -15,20 +17,29 @@ CUKROVINKY,zmrzlina,2
 CUKROVINKY,čokoláda,2
 CUKROVINKY,želé,2
 KOŘENÍ,bazalka,1
+KOŘENÍ,bobkový list,1
+KOŘENÍ,chilli papričky,1
+KOŘENÍ,citronová tráva,1
+KOŘENÍ,hřebíček,1
 KOŘENÍ,majoránka,1
+KOŘENÍ,nové koření,1
 KOŘENÍ,oregano,1
+KOŘENÍ,pažitka,1
 KOŘENÍ,pepř,1
 KOŘENÍ,sůl,1
 KOŘENÍ,tymián,1
+KOŘENÍ,uzená paprika,1
 LUŠTĚNINY,cizrna,1
 LUŠTĚNINY,fazole,1
 LUŠTĚNINY,hrách,1
 LUŠTĚNINY,sója,1
 LUŠTĚNINY,čočka,1
 MASO,bůček,1
+MASO,candát,1
 MASO,hovězí zadní,1
 MASO,kapr,1
 MASO,kližka,1
+MASO,krevety,1
 MASO,krůta,1
 MASO,kuřecí prsní řízky,1
 MASO,kuřecí stehna,1
@@ -42,12 +53,13 @@ MASO,rybí filé,1
 MASO,rybí prsty,1
 MASO,sardinky,1
 MASO,sleď,1
+MASO,svíčková,1
 MASO,treska,1
 MASO,tuňák,1
 MASO,vepřová kýta,1
 MASO,vepřová plec,1
 MASO,vepřový bok,1
-MLÉKO,gervais,1
+MASO,žebra,1
 MLÉKO,jogurt,1
 MLÉKO,kefír,1
 MLÉKO,kyška,1
@@ -77,6 +89,7 @@ NÁPOJE,víno,3
 NÁPOJE,zelený čaj,2
 NÁPOJE,zrnková káva,3
 NÁPOJE,černý čaj,2
+OBILÍ,buchty,1
 OBILÍ,cereálie,1
 OBILÍ,chleba,1
 OBILÍ,houska,1
@@ -122,9 +135,11 @@ OVOCE,nektarinky,1
 OVOCE,pomelo,1
 OVOCE,pomeranče,1
 OVOCE,rozinky,1
+OVOCE,sušené mrazem,1
 OVOCE,sušené ovoce,1
 OVOCE,švestky,1
 OŘECHY,arašídy,1
+OŘECHY,fíky,1
 OŘECHY,kešu,1
 OŘECHY,kokos,1
 OŘECHY,lískové ořechy,1
