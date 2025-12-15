@@ -82,6 +82,7 @@ var FORBIDDEN_GOODS = []string{
 	"sůl koupelová",
 	"společenská hra",
 	"konkor",
+	"vonné tyčinky",
 	"koupele",
 	"kráječ",
 	"krku",
