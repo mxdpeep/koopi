@@ -78,6 +78,7 @@ var FORBIDDEN_GOODS = []string{
 	"kartáček",
 	"kolekce",
 	"kolínská",
+	"jídelní set",
 	"konkor",
 	"koupele",
 	"kráječ",
