@@ -109,6 +109,7 @@ OBILÍ,těstoviny,1
 OBILÍ,zavářka,1
 OBILÍ,závin,1
 OSTATNÍ,bujón,1
+OSTATNÍ,chipsy,2
 OSTATNÍ,droždí,1
 OSTATNÍ,hořčice,1
 OSTATNÍ,kečup,1
@@ -117,9 +118,9 @@ OSTATNÍ,ocet,1
 OSTATNÍ,omáčka,1
 OSTATNÍ,pomazánka,1
 OSTATNÍ,pudink,1
-OSTATNÍ,škrob,1
-OSTATNÍ,chipsy,2
 OSTATNÍ,tyčinky,2
+OSTATNÍ,škrob,1
+OVOCE,avokádo,1
 OVOCE,banány,1
 OVOCE,blumy,1
 OVOCE,borůvky,1
@@ -129,11 +130,18 @@ OVOCE,hrozny,1
 OVOCE,hrušky,1
 OVOCE,jablka,2
 OVOCE,jahody,1
+OVOCE,kaki,1
+OVOCE,karambola,1
 OVOCE,kiwi,1
+OVOCE,liči,1
 OVOCE,maliny,1
 OVOCE,mandarinky,1
+OVOCE,mango,1
 OVOCE,meloun,1
+OVOCE,mučenka,1
 OVOCE,nektarinky,1
+OVOCE,papája,1
+OVOCE,physalis,1
 OVOCE,pomelo,1
 OVOCE,pomeranče,1
 OVOCE,rozinky,1
@@ -141,12 +149,13 @@ OVOCE,sušené mrazem,1
 OVOCE,sušené ovoce,1
 OVOCE,švestky,1
 OŘECHY,arašídy,1
-OŘECHY,fíky,1
 OŘECHY,datle,1
+OŘECHY,fíky,1
 OŘECHY,kešu,1
 OŘECHY,kokos,1
 OŘECHY,lískové ořechy,1
 OŘECHY,mandle,1
+OŘECHY,ořechy,1
 OŘECHY,para ořechy,1
 OŘECHY,pekanové ořechy,1
 OŘECHY,piniové oříšky,1
