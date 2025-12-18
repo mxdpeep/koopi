@@ -57,6 +57,12 @@ const (
 	ColorCyan   = "\033[36m"
 	ColorWhite  = "\033[37m"
 	ColorReset  = "\033[0m"
+	ColorBold   = "\033[1m"
+	ColorDim    = "\033[2m"
+	ColorUnder  = "\033[4m"
+	ColorBlink  = "\033[5m"
+	ColorRev    = "\033[7m"
+	ColorHidden = "\033[8m"
 )
 
 // rate limiter token bucket
