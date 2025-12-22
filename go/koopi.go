@@ -571,14 +571,15 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 		saveImageToCache(good.ImageUrl)
 	}
 	*allGoods = append(*allGoods, goodsList...)
+	total := len(*allGoods)
 	mutex.Unlock()
 
-	// console stats
-	if len(goodsList) == 0 {
-		log.Printf("📦 %d [%s] %sextracted 0 items %s%s%s", len(*allGoods), query, ColorRed, ColorCyan, urlToScrape, ColorReset)
+	// console
+	if total == 0 {
+		log.Printf("📦 %d [%s] %sextracted 0 items %s%s%s", total, query, ColorRed, ColorCyan, urlToScrape, ColorReset)
 		return
 	} else {
-		log.Printf("📦 %d [%s] extracted %s%d items%s", len(*allGoods), query, ColorBlue, len(goodsList), ColorReset)
+		log.Printf("📦 %d [%s] extracted %s%d items%s", total, query, ColorBlue, len(goodsList), ColorReset)
 	}
 }
 
