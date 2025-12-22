@@ -713,7 +713,10 @@ func main() {
 	//log.SetFlags(log.Ltime | log.Lshortfile)
 	log.SetFlags(0)
 
+	// set random UA
 	UA := UserAgents[rand.Intn(len(UserAgents))]
+	log.Printf("User Agent: %s", UA)
+	time.Sleep(3 * time.Second)
 
 	// rate limiter
 	rateLimiter = make(chan struct{}, MAX_THREADS)
