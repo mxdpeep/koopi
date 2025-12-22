@@ -30,22 +30,51 @@ import (
 )
 
 const (
-	MAX_THREADS        = 5
-	MAX_SCRAPED_GOODS  = 500
-	REQ_TIMEOUT        = 20 * time.Second
-	INPUT_CSV          = "scrape.csv"
-	OUTPUT_CSV         = "koopi.csv"
-	OUTPUT_JSON        = "koopi.json"
-	KOOPI_HOME_URL     = "https://www.kupi.cz"
-	KOOPI_IMAGE_URL    = "https://img.kupi.cz"
-	KOOPI_SEARCH_URL   = "https://www.kupi.cz/hledej?f="
-	KOOPI_SUBPAGE      = "&page="
-	UA                 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+	MAX_THREADS       = 5
+	MAX_SCRAPED_GOODS = 500
+	REQ_TIMEOUT       = 20 * time.Second
+	INPUT_CSV         = "scrape.csv"
+	OUTPUT_CSV        = "koopi.csv"
+	OUTPUT_JSON       = "koopi.json"
+	KOOPI_HOME_URL    = "https://www.kupi.cz"
+	KOOPI_IMAGE_URL   = "https://img.kupi.cz"
+	KOOPI_SEARCH_URL  = "https://www.kupi.cz/hledej?f="
+	KOOPI_SUBPAGE     = "&page="
+	//UA                 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
 	HTML_CACHE         = "../cache"
 	IMAGE_CACHE        = "../images"
 	LOCK_FILE          = "/tmp/koopi.lock"
 	LOCK_FILE_DURATION = time.Hour
 )
+
+// UA strings
+var UserAgents = []string{
+	"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 10; LM-Q720) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 11; CPH2251) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 12; SM-A525F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 12; V2134) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 13; M2101K6G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 13; SM-G991U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 13; SM-S908E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36",
+	"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.6045.159 Safari/537.36",
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36",
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36",
+	"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+	"Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.6167.85 Safari/537.36",
+	"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:120.0.1) Gecko/20100101 Firefox/120.0.1",
+	"Mozilla/5.0 (iPad; CPU OS 16_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1",
+	"Mozilla/5.0 (iPad; CPU OS 17_0_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0.1 Mobile/15E148 Safari/604.1",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 15_7_9 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.5 Mobile/15E148 Safari/604.1",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/118.0 Mobile/15E148 Safari/605.1.15",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1",
+	"Mozilla/5.0 (iPhone; CPU iPhone OS 17_0_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0.1 Mobile/15E148 Safari/604.1",
+}
 
 // colors
 const (
@@ -448,7 +477,7 @@ func saveImageToCache(imageUrl string) {
 }
 
 // scrapePage - scrape pages (cache/online)
-func scrapePage(ctx context.Context, urlToScrape string, cacheName string, category string, query string, allGoods *[]Goods, mutex *sync.Mutex, wg *sync.WaitGroup) {
+func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName string, category string, query string, allGoods *[]Goods, mutex *sync.Mutex, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	// 1. try cache first
@@ -684,6 +713,8 @@ func main() {
 	//log.SetFlags(log.Ltime | log.Lshortfile)
 	log.SetFlags(0)
 
+	UA := UserAgents[rand.Intn(len(UserAgents))]
+
 	// rate limiter
 	rateLimiter = make(chan struct{}, MAX_THREADS)
 	for range MAX_THREADS {
@@ -787,7 +818,7 @@ func main() {
 			defer func() {
 				<-concurrencyLimit
 			}()
-			scrapePage(ctx, urlData.url, urlData.cacheKey, urlData.category, urlData.query, &newScrapedGoods, &goodsMutex, &wg)
+			scrapePage(UA, ctx, urlData.url, urlData.cacheKey, urlData.category, urlData.query, &newScrapedGoods, &goodsMutex, &wg)
 		}(urlData)
 	}
 
