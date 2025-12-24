@@ -1,7 +1,8 @@
 #@author Fred Brooker <git@gscloud.cz>
 
 all:
-	@echo "backup | build | clear | db | img | everything";
+	@echo "backup | build | clear | db | img";
+	@echo "macro: everything";
 
 clear:
 	@echo "Cache cleanup ..."
