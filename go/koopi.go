@@ -94,7 +94,7 @@ const (
 	ColorHidden = "\033[8m"
 )
 
-// rate limiter token bucket
+// token bucket
 var rateLimiter chan struct{}
 
 // product names to ignore (case-insensitive)
