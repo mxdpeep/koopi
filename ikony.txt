@@ -1,0 +1,32 @@
+🥦 🍎 🥜
+🥦 ZELENINA 🍎 OVOCE 🥜 OŘECHY
+
+🥛 🧀 🥚
+🥛 MLÉKO 🧀 SÝRY 🥚 VEJCE
+
+🌾 🫘 🌶️
+🌾 OBILÍ 🫘 LUŠTĚNINY 🌶️ KOŘENÍ
+
+🥩 🥓 🧈
+🥩 MASO 🥓 UZENINY 🧈 TUKY
+
+🍺 🍬 📦
+🍺 NÁPOJE 🍬 CUKROVINKY 📦 OSTATNÍ
+
+---
+
+🥦 ZELENINA
+🍎 OVOCE
+🥜 OŘECHY
+🥛 MLÉKO
+🧀 SÝRY
+🥚 VEJCE
+🌾 OBILÍ
+🫘 LUŠTĚNINY
+🌶️ KOŘENÍ
+🥩 MASO
+🥓 UZENINY
+🧈 TUKY
+🍺 NÁPOJE
+🍬 CUKROVINKY
+📦 OSTATNÍ
