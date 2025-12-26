@@ -30,21 +30,20 @@ import (
 )
 
 const (
-	MAX_THREADS       = 5
-	MAX_SCRAPED_GOODS = 500
-	REQ_TIMEOUT       = 20 * time.Second
-	INPUT_CSV         = "scrape.csv"
-	OUTPUT_CSV        = "koopi.csv"
-	OUTPUT_JSON       = "koopi.json"
-	KOOPI_HOME_URL    = "https://www.kupi.cz"
-	KOOPI_IMAGE_URL   = "https://img.kupi.cz"
-	KOOPI_SEARCH_URL  = "https://www.kupi.cz/hledej?f="
-	KOOPI_SUBPAGE     = "&page="
-	//UA                 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
 	HTML_CACHE         = "../cache"
 	IMAGE_CACHE        = "../images"
+	INPUT_CSV          = "scrape.csv"
+	KOOPI_HOME_URL     = "https://www.kupi.cz"
+	KOOPI_IMAGE_URL    = "https://img.kupi.cz"
+	KOOPI_SEARCH_URL   = "https://www.kupi.cz/hledej?f="
+	KOOPI_SUBPAGE      = "&page="
 	LOCK_FILE          = "/tmp/koopi.lock"
 	LOCK_FILE_DURATION = time.Hour
+	MAX_SCRAPED_GOODS  = 500
+	MAX_THREADS        = 3
+	OUTPUT_CSV         = "koopi.csv"
+	OUTPUT_JSON        = "koopi.json"
+	REQ_TIMEOUT        = 10 * time.Second
 )
 
 // UA strings
