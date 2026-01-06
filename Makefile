@@ -49,10 +49,10 @@ everything: clear db img
 cf:
 	@mkdir -p export/images export/markets
 	@cd export && git pull origin master --allow-unrelated-histories || true
-	@cp index.html export/
 	@rsync -aq --delete --exclude='.git' export-template/ export/
 	@rsync -aq --delete --exclude='.git' images/ export/images/
 	@rsync -aq --delete --exclude='.git' markets/ export/markets/
+	@cp index.html export/
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
