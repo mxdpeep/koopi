@@ -41,7 +41,16 @@ img:
 		fi \
 	' _ {}
 
-# macro
+# macros
 everything: clear db img
 	@-git add -A
 	@-git commit -am 'automatic update'
+
+cf:
+	@mkdir -p export/images export/markets
+	@rsync -av --delete export-template/ export/
+	@rsync -av --delete images/ export/images/
+	@rsync -av --delete markets/ export/markets/
+	@cd export && git add -A
+	@cd export && git commit -m 'automatic update: $$(date)' || true
+	@cd export && git push origin master
