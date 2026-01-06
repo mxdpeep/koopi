@@ -159,6 +159,7 @@ body {
     height: 32px;
     object-fit: contain;
     margin: 0 auto;
+    border-radius: 0 !important;
 }
 
 .product-image {
@@ -167,17 +168,18 @@ body {
     height: 120px; /* Fixní výška pro srovnání řádků */
     object-fit: contain; /* Tohle zajistí, že se obrázek nezdeformuje */
     margin: 8px 0;
+    border-radius: 3px !important;
 }
 
 .product-name {
     font-size: 0.8rem;
     font-weight: bold;
     text-align: center;
-    /* Zalamování dlouhých názvů */
     display: -webkit-box;
     box-orient: vertical;
     overflow: hidden;
     height: 2.4em;
+    border-radius: 0 !important;
 }
 
 .product-price {
@@ -200,13 +202,6 @@ body {
     color: var(--primary);
 }
 
-.fade-trim {
-  white-space: nowrap;
-  overflow: hidden;
-  mask-image: linear-gradient(to right, black 80%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
-}
-
 .trim {
     white-space: nowrap;
     overflow: hidden;
@@ -214,6 +209,7 @@ body {
     max-width: 150px;
     position: relative;
 }
+
 .trim-char {
     position: absolute;
     right: 0;
