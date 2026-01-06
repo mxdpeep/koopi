@@ -70,7 +70,7 @@
 <main class="container">
     <div id="deals-grid" class="grid responsive s1 m2 l4">
     </div>
-    <button id="install-btn" class="fixed bottom right" style="display: none;">
+    <button id="install-btn" class="red fixed top right" style="display:none;">
         <i>download</i>
         <span>Install App</span>
     </button>
@@ -169,7 +169,7 @@
             card.classList.add('card', 'product-card');
             card.innerHTML = `
                 <img src="/markets/${deal.store}.webp" alt="${deal.store}" class="store-image">
-                <img src="${deal.image}" alt="${deal.name}" class="product-image">
+                <imgx src="${deal.image}" alt="${deal.name}" class="product-image">
                 <div class="p-2">
                     <div class="bold">${deal.name}</div>
                     <div class="product-price">
