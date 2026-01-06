@@ -50,14 +50,13 @@ body {
     user-select:none;
 }
 
-.bigger1 {
+.bigger {
     font-size: 2rem;
     font-weight: bold;
 }
 
-.bigger2 {
-    font-size: 1.5rem;
-    font-weight: bold;
+.slevicky {
+    display: none;
 }
 
 .downer {
@@ -101,7 +100,7 @@ body {
         grid-template-columns: repeat(4, 1fr); 
     }
     .btn-bottom {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 }
 @media(min-width: 700px) {
@@ -112,6 +111,11 @@ body {
     .btn-bottom {
         font-size: 1.7rem;
     }
+    .slevicky {
+        display: inline-block;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
 }
 @media(min-width: 992px) {
     #deals {
@@ -120,6 +124,11 @@ body {
     }
     .btn-bottom {
         font-size: 1.9rem;
+    }
+    .slevicky {
+        display: inline-block;
+        font-size: 1.5rem;
+        font-weight: bold;
     }
 }
 @media(min-width: 1800px) {
@@ -219,25 +228,24 @@ body {
 </head>
 <body class="light">
 
-<!-- navigation TOP -->
-<nav class="top nowrap black white-text grid no-space right" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button id="install-btn" class="light-blue" style="visibility:hidden;">
-        <span class="nowrap">Nainstalovat ♥️</span>
+<nav class="top nowrap black white-text">
+    <button id="install-btn" class="light-blue" style="display:none;">
+        <span>Nainstalovat ♥️</span>
     </button>
-    <span class="noselect black white-text bold">
-        <span class="bigger1">🤑</span>
-        <span class="bigger2 downer">Slevičky</span>
-    </span>
-    <button id="about-btn" class="btn-top nowrap black white-text bold">
-        <i class="material-icons">info</i>
-        <span class="nowrap downer">O aplikaci</span>
+    <div class="max noselect">
+        <span class="bigger">🤑</span>
+        <span class="slevicky bold">Slevičky</span>
+    </div>
+    <button id="about-btn" class="transparent white-text">
+        <i>info</i>
+        <span class="downer">Info</span>
     </button>
-    <button id="settings-btn" class="btn-top nowrap black white-text bold">
-        <i class="material-icons">settings</i>
+    <button id="settings-btn" class="transparent white-text">
+        <i>settings</i>
         <span class="downer">Nastavení</span>
     </button>
-    <button id="refresh-btn" class="btn-top nowrap black white-text bold">
-        <i class="material-icons">refresh</i>
+    <button id="refresh-btn" class="transparent white-text">
+        <i>refresh</i>
     </button>
 </nav>
 
@@ -349,7 +357,7 @@ body {
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.visibility = 'visible';
+        installBtn.style.display = 'block';
     });
     installBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
