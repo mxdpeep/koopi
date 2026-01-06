@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>🤑 slevičky [{{GIT_REV}}]</title>
+<title>🤑 slevičky</title>
 <meta name="theme-color" content="#f5f5f5">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
@@ -56,6 +56,10 @@ body {
 }
 
 .slevicky {
+    display: none;
+}
+
+.topnavtxt {
     display: none;
 }
 
@@ -116,6 +120,9 @@ body {
         font-size: 1.3rem;
         font-weight: bold;
     }
+    .topnavtxt {
+        display: inline-block;
+    }
 }
 @media(min-width: 992px) {
     #deals {
@@ -130,6 +137,9 @@ body {
         font-size: 1.5rem;
         font-weight: bold;
     }
+    .topnavtxt {
+        display: inline-block;
+    }
 }
 @media(min-width: 1800px) {
     #deals {
@@ -138,6 +148,9 @@ body {
     }
     .btn-bottom {
         font-size: 2.1rem;
+    }
+    .topnavtxt {
+        display: inline-block;
     }
 }
 
@@ -226,7 +239,7 @@ body {
 
 <nav class="top nowrap black white-text">
     <button id="install-btn" class="light-blue" style="display:none;">
-        <span>Nainstalovat ♥️</span>
+        <span>Instalovat ♥️</span>
     </button>
     <div class="max noselect">
         <span class="bigger">🤑</span>
@@ -234,11 +247,11 @@ body {
     </div>
     <button id="about-btn" class="transparent white-text">
         <i>info</i>
-        <span class="downer">Info</span>
+        <span class="topnavtxt downer">Info</span>
     </button>
     <button id="settings-btn" class="transparent white-text">
         <i>settings</i>
-        <span class="downer">Nastavení</span>
+        <span class="topnavtxt downer">Nastavení</span>
     </button>
     <button id="refresh-btn" class="transparent white-text">
         <i>refresh</i>
@@ -318,7 +331,7 @@ body {
 
         // about button
         $('#about-btn').on('click', function() {
-            alert('TBD 👾');
+            alert('🤑 slevičky 👾 build: [{{GIT_REV}}]');
         });
 
         // settings button
