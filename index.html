@@ -23,51 +23,49 @@ body {
     min-width: 320px;
 }
 
+#install-btn {
+    z-index: 100;
+}
+
+/* HELPERS */
 .nowrap {
     white-space: nowrap !important;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .notap {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   -moz-tap-highlight-color: transparent;
   -ms-tap-highlight-color: transparent;
 }
-
 .hover {
     cursor: pointer;
 }
-
 .mono {
     font-family: monospace;
 }
-
 .noselect {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select:none;
 }
-
 .bigger {
     font-size: 2rem;
     font-weight: bold;
 }
 
+/* navigation */
 .slevicky {
     display: none;
 }
-
 .topnavtxt {
     display: none;
 }
-
 .downer {
     position: relative;
     top: 5px;
 }
-
 .btn-top {
     font-size: 1rem;
     background-color: var(--nav-buttons) !important;
@@ -76,7 +74,6 @@ body {
     border-radius: 0!important;
     padding: 5px;
 }
-
 .btn-bottom {
     font-size: 1rem;
     background-color: var(--nav-buttons) !important;
@@ -84,10 +81,6 @@ body {
     border: 1px solid #000 !important;
     border-radius: 0!important;
     padding: 5px;
-}
-
-#install-btn {
-    z-index: 100;
 }
 
 #deals {
@@ -157,6 +150,7 @@ body {
 /* KARTA: Musí být flexibilní, ne fixní 150px */
 .product-card {
     display: flex !important;
+    justify-content: space-between;
     flex-direction: column;
     height: 100%;
     margin: 0 !important;
@@ -173,6 +167,7 @@ body {
     object-fit: contain;
     margin: 0 auto;
     border-radius: 0 !important;
+    padding-bottom: 10px;
 }
 
 .product-image {
@@ -184,15 +179,23 @@ body {
     border-radius: 3px !important;
 }
 
+.image-wrapper {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .product-name {
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-align: center;
     display: -webkit-box;
-    box-orient: vertical;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 2.4em;
+    text-align: center;
+    height: 3rem;
+    line-height: 1.4em;
     border-radius: 0 !important;
+    padding-top: 10px;
 }
 
 .product-price {
@@ -215,7 +218,19 @@ body {
     color: var(--primary);
 }
 
-.trim {
+/*
+.xxxproduct-name {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    display: -webkit-box;
+    box-orient: vertical;
+    overflow: hidden;
+    height: 2.4em;
+    border-radius: 0 !important;
+}
+
+.xxxtrim {
     white-space: nowrap;
     overflow: hidden;
     display: block;
@@ -223,7 +238,7 @@ body {
     position: relative;
 }
 
-.trim-char {
+.xxxtrim-char {
     position: absolute;
     right: 0;
     background: #fff;
@@ -233,19 +248,19 @@ body {
     font-size: 1.3rem;
     color: grey;
 }
+*/
 </style>
 </head>
 <body class="light">
 
-<nav class="top nowrap black white-text">
+<!-- TOP navigation -->
+<nav class="top notap nowrap black white-text">
     <button id="install-btn" class="light-blue" style="display:none;">
         <span>Instalovat ♥️</span>
     </button>
     <div class="max noselect">
         <span id="billionaire">
-            <span class="bigger">🤑</span>
-            &nbsp;
-            <span class="slevicky bold">Slevičky</span>
+            <span class="bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
         </span>
     </div>
     <button id="about-btn" class="transparent white-text">
@@ -261,8 +276,8 @@ body {
     </button>
 </nav>
 
-<!-- navigation BOTTOM -->
-<nav class="bottom black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+<!-- BOTTOM navigation -->
+<nav class="bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
     <button id="but5" class="nowrap btn-bottom black white-text bold s1">🍺 🍬 📦</button>
     <button id="but4" class="nowrap btn-bottom black white-text bold s1">🥩 🥓 🧈</button>
     <button id="but3" class="nowrap btn-bottom black white-text bold s1">🌾 🫘 🌶️</button>
@@ -270,10 +285,9 @@ body {
     <button id="but1" class="nowrap btn-bottom black white-text bold s1">🥦 🍎 🥜</button>
 </nav>
 
-<!-- deals grid -->
+<!-- DEALS grid -->
 <main class="container">
     <div id="deals" class=""></div>
-    <!-- PWA install button -->
 </main>
 
 <script>
@@ -311,9 +325,11 @@ body {
             <article class="product-card">
                 <img src="markets/${deal.store}.webp" alt="${deal.store}" class="store-image">
                 <div class="product-image-container">
-                    <img src="${deal.image}" alt="${deal.name}" class="product-image">
+                    <div class="image-wrapper">
+                        <img src="${deal.image}" alt="${deal.name}" class="product-image">
+                    </div>
                 </div>
-                <div class="product-name trim" title="${deal.name}">${deal.name}</div>
+                <div class="product-name" title="${deal.name}">${deal.name}</div>
                 <div class="product-price">
                     <span class="old-price">${deal.oldPrice}</span>
                     <span class="new-price">${deal.newPrice} Kč</span>
@@ -324,7 +340,6 @@ body {
 
     /* UI bindings */
     $(document).ready(function() {
-
         
         // billionaire button
         $('#billionaire').on('click', function() {
@@ -391,6 +406,5 @@ body {
         deferredPrompt = null;
     });
 </script>
-
 </body>
 </html>
