@@ -16,7 +16,6 @@
     --surface-container-high-light: #e0e0e0;
     --surface-container-highest-light: #d4d4d4;
     --on-surface-light: #2c2c2c;
-    --nav-buttons: #335;
 }
 
 body {
@@ -33,23 +32,28 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .notap {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   -moz-tap-highlight-color: transparent;
   -ms-tap-highlight-color: transparent;
 }
+
 .hover {
     cursor: pointer;
 }
+
 .mono {
     font-family: monospace;
 }
+
 .noselect {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select:none;
 }
+
 .bigger {
     font-size: 2rem;
     font-weight: bold;
@@ -59,30 +63,47 @@ body {
 .slevicky {
     display: none;
 }
+
 .topnavtxt {
     display: none;
 }
+
 .downer {
     position: relative;
     top: 5px;
 }
+
+/* CORE */
 .btn-top {
     font-size: 1rem;
-    background-color: var(--nav-buttons) !important;
-    color: white !important;
-    border: 1px solid #000 !important;
-    border-radius: 0!important;
-    padding: 5px;
-}
-.btn-bottom {
-    font-size: 1rem;
-    background-color: var(--nav-buttons) !important;
+    background-color: 0 !important;
     color: white !important;
     border: 1px solid #000 !important;
     border-radius: 0!important;
     padding: 5px;
 }
 
+.btn-bottom {
+    font-size: 1rem;
+    background-color: 0 !important;
+    color: white !important;
+    border: 1px solid #000 !important;
+    border-radius: 0!important;
+    padding: 5px;
+}
+
+/* remove hover color on top navigation buttons */
+nav.top button::before, 
+nav.top button::after {
+    background: none !important;
+}
+
+/* basic letter spacing */
+nav.bottom button {
+  letter-spacing: 0;
+}
+
+/* DEALS */
 #deals {
     display: grid !important;
     gap: 8px;
@@ -98,6 +119,9 @@ body {
     }
     .btn-bottom {
         font-size: 1.3rem;
+    }
+    nav.bottom button {
+        letter-spacing: 0.3rem;
     }
 }
 @media(min-width: 700px) {
@@ -116,6 +140,9 @@ body {
     .topnavtxt {
         display: inline-block;
     }
+    nav.bottom button {
+        letter-spacing: 0.5rem;
+    }
 }
 @media(min-width: 992px) {
     #deals {
@@ -133,6 +160,9 @@ body {
     .topnavtxt {
         display: inline-block;
     }
+    nav.bottom button {
+        letter-spacing: 0.7rem;
+    }
 }
 @media(min-width: 1800px) {
     #deals {
@@ -144,6 +174,9 @@ body {
     }
     .topnavtxt {
         display: inline-block;
+    }
+    nav.bottom button {
+        letter-spacing: 1rem;
     }
 }
 
@@ -218,7 +251,31 @@ body {
     color: var(--primary);
 }
 
+nav.bottom > button:not(:last-child) {
+  border-right: none !important;
+  background-image: linear-gradient(to bottom, 
+    transparent 10%,
+    #444 10%,
+    #888 70%,
+    #444 25%,
+    #000 100%
+  );
+  background-position: center right;
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  }
+  
+  nav.bottom button {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
 /*
+nav.bottom > button:not(:last-child) {
+    border-right: 2px solid #888 !important;
+}
 .xxxproduct-name {
     font-size: 0.8rem;
     font-weight: bold;
