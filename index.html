@@ -2,8 +2,10 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>🤑 slevičky</title>
+    <title>🤑 slevičky [{{GIT_REV}}]</title>
+    <meta name="theme-color" content="#f5f5f5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.11.33/dist/cdn/beer.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
     <style>
@@ -56,9 +58,11 @@
         }
         .store-image {
             width: auto;
-            height: 32px;
+            height: 48px;
             margin-bottom: 4px;
             border-radius: 3px;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -66,6 +70,10 @@
 <main class="container">
     <div id="deals-grid" class="grid responsive s1 m2 l4">
     </div>
+    <button id="install-btn" class="fixed bottom right" style="display: none;">
+        <i>download</i>
+        <span>Install App</span>
+    </button>
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -174,6 +182,41 @@
             dealsGrid.appendChild(card);
         });
     };
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-btn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'flex';
+    });
+
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            installBtn.style.display = 'none';
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+        }
+    });
+
+    window.addEventListener('appinstalled', () => {
+        installBtn.style.display = 'none';
+        deferredPrompt = null;
+    });
 </script>
 </body>
 </html>

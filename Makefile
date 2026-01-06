@@ -1,4 +1,7 @@
 #@author Fred Brooker <git@gscloud.cz>
+DATE_REV := $(shell date +%Y%m%d)
+HASH_REV := $(shell git rev-parse --short=8 HEAD)
+GIT_REV := $(DATE_REV)-$(HASH_REV)
 
 all:
 	@echo "backup | build | clear | db | img";
@@ -47,12 +50,17 @@ everything: clear db img
 	@-git commit -am 'automatic update'
 
 cf:
+	@echo "Building version: $(GIT_REV)"
 	@mkdir -p export/images export/markets
 	@cd export && git pull origin master --allow-unrelated-histories || true
 	@rsync -aq --delete --exclude='.git' export-template/ export/
 	@rsync -aq --delete --exclude='.git' images/ export/images/
 	@rsync -aq --delete --exclude='.git' markets/ export/markets/
 	@cp index.html export/
+	@cp manifest.json export/
+	@cp sw.js export/
+	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
+	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/index.html
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
