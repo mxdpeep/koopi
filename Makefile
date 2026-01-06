@@ -19,7 +19,7 @@ build:
 
 backup:
 	@echo "Making backup ..."
-	@rclone copy -P --exclude '.git/**' --exclude 'cache/' . gsc:koopi/
+	@rclone copy -P --exclude '.git/**' --exclude 'cache/' --exclude 'export/' . gsc:koopi/
 
 db: build
 	@cd go/ && ./koopi
