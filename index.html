@@ -349,6 +349,9 @@ nav.bottom > button:not(:last-child) {
 
 <script>
     const version = '{{GIT_REV}}';
+    const git_build_date = '{{DATE_REV}}';
+    const git_revisions = '{{COUNT_REV}}';
+
     document.addEventListener('DOMContentLoaded', () => {
         initApp();
     });
@@ -405,7 +408,7 @@ nav.bottom > button:not(:last-child) {
 
         // about button
         $('#about-btn').on('click', function() {
-            alert('🤑 Slevičky 👾 build: [{{GIT_REV}}]');
+            alert("🤑 Slevičky\n\n👾 build: {{GIT_REV}} revision: {{COUNT_REV}}");
         });
         
         // settings button

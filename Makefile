@@ -1,4 +1,5 @@
 #@author Fred Brooker <git@gscloud.cz>
+COUNT_REV := $(shell git rev-list --count HEAD)
 DATE_REV := $(shell date +%Y%m%d)
 HASH_REV := $(shell git rev-parse --short=8 HEAD)
 GIT_REV := $(DATE_REV)-$(HASH_REV)
@@ -60,6 +61,8 @@ cf:
 	@cp manifest.json export/
 	@cp sw.js export/
 	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
+	sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
+	sed -i 's/{{DATE_REV}}/$(DATE_REV)/g' ./export/index.html
 	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/index.html
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
