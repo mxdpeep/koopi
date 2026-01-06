@@ -8,6 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
+<script src="/jquery.min.js"></script>
 <style>
 :root {
     --surface-container-low-light: #f5f5f5;
@@ -15,6 +16,50 @@
     --surface-container-high-light: #e0e0e0;
     --surface-container-highest-light: #d4d4d4;
     --on-surface-light: #2c2c2c;
+    --nav-buttons: #111;
+}
+
+body {
+    min-width: 320px;
+}
+
+.nowrap {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bigger1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.bigger2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.downer {
+    position: relative;
+    top: 5px;
+}
+
+.btn-top {
+    font-size: 1rem;
+    background-color: var(--nav-buttons) !important;
+    color: white !important;
+    border: 1px solid #000 !important;
+    border-radius: 0!important;
+    padding: 5px;
+}
+
+.btn-bottom {
+    font-size: 1rem;
+    background-color: var(--nav-buttons) !important;
+    color: white !important;
+    border: 1px solid #000 !important;
+    border-radius: 0!important;
+    padding: 5px;
 }
 
 #install-btn {
@@ -24,18 +69,49 @@
 #deals {
     display: grid !important;
     gap: 8px;
-    grid-template-columns: repeat(4, 1fr); /* MOBIL */
+    /* mobil: 2 sloupce */
+    grid-template-columns: repeat(2, 1fr); 
     width: 100%;
-    padding: 8px 0;
 }
 
+@media(min-width: 500px) {
+    #deals {
+        /* tablet: 4 sloupců */
+        grid-template-columns: repeat(4, 1fr); 
+    }
+    .btn-bottom {
+        font-size: 1.5rem;
+    }
+}
+@media(min-width: 700px) {
+    #deals {
+        /* tablet: 6 sloupců */
+        grid-template-columns: repeat(6, 1fr); 
+    }
+    .btn-bottom {
+        font-size: 1.7rem;
+    }
+}
 @media(min-width: 992px) {
     #deals {
-        grid-template-columns: repeat(8, 1fr); /* DESKTOP */
+        /* desktop: 8 sloupců */
+        grid-template-columns: repeat(8, 1fr); 
+    }
+    .btn-bottom {
+        font-size: 1.9rem;
+    }
+}
+@media(min-width: 1800px) {
+    #deals {
+        /* desktop: 10 sloupců */
+        grid-template-columns: repeat(10, 1fr); 
+    }
+    .btn-bottom {
+        font-size: 2.1rem;
     }
 }
 
-/* KARTA produktu */
+/* KARTA: Musí být flexibilní, ne fixní 150px */
 .product-card {
     display: flex !important;
     flex-direction: column;
@@ -44,45 +120,47 @@
     padding: 8px;
     overflow: hidden;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* OBRÁZEK PRODEJCE */
+/* OBRÁZKY: Responzivita a zachování poměru stran */
 .store-image {
-    height: 48px;
+    display: inline-block;
     width: auto;
+    height: 32px;
     object-fit: contain;
-    margin-bottom: 4px;
-}
-
-/* OBRÁZEK PRODUKTU */
-.product-image-container {
-    height: 100px; /* fixní výška kontejneru pro zarovnání */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    margin: 4px 0;
+    margin: 0 auto;
 }
 
 .product-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    display: block;
+    width: 100%;
+    height: 120px; /* Fixní výška pro srovnání řádků */
+    object-fit: contain; /* Tohle zajistí, že se obrázek nezdeformuje */
+    margin: 8px 0;
+}
+
+.product-name {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    /* Zalamování dlouhých názvů */
+    display: -webkit-box;
+    box-orient: vertical;
+    overflow: hidden;
+    height: 2.4em;
 }
 
 .product-price {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
+    margin-top: auto;
 }
 
 .old-price {
     font-size: 0.75rem;
     text-decoration: line-through;
-    opacity: 0.6;
+    color: #888;
 }
 
 .new-price {
@@ -90,52 +168,59 @@
     font-weight: bold;
     color: var(--primary);
 }
-
-.product-name {
-    font-size: 0.8rem;
-    line-height: 1.2;
-    height: 2.4em;
-    overflow: hidden;
-    border-radius: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 4px 0;
-}
 </style>
 </head>
 <body class="light">
+
 <!-- navigation TOP -->
-<nav class="top black white-text">TOP navigace</nav>
-<!-- navigation BOTTOM -->
-<nav class="bottom black white-text">BOTTOM navigace</nav>
-<!-- deals grid -->
-<main class="container xten-columns">
-    <div id="deals" class="xgrid"></div>
-    <!-- PWA install button -->
-    <button id="install-btn" class="grey fixed top right" style="display:none;margin:1rem;">
-        <i>download</i>
-        <span>Nainstaluj si mě ♥️</span>
+<nav class="top nowrap black white-text grid no-space right" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <button id="install-btn" class="light-blue" style="visibility:hidden;">
+        <span class="nowrap">Nainstalovat ♥️</span>
     </button>
+    <span class="black white-text bold">
+        <span class="bigger1">🤑</span>
+        <span class="bigger2 downer">Slevičky</span>
+    </span>
+    <button id="about-btn" class="btn-top nowrap black white-text bold">
+        <i class="material-icons">info</i>
+        <span class="nowrap downer">O aplikaci</span>
+    </button>
+    <button id="settings-btn" class="btn-top nowrap black white-text bold">
+        <i class="material-icons">settings</i>
+        <span class="downer">Nastavení</span>
+    </button>
+    <button id="refresh-btn" class="btn-top nowrap black white-text bold">
+        <i class="material-icons">refresh</i>
+    </button>
+</nav>
+
+<!-- navigation BOTTOM -->
+<nav class="bottom black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <button id="button4" class="nowrap btn-bottom black white-text bold s1">🥦 🍎 🥜</button>
+    <button id="button5" class="nowrap btn-bottom black white-text bold s1">🥛 🧀 🥚</button>
+    <button id="button6" class="nowrap btn-bottom black white-text bold s1">🌾 🫘 🌶️</button>
+    <button id="button7" class="nowrap btn-bottom black white-text bold s1">🥩 🥓 🧈</button>
+    <button id="button8" class="nowrap btn-bottom black white-text bold s1">🍺 🍬 📦</button>
+</nav>
+
+<!-- deals grid -->
+<main class="container">
+    <div id="deals" class=""></div>
+    <!-- PWA install button -->
 </main>
 
 <script>
+    const version = '{{GIT_REV}}';
     document.addEventListener('DOMContentLoaded', () => {
         initApp();
     });
 
     const initApp = () => {
-        const version = '{{GIT_REV}}';
-        
-        // Zde by normálně probíhal HTTP požadavek na váš scraping endpoint.
-        // Pro účely demonstrace používáme mock data.
-        // Příklad fetch požadavku by mohl vypadat takto:
-        // fetch('https://vas-cloudflare-worker.cz/api/deals')
-        //     .then(response => response.json())
-        //     .then(data => renderDeals(data))
-        //     .catch(error => console.error('Chyba při načítání dat:', error));
-        
+        // fetch('https://slevicky.pages.dev/koopi.json').then(response => response.json()).then(data => renderDeals(data)).catch(error => console.error('Chyba načítání dat:', error));
+
+        // data mockup
         const mockDeals = [
-            {name: 'Káva Intenso', store: 'albert', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+            {name: 'Káva Intenso', store: 'hruska', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
             {name: 'Mléko plnotučné 1L', store: 'billa', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
             {name: 'Káva Intenso', store: 'kaufland', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
             {name: 'Mléko plnotučné 1L', store: 'penny', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
@@ -149,17 +234,19 @@
         renderDeals(fullMock);
     };
 
+    /* Renderer */
     const renderDeals = (deals) => {
         const dealsGrid = document.getElementById('deals');
         if (!dealsGrid) return;
-        
+
+        /* Template */
         dealsGrid.innerHTML = deals.map(deal => `
             <article class="product-card">
                 <img src="markets/${deal.store}.webp" alt="${deal.store}" class="store-image">
                 <div class="product-image-container">
                     <img src="${deal.image}" alt="${deal.name}" class="product-image">
                 </div>
-                <div class="product-name bold">${deal.name}</div>
+                <div class="product-name nowrap">${deal.name}</div>
                 <div class="product-price">
                     <span class="old-price">${deal.oldPrice}</span>
                     <span class="new-price">${deal.newPrice} Kč</span>
@@ -168,6 +255,7 @@
         `).join('');
     };
 
+    /* Service Worker */
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
@@ -179,15 +267,14 @@
         });
     }
 
+    /* PWA install button */
     let deferredPrompt;
     const installBtn = document.getElementById('install-btn');
-
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.display = 'flex';
+        installBtn.style.visibility = 'visible';
     });
-
     installBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
             installBtn.style.display = 'none';
@@ -197,7 +284,6 @@
             deferredPrompt = null;
         }
     });
-
     window.addEventListener('appinstalled', () => {
         installBtn.style.display = 'none';
         deferredPrompt = null;
