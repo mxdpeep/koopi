@@ -1,83 +1,123 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <title>🤑 slevičky [{{GIT_REV}}]</title>
-    <meta name="theme-color" content="#f5f5f5">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
-    <style>
-        :root {
-            --surface-container-low-light: #f5f5f5;
-            --surface-container-light: #ececec;
-            --surface-container-high-light: #e0e0e0;
-            --surface-container-highest-light: #d4d4d4;
-            --on-surface-light: #2c2c2c;
-            --surface-container-low-dark: #2c2c2c;
-            --surface-container-dark: #3a3a3a;
-            --surface-container-high-dark: #4b4b4b;
-            --surface-container-highest-dark: #5e5e5e;
-            --on-surface-dark: #f0f0f0;
-        }
-        .product-card {
-            border-radius: var(--border-radius-2);
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            text-align: center;
-            padding-bottom: 1rem;
-            min-width: 150px;
-            max-width: 150px;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-        }
-        .product-image {
-            display: block;
-            margin: 0 auto;
-            margin-top: 1rem;
-            width: auto;
-            max-width: 140px;
-            max-height: 200px;
-        }
-        .product-price {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-            margin-top: 4px;
-        }
-        .old-price {
-            font-size: 0.8rem;
-            text-decoration: line-through;
-            color: var(--on-surface-variant);
-        }
-        .new-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        .store-image {
-            width: auto;
-            height: 64px;
-            padding-bottom: 4px;
-            border-radius: 3px;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>🤑 slevičky [{{GIT_REV}}]</title>
+<meta name="theme-color" content="#f5f5f5">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
+<style>
+:root {
+    --surface-container-low-light: #f5f5f5;
+    --surface-container-light: #ececec;
+    --surface-container-high-light: #e0e0e0;
+    --surface-container-highest-light: #d4d4d4;
+    --on-surface-light: #2c2c2c;
+}
+
+#install-btn {
+    z-index: 100;
+}
+
+#deals {
+    display: grid !important;
+    gap: 8px;
+    grid-template-columns: repeat(4, 1fr); /* MOBIL */
+    width: 100%;
+    padding: 8px 0;
+}
+
+@media(min-width: 992px) {
+    #deals {
+        grid-template-columns: repeat(8, 1fr); /* DESKTOP */
+    }
+}
+
+/* KARTA produktu */
+.product-card {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    margin: 0 !important;
+    padding: 8px;
+    overflow: hidden;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* OBRÁZEK PRODEJCE */
+.store-image {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 4px;
+}
+
+/* OBRÁZEK PRODUKTU */
+.product-image-container {
+    height: 100px; /* fixní výška kontejneru pro zarovnání */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    margin: 4px 0;
+}
+
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.product-price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.old-price {
+    font-size: 0.75rem;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.new-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.product-name {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    height: 2.4em;
+    overflow: hidden;
+    border-radius: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 4px 0;
+}
+</style>
 </head>
 <body class="light">
+<!-- navigation TOP -->
 <nav class="top black white-text">TOP navigace</nav>
+<!-- navigation BOTTOM -->
 <nav class="bottom black white-text">BOTTOM navigace</nav>
-<main class="container">
-    <div id="deals" class="grid"></div>
+<!-- deals grid -->
+<main class="container xten-columns">
+    <div id="deals" class="xgrid"></div>
+    <!-- PWA install button -->
     <button id="install-btn" class="grey fixed top right" style="display:none;margin:1rem;">
         <i>download</i>
         <span>Nainstaluj si mě ♥️</span>
     </button>
 </main>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         initApp();
@@ -95,104 +135,37 @@
         //     .catch(error => console.error('Chyba při načítání dat:', error));
         
         const mockDeals = [
-            {
-                name: 'Káva Intenso',
-                store: 'albert',
-                oldPrice: '129,90',
-                newPrice: '89,90',
-                image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp',
-            },
-            {
-                name: 'Mléko plnotučné 1L',
-                store: 'billa',
-                oldPrice: '25,90',
-                newPrice: '19,90',
-                image: 'images/mleko-cerstve-1_170_340.webp',
-            },
-            {
-                name: 'Máslo čerstvé 250g',
-                store: 'lidl',
-                oldPrice: '45,90',
-                newPrice: '32,90',
-                image: 'images/maslo_170_340.webp',
-            },
-            {
-                name: 'Jogurt bílý',
-                store: 'kaufland',
-                oldPrice: '15,90',
-                newPrice: '9,90',
-                image: 'images/jogurt-jihocesky-madeta-1_170_340.webp',
-            },
-            {
-                name: 'Párky v akci',
-                store: 'tesco',
-                oldPrice: '99,90',
-                newPrice: '69,90',
-                image: 'images/parky-veprove-k-classic-1_170_340.webp',
-            },
-            {
-                name: 'Káva Intenso',
-                store: 'albert',
-                oldPrice: '129,90',
-                newPrice: '89,90',
-                image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp',
-            },
-            {
-                name: 'Mléko plnotučné 1L',
-                store: 'billa',
-                oldPrice: '25,90',
-                newPrice: '19,90',
-                image: 'images/mleko-cerstve-1_170_340.webp',
-            },
-            {
-                name: 'Máslo čerstvé 250g',
-                store: 'lidl',
-                oldPrice: '45,90',
-                newPrice: '32,90',
-                image: 'images/maslo_170_340.webp',
-            },
-            {
-                name: 'Jogurt bílý',
-                store: 'kaufland',
-                oldPrice: '15,90',
-                newPrice: '9,90',
-                image: 'images/jogurt-jihocesky-madeta-1_170_340.webp',
-            },
-            {
-                name: 'Párky v akci',
-                store: 'tesco',
-                oldPrice: '99,90',
-                newPrice: '69,90',
-                image: 'images/parky-veprove-k-classic-1_170_340.webp',
-            },
+            {name: 'Káva Intenso', store: 'albert', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+            {name: 'Mléko plnotučné 1L', store: 'billa', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
+            {name: 'Káva Intenso', store: 'kaufland', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+            {name: 'Mléko plnotučné 1L', store: 'penny', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
+            {name: 'Káva Intenso', store: 'albert', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+            {name: 'Mléko plnotučné 1L', store: 'flop', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
+            {name: 'Máslo čerstvé 250g', store: 'lidl', oldPrice: '45,90', newPrice: '32,90', image: 'images/maslo_170_340.webp' },
+            {name: 'Jogurt bílý', store: 'kaufland', oldPrice: '15,90', newPrice: '9,90', image: 'images/jogurt-jihocesky-madeta-1_170_340.webp' },
+            {name: 'Párky v akci', store: 'globus', oldPrice: '99,90', newPrice: '69,90', image: 'images/parky-veprove-k-classic-1_170_340.webp' }
         ];
-        renderDeals(mockDeals);
+        const fullMock = [...mockDeals, ...mockDeals, ...mockDeals, ...mockDeals];
+        renderDeals(fullMock);
     };
 
     const renderDeals = (deals) => {
         const dealsGrid = document.getElementById('deals');
-        if (!dealsGrid) {
-            console.error("Missing deals grid element.");
-            return;
-        }
-        dealsGrid.innerHTML = '';
-        deals.forEach(deal => {
-            const card = document.createElement('div');
-            card.classList.add('card', 'product-card', 's2');
-            card.innerHTML = `
-            <img src="/markets/${deal.store}.webp" alt="${deal.store}" class="store-image">
-            <button class="chip">🌟</button>
-            <img src="${deal.image}" alt="${deal.name}" class="product-image">
-            <div class="p-2">
-                <div class="bold">${deal.name}</div>
+        if (!dealsGrid) return;
+        
+        dealsGrid.innerHTML = deals.map(deal => `
+            <article class="product-card">
+                <img src="markets/${deal.store}.webp" alt="${deal.store}" class="store-image">
+                <div class="product-image-container">
+                    <img src="${deal.image}" alt="${deal.name}" class="product-image">
+                </div>
+                <div class="product-name bold">${deal.name}</div>
                 <div class="product-price">
-                    <span class="red-text old-price">${deal.oldPrice}</span>
+                    <span class="old-price">${deal.oldPrice}</span>
                     <span class="new-price">${deal.newPrice} Kč</span>
                 </div>
-            </div>
-            `;
-            dealsGrid.appendChild(card);
-        });
+            </article>
+        `).join('');
     };
 
     if ('serviceWorker' in navigator) {
@@ -230,9 +203,6 @@
         deferredPrompt = null;
     });
 </script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
 
 </body>
 </html>
