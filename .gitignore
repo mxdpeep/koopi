@@ -1,7 +1,6 @@
 *.bak
 *.tar
 *.tgz
-*.zip
 *~
 .Trash-1000
 .editorconfig
