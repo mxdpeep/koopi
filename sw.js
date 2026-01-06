@@ -1,8 +1,8 @@
 const CACHE_NAME = '{{GIT_REV}}';
 const urlsToCache = [
-    '/',
     '/index.html',
     '/manifest.json',
+    '/jquery.min.js',
     'https://cdn.jsdelivr.net/gh/beercss/beercss@v3.11.33/dist/cdn/beer.min.css',
     'https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css'
 ];

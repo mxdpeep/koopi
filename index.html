@@ -29,6 +29,27 @@ body {
     text-overflow: ellipsis;
 }
 
+.notap {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+}
+
+.hover {
+    cursor: pointer;
+}
+
+.mono {
+    font-family: monospace;
+}
+
+.noselect {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select:none;
+}
+
 .bigger1 {
     font-size: 2rem;
     font-weight: bold;
@@ -160,13 +181,39 @@ body {
 .old-price {
     font-size: 0.75rem;
     text-decoration: line-through;
-    color: #888;
+    font-weight: bold;
+    color: #f00;
 }
 
 .new-price {
     font-size: 1.1rem;
     font-weight: bold;
     color: var(--primary);
+}
+
+.fade-trim {
+  white-space: nowrap;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+
+.trim {
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    max-width: 150px;
+    position: relative;
+}
+.trim-char {
+    position: absolute;
+    right: 0;
+    background: #fff;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: grey;
 }
 </style>
 </head>
@@ -177,7 +224,7 @@ body {
     <button id="install-btn" class="light-blue" style="visibility:hidden;">
         <span class="nowrap">Nainstalovat ♥️</span>
     </button>
-    <span class="black white-text bold">
+    <span class="noselect black white-text bold">
         <span class="bigger1">🤑</span>
         <span class="bigger2 downer">Slevičky</span>
     </span>
@@ -246,7 +293,7 @@ body {
                 <div class="product-image-container">
                     <img src="${deal.image}" alt="${deal.name}" class="product-image">
                 </div>
-                <div class="product-name nowrap">${deal.name}</div>
+                <div class="product-name trim" title="${deal.name}">${deal.name}</div>
                 <div class="product-price">
                     <span class="old-price">${deal.oldPrice}</span>
                     <span class="new-price">${deal.newPrice} Kč</span>
@@ -254,6 +301,35 @@ body {
             </article>
         `).join('');
     };
+
+    /* UI bindings */
+    $(document).ready(function() {
+
+        // refresh button
+        $('#refresh-btn').on('click', function() {
+            $(this).prop('disabled', true).text('Načítám ...');
+            const buster = Math.random().toString(36).substring(2, 6);
+            location.href = '/?' + buster;
+        });
+
+        // about button
+        $('#about-btn').on('click', function() {
+            alert('TBD 👾');
+        });
+
+        // settings button
+        $('#settings-btn').on('click', function() {
+            alert('TBD 👾');
+        });
+
+        // trimmed product name »
+        $('.trim').each(function() {
+            if (this.offsetWidth < this.scrollWidth) {
+                $(this).append('<span class="trim-char">»</span>');
+            }
+        });
+
+    });
 
     /* Service Worker */
     if ('serviceWorker' in navigator) {
