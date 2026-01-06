@@ -242,9 +242,11 @@ body {
         <span>Instalovat ♥️</span>
     </button>
     <div class="max noselect">
-        <span class="bigger">🤑</span>
-        &nbsp;
-        <span class="slevicky bold">Slevičky</span>
+        <span id="billionaire">
+            <span class="bigger">🤑</span>
+            &nbsp;
+            <span class="slevicky bold">Slevičky</span>
+        </span>
     </div>
     <button id="about-btn" class="transparent white-text">
         <i>info</i>
@@ -323,21 +325,27 @@ body {
     /* UI bindings */
     $(document).ready(function() {
 
-        // refresh button
-        $('#refresh-btn').on('click', function() {
-            $(this).prop('disabled', true).html('<i>schedule</i>');
-            const buster = Math.random().toString(36).substring(2, 6);
-            location.href = '/?' + buster;
+        
+        // billionaire button
+        $('#billionaire').on('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
         });
 
         // about button
         $('#about-btn').on('click', function() {
             alert('🤑 Slevičky 👾 build: [{{GIT_REV}}]');
         });
-
+        
         // settings button
         $('#settings-btn').on('click', function() {
             alert('TBD 👾');
+        });
+        
+        // refresh button
+        $('#refresh-btn').on('click', function() {
+            $(this).prop('disabled', true).html('<i>schedule</i>');
+            const buster = Math.random().toString(36).substring(2, 6);
+            location.href = '/?' + buster;
         });
 
         // trimmed product name »
