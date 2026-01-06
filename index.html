@@ -22,7 +22,7 @@ body {
     min-width: 320px;
 }
 
-#install-btn {
+.install-btn {
     z-index: 100;
 }
 
@@ -310,36 +310,68 @@ nav.bottom > button:not(:last-child) {
 </head>
 <body class="light">
 
-<!-- TOP navigation -->
-<nav class="top notap nowrap black white-text">
-    <button id="install-btn" class="light-blue" style="display:none;">
+<!-- TOP navigation - righthanded -->
+<nav class="righthanded top notap nowrap black white-text">
+    <button class="install-btn light-blue" style="display: none;">
         <span>Instalovat ♥️</span>
     </button>
     <div class="max noselect">
-        <span id="billionaire">
+        <span class="billionaire">
             <span class="bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
         </span>
     </div>
-    <button id="about-btn" class="transparent white-text">
+    <button class="about-btn transparent white-text">
         <i>info</i>
         <span class="topnavtxt downer">Info</span>
     </button>
-    <button id="settings-btn" class="transparent white-text">
+    <button class="settings-btn transparent white-text">
         <i>settings</i>
         <span class="topnavtxt downer">Nastavení</span>
     </button>
-    <button id="refresh-btn" class="transparent white-text">
+    <button class="refresh-btn transparent white-text">
         <i>refresh</i>
     </button>
 </nav>
 
-<!-- BOTTOM navigation -->
-<nav class="bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button id="but5" class="nowrap btn-bottom black white-text bold s1">🍬🍷📦</button>
-    <button id="but4" class="nowrap btn-bottom black white-text bold s1">🧈🥓🥩</button>
-    <button id="but3" class="nowrap btn-bottom black white-text bold s1">🌶️🌾🫘</button>
-    <button id="but2" class="nowrap btn-bottom black white-text bold s1">🧀🥛🥚</button>
-    <button id="but1" class="nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+<!-- TOP navigation - lefthanded -->
+<nav class="lefthanded top notap nowrap black white-text" style="display: none;">
+    <button class="refresh-btn transparent white-text">
+        <i>refresh</i>
+    </button>
+    <button class="settings-btn transparent white-text">
+        <i>settings</i>
+        <span class="topnavtxt downer">Nastavení</span>
+    </button>
+    <button class="about-btn transparent white-text">
+        <i>info</i>
+        <span class="topnavtxt downer">Info</span>
+    </button>
+    <div class="max noselect">
+        <span class="billionaire">
+            <span class="bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
+        </span>
+    </div>
+    <button class="install-btn light-blue" style="display: none;">
+        <span>Instalovat ♥️</span>
+    </button>
+</nav>
+
+<!-- BOTTOM navigation - righthanded -->
+<nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
+    <button id="but4" title="MASO - UZENINY - TUKY" class="nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
+    <button id="but3" title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
+    <button id="but2" title="MLÉKO - SÝRY - VEJCE" class="nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
+    <button id="but1" title="ZELENINA - OVOCE - OŘECHY" class="nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+</nav>
+
+<!-- BOTTOM navigation - lefthanded -->
+<nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <button id="but1" title="ZELENINA - OVOCE - OŘECHY" class="nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+    <button id="but2" title="MLÉKO - SÝRY - VEJCE" class="nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
+    <button id="but3" title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
+    <button id="but4" title="MASO - UZENINY - TUKY" class="nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
+    <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
 
 <!-- DEALS grid -->
@@ -402,22 +434,35 @@ nav.bottom > button:not(:last-child) {
     $(document).ready(function() {
         
         // billionaire button
-        $('#billionaire').on('click', function() {
+        $('.billionaire').on('click', function() {
             window.scrollTo({top: 0, behavior: 'smooth'});
         });
 
         // about button
-        $('#about-btn').on('click', function() {
-            alert("🤑 Slevičky\n\n👾 build: {{GIT_REV}} revision: {{COUNT_REV}}");
+        $('.about-btn').on('click', function() {
+            alert("\n\n🤑 Slevičky\n\n👾 build: {{GIT_REV}} revision: {{COUNT_REV}}\n\n");
         });
         
         // settings button
-        $('#settings-btn').on('click', function() {
-            alert('TBD 👾');
+        $('.settings-btn').on('click', function() {
+            $('.lefthanded').toggle();
+            $('.righthanded').toggle();
+            const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
+            localStorage.setItem('handedness', currentMode);
         });
-        
+
+        // process handedness from localStorage
+        const savedHandedness = localStorage.getItem('handedness');
+        if (savedHandedness === 'left') {
+            $('.lefthanded').show();
+            $('.righthanded').hide();
+        } else if (savedHandedness === 'right') {
+            $('.lefthanded').hide();
+            $('.righthanded').show();
+        }
+
         // refresh button
-        $('#refresh-btn').on('click', function() {
+        $('.refresh-btn').on('click', function() {
             $(this).prop('disabled', true).html('<i>schedule</i>');
             const buster = Math.random().toString(36).substring(2, 6);
             location.href = '/?' + buster;
@@ -444,23 +489,32 @@ nav.bottom > button:not(:last-child) {
         });
     }
 
-    /* PWA install button */
+    /* PWA install buttons */
     let deferredPrompt;
-    const installBtn = document.getElementById('install-btn');
+
+    // querySelectorAll vybere všechny prvky s touto třídou
+    const installButtons = document.querySelectorAll('.install-btn');
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.display = 'block';
+        installButtons.forEach(btn => {
+            btn.style.display = 'block';
+        });
     });
-    installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            installBtn.style.display = 'none';
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            deferredPrompt = null;
-        }
+
+    // event listeners
+    installButtons.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                installButtons.forEach(b => b.style.display = 'none');
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+            }
+        });
     });
+
     window.addEventListener('appinstalled', () => {
         installBtn.style.display = 'none';
         deferredPrompt = null;
