@@ -323,10 +323,10 @@ body {
         /* Template */
         dealsGrid.innerHTML = deals.map(deal => `
             <article class="product-card">
-                <img src="markets/${deal.store}.webp" alt="${deal.store}" class="store-image">
+                <img src="markets/${deal.store}.webp" alt="${deal.store}" class="notap store-image">
                 <div class="product-image-container">
                     <div class="image-wrapper">
-                        <img src="${deal.image}" alt="${deal.name}" class="product-image">
+                        <img src="${deal.image}" alt="${deal.name}" class="notap product-image">
                     </div>
                 </div>
                 <div class="product-name" title="${deal.name}">${deal.name}</div>
@@ -363,12 +363,12 @@ body {
             location.href = '/?' + buster;
         });
 
-        // trimmed product name »
-        $('.trim').each(function() {
-            if (this.offsetWidth < this.scrollWidth) {
-                $(this).append('<span class="trim-char">»</span>');
-            }
-        });
+        // prevent RMB click
+        window.oncontextmenu = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+        }
 
     });
 
