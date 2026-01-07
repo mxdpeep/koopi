@@ -384,7 +384,7 @@ nav.bottom button {
 </nav>
 
 <!-- debugger -->
-<div id="debugger" class="notap noselect grey white-text debugger"></div>
+<div id="debugger" class="notap noselect blue-grey white-text debugger"></div>
 
 <!-- CONTENT -->
 <main class="container">
@@ -618,16 +618,20 @@ $(document).ready(function() {
         const ts = now.getHours().toString().padStart(2, '0')
             + ':' + now.getMinutes().toString().padStart(2, '0')
             + ':' + now.getSeconds().toString().padStart(2, '0');
-        $('#debugger').append('[' + ts + '] ' + x + '<br>').addClass('debugger-on');
+        $('#debugger').append('[' + ts + '] ' + x + '<br>').addClass('debugger-on').fadeIn();
         if (dtimer) clearTimeout(dtimer);
         dtimer = setTimeout(function() {
             dtimer = null;
-            $('#debugger').html('').removeClass('debugger-on');
+            $('#debugger').fadeOut(function() {
+                $('#debugger').html('').removeClass('debugger-on');
+            });
         }, 10000);
     }
     $('#debugger').on('click', function() {
         dtimer = null;
-        $('#debugger').html('').removeClass('debugger-on');
+        $('#debugger').fadeOut(function() {
+            $('#debugger').html('').removeClass('debugger-on');
+        });
     });
 
     // context event hanlder
@@ -636,7 +640,8 @@ $(document).ready(function() {
         if (card) {
             const productName = card.querySelector('.product-name')?.innerText;
             debug('produkt: ' + productName);
-            $(card).fadeOut(100).fadeIn(100);
+            $(card).addClass('flashbomb');
+            setTimeout(() => {$(card).removeClass('flashbomb');}, 200);
             return false;
         }
         // data-id
