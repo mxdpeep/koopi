@@ -278,6 +278,20 @@ hr {
     padding-top: 10px;
 }
 
+.product-note {
+    font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    line-height: 1.2rem;
+    height: 3rem; /* 2x 1.4rem + overhead */
+    border-radius: 0 !important;
+    padding-top: 10px;
+}
+
 .product-price {
     display: flex;
     flex-direction: column;
@@ -285,14 +299,13 @@ hr {
     margin-top: auto;
 }
 
-.old-price {
-    font-size: 0.8rem;
-    text-decoration: line-through;
+.discount {
+    font-size: 1.3rem;
     font-weight: bold;
     color: red;
 }
 
-.new-price {
+.price {
     font-size: 1.1rem;
     font-weight: bold;
     color: var(--primary);
@@ -497,25 +510,24 @@ const initApp = () => {
         })
         .then(data => {
             console.timeEnd('JSON-Fetch');
-
-            if (!data || data.length === 0) {
-                debug('Varování: data.json je prázdný');
+            if (!data) {
+                debug('Error: Žádná data nepřišla');
                 return;
             }
-
-            const goods = data.goods;
-            if (!goods || !Array.isArray(goods) || goods.length === 0) {
-                debug('Chyba: Pole "goods" v JSONu chybí nebo je prázdné.');
+            let goods = [];
+            if (data && data.goods && Array.isArray(data.goods)) {
+                goods = data.goods;
+            }
+            if (goods.length === 0) {
+                debug('Varování: Žádné zboží k renderování (goods je prázdné)');
+                console.error('Struktura data neodpovídá: ', data);
                 return;
             }
-            console.log(`Testuji renderování: ${data.length} položek`);
-            
-            // Měříme čistý čas zápisu do DOMu
+            console.log(`Renderuji ${goods.length} položek.`);
             console.time('DOM-Render-Speed');
-            renderDeals(data);
+            renderDeals(goods);
             console.timeEnd('DOM-Render-Speed');
-            
-            debug(`Vykresleno: ${data.length} slev.`);
+            debug(`Vykresleno: ${goods.length} slev.`);
         })
         .catch(error => {
             console.error('Chyba při stress-testu:', error);
@@ -548,16 +560,17 @@ const renderDeals = (deals) => {
     // TEMPLATE A
     dealsGrid.innerHTML = deals.map(deal => `
         <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
-            <img src="/markets/${deal.store}.webp" loading="lazy" alt="${deal.store}" class="notap market-image">
+            <img src="/markets/${deal.market}.webp" onerror="this.src='markets/default.png';this.onerror=null;" loading="lazy" alt="${deal.store}" class="notap market-image">
             <div class="product-image-container">
                 <div class="image-wrapper">
-                    <img src="/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
+                    <img src="/images/${deal.image}" onerror="this.src='images/default.png';this.onerror=null;" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
                 </div>
             </div>
             <div class="product-name" title="${deal.name}">${deal.name}</div>
+            <div class="product-note" title="${deal.note}">${deal.note}</div>
             <div class="product-price">
-                <span class="old-price">${deal.oldPrice}</span>
-                <span class="new-price">${deal.newPrice} Kč</span>
+                <span class="discount">${deal.discount}</span>
+                <span class="price">${deal.price}</span>
             </div>
         </article>
     `).join('');
@@ -667,6 +680,8 @@ $(document).ready(function() {
             });
         }, 10000);
     }
+    window.debug = debug;
+
     $('#debugger').on('click', function() {
         dtimer = null;
         $('#debugger').fadeOut(function() {
