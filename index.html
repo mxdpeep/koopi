@@ -115,7 +115,7 @@ nav.top button::before, nav.top button::after {background: none !important;}
 nav.bottom button {letter-spacing: 0;}
 
 #about, #settings {
-    width: 50%;
+    width: 95%;
     margin: 0 auto;
     margin-top: 2rem;
     text-align: left;
@@ -151,6 +151,10 @@ hr {
     nav.bottom button {
         letter-spacing: 0.3rem;
     }
+    #about, #settings {
+        width: 90%;
+        margin-top: 1rem;
+    }
 }
 @media(min-width: 700px) {
     #deals {
@@ -169,6 +173,10 @@ hr {
     }
     nav.bottom button {
         letter-spacing: 0.5rem;
+    }
+    #about, #settings {
+        width: 80%;
+        margin-top: 1rem;
     }
 }
 @media(min-width: 992px) {
@@ -189,6 +197,10 @@ hr {
     nav.bottom button {
         letter-spacing: 0.7rem;
     }
+    #about, #settings {
+        width: 70%;
+        margin-top: 1rem;
+    }
 }
 @media(min-width: 1800px) {
     #deals {
@@ -202,6 +214,10 @@ hr {
     }
     nav.bottom button {
         letter-spacing: 1rem;
+    }
+    #about, #settings {
+        width: 50%;
+        margin-top: 1rem;
     }
 }
 
@@ -341,7 +357,7 @@ nav.bottom button {
     </button>
     <div class="max noselect">
         <span class="billionaire">
-            <span class="bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
+            <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
         </span>
     </div>
     <button class="install-btn light-blue" style="display: none;">
@@ -383,15 +399,16 @@ nav.bottom button {
     </noscript>
     <div id="deals"></div>
     <div id="about" class="hidden">
-        <h3>🤑 Aplikace</h3>
+        <h3>Aplikace</h3>
         <hr>
         <br>
-        <h4>👾 build: {{GIT_REV}}</h4>
-        <h4>📅 date: {{DATE_REV}}</h4>
-        <h5>revision: {{COUNT_REV}}</h5>
+        <b>👾 build: {{GIT_REV}}</b><br>
+        <b>👩‍🔧 revision: {{COUNT_REV}}</b><br>
+        <b>📅 date: {{DATE_REV}}</b><br>
+        <br>
     </div>
     <div id="settings" class="hidden container">
-        <h3>🤑 Nastavení</h3>
+        <h3>Nastavení</h3>
         <hr>
         <br>
         <button class="blue hands-switch">přepnout ovládání levák/pravák</button>
