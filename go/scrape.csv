@@ -1,28 +1,28 @@
 CATEGORY,QUERY,PAGES
 CUKROVINKY,bonbony jojo,2
-CUKROVINKY,bonbony,3
+CUKROVINKY,bonbony,2
 CUKROVINKY,cukr krystal,2
 CUKROVINKY,cukr moučka,2
 CUKROVINKY,cukr,2
-CUKROVINKY,džem,2
+CUKROVINKY,džem,1
 CUKROVINKY,hambáče,1
 CUKROVINKY,hroznový cukr,1
 CUKROVINKY,javorový sirup,1
-CUKROVINKY,lízátka,2
-CUKROVINKY,marshmallow,2
-CUKROVINKY,med,2
+CUKROVINKY,lízátka,1
+CUKROVINKY,marshmallow,1
+CUKROVINKY,med,1
 CUKROVINKY,nanuk,2
-CUKROVINKY,nutella,2
+CUKROVINKY,nutella,1
 CUKROVINKY,ovocný cukr,1
-CUKROVINKY,poleva,2
+CUKROVINKY,poleva,1
 CUKROVINKY,sovičky,1
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
 CUKROVINKY,zmrzlina,2
 CUKROVINKY,čekankový sirup,1
-CUKROVINKY,čokoláda,2
-CUKROVINKY,želatina,2
+CUKROVINKY,čokoláda,3
+CUKROVINKY,želatina,1
 CUKROVINKY,želé,2
 KOŘENÍ,bazalka,1
 KOŘENÍ,bobkový list,1
@@ -52,6 +52,7 @@ LUŠTĚNINY,červená čočka,1
 LUŠTĚNINY,čočka,1
 MASO,bůček,1
 MASO,candát,1
+MASO,hovězí kostky,1
 MASO,hovězí zadní,1
 MASO,husa,1
 MASO,jehněčí,1
@@ -82,10 +83,13 @@ MASO,telecí,1
 MASO,treska,1
 MASO,tuňák,1
 MASO,vepřová kýta,1
+MASO,vepřová pečeně,1
 MASO,vepřová plec,1
+MASO,vepřové kostky,1
 MASO,vepřový bok,1
 MASO,žebra,1
 MLÉKO,actimel,1
+MLÉKO,activia,1
 MLÉKO,bezlaktózové mléko,1
 MLÉKO,jogurt,1
 MLÉKO,kefír,1
@@ -106,6 +110,7 @@ MLÉKO,smetana zakysaná,2
 MLÉKO,sojové mléko,1
 MLÉKO,termix,1
 MLÉKO,tvaroh,1
+MLÉKO,řecký jogurt,1
 MLÉKO,šlehačka,1
 NÁPOJE,cider,1
 NÁPOJE,džus,1
@@ -114,14 +119,14 @@ NÁPOJE,lager,2
 NÁPOJE,ležák,3
 NÁPOJE,likér,1
 NÁPOJE,mattoni,2
-NÁPOJE,minerálka,2
-NÁPOJE,minerální voda,2
+NÁPOJE,minerálka,3
+NÁPOJE,minerální voda,3
 NÁPOJE,mletá káva,3
 NÁPOJE,ovocný čaj,2
-NÁPOJE,pivo,5
+NÁPOJE,pivo,7
 NÁPOJE,rum,3
 NÁPOJE,sekt,3
-NÁPOJE,voda,3
+NÁPOJE,voda,5
 NÁPOJE,víno,3
 NÁPOJE,zelený čaj,2
 NÁPOJE,zrnková káva,3
@@ -148,8 +153,8 @@ OBILÍ,závin,1
 OSTATNÍ,bujón,1
 OSTATNÍ,chipsy,2
 OSTATNÍ,droždí,1
-OSTATNÍ,hořčice,1
-OSTATNÍ,kečup,1
+OSTATNÍ,hořčice,2
+OSTATNÍ,kečup,2
 OSTATNÍ,kvasnice,1
 OSTATNÍ,ocet,1
 OSTATNÍ,omáčka,1
@@ -283,6 +288,7 @@ UZENINY,vysočina,1
 UZENINY,vídeňské párky,1
 UZENINY,čabajka,1
 UZENINY,špekáčky,1
+UZENINY,šunka výběrová,1
 UZENINY,šunka,1
 VEJCE,dresink,1
 VEJCE,majonéza,1
@@ -291,6 +297,7 @@ VEJCE,vejce,2
 ZELENINA,batáty,1
 ZELENINA,brambory,1
 ZELENINA,brokolice,1
+ZELENINA,bílé zelí,1
 ZELENINA,celer,1
 ZELENINA,chilli,1
 ZELENINA,chřest,1
@@ -330,6 +337,7 @@ ZELENINA,sterilované okurky,1
 ZELENINA,zázvor,1
 ZELENINA,červená cibule,1
 ZELENINA,červená řepa,1
+ZELENINA,červené zelí,1
 ZELENINA,česnek,1
 ZELENINA,řapíkatý celer,1
 ZELENINA,ředkvičky,1
