@@ -26,7 +26,7 @@ body {
 }
 
 /* DEBUGGER */
-#debugger {width: 100%;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
+#debugger {width: 30%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
@@ -401,7 +401,7 @@ nav.bottom button {
 </nav>
 
 <!-- debugger -->
-<div id="debugger" class="notap noselect blue-grey white-text debugger"></div>
+<div id="debugger" class="notap noselect blue-grey black-text bold debugger"></div>
 
 <!-- CONTENT -->
 <main class="container">
@@ -444,6 +444,26 @@ if (!Array.prototype.shuffle) {
         return this;
     };
 }
+
+// DEBUGGER
+var dtimer = null;
+function debug(x) {
+    if (!x) return;
+    const now = new Date();
+    const ts = now.getHours().toString().padStart(2, '0')
+        + ':' + now.getMinutes().toString().padStart(2, '0')
+        + ':' + now.getSeconds().toString().padStart(2, '0')
+        + '.' + now.getMilliseconds().toString().padStart(3, '0');
+    $('#debugger').append('[' + ts + '] ' + x + '<br>').addClass('debugger-on').fadeIn();
+    if (dtimer) clearTimeout(dtimer);
+    dtimer = setTimeout(function() {
+        dtimer = null;
+        $('#debugger').fadeOut(function() {
+            $('#debugger').html('').removeClass('debugger-on');
+        });
+    }, 10000);
+}
+window.debug = debug;
 
 // UUID
 var uuid = null;
@@ -501,7 +521,7 @@ const progressBar = () => {
 const initApp = () => {
     const dataFile = './data.json'; 
     console.log('--- START STRESS TEST ---');
-    console.time('JSON-Fetch');
+    debug('Loading data ...');
     
     fetch(dataFile)
         .then(response => {
@@ -519,24 +539,24 @@ const initApp = () => {
                 goods = data.goods;
             }
             if (goods.length === 0) {
-                debug('Varování: Žádné zboží k renderování (goods je prázdné)');
-                console.error('Struktura data neodpovídá: ', data);
+                debug('Varování: Žádné zboží k renderování!');
+                console.error('Struktura dat neodpovídá: ', data);
                 return;
             }
-            console.log(`Renderuji ${goods.length} položek.`);
+            console.log(`Rendering ${goods.length} discount cards.`);
+            debug(`Rendering ${goods.length} discount cards.`);
             console.time('DOM-Render-Speed');
             renderDeals(goods);
             console.timeEnd('DOM-Render-Speed');
-            debug(`Vykresleno: ${goods.length} slev.`);
+            debug(`Done.`);
         })
         .catch(error => {
             console.error('Chyba při stress-testu:', error);
-            debug('Chyba fetch: data.json');
+            debug('Error fetching data.');
         });
 };
 
 const initAppMockup = () => {
-    // MOCKUP
     const mockDeals = [
         {name: 'Káva Intenso', store: 'hruska', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
         {name: 'Mléko plnotučné 1L', store: 'billa', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
@@ -556,8 +576,6 @@ const initAppMockup = () => {
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
-
-    // TEMPLATE A
     dealsGrid.innerHTML = deals.map(deal => `
         <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
             <img src="/markets/${deal.market}.webp" onerror="this.src='markets/default.png';this.onerror=null;" loading="lazy" alt="${deal.store}" class="notap market-image">
@@ -578,9 +596,9 @@ const renderDeals = (deals) => {
 
 // UI bindings
 $(document).ready(function() {
-
     // bool: is flash animation pending?
     var flash_flag = false;
+
     // bool: is face animation pending?
     var face_flag = false;
 
@@ -663,25 +681,6 @@ $(document).ready(function() {
         location.href = '/?' + buster;
     });
 
-    // simple debugger
-    var dtimer = null;
-    function debug(x) {
-        if (!x) return;
-        const now = new Date();
-        const ts = now.getHours().toString().padStart(2, '0')
-            + ':' + now.getMinutes().toString().padStart(2, '0')
-            + ':' + now.getSeconds().toString().padStart(2, '0');
-        $('#debugger').append('[' + ts + '] ' + x + '<br>').addClass('debugger-on').fadeIn();
-        if (dtimer) clearTimeout(dtimer);
-        dtimer = setTimeout(function() {
-            dtimer = null;
-            $('#debugger').fadeOut(function() {
-                $('#debugger').html('').removeClass('debugger-on');
-            });
-        }, 10000);
-    }
-    window.debug = debug;
-
     $('#debugger').on('click', function() {
         dtimer = null;
         $('#debugger').fadeOut(function() {
@@ -734,7 +733,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
         btn.style.display = 'block';
     });
 });
-
 const installButtons = document.querySelectorAll('.install-btn');
 installButtons.forEach(btn => {
     btn.addEventListener('click', async () => {
