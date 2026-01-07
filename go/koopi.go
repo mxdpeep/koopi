@@ -656,10 +656,6 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 
 	var cleanedGoods []map[string]any
 	for _, item := range goods {
-		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/kupi/thumbs/")
-		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/img/no_img/no_discounts.png")
-		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/")
-
 		hashString := item.Name + item.Volume + item.Category + item.SubCat // unique good hash (for ID)
 		hash := md5.Sum([]byte(hashString))
 		md5Hash := hex.EncodeToString(hash[:])
@@ -685,13 +681,16 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 
 		imageURL := item.ImageUrl
-		if strings.HasSuffix(imageURL, ".png") {
-			imageURL = strings.TrimSuffix(imageURL, ".png") + ".webp"
-		} else if strings.HasSuffix(imageURL, ".jpg") {
-			imageURL = strings.TrimSuffix(imageURL, ".jpg") + ".webp"
+		if before, ok := strings.CutSuffix(imageURL, ".png"); ok {
+			imageURL = before + ".webp"
+		} else if before0, ok0 := strings.CutSuffix(imageURL, ".jpg"); ok0 {
+			imageURL = before0 + ".webp"
 		}
 		imageURL = strings.TrimPrefix(imageURL, "https://img.kupi.cz/kupi/thumbs/")
 		imageURL = strings.TrimPrefix(imageURL, "https://img.kupi.cz/img/no_img/no_discounts.png")
+		if imageURL == "" || strings.Contains(imageURL, "no_discounts") {
+			imageURL = "default.png"
+		}
 		cleanedItem["image"] = imageURL
 		cleanedItem["offer_count"] = offerCount
 
