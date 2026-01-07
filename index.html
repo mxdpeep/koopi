@@ -242,11 +242,7 @@ hr {
 
 .product-note {
     font-style: italic;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: center;
     line-height: 1rem;
     height: 3.6rem; /* 3x 1rem + overhead */
@@ -265,10 +261,11 @@ hr {
     font-size: 1.3rem;
     font-weight: bold;
     color: red;
+    margin-bottom: 5px;
 }
 
 .price {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: var(--primary);
 }
@@ -278,14 +275,14 @@ hr {
     flex-direction: column;
     align-items: center;
     font-size: 0.75rem;
-    color: green;
+    color: #fff;
+    background-color: green;
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.volume {
-    font-size: 0.75rem;
-    color: #000;
-}
+.volume {font-size: 0.9rem;font-weight: bold;}
+.ppunit {font-size: 0.75rem;color: #000;}
 
 /* bottom NAV separators */
 nav.bottom > button:not(:last-child) {
@@ -549,12 +546,12 @@ const renderDeals = (deals) => {
             </div>
             <div class="product-name bold" title="${deal.name}">${deal.name}</div>
             <div class="product-note" title="${deal.note}">${deal.note}</div>
-            <div class="validity">${deal.validity}</div>
             <div class="product-price">
                 <span class="discount">${deal.discount}</span>
-                <span class="price">${deal.price}</span>
-                <span class="volume mono">${deal.volume}</span>
+                <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
+                <span class="ppunit mono">${deal.priceperunit}</span>
             </div>
+            <div class="validity nowrap">${deal.validity}</div>
         </article>
     `).join('');
 };
