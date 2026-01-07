@@ -426,7 +426,7 @@ if (!Array.prototype.shuffle) {
     Array.prototype.shuffle = function() {
         for (let i = this.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [this[i], this[j]] = [this[j], this[i]]; // Moderní ES6 destructuring swap
+            [this[i], this[j]] = [this[j], this[i]];
         }
         return this;
     };
@@ -486,8 +486,44 @@ const progressBar = () => {
 }
 
 const initApp = () => {
-    // fetch('https://slevicky.pages.dev/koopi.json').then(response => response.json()).then(data => renderDeals(data)).catch(error => console.error('Chyba načítání dat:', error));
+    const dataFile = './data.json'; 
+    console.log('--- START STRESS TEST ---');
+    console.time('JSON-Fetch');
+    
+    fetch(dataFile)
+        .then(response => {
+            if (!response.ok) throw new Error('data.json nebyl nalezen');
+            return response.json();
+        })
+        .then(data => {
+            console.timeEnd('JSON-Fetch');
 
+            if (!data || data.length === 0) {
+                debug('Varování: data.json je prázdný');
+                return;
+            }
+
+            const goods = data.goods;
+            if (!goods || !Array.isArray(goods) || goods.length === 0) {
+                debug('Chyba: Pole "goods" v JSONu chybí nebo je prázdné.');
+                return;
+            }
+            console.log(`Testuji renderování: ${data.length} položek`);
+            
+            // Měříme čistý čas zápisu do DOMu
+            console.time('DOM-Render-Speed');
+            renderDeals(data);
+            console.timeEnd('DOM-Render-Speed');
+            
+            debug(`Vykresleno: ${data.length} slev.`);
+        })
+        .catch(error => {
+            console.error('Chyba při stress-testu:', error);
+            debug('Chyba fetch: data.json');
+        });
+};
+
+const initAppMockup = () => {
     // MOCKUP
     const mockDeals = [
         {name: 'Káva Intenso', store: 'hruska', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },

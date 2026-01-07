@@ -60,6 +60,7 @@ cf:
 	@cp index.html export/
 	@cp manifest.json export/
 	@cp sw.js export/
+	@cp go/koopi.json export/data.json
 	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
 	sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
 	sed -i 's/{{DATE_REV}}/$(DATE_REV)/g' ./export/index.html
