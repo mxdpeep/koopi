@@ -28,7 +28,9 @@ body {
 /* debugger */
 #debugger {
     width: 100%;
-    position: fixed;
+    position: absolute;
+    top: 70px;
+    left: 0;
     z-index: 100;
 }
 
@@ -340,6 +342,9 @@ nav.bottom button {
     <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
 
+<!-- debugger -->
+<div id="debugger" class="notap noselect grey white-text debugger"></div>
+
 <!-- DEALS grid -->
 <main class="container">
     <noscript>
@@ -350,8 +355,7 @@ nav.bottom button {
                 Bez něj to prostě nepůjde ...
             </h3>
         </div>
-    </noscript>    <!-- debugger -->
-    <div id="debugger" class="notap noselect black white-text debugger"></div>
+    </noscript>
     <div id="deals" class=""></div>
 </main>
 
@@ -453,7 +457,7 @@ nav.bottom button {
 
         // simple debugger
         function debug(x) {
-            $('#debugger').html('debug: ' + x).addClass('debugger-on');
+            $('#debugger').html(x).addClass('debugger-on');
             setTimeout(function() {
                 $('#debugger').html('').removeClass('debugger-on');
             }, 5000);
