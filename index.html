@@ -152,7 +152,7 @@ hr {
     .btn-bottom {font-size: 1.3rem;}
     nav.bottom button {letter-spacing: 0.3rem;}
     #about, #settings {width: 90%;margin-top: 1rem;}
-    #debugger {width: 70%}
+    #debugger {width: 90%}
 }
 @media(min-width: 700px) {
     #deals {
@@ -163,7 +163,7 @@ hr {
     .topnavtxt {display: inline-block;}
     nav.bottom button {letter-spacing: 0.5rem;}
     #about, #settings {width: 80%;margin-top: 1rem;}
-    #debugger {width: 60%}
+    #debugger {width: 80%}
 }
 @media(min-width: 992px) {
     #deals {
@@ -174,7 +174,7 @@ hr {
     .topnavtxt {display: inline-block;}
     nav.bottom button {letter-spacing: 0.7rem;}
     #about, #settings {width: 70%;margin-top: 1rem;}
-    #debugger {width: 40%}
+    #debugger {width: 50%}
 }
 @media(min-width: 1800px) {
     #deals {
@@ -243,13 +243,13 @@ hr {
 .product-note {
     font-style: italic;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-align: center;
-    line-height: 1.2rem;
-    height: 3rem; /* 2x 1.4rem + overhead */
+    line-height: 1rem;
+    height: 3.6rem; /* 3x 1rem + overhead */
     border-radius: 0 !important;
     padding-top: 10px;
 }
@@ -268,9 +268,23 @@ hr {
 }
 
 .price {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: var(--primary);
+}
+
+.validity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+    color: green;
+    margin-top: 5px;
+}
+
+.volume {
+    font-size: 0.75rem;
+    color: #000;
 }
 
 /* bottom NAV separators */
@@ -506,9 +520,10 @@ const initApp = () => {
                 return;
             }
             console.log(`Rendering ${goods.length} discount cards.`);
-            debug(`Rendering ${goods.length} discount cards.`);
+            debug(`Rendering ${goods.length} shuffled discount cards.`);
             console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
+            goods.shuffle();
             renderDeals(goods);
             $('#deals').removeClass('hidden');
             console.timeEnd('DOM-Render-Speed');
@@ -532,11 +547,13 @@ const renderDeals = (deals) => {
                     <img src="/images/${deal.image}" onerror="this.src='images/default.png';this.onerror=null;" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
                 </div>
             </div>
-            <div class="product-name" title="${deal.name}">${deal.name}</div>
+            <div class="product-name bold" title="${deal.name}">${deal.name}</div>
             <div class="product-note" title="${deal.note}">${deal.note}</div>
+            <div class="validity">${deal.validity}</div>
             <div class="product-price">
                 <span class="discount">${deal.discount}</span>
                 <span class="price">${deal.price}</span>
+                <span class="volume mono">${deal.volume}</span>
             </div>
         </article>
     `).join('');
