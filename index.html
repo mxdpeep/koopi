@@ -5,9 +5,9 @@
 <title>🤑 Slevičky</title>
 <meta name="theme-color" content="#f5f5f5">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
+<link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
 <style>
 body {
@@ -25,6 +25,17 @@ body {
     --surface-container-low-light: #f5f5f5;
 }
 
+/* debugger */
+#debugger {
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+}
+
+.debugger-on {
+    padding: 5px;
+}
+
 /* PWA */
 .install-btn {z-index: 100;}
 
@@ -40,6 +51,21 @@ body {
 .grayscaled {
     filter: grayscale(100%);
     opacity: 0.5;
+}
+
+/* Přidá hladký přechod pro všechny změny v navigaci */
+nav.top i, nav.top button, nav.top a {
+    transition: all 0.3s ease;
+}
+
+/* Pokud chceš při přepnutí přidat i jemné probliknutí celého pozadí */
+.mode-switch-active {
+    animation: flash 0.4s ease-out;
+}
+
+@keyframes flash {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 .slevicky {
@@ -260,29 +286,29 @@ nav.bottom button {
             <span class="bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
         </span>
     </div>
-    <button class="about-btn transparent white-text">
+    <button data-id="about" class="about-btn transparent white-text">
         <i>info</i>
         <span class="topnavtxt downer">Info</span>
     </button>
-    <button class="settings-btn transparent white-text">
+    <button data-id="settings" class="settings-btn transparent white-text">
         <i>settings</i>
         <span class="topnavtxt downer">Nastavení</span>
     </button>
-    <button class="refresh-btn transparent white-text">
+    <button data-id="refresh" class="refresh-btn transparent white-text">
         <i>refresh</i>
     </button>
 </nav>
 
 <!-- TOP navigation - lefthanded -->
 <nav class="lefthanded top notap nowrap black white-text" style="display: none;">
-    <button class="refresh-btn transparent white-text">
+    <button data-id="refresh" class="refresh-btn transparent white-text">
         <i>refresh</i>
     </button>
-    <button class="settings-btn transparent white-text">
+    <button data-id="settings" class="settings-btn transparent white-text">
         <i>settings</i>
         <span class="topnavtxt downer">Nastavení</span>
     </button>
-    <button class="about-btn transparent white-text">
+    <button data-id="about" class="about-btn transparent white-text">
         <i>info</i>
         <span class="topnavtxt downer">Info</span>
     </button>
@@ -298,7 +324,7 @@ nav.bottom button {
 
 <!-- BOTTOM navigation - righthanded -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="grayscaled nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
+    <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button id="but4" title="MASO - UZENINY - TUKY" class="nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button id="but3" title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
     <button id="but2" title="MLÉKO - SÝRY - VEJCE" class="nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
@@ -316,6 +342,16 @@ nav.bottom button {
 
 <!-- DEALS grid -->
 <main class="container">
+    <noscript>
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
+            <h3>
+                Tahle appka je zcela závislá na použití JavaScriptu 😐️
+                <br><br>
+                Bez něj to prostě nepůjde ...
+            </h3>
+        </div>
+    </noscript>    <!-- debugger -->
+    <div id="debugger" class="notap noselect black white-text debugger"></div>
     <div id="deals" class=""></div>
 </main>
 
@@ -354,11 +390,11 @@ nav.bottom button {
 
         /* Template */
         dealsGrid.innerHTML = deals.map(deal => `
-            <article class="product-card">
-                <img src="markets/${deal.store}.webp" alt="${deal.store}" class="notap market-image">
+            <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
+                <img src="/markets/${deal.store}.webp" alt="${deal.store}" class="notap market-image">
                 <div class="product-image-container">
                     <div class="image-wrapper">
-                        <img src="${deal.image}" alt="${deal.name}" class="notap product-image">
+                        <img src="/${deal.image}" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
                     </div>
                 </div>
                 <div class="product-name" title="${deal.name}">${deal.name}</div>
@@ -385,11 +421,18 @@ nav.bottom button {
         
         // settings button
         $('.settings-btn').on('click', function() {
+            switchHands();
+        });
+
+        // switch handedness
+        function switchHands() {
+            $('body').addClass('mode-switch-active');
             $('.lefthanded').toggle();
             $('.righthanded').toggle();
             const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
             localStorage.setItem('handedness', currentMode);
-        });
+            setTimeout(() => {$('body').removeClass('mode-switch-active');}, 100);
+        }
 
         // process handedness from localStorage
         const savedHandedness = localStorage.getItem('handedness');
@@ -408,11 +451,44 @@ nav.bottom button {
             location.href = '/?' + buster;
         });
 
-        // prevent RMB click
-        window.oncontextmenu = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+        // simple debugger
+        function debug(x) {
+            $('#debugger').html('debug: ' + x).addClass('debugger-on');
+            setTimeout(function() {
+                $('#debugger').html('').removeClass('debugger-on');
+            }, 5000);
+        }
+        $('#debugger').on('click', function() {
+            $('#debugger').html('').removeClass('debugger-on');
+        });
+
+        // context event hanlder
+        window.handleContextEvent = function(e) {
+            const card = e.target.closest('.product-card');
+            if (card) {
+                const productName = card.querySelector('.product-name')?.innerText;
+                debug('produkt: ' + productName);
+                $(card).fadeOut(100).fadeIn(100);
+                return false;
+            }
+
+            // data-id
+            const elementWithId = e.target.closest('[data-id]');
+            if (elementWithId) {
+                const id = elementWithId.getAttribute('data-id');
+                debug('data-id: ' + id);
+                return false;
+            }
+
+            // fallback
+            const info = e.target.title || e.target.id || e.target.tagName;
+            debug('Target: ' + info);
+            return false;
+        }
+
+        // keyboard click
+        window.onkeydown = function(e) {
+            debug('Key: '+ e.key);
         }
 
     });
@@ -435,15 +511,7 @@ nav.bottom button {
     // querySelectorAll vybere všechny prvky s touto třídou
     const installButtons = document.querySelectorAll('.install-btn');
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButtons.forEach(btn => {
-            btn.style.display = 'block';
-        });
-    });
-
-    // event listeners
+    // PWA installer
     installButtons.forEach(btn => {
         btn.addEventListener('click', async () => {
             if (deferredPrompt) {
@@ -454,11 +522,33 @@ nav.bottom button {
             }
         });
     });
+    
+    // EVENT LISTENERS
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installButtons.forEach(btn => {
+            btn.style.display = 'block';
+        });
+    });
 
     window.addEventListener('appinstalled', () => {
         installBtn.style.display = 'none';
         deferredPrompt = null;
     });
+
+    window.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.handleContextEvent(e);
+    }, true);
+
+    window.addEventListener('dblclick', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.handleContextEvent(e);
+    }, true);
+
 </script>
 </body>
 </html>
