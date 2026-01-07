@@ -385,7 +385,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 
 			// market
 			newGoods.Market = strings.TrimSpace(offer.Find(".discounts_shop_name a span").Text())
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "&", "and")
+			newGoods.Market = strings.ReplaceAll(newGoods.Market, "&", "and")
 			newGoods.Market = sanitizeString(newGoods.Market)
 
 			// add SubCat based on Note
