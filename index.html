@@ -50,12 +50,13 @@ body {
 .install-btn {z-index: 100;}
 
 /* HELPERS */
-.nowrap {white-space: nowrap !important;overflow: hidden;text-overflow: ellipsis;}
-.notap {cursor: pointer;-webkit-tap-highlight-color: transparent;-moz-tap-highlight-color: transparent;-ms-tap-highlight-color: transparent;}
+.bigger {font-size: 2rem;font-weight: bold;}
 .hover {cursor: pointer;}
 .mono {font-family: monospace;}
 .noselect {-webkit-user-select: none;-ms-user-select: none;user-select:none;}
-.bigger {font-size: 2rem;font-weight: bold;}
+.notap {cursor: pointer;-webkit-tap-highlight-color: transparent;-moz-tap-highlight-color: transparent;-ms-tap-highlight-color: transparent;}
+.nowrap {white-space: nowrap !important;overflow: hidden;text-overflow: ellipsis;}
+.hidden {display: none;}
 
 /* VFX */
 .flashbomb {animation: flash 0.5s ease-out;}
@@ -113,9 +114,28 @@ nav.top button::before, nav.top button::after {background: none !important;}
 /* default NAV buttons letter-spacing */
 nav.bottom button {letter-spacing: 0;}
 
+#about, #settings {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.hands-switch {
+    margin-top: 20px;
+    max-width: 300px;
+}
+
+hr {
+    color: black;
+    height: 4px;
+    border: 4px;
+    background-color: black;
+}
+
 /* DEALS */
 #deals {
-    display: grid !important;
+    display: grid;
     gap: 5px;
     grid-template-columns: repeat(2, 1fr); /* mobil: 2 sloupce */
     width: 100%;
@@ -350,7 +370,7 @@ nav.bottom button {
 <!-- debugger -->
 <div id="debugger" class="notap noselect grey white-text debugger"></div>
 
-<!-- DEALS grid -->
+<!-- CONTENT -->
 <main class="container">
     <noscript>
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
@@ -361,7 +381,21 @@ nav.bottom button {
             </h3>
         </div>
     </noscript>
-    <div id="deals" class=""></div>
+    <div id="deals"></div>
+    <div id="about" class="hidden">
+        <h3>🤑 Aplikace</h3>
+        <hr>
+        <br>
+        <h4>👾 build: {{GIT_REV}}</h4>
+        <h4>📅 date: {{DATE_REV}}</h4>
+        <h5>revision: {{COUNT_REV}}</h5>
+    </div>
+    <div id="settings" class="hidden container">
+        <h3>🤑 Nastavení</h3>
+        <hr>
+        <br>
+        <button class="blue hands-switch">přepnout ovládání levák/pravák</button>
+    </div>
 </main>
 <script>
 'use strict';
@@ -485,6 +519,33 @@ $(document).ready(function() {
         debug('key: '+ e.key);
     }
 
+    // ABOUT button
+    $('.about-btn').on('click', function() {
+        const isVisible = $('#about').is(':visible');
+        $('#about, #settings, #deals').hide();
+        if (isVisible) {
+            $('#deals').show();
+        } else {
+            $('#about').show();
+        }
+    });
+
+    // SETTINGS button
+    $('.settings-btn').on('click', function() {
+        const isVisible = $('#settings').is(':visible');
+        $('#about, #settings, #deals').hide();
+        if (isVisible) {
+            $('#deals').show();
+        } else {
+            $('#settings').show();
+        }
+    });
+
+    // handedness button
+    $('.hands-switch').on('click', function() {
+        switchHands();
+    });
+
     // billionaire button
     $('.billionaire').on('click', function() {
         if (face_flag) return;
@@ -498,16 +559,6 @@ $(document).ready(function() {
         setTimeout(() => {$('.dollarface').text(newface);}, 300);
         setTimeout(() => {$('.dollarface').removeClass('facespinner');face_flag = false;}, 1000);
         window.scrollTo({top: 0, behavior: 'smooth'});
-    });
-
-    // about button
-    $('.about-btn').on('click', function() {
-        alert("\n\n🤑 Slevičky\n\n👾 build: {{GIT_REV}} revision: {{COUNT_REV}}\n\n");
-    });
-    
-    // settings button
-    $('.settings-btn').on('click', function() {
-        switchHands();
     });
 
     // switch handedness
