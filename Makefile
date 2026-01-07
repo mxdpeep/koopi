@@ -27,6 +27,7 @@ backup:
 
 db: build
 	@cd go/ && ./koopi
+	@cp go/koopi.json ./data.json
 
 img:
 	@echo "Converting images ..."
