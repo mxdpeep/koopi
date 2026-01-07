@@ -26,7 +26,7 @@ body {
 }
 
 /* DEBUGGER */
-#debugger {width: 30%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
+#debugger {width: 75%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
@@ -149,80 +149,42 @@ hr {
     #deals {
         grid-template-columns: repeat(4, 1fr); /* tablet: 4 sloupců */
     }
-    .btn-bottom {
-        font-size: 1.3rem;
-    }
-    nav.bottom button {
-        letter-spacing: 0.3rem;
-    }
-    #about, #settings {
-        width: 90%;
-        margin-top: 1rem;
-    }
+    .btn-bottom {font-size: 1.3rem;}
+    nav.bottom button {letter-spacing: 0.3rem;}
+    #about, #settings {width: 90%;margin-top: 1rem;}
+    #debugger {width: 70%}
 }
 @media(min-width: 700px) {
     #deals {
         grid-template-columns: repeat(6, 1fr); /* tablet: 6 sloupců */
     }
-    .btn-bottom {
-        font-size: 1.7rem;
-    }
-    .slevicky {
-        display: inline-block;
-        font-size: 1.3rem;
-        font-weight: bold;
-    }
-    .topnavtxt {
-        display: inline-block;
-    }
-    nav.bottom button {
-        letter-spacing: 0.5rem;
-    }
-    #about, #settings {
-        width: 80%;
-        margin-top: 1rem;
-    }
+    .btn-bottom {font-size: 1.7rem;}
+    .slevicky {display: inline-block;font-size: 1.3rem;font-weight: bold;}
+    .topnavtxt {display: inline-block;}
+    nav.bottom button {letter-spacing: 0.5rem;}
+    #about, #settings {width: 80%;margin-top: 1rem;}
+    #debugger {width: 60%}
 }
 @media(min-width: 992px) {
     #deals {
         grid-template-columns: repeat(8, 1fr); /* desktop: 8 sloupců */
     }
-    .btn-bottom {
-        font-size: 1.9rem;
-    }
-    .slevicky {
-        display: inline-block;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-    .topnavtxt {
-        display: inline-block;
-    }
-    nav.bottom button {
-        letter-spacing: 0.7rem;
-    }
-    #about, #settings {
-        width: 70%;
-        margin-top: 1rem;
-    }
+    .btn-bottom {font-size: 1.9rem;}
+    .slevicky {display: inline-block;font-size: 1.5rem;font-weight: bold;}
+    .topnavtxt {display: inline-block;}
+    nav.bottom button {letter-spacing: 0.7rem;}
+    #about, #settings {width: 70%;margin-top: 1rem;}
+    #debugger {width: 40%}
 }
 @media(min-width: 1800px) {
     #deals {
         grid-template-columns: repeat(10, 1fr); /* desktop: 10 sloupců */
     }
-    .btn-bottom {
-        font-size: 2.1rem;
-    }
-    .topnavtxt {
-        display: inline-block;
-    }
-    nav.bottom button {
-        letter-spacing: 1rem;
-    }
-    #about, #settings {
-        width: 50%;
-        margin-top: 1rem;
-    }
+    .btn-bottom {font-size: 2.1rem;}
+    .topnavtxt {display: inline-block;}
+    nav.bottom button {letter-spacing: 1rem;}
+    #about, #settings {width: 50%;margin-top: 1rem;}
+    #debugger {width: 30%}
 }
 
 /* CARD flexible */
@@ -546,7 +508,9 @@ const initApp = () => {
             console.log(`Rendering ${goods.length} discount cards.`);
             debug(`Rendering ${goods.length} discount cards.`);
             console.time('DOM-Render-Speed');
+            $('#deals').html('').addClass('hidden');
             renderDeals(goods);
+            $('#deals').removeClass('hidden');
             console.timeEnd('DOM-Render-Speed');
             debug(`Done.`);
         })
@@ -554,22 +518,6 @@ const initApp = () => {
             console.error('Chyba při stress-testu:', error);
             debug('Error fetching data.');
         });
-};
-
-const initAppMockup = () => {
-    const mockDeals = [
-        {name: 'Káva Intenso', store: 'hruska', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
-        {name: 'Mléko plnotučné 1L', store: 'billa', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
-        {name: 'Káva Intenso', store: 'kaufland', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
-        {name: 'Mléko plnotučné 1L', store: 'penny', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
-        {name: 'Káva Intenso', store: 'albert', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
-        {name: 'Mléko plnotučné 1L', store: 'flop', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
-        {name: 'Máslo čerstvé 250g', store: 'lidl', oldPrice: '45,90', newPrice: '32,90', image: 'images/maslo_170_340.webp' },
-        {name: 'Jogurt bílý', store: 'kaufland', oldPrice: '15,90', newPrice: '9,90', image: 'images/jogurt-jihocesky-madeta-1_170_340.webp' },
-        {name: 'Párky v akci', store: 'globus', oldPrice: '99,90', newPrice: '69,90', image: 'images/parky-veprove-k-classic-1_170_340.webp' }
-    ];
-    const fullMock = [...mockDeals, ...mockDeals, ...mockDeals, ...mockDeals].shuffle();
-    renderDeals(fullMock);
 };
 
 // RENDERER
