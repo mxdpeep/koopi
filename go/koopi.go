@@ -609,6 +609,8 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	for _, item := range goods {
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/kupi/thumbs/")
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/img/no_img/no_discounts.png")
+		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/")
+
 		cleanUrl := strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		writer.Write([]string{
 			item.Name,
@@ -656,6 +658,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	for _, item := range goods {
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/kupi/thumbs/")
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/img/no_img/no_discounts.png")
+		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/")
 
 		hashString := item.Name + item.Volume + item.Category + item.SubCat // unique good hash (for ID)
 		hash := md5.Sum([]byte(hashString))
