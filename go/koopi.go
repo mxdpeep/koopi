@@ -361,8 +361,6 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 			newGoods.Discount = strings.TrimSpace(offer.Find(".discount_percentage").Text())
 			newGoods.Discount = strings.ReplaceAll(newGoods.Discount, "–", "-")
 			newGoods.Discount = strings.TrimSpace(newGoods.Discount)
-			//newGoods.Discount = strings.TrimPrefix(newGoods.Discount, "–")
-			//newGoods.Discount = strings.TrimSuffix(newGoods.Discount, "%")
 
 			// volume
 			newGoods.Volume = strings.TrimSpace(offer.Find(".discount_amount").Text())
@@ -397,8 +395,8 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 				newGoods.SubCat = "plech"
 			}
 
+			// append the struct to the global list
 			if newGoods.Name != "" {
-				// append the struct to the global list
 				goods = append(goods, newGoods)
 			}
 		})
