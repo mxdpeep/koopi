@@ -25,20 +25,28 @@ body {
     --surface-container-low-light: #f5f5f5;
 }
 
-/* debugger */
-#debugger {
-    width: 100%;
-    position: absolute;
-    top: 70px;
+/* DEBUGGER */
+#debugger {width: 100%;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
+.debugger-on {padding: 10px;transition: all 0.3s ease;}
+
+/* PROGRESS BAR */
+.progress-container {
+    position: fixed;
+    top: 0;
     left: 0;
-    z-index: 100;
+    height: 4px;
+    width: 100%;
+    background-color: #000;
+    z-index: 9999;
+}
+.progress-bar {
+    height: 4px;
+    background: linear-gradient(to right, #004, #aaa, #0af);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+    transition: width 0.2s ease;
 }
 
-.debugger-on {
-    padding: 5px;
-}
-
-/* PWA */
+/* PWA installer */
 .install-btn {z-index: 100;}
 
 /* HELPERS */
@@ -49,25 +57,22 @@ body {
 .noselect {-webkit-user-select: none;-ms-user-select: none;user-select:none;}
 .bigger {font-size: 2rem;font-weight: bold;}
 
+/* VFX */
+.flashbomb {animation: flash 0.5s ease-out;}
+.facespinner {display: inline-block;animation: spin 1s cubic-bezier(0.15, 0, 0.15, 1) forwards;}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(1800deg); } /* 5 plných otoček */
+}
+@keyframes flash {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
 /* NAVIGATION quirks */
 .grayscaled {
     filter: grayscale(100%);
     opacity: 0.5;
-}
-
-/* Přidá hladký přechod pro všechny změny v navigaci */
-nav.top i, nav.top button, nav.top a {
-    transition: all 0.3s ease;
-}
-
-/* Pokud chceš při přepnutí přidat i jemné probliknutí celého pozadí */
-.mode-switch-active {
-    animation: flash 0.4s ease-out;
-}
-
-@keyframes flash {
-    0% { opacity: 0.5; }
-    100% { opacity: 1; }
 }
 
 .slevicky {
@@ -285,7 +290,7 @@ nav.bottom button {
     </button>
     <div class="max noselect">
         <span class="billionaire">
-            <span class="bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
+            <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
         </span>
     </div>
     <button data-id="about" class="about-btn transparent white-text">
@@ -358,87 +363,168 @@ nav.bottom button {
     </noscript>
     <div id="deals" class=""></div>
 </main>
-
 <script>
-    const version = '{{GIT_REV}}';
-    const git_build_date = '{{DATE_REV}}';
-    const git_revisions = '{{COUNT_REV}}';
+'use strict';
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initApp();
+// SHUFFLE prototype
+if (!Array.prototype.shuffle) {
+    Array.prototype.shuffle = function() {
+        for (let i = this.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this[i], this[j]] = [this[j], this[i]]; // Moderní ES6 destructuring swap
+        }
+        return this;
+    };
+}
+
+// UUID
+var uuid = null;
+try {
+  uuid = crypto.randomUUID();
+} catch (e) {
+  uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
+      c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
+// LOCAL STORAGE TEST
+var test = false;
+try {
+  if (localStorage) {
+    if (!localStorage['uuid'] || localStorage['uuid'].length !== 36) {
+      localStorage['uuid'] = uuid;
+    }
+    localStorage.removeItem('luid');
+  }
+} catch (e) {
+    test = true
+    console.log('WARNING: localStorage is blocked!');
+    console.log(e);
+}
+let nolocalstorage = test;
+
+// BUILD info
+const version = '{{GIT_REV}}';
+const git_build_date = '{{DATE_REV}}';
+const git_revisions = '{{COUNT_REV}}';
+
+// APP START
+document.addEventListener('DOMContentLoaded', () => {
+    progressBar();
+    initApp();
+});
+
+const progressBar = () => {
+  var bar = "_" + Date.now();
+  document.getElementsByTagName("body")[0].insertAdjacentHTML(
+    'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '"></div></div>'
+  );
+  window.ontouchmove = onscroll;
+  window.onscroll = onscroll;
+
+  function onscroll() {
+    var scroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = Math.round(scroll * 100 / height);
+    if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
+  };
+}
+
+const initApp = () => {
+    // fetch('https://slevicky.pages.dev/koopi.json').then(response => response.json()).then(data => renderDeals(data)).catch(error => console.error('Chyba načítání dat:', error));
+
+    // MOCKUP
+    const mockDeals = [
+        {name: 'Káva Intenso', store: 'hruska', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+        {name: 'Mléko plnotučné 1L', store: 'billa', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
+        {name: 'Káva Intenso', store: 'kaufland', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+        {name: 'Mléko plnotučné 1L', store: 'penny', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
+        {name: 'Káva Intenso', store: 'albert', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
+        {name: 'Mléko plnotučné 1L', store: 'flop', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
+        {name: 'Máslo čerstvé 250g', store: 'lidl', oldPrice: '45,90', newPrice: '32,90', image: 'images/maslo_170_340.webp' },
+        {name: 'Jogurt bílý', store: 'kaufland', oldPrice: '15,90', newPrice: '9,90', image: 'images/jogurt-jihocesky-madeta-1_170_340.webp' },
+        {name: 'Párky v akci', store: 'globus', oldPrice: '99,90', newPrice: '69,90', image: 'images/parky-veprove-k-classic-1_170_340.webp' }
+    ];
+    const fullMock = [...mockDeals, ...mockDeals, ...mockDeals, ...mockDeals].shuffle();
+    renderDeals(fullMock);
+};
+
+// RENDERER
+const renderDeals = (deals) => {
+    const dealsGrid = document.getElementById('deals');
+    if (!dealsGrid) return;
+
+    // TEMPLATE A
+    dealsGrid.innerHTML = deals.map(deal => `
+        <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
+            <img src="/markets/${deal.store}.webp" loading="lazy" alt="${deal.store}" class="notap market-image">
+            <div class="product-image-container">
+                <div class="image-wrapper">
+                    <img src="/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
+                </div>
+            </div>
+            <div class="product-name" title="${deal.name}">${deal.name}</div>
+            <div class="product-price">
+                <span class="old-price">${deal.oldPrice}</span>
+                <span class="new-price">${deal.newPrice} Kč</span>
+            </div>
+        </article>
+    `).join('');
+};
+
+// UI bindings
+$(document).ready(function() {
+
+    // bool: is flash animation pending?
+    var flash_flag = false;
+    // bool: is face animation pending?
+    var face_flag = false;
+
+    // TBD: keyboard events
+    window.onkeydown = function(e) {
+        debug('key: '+ e.key);
+    }
+
+    // billionaire button
+    $('.billionaire').on('click', function() {
+        if (face_flag) return;
+        face_flag = true;
+        const oldface = $('.dollarface').text();
+        const newface = (oldface === '😋') ? '🤑' : '😋';
+        $('.dollarface').removeClass('facespinner');
+        const $face = $('.dollarface');
+        void $face[0].offsetWidth;
+        $('.dollarface').addClass('facespinner');
+        setTimeout(() => {$('.dollarface').text(newface);}, 300);
+        setTimeout(() => {$('.dollarface').removeClass('facespinner');face_flag = false;}, 1000);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     });
 
-    const initApp = () => {
-        // fetch('https://slevicky.pages.dev/koopi.json').then(response => response.json()).then(data => renderDeals(data)).catch(error => console.error('Chyba načítání dat:', error));
+    // about button
+    $('.about-btn').on('click', function() {
+        alert("\n\n🤑 Slevičky\n\n👾 build: {{GIT_REV}} revision: {{COUNT_REV}}\n\n");
+    });
+    
+    // settings button
+    $('.settings-btn').on('click', function() {
+        switchHands();
+    });
 
-        // data mockup
-        const mockDeals = [
-            {name: 'Káva Intenso', store: 'hruska', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
-            {name: 'Mléko plnotučné 1L', store: 'billa', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
-            {name: 'Káva Intenso', store: 'kaufland', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
-            {name: 'Mléko plnotučné 1L', store: 'penny', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
-            {name: 'Káva Intenso', store: 'albert', oldPrice: '129,90', newPrice: '89,90', image: 'images/kava-instantni-gold-selection-crema-tchibo-1_170_340.webp' },
-            {name: 'Mléko plnotučné 1L', store: 'flop', oldPrice: '25,90', newPrice: '19,90', image: 'images/mleko-cerstve-1_170_340.webp' },
-            {name: 'Máslo čerstvé 250g', store: 'lidl', oldPrice: '45,90', newPrice: '32,90', image: 'images/maslo_170_340.webp' },
-            {name: 'Jogurt bílý', store: 'kaufland', oldPrice: '15,90', newPrice: '9,90', image: 'images/jogurt-jihocesky-madeta-1_170_340.webp' },
-            {name: 'Párky v akci', store: 'globus', oldPrice: '99,90', newPrice: '69,90', image: 'images/parky-veprove-k-classic-1_170_340.webp' }
-        ];
-        const fullMock = [...mockDeals, ...mockDeals, ...mockDeals, ...mockDeals];
-        renderDeals(fullMock);
-    };
+    // switch handedness
+    function switchHands() {
+        if (flash_flag) return;
+        flash_flag = true;
+        $('nav').addClass('flashbomb');
+        $('.lefthanded').toggle();
+        $('.righthanded').toggle();
+        const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
+        setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
+        if (nolocalstorage) return;
+        localStorage.setItem('handedness', currentMode);
+    }
 
-    /* Renderer */
-    const renderDeals = (deals) => {
-        const dealsGrid = document.getElementById('deals');
-        if (!dealsGrid) return;
-
-        /* Template */
-        dealsGrid.innerHTML = deals.map(deal => `
-            <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
-                <img src="/markets/${deal.store}.webp" alt="${deal.store}" class="notap market-image">
-                <div class="product-image-container">
-                    <div class="image-wrapper">
-                        <img src="/${deal.image}" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
-                    </div>
-                </div>
-                <div class="product-name" title="${deal.name}">${deal.name}</div>
-                <div class="product-price">
-                    <span class="old-price">${deal.oldPrice}</span>
-                    <span class="new-price">${deal.newPrice} Kč</span>
-                </div>
-            </article>
-        `).join('');
-    };
-
-    /* UI bindings */
-    $(document).ready(function() {
-        
-        // billionaire button
-        $('.billionaire').on('click', function() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
-
-        // about button
-        $('.about-btn').on('click', function() {
-            alert("\n\n🤑 Slevičky\n\n👾 build: {{GIT_REV}} revision: {{COUNT_REV}}\n\n");
-        });
-        
-        // settings button
-        $('.settings-btn').on('click', function() {
-            switchHands();
-        });
-
-        // switch handedness
-        function switchHands() {
-            $('body').addClass('mode-switch-active');
-            $('.lefthanded').toggle();
-            $('.righthanded').toggle();
-            const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
-            localStorage.setItem('handedness', currentMode);
-            setTimeout(() => {$('body').removeClass('mode-switch-active');}, 100);
-        }
-
-        // process handedness from localStorage
+    // process handedness from localStorage
+    if (!nolocalstorage) {
         const savedHandedness = localStorage.getItem('handedness');
         if (savedHandedness === 'left') {
             $('.lefthanded').show();
@@ -447,111 +533,109 @@ nav.bottom button {
             $('.lefthanded').hide();
             $('.righthanded').show();
         }
-
-        // refresh button
-        $('.refresh-btn').on('click', function() {
-            $(this).prop('disabled', true).html('<i>schedule</i>');
-            const buster = Math.random().toString(36).substring(2, 6);
-            location.href = '/?' + buster;
-        });
-
-        // simple debugger
-        function debug(x) {
-            $('#debugger').html(x).addClass('debugger-on');
-            setTimeout(function() {
-                $('#debugger').html('').removeClass('debugger-on');
-            }, 5000);
-        }
-        $('#debugger').on('click', function() {
-            $('#debugger').html('').removeClass('debugger-on');
-        });
-
-        // context event hanlder
-        window.handleContextEvent = function(e) {
-            const card = e.target.closest('.product-card');
-            if (card) {
-                const productName = card.querySelector('.product-name')?.innerText;
-                debug('produkt: ' + productName);
-                $(card).fadeOut(100).fadeIn(100);
-                return false;
-            }
-
-            // data-id
-            const elementWithId = e.target.closest('[data-id]');
-            if (elementWithId) {
-                const id = elementWithId.getAttribute('data-id');
-                debug('data-id: ' + id);
-                return false;
-            }
-
-            // fallback
-            const info = e.target.title || e.target.id || e.target.tagName;
-            debug('Target: ' + info);
-            return false;
-        }
-
-        // keyboard click
-        window.onkeydown = function(e) {
-            debug('Key: '+ e.key);
-        }
-
-    });
-
-    /* Service Worker */
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-        });
     }
 
-    /* PWA install buttons */
-    let deferredPrompt;
+    // refresh button
+    $('.refresh-btn').on('click', function() {
+        $(this).prop('disabled', true).html('<i>schedule</i>');
+        const buster = Math.random().toString(36).substring(2, 6);
+        location.href = '/?' + buster;
+    });
 
-    // querySelectorAll vybere všechny prvky s touto třídou
-    const installButtons = document.querySelectorAll('.install-btn');
+    // simple debugger
+    var dtimer = null;
+    function debug(x) {
+        if (!x) return;
+        const now = new Date();
+        const ts = now.getHours().toString().padStart(2, '0')
+            + ':' + now.getMinutes().toString().padStart(2, '0')
+            + ':' + now.getSeconds().toString().padStart(2, '0');
+        $('#debugger').append('[' + ts + '] ' + x + '<br>').addClass('debugger-on');
+        if (dtimer) clearTimeout(dtimer);
+        dtimer = setTimeout(function() {
+            dtimer = null;
+            $('#debugger').html('').removeClass('debugger-on');
+        }, 10000);
+    }
+    $('#debugger').on('click', function() {
+        dtimer = null;
+        $('#debugger').html('').removeClass('debugger-on');
+    });
 
-    // PWA installer
+    // context event hanlder
+    window.handleContextEvent = function(e) {
+        const card = e.target.closest('.product-card');
+        if (card) {
+            const productName = card.querySelector('.product-name')?.innerText;
+            debug('produkt: ' + productName);
+            $(card).fadeOut(100).fadeIn(100);
+            return false;
+        }
+        // data-id
+        const elementWithId = e.target.closest('[data-id]');
+        if (elementWithId) {
+            const id = elementWithId.getAttribute('data-id');
+            debug('data-id: ' + id);
+            return false;
+        }
+        // fallback
+        const info = e.target.title || e.target.id || e.target.tagName;
+        debug('Target: ' + info);
+        return false;
+    }
+});
+
+// SERVICE WORKER
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+
+// PWA INSTALLER
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
     installButtons.forEach(btn => {
-        btn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                installButtons.forEach(b => b.style.display = 'none');
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                deferredPrompt = null;
-            }
-        });
+        btn.style.display = 'block';
     });
-    
-    // EVENT LISTENERS
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButtons.forEach(btn => {
-            btn.style.display = 'block';
-        });
+});
+
+const installButtons = document.querySelectorAll('.install-btn');
+installButtons.forEach(btn => {
+    btn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            installButtons.forEach(b => b.style.display = 'none');
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+        }
     });
+});
 
-    window.addEventListener('appinstalled', () => {
-        installBtn.style.display = 'none';
-        deferredPrompt = null;
-    });
+// EVENT LISTENERS
+window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+    deferredPrompt = null;
+});
 
-    window.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.handleContextEvent(e);
-    }, true);
+window.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.handleContextEvent(e);
+}, true);
 
-    window.addEventListener('dblclick', function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.handleContextEvent(e);
-    }, true);
+window.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.handleContextEvent(e);
+}, true);
 
 </script>
 </body>
