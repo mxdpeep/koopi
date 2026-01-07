@@ -56,8 +56,8 @@ cf:
 	@mkdir -p export/images export/markets
 	@cd export && git pull origin master --allow-unrelated-histories || true
 	@rsync -aq --delete --exclude='.git' export-template/ export/
-	@rsync -aq --delete --exclude='.git' images/ export/images/
-	@rsync -aq --delete --exclude='.git' markets/ export/markets/
+	@rsync -aq --delete images/*.webp export/images/
+	@rsync -aq --delete markets/*.webp export/markets/
 	@cp index.html export/
 	@cp manifest.json export/
 	@cp sw.js export/
