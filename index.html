@@ -415,7 +415,12 @@ nav.bottom button {
         <b>👾 build: {{GIT_REV}}</b><br>
         <b>👩‍🔧 revision: {{COUNT_REV}}</b><br>
         <b>📅 date: {{DATE_REV}}</b><br>
+        <hr>
         <br>
+        <h4>Changelog</h4>
+        <ul>
+            <li><b>2026-01-08</b> dokončeno základní UI a filtrování dle kategorií</li>
+        </ul>
     </div>
     <div id="settings" class="hidden container">
         <h3>Nastavení</h3>
@@ -684,12 +689,14 @@ $(document).ready(function() {
     // BOTTOM NAVIGATION
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
-        if (!cats) return; // Sychra, kdyby tam nebyla data
+        if (!cats) return;
         $('nav.bottom button').addClass('grayscaled');
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
         $('.' + myClass).removeClass('grayscaled');
         $('#deals article').addClass('hidden-force');
         $(cats).removeClass('hidden-force');
+        $('#settings, #about').hide()
+        $('#deals').show()
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
 
