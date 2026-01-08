@@ -396,6 +396,11 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 				newGoods.SubCat = "plech"
 			}
 
+			FullPriceDisplay := fmt.Sprintf("%s / %s", newGoods.Price, newGoods.Volume)
+			if FullPriceDisplay == newGoods.PricePerUnit {
+				newGoods.PricePerUnit = ""
+			}
+
 			// append the struct to the global list
 			if newGoods.Name != "" {
 				goods = append(goods, newGoods)
@@ -715,13 +720,12 @@ func main() {
 	}
 	defer Unlock()
 
-	//log.SetFlags(log.Ltime | log.Lshortfile)
 	log.SetFlags(0)
 
 	// set random UA
 	UA := UserAgents[rand.Intn(len(UserAgents))]
 	log.Printf("User Agent: %s", UA)
-	time.Sleep(2 * time.Second)
+	//time.Sleep(2 * time.Second)
 
 	// rate limiter
 	rateLimiter = make(chan struct{}, MAX_THREADS)
