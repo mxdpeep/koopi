@@ -34,11 +34,16 @@ hr {
     margin-bottom: 1rem;
 }
 
+a {
+    text-decoration: underline;
+    color: black;
+}
+
 /* LOADING */
 #loading {
     filter: blur(0px);
     will-change: filter, opacity; /* Vynutí HW akceleraci na tvém Ubuntu */
-    transition: opacity 2s ease-out, filter 2s ease-out, visibility 3s ease-out;
+    transition: opacity 2s ease-out, filter 2s ease-out, visibility 2s ease-out;
 }
 #loading.fade-away {
     opacity: 0 !important;
@@ -440,6 +445,12 @@ nav.bottom button {
                 <br>🟤 data shuffle přes 🤑
             </li>
         </ul>
+
+        <h4>Podněty, myšlenky, crazy stuff</h4><hr>
+        <h5>
+            <i>link</i>
+            💡 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
+        </h5><br>
     </div>
     <div id="settings" class="hidden container">
         <h3>Nastavení</h3><hr>
