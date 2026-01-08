@@ -396,9 +396,16 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 				newGoods.SubCat = "plech"
 			}
 
-			FullPriceDisplay := fmt.Sprintf("%s / %s", newGoods.Price, newGoods.Volume)
-			if FullPriceDisplay == newGoods.PricePerUnit {
-				newGoods.PricePerUnit = ""
+			cleanForCompare := func(s string) string {
+				s = strings.ReplaceAll(s, "\u00a0", "") // remove #A0s
+				s = strings.ReplaceAll(s, " ", "")      // remove spaces
+				s = strings.ToLower(s)
+				return s
+			}
+
+			fullPrice := fmt.Sprintf("%s/%s", newGoods.Price, newGoods.Volume)
+			if cleanForCompare(fullPrice) == cleanForCompare(newGoods.PricePerUnit) {
+				newGoods.PricePerUnit = "\u00a0"
 			}
 
 			// append the struct to the global list
@@ -613,7 +620,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	for _, item := range goods {
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/kupi/thumbs/")
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/img/no_img/no_discounts.png")
-		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/")
+		//item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/")
 
 		cleanUrl := strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		writer.Write([]string{
@@ -675,7 +682,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["query"] = item.Query
 		cleanedItem["name"] = item.Name
 		cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
-		cleanedItem["priceperunit"] = item.PricePerUnit
+		cleanedItem["priceperunit"] = strings.Replace(item.PricePerUnit, ",", ".", 1)
 		cleanedItem["discount"] = item.Discount
 		cleanedItem["note"] = item.Note
 		cleanedItem["club"] = item.Club
