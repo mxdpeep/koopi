@@ -612,18 +612,23 @@ $(document).ready(function() {
         switchHands();
     });
 
-    // billionaire button
+    let currentFaceIsYummy = false;
     $('.billionaire').on('click', function() {
         if (face_flag) return;
         face_flag = true;
-        const oldface = $('.dollarface').text();
-        const newface = (oldface === '😋') ? '🤑' : '😋';
-        $('.dollarface').removeClass('facespinner');
+        currentFaceIsYummy = !currentFaceIsYummy;
+        const newface = currentFaceIsYummy ? '😋' : '🤑';
         const $face = $('.dollarface');
+        $face.removeClass('facespinner');
         void $face[0].offsetWidth;
-        $('.dollarface').addClass('facespinner');
-        setTimeout(() => {$('.dollarface').text(newface);}, 300);
-        setTimeout(() => {$('.dollarface').removeClass('facespinner');face_flag = false;}, 1000);
+        $face.addClass('facespinner');
+        setTimeout(() => {
+            $face.text(newface);
+        }, 300);
+        setTimeout(() => {
+            $face.removeClass('facespinner');
+            face_flag = false;
+        }, 1000);
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
 
