@@ -407,12 +407,10 @@ nav.bottom button {
             </h3>
         </div>
     </noscript>
-    <div id="loading">
-        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
-            <h2>
-                👩‍🔧 Nahrávám data ...
-            </h2>
-        </div>
+    <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px; transition: opacity 0.5s ease-out, visibility 0.5s ease-out; opacity: 1; visibility: visible;">
+        <h2 style="color: black;">
+            👩‍🔧 Nahrávám data ...
+        </h2>
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
@@ -436,6 +434,7 @@ nav.bottom button {
         <button class="blue hands-switch">přepnout ovládání levák/pravák</button>
     </div>
 </main>
+
 <script>
 'use strict';
 
@@ -561,9 +560,7 @@ const initApp = () => {
             $('#deals article').addClass('hidden-force');
             $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
             $('#deals').removeClass('hidden');
-            $('#loading').fadeOut(function() {
-                $(this).remove();
-            });
+            $('#loading').css({'opacity': '0', 'visibility': 'hidden'});
             window.scrollTo({top: 0, behavior: 'smooth'});
         })
         .catch(error => {
