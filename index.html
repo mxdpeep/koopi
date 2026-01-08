@@ -749,9 +749,16 @@ window.addEventListener('dblclick', function(e) {
 document.addEventListener('error', function (e) {
     if (e.target.tagName.toLowerCase() === 'img') {
         const img = e.target;
-        if (img.dataset.errorHandled) return;
-        img.dataset.errorHandled = "true";
-        img.src = '/images/default.png'; 
+        const isTouch = ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch) ? true : false;
+        const isMobile = window.matchMedia("(max-width: 600px)").matches;
+        if (isMobile || isTouch) {
+            img.style.display = 'none';
+        } else {
+            if (!img.dataset.errorHandled) {
+                img.dataset.errorHandled = "true";
+                img.src = '/images/default.png';
+            }
+        }
     }
 }, true);
 
