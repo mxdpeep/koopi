@@ -743,7 +743,10 @@ window.addEventListener('dblclick', function(e) {
 
 document.addEventListener('error', function (e) {
     if (e.target.tagName.toLowerCase() === 'img') {
-        $(e.target).attr('src', '/images/default.png');
+        const img = e.target;
+        if (img.dataset.errorHandled) return;
+        img.dataset.errorHandled = "true";
+        img.src = '/images/default.png'; 
     }
 }, true);
 
