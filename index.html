@@ -187,9 +187,13 @@ hr {
     #debugger {width: 30%}
 }
 
+article.hidden-force {
+    display: none !important;
+}
+
 /* CARD flexible */
 .product-card {
-    display: flex !important;
+    display: flex;
     justify-content: space-between;
     flex-direction: column;
     height: 100%;
@@ -344,7 +348,7 @@ nav.bottom button {
         <span class="topnavtxt downer">Nastavení</span>
     </button>
     <button data-id="refresh" class="refresh-btn transparent white-text">
-        <i>refresh</i>
+        <i class="bigger">refresh</i>
     </button>
 </nav>
 
@@ -373,20 +377,20 @@ nav.bottom button {
 
 <!-- BOTTOM navigation - righthanded -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
-    <button id="but4" title="MASO - UZENINY - TUKY" class="nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
-    <button id="but3" title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
-    <button id="but2" title="MLÉKO - SÝRY - VEJCE" class="nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
-    <button id="but1" title="ZELENINA - OVOCE - OŘECHY" class="nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+    <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
+    <button title="MASO - UZENINY - TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
+    <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
+    <button title="MLÉKO - SÝRY - VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
+    <button title="ZELENINA - OVOCE - OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
 </nav>
 
 <!-- BOTTOM navigation - lefthanded -->
 <nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button id="but1" title="ZELENINA - OVOCE - OŘECHY" class="nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
-    <button id="but2" title="MLÉKO - SÝRY - VEJCE" class="nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
-    <button id="but3" title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
-    <button id="but4" title="MASO - UZENINY - TUKY" class="nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
-    <button id="but5" title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
+    <button title="ZELENINA - OVOCE - OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+    <button title="MLÉKO - SÝRY - VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
+    <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
+    <button title="MASO - UZENINY - TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
+    <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
 
 <!-- debugger -->
@@ -509,7 +513,7 @@ const progressBar = () => {
 
 const initApp = () => {
     const dataFile = './data.json'; 
-    console.log('--- START STRESS TEST ---');
+    console.time('JSON-Fetch');
     debug('Loading data ...');
     
     fetch(dataFile)
@@ -538,9 +542,13 @@ const initApp = () => {
             $('#deals').html('').addClass('hidden');
             goods.shuffle();
             renderDeals(goods);
-            $('#deals').removeClass('hidden');
             console.timeEnd('DOM-Render-Speed');
             debug(`Done.`);
+            
+            // defaults
+            $('#deals article').addClass('hidden-force');
+            $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+            $('#deals').removeClass('hidden');
         })
         .catch(error => {
             console.error('Chyba při stress-testu:', error);
@@ -553,7 +561,7 @@ const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
     dealsGrid.innerHTML = deals.map(deal => `
-        <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
+        <article class="product-card c-${deal.cat}" data-id="${deal.id}" data-cat="${deal.cat}" data-query="${deal.query}" data-name="${deal.name}" data-market="${deal.store}">
             <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.store}" class="notap market-image">
             <div class="product-image-container">
                 <div class="image-wrapper">
@@ -607,11 +615,7 @@ $(document).ready(function() {
         }
     });
 
-    // handedness button
-    $('.hands-switch').on('click', function() {
-        switchHands();
-    });
-
+    // Mr. Smiley emoji animation
     let currentFaceIsYummy = false;
     $('.billionaire').on('click', function() {
         if (face_flag) return;
@@ -630,6 +634,11 @@ $(document).ready(function() {
             face_flag = false;
         }, 1000);
         window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // handedness button
+    $('.hands-switch').on('click', function() {
+        switchHands();
     });
 
     // switch handedness
@@ -664,12 +673,49 @@ $(document).ready(function() {
         location.href = '/?' + buster;
     });
 
+    // debugger close
     $('#debugger').on('click', function() {
         dtimer = null;
         $('#debugger').fadeOut(function() {
             $('#debugger').html('').removeClass('debugger-on');
         });
     });
+
+    // BOTTOM NAVIGATION
+    $('.but1').on('click', function() {
+        $('nav.bottom button').addClass('grayscaled');
+        $(this).removeClass('grayscaled');
+        $('#deals article').addClass('hidden-force');
+        $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+    });
+    $('.but2').on('click', function() {
+        $('nav.bottom button').addClass('grayscaled');
+        $(this).removeClass('grayscaled');
+        $('#deals article').addClass('hidden-force');
+        $('.c-MLÉKO, .c-SÝRY, .c-VEJCE').removeClass('hidden-force');
+    });
+    $('.but3').on('click', function() {
+        $('nav.bottom button').addClass('grayscaled');
+        $(this).removeClass('grayscaled');
+        $('#deals article').addClass('hidden-force');
+        $('.c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ').removeClass('hidden-force');
+    });
+    $('.but4').on('click', function() {
+        $('nav.bottom button').addClass('grayscaled');
+        $(this).removeClass('grayscaled');
+        $('#deals article').addClass('hidden-force');
+        $('c-MASO, .c-UZENINY, .c-TUKY').removeClass('hidden-force');
+    });
+    $('.but5').on('click', function() {
+        $('nav.bottom button').addClass('grayscaled');
+        $(this).removeClass('grayscaled');
+        $('#deals article').addClass('hidden-force');
+        $('.c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ').removeClass('hidden-force');
+    });
+
+    // defaults
+    $('nav.bottom button').addClass('grayscaled');
+    $('.but1').removeClass('grayscaled');
 
     // context event hanlder
     window.handleContextEvent = function(e) {

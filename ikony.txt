@@ -30,3 +30,6 @@
 🍺 NÁPOJE
 🍬 CUKROVINKY
 📦 OSTATNÍ
+
+//$('.c-ZELENINA, .c-OVOCE, .c-OŘECHY, .c-MLÉKO, .c-SÝRY, .c-VEJCE, .c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ, .c-MASO, .c-UZENINY, .c-TUKY, .c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ').hide();
+//$('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').show();
