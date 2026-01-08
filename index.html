@@ -290,11 +290,15 @@ hr {
     background-color: green;
     margin-top: 5px;
     margin-bottom: 5px;
-    border-radius: 3px;
+    border-radius: 0;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    position: relative;
+    top: 5px;
 }
 
 .volume {font-size: 0.9rem;font-weight: bold;}
-.ppunit {font-size: 0.65rem;color: #000;opacity: 0.8;}
+.ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;}
 
 /* bottom NAV separators */
 nav.bottom > button:not(:last-child) {
@@ -550,10 +554,10 @@ const renderDeals = (deals) => {
     if (!dealsGrid) return;
     dealsGrid.innerHTML = deals.map(deal => `
         <article class="product-card" data-name="${deal.name}" data-market="${deal.store}">
-            <img src="/markets/${deal.market}.webp" onerror="this.src='markets/default.png';this.onerror=null;" loading="lazy" alt="${deal.store}" class="notap market-image">
+            <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.store}" class="notap market-image">
             <div class="product-image-container">
                 <div class="image-wrapper">
-                    <img src="/images/${deal.image}" onerror="this.src='images/default.png';this.onerror=null;" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
+                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
                 </div>
             </div>
             <div class="product-name bold" title="${deal.name}">${deal.name}</div>
@@ -735,6 +739,12 @@ window.addEventListener('dblclick', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
+}, true);
+
+document.addEventListener('error', function (e) {
+    if (e.target.tagName.toLowerCase() === 'img') {
+        $(e.target).attr('src', '/img/default.png');
+    }
 }, true);
 
 </script>
