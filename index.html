@@ -375,22 +375,22 @@ nav.bottom button {
     </button>
 </nav>
 
-<!-- BOTTOM navigation - righthanded -->
+<!-- BOTTOM navigation - lefthanded -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
-    <button title="MASO - UZENINY - TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
-    <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
-    <button title="MLÉKO - SÝRY - VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
-    <button title="ZELENINA - OVOCE - OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+    <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
+    <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
+    <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
+    <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
+    <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
 </nav>
 
-<!-- BOTTOM navigation - lefthanded -->
+<!-- BOTTOM navigation - righthanded -->
 <nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto;">
-    <button title="ZELENINA - OVOCE - OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
-    <button title="MLÉKO - SÝRY - VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
-    <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
-    <button title="MASO - UZENINY - TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
-    <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
+    <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
+    <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
+    <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
+    <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
+    <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
 
 <!-- debugger -->
@@ -682,35 +682,15 @@ $(document).ready(function() {
     });
 
     // BOTTOM NAVIGATION
-    $('.but1').on('click', function() {
+    $('.btn-bottom').on('click', function() {
+        const cats = $(this).data('cats');
+        if (!cats) return; // Sychra, kdyby tam nebyla data
         $('nav.bottom button').addClass('grayscaled');
-        $(this).removeClass('grayscaled');
+        const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
+        $('.' + myClass).removeClass('grayscaled');
         $('#deals article').addClass('hidden-force');
-        $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
-    });
-    $('.but2').on('click', function() {
-        $('nav.bottom button').addClass('grayscaled');
-        $(this).removeClass('grayscaled');
-        $('#deals article').addClass('hidden-force');
-        $('.c-MLÉKO, .c-SÝRY, .c-VEJCE').removeClass('hidden-force');
-    });
-    $('.but3').on('click', function() {
-        $('nav.bottom button').addClass('grayscaled');
-        $(this).removeClass('grayscaled');
-        $('#deals article').addClass('hidden-force');
-        $('.c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ').removeClass('hidden-force');
-    });
-    $('.but4').on('click', function() {
-        $('nav.bottom button').addClass('grayscaled');
-        $(this).removeClass('grayscaled');
-        $('#deals article').addClass('hidden-force');
-        $('.c-MASO, .c-UZENINY, .c-TUKY').removeClass('hidden-force');
-    });
-    $('.but5').on('click', function() {
-        $('nav.bottom button').addClass('grayscaled');
-        $(this).removeClass('grayscaled');
-        $('#deals article').addClass('hidden-force');
-        $('.c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ').removeClass('hidden-force');
+        $(cats).removeClass('hidden-force');
+        window.scrollTo({top: 0, behavior: 'smooth'});
     });
 
     // defaults
