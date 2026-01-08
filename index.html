@@ -600,7 +600,7 @@ const renderDeals = (deals) => {
             <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.store}" class="notap market-image">
             <div class="product-image-container">
                 <div class="image-wrapper">
-                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.name} - ${deal.image}" class="notap product-image">
+                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.name}" class="notap product-image">
                 </div>
             </div>
             <div class="product-name bold" title="${deal.name}">${deal.name}</div>
@@ -826,16 +826,7 @@ window.addEventListener('dblclick', function(e) {
 document.addEventListener('error', function (e) {
     if (e.target.tagName.toLowerCase() === 'img') {
         const img = e.target;
-        const isTouch = ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch) ? true : false;
-        const isMobile = window.matchMedia("(max-width: 600px)").matches;
-        if (isMobile || isTouch) {
-            img.style.display = 'none';
-        } else {
-            if (!img.dataset.errorHandled) {
-                img.dataset.errorHandled = "true";
-                img.src = '/images/default.png';
-            }
-        }
+        img.style.display = 'none';
     }
 }, true);
 
