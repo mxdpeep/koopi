@@ -665,17 +665,19 @@ $(document).ready(function() {
         setTimeout(() => {
             $face.removeClass('facespinner');
             face_flag = false;
-        }, 1000);
+        }, 2000);
+        setTimeout(() => {
+            $('#deals').html('').addClass('hidden');
+            let goods = deals.goods;        
+            goods.shuffle();
+            renderDeals(goods);
+            $('#deals article').addClass('hidden-force');
+            $(deals.cats).removeClass('hidden-force');
+            $('#settings, #about').hide()
+            $('#deals').show();
+            $('#deals').removeClass('hidden');
+        }, 800);
         window.scrollTo({top: 0, behavior: 'smooth'});
-        $('#deals').html('').addClass('hidden');
-        let goods = deals.goods;        
-        goods.shuffle();
-        renderDeals(goods);
-        $('#deals article').addClass('hidden-force');
-        $(deals.cats).removeClass('hidden-force');
-        $('#settings, #about').hide()
-        $('#deals').show();
-        $('#deals').removeClass('hidden');
     });
 
     // handedness button
