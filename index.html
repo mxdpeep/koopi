@@ -609,6 +609,7 @@ $(document).ready(function() {
 
     // ABOUT button
     $('.about-btn').on('click', function() {
+        window.scrollTo({top: 0});
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible) {
@@ -620,6 +621,7 @@ $(document).ready(function() {
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
+        window.scrollTo({top: 0});
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible) {
