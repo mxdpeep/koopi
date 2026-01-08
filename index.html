@@ -25,6 +25,15 @@ body {
     --surface-container-low-light: #f5f5f5;
 }
 
+/* horizontal ruler */
+hr {
+    border: none; 
+    height: 4px;
+    width: 50%;
+    background: linear-gradient(to right, black, transparent);
+    margin-bottom: 1rem;
+}
+
 /* LOADING */
 #loading {
     filter: blur(0px);
@@ -51,6 +60,7 @@ body {
     background-color: #000;
     z-index: 9999;
 }
+
 .progress-bar {
     height: 4px;
     background: linear-gradient(to right, #004, #aaa, #0af);
@@ -81,7 +91,7 @@ body {
 .nowrap {white-space: nowrap !important;overflow: hidden;text-overflow: ellipsis;}
 .hidden {display: none;}
 
-/* VFX */
+/* VFX bombs */
 .flashbomb {animation: flash 0.5s ease-out;}
 .facespinner {display: inline-block;animation: spin 1s cubic-bezier(0.15, 0, 0.15, 1) forwards;}
 @keyframes spin {
@@ -89,30 +99,23 @@ body {
     to { transform: rotate(1800deg); } /* 5 plných otoček */
 }
 @keyframes flash {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 /* NAVIGATION quirks */
-.grayscaled {
-    filter: grayscale(100%);
-    opacity: 0.5;
-}
+.grayscaled {filter: grayscale(100%);opacity: 0.5;}
 
-.slevicky {
-    display: none;
-}
+/* defaults */
+.slevicky {display: none;}
+.topnavtxt {display: none;}
 
-.topnavtxt {
-    display: none;
-}
-
-.downer {
-    position: relative;
-    top: 5px;
-}
+/* vylepšení pozicování */
+.downer {position: relative;top: 5px;}
 
 /* BUTTONS */
+.billionaire {padding: 1rem;}
+
 .btn-top {
     font-size: 1rem;
     background-color: 0 !important;
@@ -144,21 +147,8 @@ nav.bottom button {letter-spacing: 0;}
     text-align: left;
 }
 
-.hands-switch {
-    margin-top: 20px;
-    max-width: 300px;
-}
-
-.billionaire {
-    padding: 1rem;
-}
-
-hr {
-    color: black;
-    height: 4px;
-    border: 4px;
-    background-color: black;
-}
+/* settings switch */
+.hands-switch {margin-top: 20px;max-width: 300px;}
 
 /* DEALS */
 #deals {
@@ -443,9 +433,9 @@ nav.bottom button {
         <b>👾 build: {{GIT_REV}}</b><br>
         <b>👩‍🔧 revision: {{COUNT_REV}}</b><br>
         <b>📅 date: {{DATE_REV}}</b><br>
-        <hr>
         <br>
         <h4>Changelog</h4>
+        <hr>
         <ul>
             <li><b>2026-01-08</b>
                 <br>🟤 základní UI
@@ -620,7 +610,7 @@ const renderDeals = (deals) => {
                 <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
                 <span class="ppunit">${deal.priceperunit}</span>
             </div>
-            <div class="validity nowrap">${deal.validity}</div>
+            <div class="validity nowrap bold">${deal.validity}</div>
         </article>
     `).join('');
 };
@@ -675,11 +665,11 @@ $(document).ready(function() {
         $face.addClass('facespinner');
         setTimeout(() => {
             $face.text(newface);
-        }, 300);
+        }, 200);
         setTimeout(() => {
             $face.removeClass('facespinner');
             face_flag = false;
-        }, 2000);
+        }, 1200);
         setTimeout(() => {
             $('#deals').html('').addClass('hidden');
             let goods = deals.goods;        
@@ -690,7 +680,7 @@ $(document).ready(function() {
             $('#settings, #about').hide()
             $('#deals').show();
             $('#deals').removeClass('hidden');
-        }, 800);
+        }, 400);
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
 
