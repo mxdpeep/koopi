@@ -49,6 +49,17 @@ body {
 /* PWA installer */
 .install-btn {z-index: 100;}
 
+/* ABOUT */
+#about ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#about li {
+    padding: 4px 0; /* Trocha vzduchu mezi řádky buildu */
+}
+
 /* HELPERS */
 .bigger {font-size: 2rem;font-weight: bold;}
 .hover {cursor: pointer;}
@@ -424,7 +435,11 @@ nav.bottom button {
         <br>
         <h4>Changelog</h4>
         <ul>
-            <li><b>2026-01-08</b> dokončeno základní UI a filtrování dle kategorií</li>
+            <li><b>2026-01-08</b>
+                <br>🟤 základní UI
+                <br>🟤 filtrování dle kategorií
+                <br>🟤 data shuffle přes 🤑
+            </li>
         </ul>
     </div>
     <div id="settings" class="hidden container">
@@ -465,7 +480,7 @@ function debug(x) {
         $('#debugger').fadeOut(function() {
             $('#debugger').html('').removeClass('debugger-on');
         });
-    }, 10000);
+    }, 5000);
 }
 window.debug = debug;
 
@@ -547,16 +562,18 @@ const initApp = () => {
                 console.error('Struktura dat neodpovídá: ', data);
                 return;
             }
+            // save data
+            window.deals = {};
+            deals.goods = goods;
+            deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
+
             $('#loading-info').text(`Rendruji ${goods.length} položek ...`)
-            console.log(`Rendering ${goods.length} discount cards.`);
             debug(`Rendering ${goods.length} discount cards.`);
             console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
-            //goods.shuffle();
             renderDeals(goods);
             console.timeEnd('DOM-Render-Speed');
-            debug(`Done.`);
-            
+           
             // defaults
             $('#deals article').addClass('hidden-force');
             $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
@@ -650,6 +667,15 @@ $(document).ready(function() {
             face_flag = false;
         }, 1000);
         window.scrollTo({top: 0, behavior: 'smooth'});
+        $('#deals').html('').addClass('hidden');
+        let goods = deals.goods;        
+        goods.shuffle();
+        renderDeals(goods);
+        $('#deals article').addClass('hidden-force');
+        $(deals.cats).removeClass('hidden-force');
+        $('#settings, #about').hide()
+        $('#deals').show();
+        $('#deals').removeClass('hidden');
     });
 
     // handedness button
@@ -701,10 +727,11 @@ $(document).ready(function() {
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
+        deals.cats = cats;
         $('nav.bottom button').addClass('grayscaled');
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
         $('.' + myClass).removeClass('grayscaled');
-        $('#deals article').addClass('hidden-force');
+        $('#deals article').addClass('hidden-force');        
         $(cats).removeClass('hidden-force');
         $('#settings, #about').hide()
         $('#deals').show()
