@@ -372,6 +372,9 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 			newGoods.Url = productUrl
 			newGoods.ImageUrl = productImageUrl
 
+			// name
+			newGoods.Name = strings.ReplaceAll(newGoods.Name, "-", "\u2011")
+
 			// price
 			newGoods.Price = strings.TrimSpace(offer.Find(".discount_price_value").Text())
 			newGoods.Price = strings.ReplaceAll(newGoods.Price, ",", ".")

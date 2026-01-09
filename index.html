@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <title>🤑 Slevičky</title>
 <link rel="canonical" href="https://slevicky.pages.dev/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="referrer" content="no-referrer-when-downgrade">
 <meta name="description" content="Aktuální slevy potravin a akční zboží přehledně na jednom místě. (public alfa)">
@@ -32,11 +34,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
 <link rel="manifest" href="/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="/jquery.min.js"></script>
 <script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
 /* VARIABLES */
 :root {
+    --font: 'Ubuntu', sans-serif;
     --market-image-height: 48px;
     --on-surface-light: #2c2c2c;
     --product-image-height: 100px;
@@ -46,7 +50,7 @@
     --surface-container-low-light: #f5f5f5;
 }
 
-body {min-width: 320px;}
+body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
 a {text-decoration: underline;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
@@ -188,6 +192,8 @@ nav.bottom button {letter-spacing: 0;}
     padding: 5px;
     overflow: hidden;
     background: white;
+    word-break: keep-all;
+    overflow-wrap: normal;
 }
 
 /* MARKET image */
