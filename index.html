@@ -34,14 +34,6 @@
 <link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
 <style>
-body {
-    min-width: 320px;
-}
-
-#deals {
-    content-visibility: auto;
-}
-
 /* VARIABLES */
 :root {
     --market-image-height: 48px;
@@ -53,19 +45,11 @@ body {
     --surface-container-low-light: #f5f5f5;
 }
 
-/* horizontal ruler */
-hr {
-    border: none; 
-    height: 4px;
-    width: 50%;
-    background: linear-gradient(to right, black, transparent);
-    margin-bottom: 1rem;
-}
+body {min-width: 320px;}
+a {text-decoration: underline;color: black;}
+hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
-a {
-    text-decoration: underline;
-    color: black;
-}
+#deals {content-visibility: auto;}
 
 /* LOADING */
 #loading {
@@ -105,15 +89,8 @@ a {
 .install-btn {z-index: 100;}
 
 /* ABOUT */
-#about ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-#about li {
-    padding: 4px 0; /* Trocha vzduchu mezi řádky buildu */
-}
+#about ul {list-style-type: none;padding: 0;margin: 0;}
+#about li {padding: 4px 0;}
 
 /* HELPERS */
 .bigger {font-size: 2rem;font-weight: bold;}
@@ -471,7 +448,9 @@ nav.bottom button {
         <h3>Aplikace</h3><hr>
         👾 build: <b>{{GIT_REV}}</b><br>
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br>
-        📅 date: <b>{{DATE_REV}}</b><br>
+        📅 date: <b>{{DATE_REV}}</b><br><br>
+
+        Backend napsán v Golang, frontend je HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
 
         <h4>Changelog</h4><hr>
         <ul>
