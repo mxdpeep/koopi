@@ -586,10 +586,28 @@ const version = '{{GIT_REV}}';
 const git_build_date = '{{DATE_REV}}';
 const git_revisions = '{{COUNT_REV}}';
 
+// check for updates on Cloudflare Pages
+function checkUpdate() {
+    if (version == "{{GIT_REV}}") return;
+    const updateTimer = setInterval(() => {
+        $.getJSON('/meta.json?t=' + new Date().getTime(), function(data) {
+            if (data && data.version && data.version !== version) {
+                debug('Zjištěna nová verze: ' + data.version);
+                console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
+                $('.refresh-btn').addClass('red-text');
+                clearInterval(updateTimer);
+            }
+        }).fail(function() {
+            console.warn('Nepodařilo se načíst meta.json pro kontrolu verze.');
+        });
+    }, 30000);
+}
+
 // APP START
 document.addEventListener('DOMContentLoaded', () => {
     progressBar();
     initApp();
+    checkUpdate();
 });
 
 const progressBar = () => {
@@ -791,7 +809,7 @@ $(document).ready(function() {
         }
     }
 
-// export settings
+    // export settings
     function exportSettings() {
         const data = {
             // Pokud je handedness null, uložíme default 'right'
