@@ -96,11 +96,11 @@ const (
 // token bucket
 var rateLimiter chan struct{}
 
-// fix typography
+// typography
 var (
-	// Předložky a spojky (včetně verzálek na začátku věty)
+	// předložky a spojky
 	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
-	// Číslo + mezera + jednotka (g, kg, l, ks)
+	// číslo + mezera + jednotka
 	reUnits = regexp.MustCompile(`(\d+)\s+(g|kg|ml|l|ks)\b`)
 )
 
@@ -242,17 +242,14 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// fix spaces
+// fix spaces via RegEx
 func typoFix(s string) string {
-	// 1. Předložky a spojky (v, s, z, k, a, i, o, u)
-	// Pokud za nimi následuje obyčejná mezera, změníme ji na pevnou \u00A0
-	rePreps := regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
+	// 1. Předložky a spojky
+	rePreps := regexp.MustCompile(`(?i)(^|[\s])([ksvzaiou])\s+`)
 	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
 
-	// 2. Jednotky (g, kg, l, ks, x, +)
-	// Změní mezeru mezi číslem a jednotkou na pevnou \u00A0
-	// \b zajistí, že to nechytne slova začínající těmito písmeny
-	reUnits := regexp.MustCompile(`(\d+)\s+(kg|ks|[glx])\+?`)
+	// 2. Jednotky
+	reUnits := regexp.MustCompile(`(\d+)\s+(kg|ks|ml|[glx])\+?`)
 	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
 
 	return s
