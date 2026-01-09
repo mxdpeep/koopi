@@ -461,7 +461,7 @@ nav.bottom button {
     <div id="deals"></div>
     <div id="about" class="hidden">
         <h3>Statistika</h3><hr>
-        <div id="stats"></div><br>
+        <div id="stats"></div>
 
         <h3>Aplikace</h3><hr>
         <b>👾 build: {{GIT_REV}}</b><br>
@@ -492,11 +492,8 @@ nav.bottom button {
         <h3>Blokované zboží</h3><hr>
         <h3>Nastavení</h3><hr>
         <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
-        <div class="center-align">
-            vše si můžete snadno rozkopírovat
-            <button id="save" class="green settings-button">save</button>
-            <button id="load" class="green settings-button" disabled>load</button>
-        </div>
+        <button id="save" class="green settings-button">save</button>
+        <button id="load" class="green settings-button" disabled>load</button>
     </div>
 </main>
 
@@ -627,7 +624,9 @@ const initApp = () => {
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             debug(`Rendering ${goods.length} discount cards.`);
-            $('#stats').html('Položek: <b>' + goods.length + '</b>');
+            $('#stats').html(`Slev celkem: <b>${goods.length}</b>
+                <br>Obchodů celkem: <b>${data.markets.length}</b>
+                <br>Datum sestavení: <b>${data.created}</b>`);
             $('#deals').html('').addClass('hidden');
 
             console.time('DOM-Render-Speed');
