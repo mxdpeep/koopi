@@ -50,6 +50,15 @@ body {min-width: 320px;}
 a {text-decoration: underline;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
+/* SCROLLBAR */
+::-webkit-scrollbar {width: 16px;}
+::-webkit-scrollbar-track {background: #1a1a1a;}
+::-webkit-scrollbar-thumb {background-color: #ffff00;border-radius: 4px;border: 2px solid #1a1a1a;}
+::-webkit-scrollbar-thumb:hover {background-color: #e6e600;}
+* {scrollbar-width: auto;
+  scrollbar-color: #ffff00 #1a1a1a;
+}
+
 #deals {content-visibility: auto;}
 
 /* LOADING */
@@ -694,11 +703,11 @@ const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
     dealsGrid.innerHTML = deals.map(deal => `
-        <article class="product-card c-${deal.cat}" data-id="${deal.id}" data-cat="${deal.cat}" data-query="${deal.query}" data-name="${deal.name}" data-market="${deal.market}">
-            <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" class="notap market-image">
+        <article class="noselect notip product-card c-${deal.cat}" data-id="${deal.id}" data-cat="${deal.cat}" data-query="${deal.query}" data-name="${deal.name}" data-market="${deal.market}">
+            <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" class="market-image">
             <div class="product-image-container">
                 <div class="image-wrapper">
-                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.cat}: ${deal.market}" class="notap product-image">
+                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.cat}: ${deal.market} - ${deal.name}" class="product-image">
                 </div>
             </div>
             <div class="product-name bold" title="${deal.name}">${deal.name}</div>

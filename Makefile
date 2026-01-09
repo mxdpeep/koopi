@@ -66,10 +66,10 @@ cf:
 	@cp meta.json export/
 	@cp sw.js export/
 	@cp go/koopi.json export/data.json
-	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
-	sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
-	sed -i 's/{{DATE_REV}}/$(DATE_REV)/g' ./export/index.html
-	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/index.html
+	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
+	@sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
+	@sed -i 's/{{DATE_REV}}/$(DATE_REV)/g' ./export/index.html
+	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/index.html
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
