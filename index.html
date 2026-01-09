@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
 <link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
+<script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
 /* VARIABLES */
 :root {
@@ -421,7 +422,7 @@ nav.bottom button {
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
 
-<!-- debugger -->
+<!-- DEBUGGER -->
 <div id="debugger" class="notap noselect blue-grey black-text bold debugger"></div>
 
 <!-- CONTENT -->
@@ -450,6 +451,8 @@ nav.bottom button {
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br>
         📅 date: <b>{{DATE_REV}}</b><br>
         Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
+
+        <div id="webshare"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
         <h4>Changelog</h4><hr>
         <ul>
@@ -514,6 +517,24 @@ if (!Array.prototype.shuffle) {
         }
         return this;
     };
+}
+
+// SHARE
+const webShare = async (title, text, url) => {
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: title,
+                text: text,
+                url: url
+            });
+        } catch (err) {
+            console.log('Uživatel sdílení zrušil nebo došlo k chybě:', err);
+        }
+    }
+};
+if (!navigator.share) {
+    $('.webshare').hide();
 }
 
 // DEBUGGER
@@ -724,6 +745,11 @@ $(document).ready(function() {
     window.onkeydown = function(e) {
         //debug('key: '+ e.key);
     }
+
+    // SHARE button
+    $('#webshare').on('click', function() {
+        webShare('Slevičky', 'Aktuální slevy potravin a akční zboží přehledně na jednom místě. (public alfa)', 'https://slevicky.pages.dev/');
+    });
 
     // SAVE button
     $('#save').on('click', function() {
