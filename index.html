@@ -594,7 +594,7 @@ function checkUpdate() {
             if (data && data.version && data.version !== version) {
                 debug('Zjištěna nová verze: ' + data.version);
                 console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
-                $('.refresh-btn').addClass('red-text');
+                $('.refresh-btn').append('<badge class="none">!</badge>').addClass('red-text');
                 clearInterval(updateTimer);
             }
         }).fail(function() {
@@ -629,7 +629,6 @@ const progressBar = () => {
 const initApp = () => {
     const dataFile = './data.json'; 
     console.time('JSON-Fetch');
-    debug('Start');
     
     fetch(dataFile)
         .then(response => {
@@ -639,7 +638,7 @@ const initApp = () => {
         .then(data => {
             console.timeEnd('JSON-Fetch');
             if (!data) {
-                debug('Error: Žádná data nepřišla');
+                debug('Chyba: Žádná data nepřišla');
                 return;
             }
             let goods = [];
@@ -656,7 +655,6 @@ const initApp = () => {
             deals.goods = goods;
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
-            debug(`Rendering ${goods.length} discount cards.`);
             $('#stats').html(`Slev celkem: <b>${goods.length}</b>
                 <br>Obchodů celkem: <b>${data.markets.length}</b>
                 <br>Datum sestavení: <b>${data.created}</b>`);
@@ -677,7 +675,7 @@ const initApp = () => {
         })
         .catch(error => {
             console.error('Chyba při stress-testu:', error);
-            debug('Error fetching data.');
+            debug('Chyba stažení dat: ' + error.message);
         });
 };
 
@@ -845,6 +843,9 @@ $(document).ready(function() {
     // refresh button
     $('.refresh-btn').on('click', function() {
         $(this).prop('disabled', true).html('<i>schedule</i>');
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
+        }
         const buster = Math.random().toString(36).substring(2, 6);
         location.href = '/?' + buster;
     });
