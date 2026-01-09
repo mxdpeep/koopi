@@ -30,7 +30,6 @@
 <link rel="apple-touch-icon" href="/favicon-180.webp" type="image/webp" sizes="180x180">
 <link rel="icon" type="image/webp" href="/favicon-256.webp" sizes="256x256">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/MaterialIcons-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
 <link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
@@ -461,27 +460,36 @@ nav.bottom button {
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
+        <h3>Statistika</h3><hr>
+        <div id="stats"></div><br>
+
         <h3>Aplikace</h3><hr>
         <b>👾 build: {{GIT_REV}}</b><br>
         <b>👩‍🔧 revision: {{COUNT_REV}}</b><br>
-        <b>📅 date: {{DATE_REV}}</b><br><br>
+        <b>📅 date: {{DATE_REV}}</b><br>
 
         <h4>Changelog</h4><hr>
         <ul>
             <li><b>2026-01-08</b>
-                <br>🟤 základní UI
-                <br>🟤 filtrování dle kategorií
-                <br>🟤 data shuffle přes 🤑
+                <br>◾️ základní UI
+                <br>◾️ filtrování dle kategorií
+                <br>◾️ data shuffle přes 🤑
             </li>
         </ul>
 
-        <h4>Podněty, myšlenky, crazy stuff</h4><hr>
+        <h4>Podněty, myšlenky, crazy&nbsp;stuff</h4><hr>
         <h5>
             <i>link</i>
             💡 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
         </h5><br>
+
+        <h4>Pod kapotou</h4><hr>
+        local storage: <span id="info_localStorage" class="bold"></span><br>
     </div>
     <div id="settings" class="hidden container">
+        <h3>Moje obchody</h3><hr>
+        <h3>Moje kategorie</h3><hr>
+        <h3>Blokované zboží</h3><hr>
         <h3>Nastavení</h3><hr>
         <button class="blue hands-switch">👍️ levák &ndash; pravák</button>
     </div>
@@ -489,6 +497,13 @@ nav.bottom button {
 
 <script>
 'use strict';
+
+/* DEALS object */
+window.deals = {};
+deals.blocked = [];
+deals.likes = [];
+deals.myCats = [];
+deals.myMarkets = [];
 
 // SHUFFLE prototype
 if (!Array.prototype.shuffle) {
@@ -531,21 +546,23 @@ try {
   );
 }
 
-// LOCAL STORAGE TEST
-var test = false;
+// LOCAL STORAGE test
+let nolocalstorage = false;
 try {
-  if (localStorage) {
-    if (!localStorage['uuid'] || localStorage['uuid'].length !== 36) {
-      localStorage['uuid'] = uuid;
+    const storage = window.localStorage;
+    const testKey = '__storage_test__';
+    storage.setItem(testKey, testKey);
+    storage.removeItem(testKey);
+    if (!storage.getItem('uuid') || storage.getItem('uuid').length !== 36) {
+        storage.setItem('uuid', uuid);
     }
-    localStorage.removeItem('luid');
-  }
+    storage.removeItem('luid'); // Cleanup starého bordelu
 } catch (e) {
-    test = true
-    console.log('WARNING: localStorage is blocked!');
-    console.log(e);
+    nolocalstorage = true;
+    console.warn('Slevičky: localStorage je blokován (pravděpodobně anonymní režim)');
 }
-let nolocalstorage = test;
+window.nolocalstorage = nolocalstorage;
+$('#info_localStorage').text(!nolocalstorage ? "OK" : "Blokováno");
 
 // BUILD info
 const version = '{{GIT_REV}}';
@@ -601,13 +618,13 @@ const initApp = () => {
             }
 
             // save data
-            window.deals = {};
             deals.goods = goods;
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             debug(`Rendering ${goods.length} discount cards.`);
-            console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
+
+            console.time('DOM-Render-Speed');
             renderDeals(goods);
             console.timeEnd('DOM-Render-Speed');
            
@@ -618,7 +635,7 @@ const initApp = () => {
             window.scrollTo({top: 0});
             setTimeout(() => {
                 $('#loading').addClass('fade-away');
-            }, 500);            
+            }, 300);
         })
         .catch(error => {
             console.error('Chyba při stress-testu:', error);
@@ -747,6 +764,39 @@ $(document).ready(function() {
             $('.lefthanded').hide();
             $('.righthanded').show();
         }
+    }
+
+// export settings
+    function exportSettings() {
+        const data = {
+            // Pokud je handedness null, uložíme default 'right'
+            handedness: localStorage.getItem('handedness') || 'right',
+            myCats: deals.myCats || [],
+            myMarkets: deals.myMarkets || [],
+            blocked: deals.blocked || [],
+            likes: deals.likes || [],
+            version: version,
+            git_build_date: git_build_date,
+            git_revisions: git_revisions
+        };
+        
+        const jsonString = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonString], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        
+        a.href = url;
+        a.download = 'slevicky_settings.json';
+        
+        // Nutné pro Firefox a stabilitu:
+        document.body.appendChild(a); 
+        a.click();
+
+        // clean up - odstraní element i uvolní URL z paměti
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
     }
 
     // refresh button
