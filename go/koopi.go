@@ -100,8 +100,8 @@ var rateLimiter chan struct{}
 var (
 	// Předložky a spojky (včetně verzálek na začátku věty)
 	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
-	// Číslo + mezera + jednotka (g, kg, l, ks, x, +)
-	reUnits = regexp.MustCompile(`(\d+)\s+([gklx+]|kg|ks)\b`)
+	// Číslo + mezera + jednotka (g, kg, l, ks)
+	reUnits = regexp.MustCompile(`(\d+)\s+(g|kg|ml|l|ks)\b`)
 )
 
 // product names to ignore (case-insensitive)
@@ -252,7 +252,7 @@ func typoFix(s string) string {
 	// 2. Jednotky (g, kg, l, ks, x, +)
 	// Změní mezeru mezi číslem a jednotkou na pevnou \u00A0
 	// \b zajistí, že to nechytne slova začínající těmito písmeny
-	reUnits := regexp.MustCompile(`(\d+)\s+([gklx+]|kg|ks)\b`)
+	reUnits := regexp.MustCompile(`(\d+)\s+(kg|ks|[glx])\+?`)
 	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
 
 	return s
