@@ -588,7 +588,7 @@ const git_revisions = '{{COUNT_REV}}';
 
 // check for updates on Cloudflare Pages
 function checkUpdate() {
-    if (version == "{{GIT_REV}}") return;
+    if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
         $.getJSON('/meta.json?t=' + new Date().getTime(), function(data) {
             if (data && data.version && data.version !== version) {
