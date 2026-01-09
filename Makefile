@@ -28,6 +28,8 @@ backup:
 db: build
 	@cd go/ && ./koopi
 	@cp go/koopi.json ./data.json
+	@printf '{\n  "count": "%s",\n  "date": "%s",\n  "hash": "%s",\n  "version": "%s"\n}\n' \
+		"$(COUNT_REV)" "$(DATE_REV)" "$(HASH_REV)" "$(GIT_REV)" > meta.json
 
 img:
 	@echo "Converting images ..."
@@ -60,6 +62,7 @@ cf:
 	@rsync -aq --delete markets/*.webp export/markets/
 	@cp index.html export/
 	@cp manifest.json export/
+	@cp meta.json export/
 	@cp sw.js export/
 	@cp go/koopi.json export/data.json
 	sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
