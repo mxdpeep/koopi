@@ -11,7 +11,7 @@ fi
 
 if [ -f $INPUT ]; then
   convert -flatten -background none -resize 512x512 $INPUT $OUT_DIR/logo.webp
-  SIZES=(16 128 192 256)
+  SIZES=(16 128 152 167 180 192 256)
   for size in ${SIZES[@]}; do
     convert -flatten -background black -resize ${size}x${size}^ $INPUT $OUT_DIR/favicon-${size}.png
     convert -flatten -background black -resize ${size}x${size}^ $INPUT $OUT_DIR/favicon-${size}.webp
