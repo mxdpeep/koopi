@@ -181,7 +181,7 @@ nav.bottom button {letter-spacing: 0;}
 }
 
 /* settings switch */
-.hands-switch {margin-top: 20px;max-width: 300px;}
+.settings-button {margin-top: 20px;max-width: 300px;}
 
 /* DEALS */
 #deals {
@@ -491,7 +491,12 @@ nav.bottom button {
         <h3>Moje kategorie</h3><hr>
         <h3>Blokované zboží</h3><hr>
         <h3>Nastavení</h3><hr>
-        <button class="blue hands-switch">👍️ levák &ndash; pravák</button>
+        <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
+        <div class="center-align">
+            vše si můžete snadno rozkopírovat
+            <button id="save" class="green settings-button">save</button>
+            <button id="load" class="green settings-button" disabled>load</button>
+        </div>
     </div>
 </main>
 
@@ -622,6 +627,7 @@ const initApp = () => {
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             debug(`Rendering ${goods.length} discount cards.`);
+            $('#stats').html('Položek: <b>' + goods.length + '</b>');
             $('#deals').html('').addClass('hidden');
 
             console.time('DOM-Render-Speed');
@@ -680,6 +686,11 @@ $(document).ready(function() {
         //debug('key: '+ e.key);
     }
 
+    // SAVE button
+    $('#save').on('click', function() {
+        exportSettings();
+    });
+
     // ABOUT button
     $('.about-btn').on('click', function() {
         window.scrollTo({top: 0});
@@ -737,7 +748,7 @@ $(document).ready(function() {
     });
 
     // handedness button
-    $('.hands-switch').on('click', function() {
+    $('.settings-button').on('click', function() {
         switchHands();
     });
 
@@ -750,12 +761,12 @@ $(document).ready(function() {
         $('.righthanded').toggle();
         const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
         setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
-        if (nolocalstorage) return;
+        if (window.nolocalstorage) return;
         localStorage.setItem('handedness', currentMode);
     }
 
     // process handedness from localStorage
-    if (!nolocalstorage) {
+    if (!window.nolocalstorage) {
         const savedHandedness = localStorage.getItem('handedness');
         if (savedHandedness === 'left') {
             $('.lefthanded').show();
