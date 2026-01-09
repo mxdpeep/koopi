@@ -454,7 +454,7 @@ nav.bottom button {
         <h4>Changelog</h4><hr>
         <ul>
             <li><b>2026-01-09</b>
-                <br>◾️ vylepšené UI a rendering slev
+                <br>◾️ vylepšené UI, pevné mezery, třídění obchodů
                 <br>◾️ notifikace nové verze
             </li>
             <li><b>2026-01-08</b>
@@ -475,8 +475,14 @@ nav.bottom button {
     </div>
     <div id="settings" class="hidden container">
         <h3>Moje obchody</h3><hr>
+        <div id="mymarkets"></div>
+
         <h3>Moje kategorie</h3><hr>
+        <div id="mycats"></div>
+
         <h3>Blokované zboží</h3><hr>
+        <div id="blocked"></div>
+
         <h3>Nastavení</h3><hr>
         <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
         <div id="saveload">
@@ -589,7 +595,6 @@ function checkUpdate() {
 document.addEventListener('DOMContentLoaded', () => {
     progressBar();
     initApp();
-    checkUpdate();
 });
 
 const progressBar = () => {
@@ -635,6 +640,7 @@ const initApp = () => {
 
             // save data
             deals.goods = goods;
+            deals.markets = data.markets;
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             $('#stats').html(`Slev celkem: <b>${goods.length}</b>
@@ -644,16 +650,17 @@ const initApp = () => {
 
             console.time('DOM-Render-Speed');
             renderDeals(goods);
+            renderMarkets(deals.markets);
             console.timeEnd('DOM-Render-Speed');
-           
+            
             // defaults
             $('#deals article').addClass('hidden-force');
             $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
             $('#deals').removeClass('hidden');
+
+            checkUpdate();
+            setTimeout(() => {$('#loading').addClass('fade-away');}, 500);
             window.scrollTo({top: 0});
-            setTimeout(() => {
-                $('#loading').addClass('fade-away');
-            }, 300);
         })
         .catch(error => {
             console.error('Chyba při stress-testu:', error);
@@ -661,7 +668,7 @@ const initApp = () => {
         });
 };
 
-// RENDERER
+// RENDERERs
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
@@ -683,6 +690,26 @@ const renderDeals = (deals) => {
             <div class="validity nowrap bold">${deal.validity}</div>
         </article>
     `).join('');
+};
+
+const renderMarkets = (markets) => {
+    if (!markets) return;
+    const marketsDiv = document.getElementById('mymarkets');
+    if (!marketsDiv) return;
+
+    // Přidáme "Vše" jako první volbu, pokud ji v poli už nemáš
+    marketsDiv.innerHTML = markets.map(market => `
+        <button class="chip outline secondary" disabled data-market="${market}">
+            <i>store</i>
+            <span>${market}</span>
+        </button>
+    `).join('');
+
+    $('#mymarkets button').on('click', function() {
+        const selectedMarket = $(this).data('market');
+        $('#mymarkets button').removeClass('fill').addClass('outline');
+        $(this).removeClass('outline').addClass('fill');
+    });
 };
 
 // UI bindings

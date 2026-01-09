@@ -244,11 +244,11 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 
 // fix spaces via RegEx
 func typoFix(s string) string {
-	// 1. Předložky a spojky
+	// předložky a spojky
 	rePreps := regexp.MustCompile(`(?i)(^|[\s])([ksvzaiou])\s+`)
 	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
 
-	// 2. Jednotky
+	// jednotky
 	reUnits := regexp.MustCompile(`(\d+)\s+(kg|ks|ml|[glx])\+?`)
 	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
 
@@ -395,8 +395,13 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhev", "lahev")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhve", "lahve")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "vybrané druhy", "různé druhy")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " 250g", " 250 g")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "1 + 1", "1+1")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "4 + 2", "4+2")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " & ", "&")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " - ", "-")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "-", "\u2011")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " \u0026 ", "\u0026")
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
 
@@ -886,6 +891,7 @@ func main() {
 			uniqueVolumes[good.Volume] = struct{}{}
 		}
 	}
+
 	var marketsList []string
 	for market := range uniqueMarkets {
 		marketsList = append(marketsList, market)
@@ -907,15 +913,17 @@ func main() {
 	fmt.Println("\n🏪 Markets:", strings.Join(marketStatsList, ", "))
 	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
 
-	// Czech sorting
 	c := collate.New(language.Czech)
 	sort.Slice(finalGoods, func(i, j int) bool {
 		return c.CompareString(finalGoods[i].Name, finalGoods[j].Name) < 0
 	})
-
 	// save sorted data to CSV
 	appendToCsv(finalGoods, OUTPUT_CSV, &csvMutex)
 
+	cExport := collate.New(language.Czech, collate.IgnoreCase)
+	sort.Slice(marketsList, func(i, j int) bool {
+		return cExport.CompareString(marketsList[i], marketsList[j]) < 0
+	})
 	// save sorted data to JSON
 	appendToJson(finalGoods, OUTPUT_JSON, marketsList, &csvMutex)
 
