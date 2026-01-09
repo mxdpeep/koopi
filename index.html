@@ -497,14 +497,17 @@ nav.bottom button {
         <h3>Blokované zboží</h3><hr>
         <h3>Nastavení</h3><hr>
         <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
-        <button id="save" class="green settings-button">save</button>
-        <button id="load" class="green settings-button" disabled>load</button>
+        <div id="saveload">
+            <button id="save" class="green settings-button">save</button>
+            <button id="load" class="green settings-button" disabled>load</button>
+        </div>
     </div>
 </main>
 
 <script>
 'use strict';
 
+// enable splash screen
 document.getElementById('loading').style.display = 'flex';
 
 /* DEALS object */
@@ -571,7 +574,12 @@ try {
     console.warn('Slevičky: localStorage je blokován (pravděpodobně anonymní režim)');
 }
 window.nolocalstorage = nolocalstorage;
-$('#info_localStorage').text(!nolocalstorage ? "OK" : "Blokováno");
+$('#info_localStorage').text(!nolocalstorage ? "OK" : "BLOKOVÁNO");
+if (nolocalstorage) {
+    $('#saveload').hide();
+    $('#load').prop('disabled', true);
+    $('#save').prop('disabled', true);
+}
 
 // BUILD info
 const version = '{{GIT_REV}}';
