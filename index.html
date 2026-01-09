@@ -598,7 +598,7 @@ function checkUpdate() {
             if (data && data.version && data.version !== version) {
                 debug('Zjištěna nová verze: ' + data.version);
                 console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
-                $('.refresh-btn').append('<badge class="none">!</badge>').addClass('red-text');
+                $('.refresh-btn').append('<badge class="bold">!</badge>').addClass('red-text');
                 clearInterval(updateTimer);
             }
         }).fail(function() {
