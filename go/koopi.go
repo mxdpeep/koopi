@@ -96,6 +96,14 @@ const (
 // token bucket
 var rateLimiter chan struct{}
 
+// fix typography
+var (
+	// Předložky a spojky (včetně verzálek na začátku věty)
+	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
+	// Číslo + mezera + jednotka (g, kg, l, ks, x, +)
+	reUnits = regexp.MustCompile(`(\d+)\s+([gklx+]|kg|ks)\b`)
+)
+
 // product names to ignore (case-insensitive)
 var FORBIDDEN_GOODS = []string{
 	"alverde",
@@ -232,6 +240,22 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 		finalGoods = append(finalGoods, good)
 	}
 	return finalGoods
+}
+
+// fix spaces
+func typoFix(s string) string {
+	// 1. Předložky a spojky (v, s, z, k, a, i, o, u)
+	// Pokud za nimi následuje obyčejná mezera, změníme ji na pevnou \u00A0
+	rePreps := regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
+	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
+
+	// 2. Jednotky (g, kg, l, ks, x, +)
+	// Změní mezeru mezi číslem a jednotkou na pevnou \u00A0
+	// \b zajistí, že to nechytne slova začínající těmito písmeny
+	reUnits := regexp.MustCompile(`(\d+)\s+([gklx+]|kg|ks)\b`)
+	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
+
+	return s
 }
 
 // check the lock
@@ -374,7 +398,10 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhev", "lahev")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhve", "lahve")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "vybrané druhy", "různé druhy")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " - ", "-")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "-", "\u2011")
 			newGoods.Note = sanitizeString(newGoods.Note)
+			newGoods.Note = typoFix(newGoods.Note)
 
 			// club
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())

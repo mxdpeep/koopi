@@ -191,52 +191,6 @@ nav.bottom button {letter-spacing: 0;}
     width: 100%;
 }
 
-@media(min-width: 500px) {
-    #deals {
-        grid-template-columns: repeat(4, 1fr); /* tablet: 4 sloupců */
-    }
-    .btn-bottom {font-size: 1.3rem;}
-    nav.bottom button {letter-spacing: 0.3rem;}
-    #about, #settings {width: 90%;margin-top: 1rem;}
-    #debugger {width: 90%}
-}
-@media(min-width: 700px) {
-    #deals {
-        grid-template-columns: repeat(6, 1fr); /* tablet: 6 sloupců */
-    }
-    .btn-bottom {font-size: 1.7rem;}
-    .slevicky {display: inline-block;font-size: 1.3rem;font-weight: bold;}
-    .topnavtxt {display: inline-block;}
-    nav.bottom button {letter-spacing: 0.5rem;}
-    #about, #settings {width: 80%;margin-top: 1rem;}
-    #debugger {width: 80%}
-}
-@media(min-width: 992px) {
-    #deals {
-        grid-template-columns: repeat(8, 1fr); /* desktop: 8 sloupců */
-    }
-    .btn-bottom {font-size: 1.9rem;}
-    .slevicky {display: inline-block;font-size: 1.5rem;font-weight: bold;}
-    .topnavtxt {display: inline-block;}
-    nav.bottom button {letter-spacing: 0.7rem;}
-    #about, #settings {width: 70%;margin-top: 1rem;}
-    #debugger {width: 50%}
-}
-@media(min-width: 1800px) {
-    #deals {
-        grid-template-columns: repeat(10, 1fr); /* desktop: 10 sloupců */
-    }
-    .btn-bottom {font-size: 2.1rem;}
-    .topnavtxt {display: inline-block;}
-    nav.bottom button {letter-spacing: 1rem;}
-    #about, #settings {width: 50%;margin-top: 1rem;}
-    #debugger {width: 30%}
-}
-
-article.hidden-force {
-    display: none !important;
-}
-
 /* CARD flexible */
 .product-card {
     display: flex;
@@ -326,7 +280,7 @@ article.hidden-force {
 }
 
 .price {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     font-weight: bold;
     color: var(--primary);
 }
@@ -349,6 +303,57 @@ article.hidden-force {
 
 .volume {font-size: 0.9rem;font-weight: bold;}
 .ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;}
+
+/* MEDIA selectors */
+@media(min-width: 500px) {
+    #deals {
+        grid-template-columns: repeat(4, 1fr); /* tablet: 4 sloupců */
+    }
+    .btn-bottom {font-size: 1.3rem;}
+    .price {font-size: 0.8rem;}
+    nav.bottom button {letter-spacing: 0.3rem;}
+    #about, #settings {width: 90%;margin-top: 1rem;}
+    #debugger {width: 90%}
+}
+@media(min-width: 700px) {
+    #deals {
+        grid-template-columns: repeat(6, 1fr); /* tablet: 6 sloupců */
+    }
+    .btn-bottom {font-size: 1.7rem;}
+    .slevicky {display: inline-block;font-size: 1.3rem;font-weight: bold;}
+    .topnavtxt {display: inline-block;}
+    .price {font-size: 0.8rem;}
+    nav.bottom button {letter-spacing: 0.5rem;}
+    #about, #settings {width: 80%;margin-top: 1rem;}
+    #debugger {width: 80%}
+}
+@media(min-width: 1270px) {
+    #deals {
+        grid-template-columns: repeat(8, 1fr); /* desktop: 8 sloupců */
+    }
+    .btn-bottom {font-size: 1.9rem;}
+    .slevicky {display: inline-block;font-size: 1.5rem;font-weight: bold;}
+    .topnavtxt {display: inline-block;}
+    .price {font-size: 1rem;}
+    nav.bottom button {letter-spacing: 0.7rem;}
+    #about, #settings {width: 70%;margin-top: 1rem;}
+    #debugger {width: 50%}
+}
+@media(min-width: 1800px) {
+    #deals {
+        grid-template-columns: repeat(10, 1fr); /* desktop: 10 sloupců */
+    }
+    .btn-bottom {font-size: 2.1rem;}
+    .topnavtxt {display: inline-block;}
+    .price {font-size: 1.2rem;}
+    nav.bottom button {letter-spacing: 1rem;}
+    #about, #settings {width: 50%;margin-top: 1rem;}
+    #debugger {width: 30%}
+}
+
+article.hidden-force {
+    display: none !important;
+}
 
 /* bottom NAV separators */
 nav.bottom > button:not(:last-child) {
@@ -453,7 +458,7 @@ nav.bottom button {
             </h3>
         </div>
     </noscript>
-    <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
+    <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
         <h2 id="loading-info" style="color: black;">
             👩‍🔧 Nahrávám ...
         </h2>
@@ -499,6 +504,8 @@ nav.bottom button {
 
 <script>
 'use strict';
+
+document.getElementById('loading').style.display = 'flex';
 
 /* DEALS object */
 window.deals = {};

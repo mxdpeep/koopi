@@ -52,6 +52,7 @@ img:
 everything: clear db img cf backup
 	@-git add -A
 	@-git commit -am 'automatic update'
+	@-git push origin master
 
 cf:
 	@echo "Building version: $(GIT_REV)"
