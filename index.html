@@ -859,30 +859,23 @@ $(document).ready(function() {
     // export settings
     function exportSettings() {
         const data = {
-            // Pokud je handedness null, uložíme default 'right'
             handedness: localStorage.getItem('handedness') || 'right',
             myCats: deals.myCats || [],
             myMarkets: deals.myMarkets || [],
             blocked: deals.blocked || [],
             likes: deals.likes || [],
             version: version,
-            git_build_date: git_build_date,
-            git_revisions: git_revisions
+            git_build_date: git_build_date
         };
-        
         const jsonString = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonString], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        
         a.href = url;
         a.download = 'slevicky_settings.json';
-        
-        // Nutné pro Firefox a stabilitu:
         document.body.appendChild(a); 
         a.click();
-
-        // clean up - odstraní element i uvolní URL z paměti
+        // clean up
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
