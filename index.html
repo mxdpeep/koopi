@@ -673,11 +673,11 @@ const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
     dealsGrid.innerHTML = deals.map(deal => `
-        <article class="product-card c-${deal.cat}" data-id="${deal.id}" data-cat="${deal.cat}" data-query="${deal.query}" data-name="${deal.name}" data-market="${deal.store}">
-            <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.store}" class="notap market-image">
+        <article class="product-card c-${deal.cat}" data-id="${deal.id}" data-cat="${deal.cat}" data-query="${deal.query}" data-name="${deal.name}" data-market="${deal.market}">
+            <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" class="notap market-image">
             <div class="product-image-container">
                 <div class="image-wrapper">
-                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.name}" class="notap product-image">
+                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.cat}: ${deal.market}" class="notap product-image">
                 </div>
             </div>
             <div class="product-name bold" title="${deal.name}">${deal.name}</div>
