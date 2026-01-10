@@ -727,7 +727,7 @@ sfxUpdate.addEventListener('canplaythrough', () => {
 });
 
 function notifyUpdate() {
-    const sfx = new Audio('update.mp3?v=' + Date.now());
+    const sfx = new Audio('notification.mp3?v=' + Date.now());
     sfx.volume = 1.0;
     sfx.play();
 }
