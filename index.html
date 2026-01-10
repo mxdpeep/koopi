@@ -28,18 +28,31 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="🤑 Slevičky">
 <meta property="og:image" content="/og-image.webp">
-<link rel="apple-touch-startup-image" href="/logo.webp" type="image/webp">
 <link rel="apple-touch-icon" href="/favicon-152.webp" type="image/webp" sizes="152x152">
 <link rel="apple-touch-icon" href="/favicon-167.webp" type="image/webp" sizes="167x167">
 <link rel="apple-touch-icon" href="/favicon-180.webp" type="image/webp" sizes="180x180">
+<link rel="apple-touch-startup-image" href="/logo.webp" type="image/webp">
 <link rel="icon" type="image/webp" href="/favicon-256.webp" sizes="256x256">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.1/dist/cdn/beer.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css">
-<link rel="manifest" href="/manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
 <script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
+
+/* Vynutí řazení pod sebou v navu */
+nav.vertical {
+    flex-direction: column !important;
+    height: auto !important;
+    align-items: stretch !important;
+}
+
+/* Zajistí, že řádky vyplní celou šířku */
+.width-100 {
+    width: 100%;
+}
+
 /* VARIABLES */
 :root {
     --font: 'Ubuntu', sans-serif;
@@ -54,7 +67,7 @@
 
 body {min-width: 320px;font-family: var(--font);}
 body {-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overscroll-behavior-y: contain;-webkit-text-size-adjust: 100%;}
-a {text-decoration: underline;color: black;}
+a {text-decoration: underline!important;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
 /* SCROLLBAR */
@@ -76,6 +89,26 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
     opacity: 0 !important;
     filter: blur(50px) !important;
     visibility: hidden !important;
+}
+
+/* SETTINGS */
+button.chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center;
+  height: 2.5rem;
+  gap: 0.5rem;
+  padding: 0 0.75rem !important;
+}
+button.chip .market-image {
+  max-height: 1.2rem;
+  width: auto;
+  margin: 0 !important;
+  display: block;
+}
+button.chip span {
+  line-height: 1; 
+  display: inline-block;
 }
 
 /* DEBUGGER */
@@ -128,7 +161,7 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 .downer {position: relative;top: 5px;}
 
 /* BUTTONS */
-.billionaire {padding: 1rem;}
+.mrsmiley {padding: 1rem;}
 
 .btn-top {
     font-size: 1rem;
@@ -334,6 +367,10 @@ nav.bottom button {letter-spacing: 0;}
     #debugger {width: 30%}
 }
 
+.product-card.none {
+    display: none !important;
+}
+
 article.hidden-force {
     display: none !important;
 }
@@ -363,53 +400,61 @@ nav.bottom button {
 </head>
 <body class="light">
 
-<!-- TOP navigation - righthanded -->
-<nav class="righthanded top notap nowrap black white-text">
-    <button class="install-btn light-blue" style="display: none;">
-        <span>Instalovat ♥️</span>
-    </button>
-    <div class="max noselect">
-        <span class="billionaire">
-            <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
-        </span>
+<!-- TOP nav -->
+<nav class="righthanded top notap nowrap black white-text vertical">
+    <div class="row width-100">
+        <button class="install-btn light-blue" style="display: none;">
+            <span>Instalovat ♥️</span>
+        </button>
+        <div class="max noselect">
+            <span class="mrsmiley">
+                <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
+            </span>
+        </div>
+        <button data-id="about" class="about-btn transparent white-text">
+            <i>info</i>
+            <span class="topnavtxt downer">Info</span>
+        </button>
+        <button data-id="settings" class="settings-btn transparent white-text">
+            <i>settings</i>
+            <span class="topnavtxt downer">Nastavení</span>
+        </button>
+        <button data-id="refresh" class="refresh-btn transparent white-text">
+            <i class="bigger">refresh</i>
+        </button>
     </div>
-    <button data-id="about" class="about-btn transparent white-text">
-        <i>info</i>
-        <span class="topnavtxt downer">Info</span>
-    </button>
-    <button data-id="settings" class="settings-btn transparent white-text">
-        <i>settings</i>
-        <span class="topnavtxt downer">Nastavení</span>
-    </button>
-    <button data-id="refresh" class="refresh-btn transparent white-text">
-        <i class="bigger">refresh</i>
-    </button>
+    <div class="row width-100 center-align" style="border-top: 1px solid #333; min-height: 40px;">
+        <span class="mono small sekundarni-vypis">sekundární navigační lišta</span>
+    </div> 
+</nav>
+<nav class="lefthanded top notap nowrap black white-text vertical" style="display: none;">
+    <div class="row width-100">
+        <button data-id="refresh" class="refresh-btn transparent white-text">
+            <i>refresh</i>
+        </button>
+        <button data-id="settings" class="settings-btn transparent white-text">
+            <i>settings</i>
+            <span class="topnavtxt downer">Nastavení</span>
+        </button>
+        <button data-id="about" class="about-btn transparent white-text">
+            <i>info</i>
+            <span class="topnavtxt downer">Info</span>
+        </button>
+        <div class="max noselect right-align">
+            <span class="mrsmiley">
+                <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
+            </span>
+        </div>
+        <button class="install-btn light-blue" style="display: none;">
+            <span>Instalovat ♥️</span>
+        </button>
+    </div>
+    <div class="row width-100 center-align" style="border-top: 1px solid #333; min-height: 40px;">
+        <span class="mono small">sekundární navigační lišta</span>
+    </div>
 </nav>
 
-<!-- TOP navigation - lefthanded -->
-<nav class="lefthanded top notap nowrap black white-text" style="display: none;">
-    <button data-id="refresh" class="refresh-btn transparent white-text">
-        <i>refresh</i>
-    </button>
-    <button data-id="settings" class="settings-btn transparent white-text">
-        <i>settings</i>
-        <span class="topnavtxt downer">Nastavení</span>
-    </button>
-    <button data-id="about" class="about-btn transparent white-text">
-        <i>info</i>
-        <span class="topnavtxt downer">Info</span>
-    </button>
-    <div class="max noselect">
-        <span class="billionaire">
-            <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">Slevičky</span>
-        </span>
-    </div>
-    <button class="install-btn light-blue" style="display: none;">
-        <span>Instalovat ♥️</span>
-    </button>
-</nav>
-
-<!-- BOTTOM navigation - lefthanded -->
+<!-- BOTTOM nav -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
@@ -417,8 +462,6 @@ nav.bottom button {
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
 </nav>
-
-<!-- BOTTOM navigation - righthanded -->
 <nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto;">
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
@@ -455,20 +498,24 @@ nav.bottom button {
         👾 build: <b>{{GIT_REV}}</b><br>
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br>
         📅 date: <b>{{DATE_REV}}</b><br>
+        Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
+        Hosting Github + Cloudflare Pages.<br><br>
         <a href="https://github.com/mxdpeep/koopi" style="display: inline-flex; align-items: center; gap: 5px; text-decoration: none; color: inherit;">
             <svg height="24" width="24" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
             <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-            </svg>
-        </a><br>
-        Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework. Hosting Github + Cloudflare Pages.<br>
+            </svg> github.com/mxdpeep/koopi</a><br>
 
         <div id="webshare" class="webshare"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
         <h4>Changelog</h4><hr>
         <ul>
+            <li><b>2026-01-10</b>
+                <br>◾️ filtrování obchodů a kategorií
+                <br>◾️ sekundární navigační lišta
+            </li>
             <li><b>2026-01-09</b>
-                <br>◾️ vylepšené UI, pevné mezery, třídění obchodů
-                <br>◾️ notifikace nové verze
+                <br>◾️ vylepšené UI, pevné mezery, české třídění obchodů
+                <br>◾️ notifikace na novou verzi
             </li>
             <li><b>2026-01-08</b>
                 <br>◾️ základní UI
@@ -477,46 +524,40 @@ nav.bottom button {
             </li>
         </ul>
 
-        <h4>Podněty, myšlenky, crazy&nbsp;stuff</h4><hr>
-        <h5>
+        <h4>Podněty a myšlenky</h4><hr>
+        <div>
             <i>link</i>
             💡 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
-        </h5><br>
+        </div><br>
 
         <h4>Pod kapotou</h4><hr>
-        local storage: <span id="info_localStorage" class="bold"></span><br>
+        <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
+        <div id="speed-bench" class="s m l"></div>
     </div>
     <div id="settings" class="hidden container">
-        <h3>Moje obchody</h3><hr>
-        <div id="mymarkets"></div>
-
-        <h3>Moje kategorie</h3><hr>
-        <div id="mycats"></div>
-
-        <h3>Blokované zboží</h3><hr>
-        <div id="blocked"></div>
-
         <h3>Nastavení</h3><hr>
-        <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
+        <div class="s m l">
+            <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
+        </div class="s m l">
         <div id="saveload">
             <button id="save" class="green settings-button">save</button>
             <button id="load" class="green settings-button" disabled>load</button>
         </div>
+
+        <h3>Moje obchody</h3><hr>
+        <div id="mymarkets" class="center-align padding s m l"></div>
+
+        <h3>Moje kategorie</h3><hr>
+        <div id="mycats" class="padding s m l"></div>
+
+        <h3>Blokované zboží</h3><hr>
+        <div id="blocked" class="padding s m l"></div>
+
     </div>
 </main>
 
 <script>
 'use strict';
-
-// enable splash screen
-document.getElementById('loading').style.display = 'flex';
-
-/* DEALS object */
-window.deals = {};
-deals.blocked = [];
-deals.likes = [];
-deals.myCats = [];
-deals.myMarkets = [];
 
 // SHUFFLE prototype
 if (!Array.prototype.shuffle) {
@@ -527,6 +568,25 @@ if (!Array.prototype.shuffle) {
         }
         return this;
     };
+}
+
+// enable LOADING SPLASH SCREEN
+document.getElementById('loading').style.display = 'flex';
+
+/* DEALS object */
+window.deals = {};
+deals.blocked = [];
+deals.likes = [];
+deals.myCats = [];
+deals.myMarkets = [];
+
+// fill data
+try {
+    window.deals.myMarkets = JSON.parse(localStorage.getItem('myMarkets')) || [];
+    window.deals.myCats = JSON.parse(localStorage.getItem('myCats')) || [];
+} catch (e) {
+    window.deals.myMarkets = [];
+    window.deals.myCats = [];
 }
 
 // SHARE
@@ -604,6 +664,41 @@ if (nolocalstorage) {
 const version = '{{GIT_REV}}';
 const git_build_date = '{{DATE_REV}}';
 const git_revisions = '{{COUNT_REV}}';
+const dataFile = './data.json'; 
+const categories = [
+    'CUKROVINKY',
+    'KOŘENÍ',
+    'LUŠTĚNINY',
+    'MASO',
+    'MLÉKO',
+    'NÁPOJE',
+    'OBILÍ',
+    'OSTATNÍ',
+    'OVOCE',
+    'OŘECHY',
+    'SÝRY',
+    'TUKY',
+    'UZENINY',
+    'VEJCE',
+    'ZELENINA',
+];
+const catIcons = {
+    ZELENINA: '🥦',
+    OVOCE: '🍎',
+    OŘECHY: '🥜',
+    MLÉKO: '🥛',
+    SÝRY: '🧀',
+    VEJCE: '🥚',
+    OBILÍ: '🌾',
+    LUŠTĚNINY: '🫘',
+    KOŘENÍ: '🌶️',
+    MASO: '🥩',
+    UZENINY: '🥓',
+    TUKY: '🧈',
+    NÁPOJE: '🍺',
+    CUKROVINKY: '🍬',
+    OSTATNÍ: '📦',
+};
 
 // check for updates on Cloudflare Pages
 function checkUpdate() {
@@ -629,23 +724,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const progressBar = () => {
-  var bar = "_" + Date.now();
-  document.getElementsByTagName("body")[0].insertAdjacentHTML(
-    'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
-  );
-  window.ontouchmove = onscroll;
-  window.onscroll = onscroll;
-
-  function onscroll() {
-    var scroll = document.body.scrollTop || document.documentElement.scrollTop;
-    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    var scrolled = Math.round(scroll * 100 / height);
-    if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
-  };
+    var bar = "_" + Date.now();
+    document.getElementsByTagName("body")[0].insertAdjacentHTML(
+        'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
+    );
+    function onscroll() {
+        var scroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = Math.round(scroll * 100 / height);
+        if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
+    };
+    window.ontouchmove = onscroll;
+    window.onscroll = onscroll;
 }
 
 const initApp = () => {
-    const dataFile = './data.json'; 
     console.time('JSON-Fetch');
     
     fetch(dataFile)
@@ -680,9 +773,15 @@ const initApp = () => {
             $('#deals').html('').addClass('hidden');
 
             console.time('DOM-Render-Speed');
+            const start = performance.now();
             renderDeals(goods);
             renderMarkets(deals.markets);
+            renderCategories(categories);
             console.timeEnd('DOM-Render-Speed');
+            const end = performance.now();
+
+            const renderDuration = Math.round(end - start);
+            $('#speed-bench').html(`🚀 renderováno za <b>${renderDuration} ms</b>`);
             
             // defaults
             $('#deals article').addClass('hidden-force');
@@ -699,60 +798,113 @@ const initApp = () => {
         });
 };
 
-// RENDERERs
+// RENDER
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
-    dealsGrid.innerHTML = deals.map(deal => `
-        <article class="noselect notip product-card c-${deal.cat}" data-id="${deal.id}" data-cat="${deal.cat}" data-query="${deal.query}" data-name="${deal.name}" data-market="${deal.market}">
-            <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" class="market-image">
-            <div class="product-image-container">
-                <div class="image-wrapper">
-                    <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" title="${deal.cat}: ${deal.market} - ${deal.name}" class="product-image">
+
+    // aktuální filtry
+    const activeMarkets = window.deals.myMarkets || [];
+    const activeCats = window.deals.myCats || [];
+
+    dealsGrid.innerHTML = deals.map(deal => {
+        const marketMatch = activeMarkets.length === 0 || activeMarkets.includes(deal.market);
+        const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
+        const visibilityClass = (marketMatch && catMatch) ? "" : "none"; 
+
+        return `
+            <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
+                     data-id="${deal.id}" 
+                     data-cat="${deal.cat}" 
+                     data-market="${deal.market}">
+                <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" class="market-image">
+                <div class="product-image-container">
+                    <div class="image-wrapper">
+                        <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" class="product-image">
+                    </div>
                 </div>
-            </div>
-            <div class="product-name bold" title="${deal.name}">${deal.name}</div>
-            <div class="product-note" title="${deal.note}">${deal.note}</div>
-            <div class="product-price">
-                <span class="discount mono">${deal.discount}</span>
-                <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
-                <span class="ppunit">${deal.priceperunit}</span>
-            </div>
-            <div class="validity nowrap bold">${deal.validity}</div>
-        </article>
-    `).join('');
+                <div class="product-name bold">${deal.name}</div>
+                <div class="product-note">${deal.note}</div>
+                <div class="product-price">
+                    <span class="discount mono">${deal.discount}</span>
+                    <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
+                </div>
+                <div class="validity nowrap bold">${deal.validity}</div>
+            </article>
+        `;
+    }).join('');
 };
 
 const renderMarkets = (markets) => {
     if (!markets) return;
     const marketsDiv = document.getElementById('mymarkets');
     if (!marketsDiv) return;
+    window.deals = window.deals || {};
+    window.deals.myMarkets = window.deals.myMarkets || [];
+    marketsDiv.innerHTML = markets.map(market => {
+        const isActive = window.deals.myMarkets.includes(market);
+        const chipClass = isActive ? 'blue' : 'outline';
+        return `
+            <button class="chip ${chipClass} secondary" data-market="${market}">
+                <img src="/markets/${market}.webp" loading="lazy" alt="${market}" class="market-image">
+                <span class="mono">${market}</span>
+            </button>
+        `;
+    }).join('');
 
-    // Přidáme "Vše" jako první volbu, pokud ji v poli už nemáš
-    marketsDiv.innerHTML = markets.map(market => `
-        <button class="chip outline secondary" disabled data-market="${market}">
-            <i>store</i>
-            <span>${market}</span>
-        </button>
-    `).join('');
+    $(marketsDiv).off('click', 'button').on('click', 'button', function() {
+        const $this = $(this);
+        const market = $this.data('market');
+        $this.toggleClass('outline blue');
+        if ($this.hasClass('blue')) {
+            if (!window.deals.myMarkets.includes(market)) {
+                window.deals.myMarkets.push(market);
+            }
+        } else {
+            window.deals.myMarkets = window.deals.myMarkets.filter(m => m !== market);
+        }
+        localStorage.setItem('myMarkets', JSON.stringify(window.deals.myMarkets));
+    });
+};
 
-    $('#mymarkets button').on('click', function() {
-        const selectedMarket = $(this).data('market');
-        $('#mymarkets button').removeClass('fill').addClass('outline');
-        $(this).removeClass('outline').addClass('fill');
+const renderCategories = (categories) => {
+    if (!categories) return;
+    const catsDiv = document.getElementById('mycats');
+    if (!catsDiv) return;
+    window.deals = window.deals || {};
+    window.deals.myCats = window.deals.myCats || [];
+    catsDiv.innerHTML = categories.map(cat => {
+        const isActive = window.deals.myCats.includes(cat);
+        const chipClass = isActive ? 'blue' : 'outline';
+        const catIcon = catIcons[cat] || '';
+        return `
+            <button class="chip ${chipClass} secondary" data-category="${cat}">
+                <span class="mono">${catIcon} ${cat}</span>
+            </button>
+        `;
+    }).join('');
+
+    $(catsDiv).off('click', 'button').on('click', 'button', function() {
+        const $this = $(this);
+        const cat = $this.data('category');
+        $this.toggleClass('outline blue');
+        if ($this.hasClass('blue')) {
+            if (!window.deals.myCats.includes(cat)) {
+                window.deals.myCats.push(cat);
+            }
+        } else {
+            window.deals.myCats = window.deals.myCats.filter(c => c !== cat);
+        }
+        localStorage.setItem('myCats', JSON.stringify(window.deals.myCats));
     });
 };
 
 // UI bindings
 $(document).ready(function() {
-    // bool: is flash animation pending?
-    var flash_flag = false;
+    let flash_flag = false; // bool: is flash animation pending?
+    let face_flag = false; // bool: is face animation pending?
 
-    // bool: is face animation pending?
-    var face_flag = false;
-
-    // TBD: keyboard events
-    window.onkeydown = function(e) {
+    window.onkeydown = function(e) { // TBD: keyboard events
         //debug('key: '+ e.key);
     }
 
@@ -790,9 +942,14 @@ $(document).ready(function() {
         }
     });
 
+    // Smiley button
+    $('.mrsmiley').on('click', function() {
+        roulette();
+    });
+    
     // Mr. Smiley emoji animation
     let currentFaceIsYummy = false;
-    $('.billionaire').on('click', function() {
+    function roulette() {
         if (face_flag) return;
         face_flag = true;
         currentFaceIsYummy = !currentFaceIsYummy;
@@ -820,7 +977,7 @@ $(document).ready(function() {
             $('#deals').removeClass('hidden');
         }, 400);
         window.scrollTo({top: 0, behavior: 'smooth'});
-    });
+    };
 
     // handedness button
     $('.settings-button').on('click', function() {
