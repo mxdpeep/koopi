@@ -722,18 +722,13 @@ const catIcons = {
 
 /* AUDIO */
 const sfxUpdate = new Audio('/update.mp3'); 
-sfxUpdate.addEventListener('error', (e) => {
-    console.error("Chyba audia:", sfxUpdate.error);
-});
 sfxUpdate.addEventListener('canplaythrough', () => {
     console.log("Audio je ready a načtené.");
 });
 function notifyUpdate() {
     const sfx = new Audio('update.mp3?v=' + Date.now());
     sfx.volume = 1.0;
-    sfx.play().catch(e => {
-        console.error("Sakra, audio nejede:", e.message);
-    });
+    sfx.play();
 }
 
 // check for updates on Cloudflare Pages
