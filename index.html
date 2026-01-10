@@ -511,7 +511,9 @@ nav.bottom button {
         <h3>Aplikace</h3><hr>
         👾 build: <b>{{GIT_REV}}</b><br>
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br>
-        📅 date: <b>{{DATE_REV}}</b><br>
+        📅 date: <b>{{DATE_REV}}</b><br><br>
+
+
         Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
         Hosting Github + Cloudflare Pages.<br><br>
         <a href="https://github.com/mxdpeep/koopi" style="display: inline-flex; align-items: center; gap: 5px; text-decoration: none; color: inherit;">
@@ -972,6 +974,9 @@ $(document).ready(function() {
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
+        if (window.refresh_flag) {
+            refresh();
+        }
         roulette();
     });
     
