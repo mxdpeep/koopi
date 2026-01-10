@@ -720,7 +720,7 @@ const catIcons = {
     ZELENINA: '🥦',
 };
 
-/* audio */
+/* AUDIO */
 const sfxUpdate = new Audio('/update.mp3'); 
 sfxUpdate.addEventListener('error', (e) => {
     console.error("Chyba audia:", sfxUpdate.error);
@@ -728,15 +728,13 @@ sfxUpdate.addEventListener('error', (e) => {
 sfxUpdate.addEventListener('canplaythrough', () => {
     console.log("Audio je ready a načtené.");
 });
-window.notifyUpdate = function() {
-    if (sfxUpdate.readyState < 2) {
-        console.error("Audio ještě není načtené nebo nemá zdroj.");
-        return;
-    }
-    sfxUpdate.play().catch(err => {
-        console.error("Play failed:", err.name, err.message);
+function notifyUpdate() {
+    const sfx = new Audio('update.mp3?v=' + Date.now());
+    sfx.volume = 1.0;
+    sfx.play().catch(e => {
+        console.error("Sakra, audio nejede:", e.message);
     });
-};
+}
 
 // check for updates on Cloudflare Pages
 function checkUpdate() {
