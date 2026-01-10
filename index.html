@@ -162,7 +162,6 @@ button.chip span {
 
 /* BUTTONS */
 .mrsmiley {padding: 1rem;}
-
 .btn-top {
     font-size: 1rem;
     background-color: 0 !important;
@@ -171,7 +170,14 @@ button.chip span {
     border-radius: 0!important;
     padding: 5px;
 }
-
+.btn-secrow {
+    font-size: 1.5rem;
+    background-color: 0 !important;
+    color: white !important;
+    border: 1px solid #000 !important;
+    border-radius: 0!important;
+    padding: 5px;
+}
 .btn-bottom {
     font-size: 1rem;
     background-color: 0 !important;
@@ -423,8 +429,12 @@ nav.bottom button {
             <i class="bigger">refresh</i>
         </button>
     </div>
-    <div class="row width-100 center-align" style="border-top: 1px solid #333; min-height: 40px;">
-        <span class="mono small sekundarni-vypis">sekundární navigační lišta</span>
+    <div class="row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+        <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">❤️</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
     </div> 
 </nav>
 <nav class="lefthanded top notap nowrap black white-text vertical" style="display: none;">
@@ -449,9 +459,13 @@ nav.bottom button {
             <span>Instalovat ♥️</span>
         </button>
     </div>
-    <div class="row width-100 center-align" style="border-top: 1px solid #333; min-height: 40px;">
-        <span class="mono small">sekundární navigační lišta</span>
-    </div>
+    <div class="row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+        <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">❤️</button>
+        <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
+    </div> 
 </nav>
 
 <!-- BOTTOM nav -->
@@ -511,7 +525,7 @@ nav.bottom button {
         <ul>
             <li><b>2026-01-10</b>
                 <br>◾️ filtrování obchodů a kategorií
-                <br>◾️ sekundární navigační lišta
+                <br>◾️ sekundární navigační lišta (zatím nefunkční)
             </li>
             <li><b>2026-01-09</b>
                 <br>◾️ vylepšené UI, pevné mezery, české třídění obchodů
@@ -528,7 +542,7 @@ nav.bottom button {
         <div>
             <i>link</i>
             💡 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
-        </div><br>
+        </div>
 
         <h4>Pod kapotou</h4><hr>
         <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
