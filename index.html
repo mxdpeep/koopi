@@ -2,19 +2,21 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>🤑 Slevičky</title>
+<title>🤑 SLEVIČKY</title>
 <link rel="canonical" href="https://slevicky.pages.dev/">
-<link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://umami.gscloud.cz">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="preconnect" href="https://umami.gscloud.cz">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="referrer" content="no-referrer-when-downgrade">
 <meta name="description" content="Aktuální slevy potravin a akční zboží přehledně na jednom místě. (public alfa)">
 <meta property="og:description" content="Aktuální slevy potravin a akční zboží přehledně na jednom místě. (public alfa)">
 <meta name="theme-color" content="#fff">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="🤑 Slevičky">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="google" content="notranslate">
@@ -50,7 +52,8 @@
     --surface-container-low-light: #f5f5f5;
 }
 
-body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+body {min-width: 320px;font-family: var(--font);}
+body {-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overscroll-behavior-y: contain;-webkit-text-size-adjust: 100%;}
 a {text-decoration: underline;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
@@ -62,8 +65,6 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 * {scrollbar-width: auto;
   scrollbar-color: #ffff00 #1a1a1a;
 }
-
-#deals {content-visibility: auto;}
 
 /* LOADING */
 #loading {
@@ -82,25 +83,14 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
-.progress-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background-color: #000;
-    z-index: 9999;
-}
-
-.progress-bar {
-    height: 4px;
-    background: linear-gradient(to right, #004, #aaa, #0af);
-    box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
-    transition: width 0.2s ease;
-}
+.progress-container {position: fixed;top: 0;left: 0;height: 4px;width: 100%;background-color: #000;z-index: 9999;}
+.progress-bar {height: 4px;background: linear-gradient(to right, #004, #aaa, #0af);box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);transition: width 0.2s ease;}
 
 /* PWA installer */
 .install-btn {z-index: 100;}
+
+/* DEALS */
+#deals {content-visibility: auto;}
 
 /* ABOUT */
 #about ul {list-style-type: none;padding: 0;margin: 0;}
