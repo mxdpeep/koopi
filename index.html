@@ -731,8 +731,7 @@ function notifyUpdate() {
     sfx.volume = 1.0;
     sfx.play();
 }
-
-// check for updates on Cloudflare Pages
+// check for updates
 function checkUpdate() {
     if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
