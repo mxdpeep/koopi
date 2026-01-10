@@ -716,13 +716,8 @@ const catIcons = {
 };
 
 /* AUDIO notification*/
-const sfxUpdate = new Audio('/update.mp3?v=' + Date.now());
-sfxUpdate.addEventListener('canplaythrough', () => {
-    console.log("Audio is ready to play.");
-});
-
-function notifyUpdate() {
-    const sfx = new Audio('notification .mp3?v=' + Date.now());
+function notificationSfx() {
+    const sfx = new Audio('notification.mp3?v=' + Date.now());
     sfx.volume = 1.0;
     sfx.play();
 }
@@ -737,7 +732,7 @@ function checkUpdate() {
                 console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
                 $('.refresh-btn').append('<badge class="bold">!</badge>').addClass('red-text');
                 clearInterval(updateTimer);
-                window.notifyUpdate();
+                window.notificationSfx();
             }
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json.');
