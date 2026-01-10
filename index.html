@@ -550,7 +550,7 @@ nav.bottom button {
 
     </div>
     <div id="settings" class="hidden container">
-        <h3>Nastavení</h3><hr>
+        <h3>🛠️ Nastavení</h3><hr>
         <div class="s m l">
             <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
         </div class="s m l">
@@ -559,15 +559,16 @@ nav.bottom button {
             <button id="load" class="green settings-button" disabled>load</button>
         </div>
 
-        <h3>Moje obchody</h3><hr>
-        Pokud není nic vybráno, zobrazí se všechno.
+        <h3>🏪 Moje obchody</h3><hr>
+        Pokud zde není nic vybráno, zobrazí se všechny slevy.
         <div id="mymarkets" class="center-align padding s m l"></div>
 
-        <h3>Moje kategorie</h3><hr>
-        Pokud není nic vybráno, zobrazí se všechno.
+        <h3>📑 Moje kategorie</h3><hr>
+        Pokud zde není nic vybráno, zobrazí se všechny slevy.
         <div id="mycats" class="padding s m l"></div>
 
-        <h3>Blokované zboží</h3><hr>
+        <h3>❌ Blokované zboží</h3><hr>
+        Již brzy...
         <div id="blocked" class="padding s m l"></div>
 
     </div>
@@ -871,6 +872,7 @@ const renderMarkets = (markets) => {
 
     $(marketsDiv).off('click', 'button').on('click', 'button', function() {
         window.refresh_flag = true;
+        $('.refresh-btn').addClass('orange-text');
         const $this = $(this);
         const market = $this.data('market');
         $this.toggleClass('outline blue');
@@ -904,6 +906,7 @@ const renderCategories = (categories) => {
 
     $(catsDiv).off('click', 'button').on('click', 'button', function() {
         window.refresh_flag = true;
+        $('.refresh-btn').addClass('orange-text');
         const $this = $(this);
         const cat = $this.data('category');
         $this.toggleClass('outline blue');
