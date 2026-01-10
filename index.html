@@ -41,22 +41,10 @@
 <script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
 
-/* Vynutí řazení pod sebou v navu */
-nav.vertical {
-    flex-direction: column !important;
-    height: auto !important;
-    align-items: stretch !important;
-}
-
-/* Zajistí, že řádky vyplní celou šířku */
-.width-100 {
-    width: 100%;
-}
-
 /* VARIABLES */
 :root {
     --font: 'Ubuntu', sans-serif;
-    --market-image-height: 48px;
+    --market-image-height: 80px;
     --on-surface-light: #2c2c2c;
     --product-image-height: 100px;
     --surface-container-high-light: #e0e0e0;
@@ -152,6 +140,12 @@ button.chip span {
 
 /* NAVIGATION quirks */
 .grayscaled {filter: grayscale(100%);opacity: 0.5;}
+nav.vertical {
+    flex-direction: column !important;
+    height: auto !important;
+    align-items: stretch !important;
+}
+.width-100 {width: 100%;}
 
 /* defaults */
 .slevicky {display: none;}
@@ -727,7 +721,7 @@ sfxUpdate.addEventListener('canplaythrough', () => {
 });
 
 function notifyUpdate() {
-    const sfx = new Audio('notification.mp3?v=' + Date.now());
+    const sfx = new Audio('notification .mp3?v=' + Date.now());
     sfx.volume = 1.0;
     sfx.play();
 }
