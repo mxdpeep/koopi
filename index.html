@@ -720,10 +720,10 @@ const catIcons = {
     ZELENINA: '🥦',
 };
 
-/* AUDIO */
-const sfxUpdate = new Audio('/update.mp3'); 
+/* AUDIO notification*/
+const sfxUpdate = new Audio('/update.mp3?v=' + Date.now());
 sfxUpdate.addEventListener('canplaythrough', () => {
-    console.log("Audio je ready a načtené.");
+    console.log("Audio is ready to play.");
 });
 function notifyUpdate() {
     const sfx = new Audio('update.mp3?v=' + Date.now());
