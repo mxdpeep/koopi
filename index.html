@@ -724,7 +724,7 @@ const catIcons = {
 const sfxUpdate = new Audio('update.mp3'); 
 window.notifyUpdate = function() {
     sfxUpdate.play().catch(err => {
-        console.warn("Audio play blocked: Check user interaction.", err);
+        console.warn("Audio play blocked.", err);
     });
 };
 
