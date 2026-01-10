@@ -107,6 +107,7 @@ var (
 // product names to ignore (case-insensitive)
 var FORBIDDEN_GOODS = []string{
 	"alverde",
+	"bageta",
 	"bambucké",
 	"do myčky",
 	"doplněk stravy",

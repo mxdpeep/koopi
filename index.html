@@ -547,6 +547,7 @@ nav.bottom button {
         <h4>Pod kapotou</h4><hr>
         <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
         <div id="speed-bench" class="s m l"></div>
+
     </div>
     <div id="settings" class="hidden container">
         <h3>Nastavení</h3><hr>
@@ -559,9 +560,11 @@ nav.bottom button {
         </div>
 
         <h3>Moje obchody</h3><hr>
+        Pokud není nic vybráno, zobrazí se všechno.
         <div id="mymarkets" class="center-align padding s m l"></div>
 
         <h3>Moje kategorie</h3><hr>
+        Pokud není nic vybráno, zobrazí se všechno.
         <div id="mycats" class="padding s m l"></div>
 
         <h3>Blokované zboží</h3><hr>
@@ -867,6 +870,7 @@ const renderMarkets = (markets) => {
     }).join('');
 
     $(marketsDiv).off('click', 'button').on('click', 'button', function() {
+        window.refresh_flag = true;
         const $this = $(this);
         const market = $this.data('market');
         $this.toggleClass('outline blue');
@@ -899,6 +903,7 @@ const renderCategories = (categories) => {
     }).join('');
 
     $(catsDiv).off('click', 'button').on('click', 'button', function() {
+        window.refresh_flag = true;
         const $this = $(this);
         const cat = $this.data('category');
         $this.toggleClass('outline blue');
@@ -938,6 +943,9 @@ $(document).ready(function() {
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible) {
+            if (window.refresh_flag) {
+                refresh();
+            }
             $('#deals').show();
         } else {
             $('#about').show();
@@ -950,18 +958,21 @@ $(document).ready(function() {
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible) {
+            if (window.refresh_flag) {
+                refresh();
+            }
             $('#deals').show();
         } else {
             $('#settings').show();
         }
     });
 
-    // Smiley button
+    // SMILEY button
     $('.mrsmiley').on('click', function() {
         roulette();
     });
     
-    // Mr. Smiley emoji animation
+    // Mr. SMILEY emoji animation
     let currentFaceIsYummy = false;
     function roulette() {
         if (face_flag) return;
@@ -1051,13 +1062,18 @@ $(document).ready(function() {
 
     // refresh button
     $('.refresh-btn').on('click', function() {
+        refresh();
+    });
+
+    // refresh page
+    function refresh() {
         $(this).prop('disabled', true).html('<i>schedule</i>');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
         const buster = Math.random().toString(36).substring(2, 6);
         location.href = '/?' + buster;
-    });
+    }
 
     // debugger close
     $('#debugger').on('click', function() {
@@ -1071,6 +1087,9 @@ $(document).ready(function() {
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
+        if (window.refresh_flag) {
+            refresh();
+        }
         deals.cats = cats;
         $('nav.bottom button').addClass('grayscaled');
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
