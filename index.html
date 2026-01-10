@@ -728,6 +728,7 @@ sfxUpdate.addEventListener('error', (e) => {
 sfxUpdate.addEventListener('canplaythrough', () => {
     console.log("Audio je ready a načtené.");
 });
+
 window.notifyUpdate = function() {
     if (sfxUpdate.readyState < 2) {
         console.error("Audio ještě není načtené nebo nemá zdroj.");
