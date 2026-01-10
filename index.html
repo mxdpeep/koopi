@@ -721,10 +721,20 @@ const catIcons = {
 };
 
 /* audio */
-const sfxUpdate = new Audio('update.mp3'); 
+const sfxUpdate = new Audio('/update.mp3'); 
+sfxUpdate.addEventListener('error', (e) => {
+    console.error("Chyba audia:", sfxUpdate.error);
+});
+sfxUpdate.addEventListener('canplaythrough', () => {
+    console.log("Audio je ready a načtené.");
+});
 window.notifyUpdate = function() {
+    if (sfxUpdate.readyState < 2) {
+        console.error("Audio ještě není načtené nebo nemá zdroj.");
+        return;
+    }
     sfxUpdate.play().catch(err => {
-        console.warn("Audio play blocked.", err);
+        console.error("Play failed:", err.name, err.message);
     });
 };
 
