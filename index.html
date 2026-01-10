@@ -703,21 +703,29 @@ const categories = [
     'ZELENINA',
 ];
 const catIcons = {
-    ZELENINA: '🥦',
+    CUKROVINKY: '🍬',
+    KOŘENÍ: '🌶️',
+    LUŠTĚNINY: '🫘',
+    MASO: '🥩',
+    MLÉKO: '🥛',
+    NÁPOJE: '🍺',
+    OBILÍ: '🌾',
+    OSTATNÍ: '📦',
     OVOCE: '🍎',
     OŘECHY: '🥜',
-    MLÉKO: '🥛',
     SÝRY: '🧀',
-    VEJCE: '🥚',
-    OBILÍ: '🌾',
-    LUŠTĚNINY: '🫘',
-    KOŘENÍ: '🌶️',
-    MASO: '🥩',
-    UZENINY: '🥓',
     TUKY: '🧈',
-    NÁPOJE: '🍺',
-    CUKROVINKY: '🍬',
-    OSTATNÍ: '📦',
+    UZENINY: '🥓',
+    VEJCE: '🥚',
+    ZELENINA: '🥦',
+};
+
+/* audio */
+const sfxUpdate = new Audio('update.mp3'); 
+window.notifyUpdate = function() {
+    sfxUpdate.play().catch(err => {
+        console.warn("Audio play blocked: Check user interaction.", err);
+    });
 };
 
 // check for updates on Cloudflare Pages
@@ -730,6 +738,7 @@ function checkUpdate() {
                 console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
                 $('.refresh-btn').append('<badge class="bold">!</badge>').addClass('red-text');
                 clearInterval(updateTimer);
+                window.notifyUpdate();
             }
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json pro kontrolu verze.');
