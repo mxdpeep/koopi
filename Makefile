@@ -3,6 +3,8 @@ COUNT_REV := $(shell git rev-list --count HEAD)
 DATE_REV := $(shell date +%Y%m%d)
 HASH_REV := $(shell git rev-parse --short=8 HEAD)
 GIT_REV := $(DATE_REV)-$(HASH_REV)
+TIMESTAMP := $(shell date +%Y-%m-%d)
+STEMS_DIR := stems
 
 all:
 	@echo "backup | build | clear | db | img";
@@ -28,6 +30,8 @@ backup:
 db: build
 	@cd go/ && ./koopi
 	@cp go/koopi.json ./data.json
+	@mkdir -p $(STEMS_DIR)
+	@cp data.json $(STEMS_DIR)/data_$(TIMESTAMP).json
 	@printf '{\n  "count": "%s",\n  "date": "%s",\n  "hash": "%s",\n  "version": "%s"\n}\n' \
 		"$(COUNT_REV)" "$(DATE_REV)" "$(HASH_REV)" "$(GIT_REV)" > meta.json
 
