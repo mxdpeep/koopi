@@ -825,13 +825,7 @@ const renderDeals = (deals) => {
         const marketMatch = activeMarkets.length === 0 || activeMarkets.includes(deal.market);
         const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
         const visibilityClass = (marketMatch && catMatch) ? "" : "none"; 
-if (deal.cat === "MLÉKO" && activeCats.includes("ZELENINA")) {
-    console.log("CHYBA TADY!", {
-        dealCat: deal.cat,
-        activeCats: activeCats,
-        catMatch: (activeCats.length === 0 || activeCats.includes(deal.cat))
-    });
-}
+
         return `
             <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
                      data-id="${deal.id}" 
@@ -1073,7 +1067,7 @@ $(document).ready(function() {
         });
     });
 
-    // BOTTOM NAVIGATION
+    // BOTTOM NAVIGATION old
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
