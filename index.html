@@ -741,6 +741,8 @@ const progressBar = () => {
     document.getElementsByTagName("body")[0].insertAdjacentHTML(
         'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
     );
+
+    // scrolling event handler
     function onscroll() {
         var scroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -930,12 +932,14 @@ const renderCategories = (categories) => {
     });
 };
 
+// UPDATE BADGES in BOTTOM NAV bar
 function updateCategoryBadges(catCounts) {
+    if (!catCounts) return;
+
     const activeCats = window.deals.myCats || [];
     $('button[data-cats]').each(function() {
         const btn = $(this);
         const catSelectors = btn.attr('data-cats').split(',');
-        
         let total = 0;
         catSelectors.forEach(selector => {
             const catKey = selector.trim().replace('.c-', '');
@@ -944,14 +948,17 @@ function updateCategoryBadges(catCounts) {
                 total += (catCounts[catKey] || 0);
             }
         });
-
         let badge = btn.find('.cat-badge');
         if (badge.length === 0) {
             badge = $('<span class="badge blue black-text bold cat-badge"></span>');
             btn.append(badge);
         }
         badge.text(total);
-        if (total > 0) badge.show(); else badge.hide();
+        if (total > 0) {
+            badge.show();
+         } else {
+            badge.hide();
+         }
     });
 }
 
@@ -1012,8 +1019,8 @@ $(document).ready(function() {
         roulette();
     });
     
-    // Mr. SMILEY emoji animation
     let currentFaceIsYummy = false;
+    // EMOJI ANIMATION function
     function roulette() {
         if (face_flag) return;
         face_flag = true;
@@ -1048,6 +1055,8 @@ $(document).ready(function() {
     $('.settings-button').on('click', function() {
         switchHands();
     });
+
+    // SWITCH HANDEDNESS function
     function switchHands() {
         if (flash_flag) return;
         flash_flag = true;
@@ -1060,19 +1069,7 @@ $(document).ready(function() {
         localStorage.setItem('handedness', currentMode);
     }
 
-    // process handedness from localStorage
-    if (!window.nolocalstorage) {
-        const savedHandedness = localStorage.getItem('handedness');
-        if (savedHandedness === 'left') {
-            $('.lefthanded').show();
-            $('.righthanded').hide();
-        } else if (savedHandedness === 'right') {
-            $('.lefthanded').hide();
-            $('.righthanded').show();
-        }
-    }
-
-    // export settings
+    // EXPORT SETTINGS function
     function exportSettings() {
         const data = {
             handedness: localStorage.getItem('handedness') || 'right',
@@ -1091,6 +1088,7 @@ $(document).ready(function() {
         a.download = 'slevicky_settings.json';
         document.body.appendChild(a); 
         a.click();
+
         // clean up
         setTimeout(() => {
             document.body.removeChild(a);
@@ -1098,10 +1096,12 @@ $(document).ready(function() {
         }, 0);
     }
 
-    // refresh button
+    // REFRESH button
     $('.refresh-btn').on('click', function() {
         refresh();
     });
+
+    // REFRESH function
     function refresh() {
         $(this).prop('disabled', true).html('<i>schedule</i>');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -1111,7 +1111,7 @@ $(document).ready(function() {
         location.href = '/?' + buster;
     }
 
-    // close debugger
+    // close DEBUGGER
     $('#debugger').on('click', function() {
         dtimer = null;
         $('#debugger').fadeOut(function() {
@@ -1119,12 +1119,22 @@ $(document).ready(function() {
         });
     });
 
-    // set defaults
+    // set DEFAULTS function
     function setDefaults() {
         $('nav.bottom button').addClass('grayscaled');
         $('.but1').removeClass('grayscaled');
+        // process handedness from localStorage
+        if (!window.nolocalstorage) {
+            const savedHandedness = localStorage.getItem('handedness');
+            if (savedHandedness === 'left') {
+                $('.lefthanded').show();
+                $('.righthanded').hide();
+            } else if (savedHandedness === 'right') {
+                $('.lefthanded').hide();
+                $('.righthanded').show();
+            }
+        }
     }
-    setDefaults();
 
     // BOTTOM NAVIGATION buttons
     $('.btn-bottom').on('click', function() {
@@ -1166,6 +1176,8 @@ $(document).ready(function() {
         debug('Target: ' + info);
         return false;
     }
+
+    setDefaults();
 });
 
 // SERVICE WORKER
