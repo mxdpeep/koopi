@@ -4,6 +4,7 @@ CUKROVINKY,bonbony,2
 CUKROVINKY,cukr krystal,2
 CUKROVINKY,cukr moučka,2
 CUKROVINKY,cukr,2
+CUKROVINKY,dezert,1
 CUKROVINKY,džem,1
 CUKROVINKY,hambáče,1
 CUKROVINKY,hroznový cukr,1
@@ -22,6 +23,7 @@ CUKROVINKY,vexta,1
 CUKROVINKY,zmrzlina,2
 CUKROVINKY,čekankový sirup,1
 CUKROVINKY,čokoláda,3
+CUKROVINKY,čokoládová,1
 CUKROVINKY,želatina,1
 CUKROVINKY,želé,2
 KOŘENÍ,bazalka,1
@@ -99,14 +101,17 @@ MLÉKO,kyška,1
 MLÉKO,mléko plnotučné,1
 MLÉKO,mléko polotučné,1
 MLÉKO,mléko trvanlivé,1
+MLÉKO,mléko,1
 MLÉKO,mléčná rýže,1
 MLÉKO,podmáslí,1
 MLÉKO,pomazánka,1
 MLÉKO,pribináček,1
+MLÉKO,pudink,1
 MLÉKO,skyr,1
 MLÉKO,smetana ke šlehání,2
 MLÉKO,smetana na vaření,2
 MLÉKO,smetana zakysaná,2
+MLÉKO,smetanový jogurt,1
 MLÉKO,sojové mléko,1
 MLÉKO,termix,1
 MLÉKO,tvaroh,1
@@ -126,16 +131,21 @@ NÁPOJE,ovocný čaj,2
 NÁPOJE,pivo,7
 NÁPOJE,rum,3
 NÁPOJE,sekt,3
-NÁPOJE,voda,5
+NÁPOJE,voda,3
+NÁPOJE,vodka,3
 NÁPOJE,víno,3
 NÁPOJE,zelený čaj,2
 NÁPOJE,zrnková káva,3
 NÁPOJE,černý čaj,2
+OBILÍ,bageta,1
 OBILÍ,buchty,1
 OBILÍ,cereálie,1
-OBILÍ,chleba,1
+OBILÍ,croissant,1
+OBILÍ,chleba,2
+OBILÍ,francouzská bageta,1
 OBILÍ,houska,1
 OBILÍ,instantní nudle,1
+OBILÍ,knedlík,1
 OBILÍ,knedlíky,1
 OBILÍ,krupička,1
 OBILÍ,kuskus,1
@@ -150,7 +160,7 @@ OBILÍ,pečivo,1
 OBILÍ,pohanka,1
 OBILÍ,rohlík,1
 OBILÍ,rýže,1
-OBILÍ,těstoviny,1
+OBILÍ,těstoviny,2
 OBILÍ,zavářka,1
 OBILÍ,závin,1
 OSTATNÍ,bujón,1
@@ -160,9 +170,8 @@ OSTATNÍ,hořčice,2
 OSTATNÍ,kečup,2
 OSTATNÍ,kvasnice,1
 OSTATNÍ,ocet,1
-OSTATNÍ,omáčka,1
+OSTATNÍ,omáčka,2
 OSTATNÍ,pomazánka,1
-OSTATNÍ,pudink,1
 OSTATNÍ,tyčinky,2
 OSTATNÍ,škrob,1
 OVOCE,avokádo,1
@@ -282,6 +291,7 @@ UZENINY,lovecký salám,1
 UZENINY,moravské uzené,1
 UZENINY,pancetta,1
 UZENINY,paprikáš,1
+UZENINY,paštika,1
 UZENINY,prosciutto,1
 UZENINY,slanina,1
 UZENINY,uherák,1
@@ -293,6 +303,7 @@ UZENINY,čabajka,1
 UZENINY,špekáčky,1
 UZENINY,šunka výběrová,1
 UZENINY,šunka,1
+UZENINY,šunková pěna,1
 VEJCE,dresink,1
 VEJCE,majonéza,1
 VEJCE,tatarská omáčka,1

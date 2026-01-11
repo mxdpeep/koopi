@@ -44,7 +44,6 @@
 /* VARIABLES */
 :root {
     --font: 'Ubuntu', sans-serif;
-    --market-image-height: 80px;
     --on-surface-light: #2c2c2c;
     --product-image-height: 100px;
     --surface-container-high-light: #e0e0e0;
@@ -89,13 +88,14 @@ button.chip {
   padding: 0 0.75rem !important;
 }
 button.chip .market-image {
-  max-height: 1.2rem;
-  width: auto;
-  margin: 0 !important;
-  display: block;
+    width: 40px;
+    height: 40px;
+    max-height: 1.2rem;
+    margin: 0 !important;
+    display: block;
 }
 button.chip span {
-  line-height: 1; 
+  line-height: 1rem;
   display: inline-block;
 }
 
@@ -222,8 +222,6 @@ nav.bottom button {letter-spacing: 0;}
 /* MARKET image */
 .market-image {
     display: inline-block;
-    width: auto;
-    height: var(--market-image-height);
     object-fit: contain;
     margin: 0 auto;
     border-radius: 0 !important;
@@ -679,23 +677,6 @@ const version = '{{GIT_REV}}';
 const git_build_date = '{{DATE_REV}}';
 const git_revisions = '{{COUNT_REV}}';
 const dataFile = './data.json'; 
-const categories = [
-    'CUKROVINKY',
-    'KOŘENÍ',
-    'LUŠTĚNINY',
-    'MASO',
-    'MLÉKO',
-    'NÁPOJE',
-    'OBILÍ',
-    'OSTATNÍ',
-    'OVOCE',
-    'OŘECHY',
-    'SÝRY',
-    'TUKY',
-    'UZENINY',
-    'VEJCE',
-    'ZELENINA',
-];
 const catIcons = {
     CUKROVINKY: '🍬',
     KOŘENÍ: '🌶️',
@@ -713,6 +694,7 @@ const catIcons = {
     VEJCE: '🥚',
     ZELENINA: '🥦',
 };
+const categories = Object.keys(catIcons);
 
 /* AUDIO notification*/
 function notificationSfx() {
@@ -839,7 +821,7 @@ const renderDeals = (deals) => {
                      data-id="${deal.id}" 
                      data-cat="${deal.cat}" 
                      data-market="${deal.market}">
-                <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" class="market-image">
+                <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" width="60" height="60" class="market-image">
                 <div class="product-image-container">
                     <div class="image-wrapper">
                         <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" class="product-image">
