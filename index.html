@@ -123,7 +123,7 @@ button.chip .market-image {
 .noselect {-webkit-user-select: none;-ms-user-select: none;user-select:none;}
 .notap {cursor: pointer;-webkit-tap-highlight-color: transparent;-moz-tap-highlight-color: transparent;-ms-tap-highlight-color: transparent;}
 .nowrap {white-space: nowrap !important;overflow: hidden;text-overflow: ellipsis;}
-.hidden {display: none;}
+.hidden {display: none !important;}
 
 /* VFX bombs */
 .flashbomb {animation: flash 0.5s ease-out;}
@@ -145,7 +145,14 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 /* NAV bottom badges */
 .cat-badge {
     position: static;
+    z-index: 9999;
+    display: none;
+    border-radius: 0;
     letter-spacing: 0;
+}
+
+.extras {
+    height: 3rem !important;;
 }
 
 /* defaults */
@@ -320,9 +327,6 @@ nav.bottom button {letter-spacing: 0;}
 .ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;}
 
 /* MEDIA selectors */
-@media(max-width: 899px) {
-    .cat-badge {display: none;}
-}
 @media(min-width: 500px) {
     #deals {
         grid-template-columns: repeat(4, 1fr); /* tablet: 4 sloupců */
@@ -344,6 +348,7 @@ nav.bottom button {letter-spacing: 0;}
     nav.bottom button {letter-spacing: 0.5rem;}
     #about, #settings {width: 80%;margin-top: 1rem;}
     #debugger {width: 80%}
+    .cat-badge {display: flex;}
 }
 @media(min-width: 1270px) {
     #deals {
@@ -425,7 +430,7 @@ nav.bottom button {
             <i class="bigger">refresh</i>
         </button>
     </div>
-    <div class="row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
         <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">❤️</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
@@ -455,7 +460,7 @@ nav.bottom button {
             <span>Instalovat ♥️</span>
         </button>
     </div>
-    <div class="row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
@@ -746,6 +751,12 @@ const progressBar = () => {
         var scroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         var scrolled = Math.round(scroll * 100 / height);
+        if (scroll > 100) {
+            $('.extras').addClass('hidden');
+        }
+        if (scroll === 0) {
+            $('.extras').removeClass('hidden');
+        }
         if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
     };
     window.ontouchmove = onscroll;
