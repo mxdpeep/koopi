@@ -103,15 +103,12 @@ button.chip .market-image {
 
 /* PROGRESS BAR */
 .progress-container {position: fixed;top: 0;left: 0;height: 4px;width: 100%;background-color: #000;z-index: 9999;}
-.progress-bar {height: 4px;background: linear-gradient(to right, #004, #aaa, #0af);box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);transition: width 0.2s ease;}
+.progress-bar {height: 4px;background: linear-gradient(to right, #004, #aaa, #0af);box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);transition: width 0.1s ease;}
 
 /* PWA installer */
 .install-btn {z-index: 100;}
 
-/* DEALS */
 #deals {content-visibility: auto;}
-
-/* ABOUT */
 #about ul {list-style-type: none;padding: 0;margin: 0;}
 #about li {padding: 4px 0;}
 
@@ -140,6 +137,7 @@ button.chip .market-image {
 nav.vertical {flex-direction: column !important;height: auto !important;align-items: stretch !important;}
 .width-100 {width: 100%;}
 .grayscaled {filter: grayscale(100%);opacity: 0.5;}
+.basic {position: relative;top: 10px;}
 
 /* NAV bottom badges */
 .cat-badge {
@@ -150,9 +148,17 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
     letter-spacing: 0;
 }
 
-/* TOP nav extra row */
+/* TOP nav extra row animation */
 .extras {
-    height: 3rem !important;
+    height: 3.0rem !important;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+.extras-hidden {
+    opacity: 0;
+    height: 0!important;
+    transition: all 0.3s ease;
+    pointer-events: none;
 }
 
 /* defaults */
@@ -415,7 +421,7 @@ nav.bottom button {
 
 <!-- TOP nav -->
 <nav class="righthanded top notap nowrap black white-text vertical">
-    <div class="row width-100">
+    <div class="basic row width-100">
         <button class="install-btn light-blue" style="display: none;">
             <span>Instalovat ♥️</span>
         </button>
@@ -445,7 +451,7 @@ nav.bottom button {
     </div> 
 </nav>
 <nav class="lefthanded top notap nowrap black white-text vertical" style="display: none;">
-    <div class="row width-100">
+    <div class="basic row width-100">
         <button data-id="refresh" class="refresh-btn transparent white-text">
             <i>refresh</i>
         </button>
@@ -736,6 +742,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
 });
 
+window.extras_flag = true; // bool: is extras row visible?
+
 const progressBar = () => {
     var bar = "_" + Date.now();
     document.getElementsByTagName("body")[0].insertAdjacentHTML(
@@ -747,13 +755,22 @@ const progressBar = () => {
         var scroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         var scrolled = Math.round(scroll * 100 / height);
-        if (scroll > 100) {
-            $('.extras').addClass('hidden');
-        }
-        if (scroll === 0) {
-            $('.extras').removeClass('hidden');
-        }
         if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
+
+        // hide the extras row
+        if (window.extras_flag) {
+            if (scroll > 100) {
+                $('.extras').addClass('extras-hidden');
+                window.extras_flag = false;
+            }
+        }
+        // show the extras row
+        if (!window.extras_flag) {
+            if (scroll === 0) {
+                $('.extras').removeClass('extras-hidden');
+                window.extras_flag = true;
+            }
+        }
     };
     window.ontouchmove = onscroll;
     window.onscroll = onscroll;
