@@ -23,10 +23,14 @@ import (
 	"sync"
 	"syscall"
 	"time"
+	"unicode"
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/text/collate"
 	"golang.org/x/text/language"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
 
 const (
@@ -221,6 +225,12 @@ func normalization(s string) string {
 	// 4. ořez white space
 	s = strings.TrimSpace(s)
 	return s
+}
+
+func removeDiacritics(s string) string {
+	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+	result, _, _ := transform.String(t, s)
+	return result
 }
 
 // deduplicateGoods
@@ -758,11 +768,39 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedGoods = append(cleanedGoods, cleanedItem)
 	}
 
+	// id hashes to integers, unique words map
+	id := 1
+	hashmap := make(map[string]int)
+	wordsSeen := make(map[string]bool)
+	cleaner := strings.NewReplacer("%", "", "°", "", ",", "", "!", "")
+	var uniqueWords []string
+	for i := range cleanedGoods {
+		hash := cleanedGoods[i]["id"].(string)
+		if _, exists := hashmap[hash]; !exists {
+			hashmap[hash] = id
+			id++
+		}
+		cleanedGoods[i]["id"] = hashmap[hash]
+		name := strings.ToLower(cleanedGoods[i]["name"].(string))
+		for _, w := range strings.Fields(name) {
+			w = strings.Trim(w, ".,!/-")
+			w = cleaner.Replace(w)
+			w = removeDiacritics(w)
+			if len(w) > 3 && len(w) < 20 && !wordsSeen[w] {
+				wordsSeen[w] = true
+				uniqueWords = append(uniqueWords, w)
+			}
+		}
+	}
+	sort.Strings(uniqueWords)
+
+	// output data
 	outputData := make(map[string]any)
 	outputData["created"] = time.Now().Format(time.RFC3339)
 	outputData["count"] = len(cleanedGoods)
 	outputData["goods"] = cleanedGoods
 	outputData["markets"] = markets
+	outputData["search"] = strings.Join(uniqueWords, " ")
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", "  ")
 	if err := encoder.Encode(outputData); err != nil {
@@ -916,6 +954,7 @@ func main() {
 
 	// category overrides
 	for i := range finalGoods {
+
 		for _, mapping := range urlsToScrape2 {
 			if mapping.query == "" {
 				continue
