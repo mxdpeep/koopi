@@ -108,12 +108,14 @@ button.chip .market-image {
 /* PWA installer */
 .install-btn {z-index: 100;}
 
-#deals {content-visibility: auto;}
+#deals {content-visibility: auto;contain-intrinsic-size: 1px 300px;}
 #about ul {list-style-type: none;padding: 0;margin: 0;}
 #about li {padding: 4px 0;}
 
 /* HELPERS */
 .bigger {font-size: 2rem;font-weight: bold;}
+.bigger-like {font-size: 1.5rem;font-weight: bold;}
+.bigger-cart {font-size: 1.5rem;font-weight: bold;}
 .hover {cursor: pointer;}
 .mono {font-family: monospace;}
 .noselect {-webkit-user-select: none;-ms-user-select: none;user-select:none;}
@@ -131,6 +133,20 @@ button.chip .market-image {
 @keyframes flash {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+/* interactive buttons */
+.bigger-like, .bigger-cart {
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+    font-size: 1.5rem; /* Uprav podle potřeby */
+}
+.bigger-like:hover, .bigger-cart:hover {
+    filter: grayscale(0%);
+    transform: scale(1.2);
+}
+.bigger-like:active, .bigger-cart:active {
+    transform: scale(0.9);
 }
 
 /* NAVIGATION quirks */
@@ -269,6 +285,13 @@ nav.bottom button {letter-spacing: 0;}
     text-align: center;
     border-radius: 0 !important;
     padding-top: 10px;
+}
+
+.product-club {
+    margin-top: 5px;
+}
+.product-club:empty {
+    display: none;
 }
 
 .product-note {
@@ -526,9 +549,9 @@ nav.bottom button {
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br>
         📅 date: <b>{{DATE_REV}}</b><br><br>
 
-
         Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
         Hosting Github + Cloudflare Pages.<br><br>
+
         <a href="https://github.com/mxdpeep/koopi" style="display: inline-flex; align-items: center; gap: 5px; text-decoration: none; color: inherit;">
             <svg height="24" width="24" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
             <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
@@ -539,6 +562,7 @@ nav.bottom button {
         <h4>Changelog</h4><hr>
         <ul>
             <li><b>2026-01-11</b>
+                <br>◾️ aktualizace UI pro další funkce
                 <br>◾️ badges - počty slev
             </li>
             <li><b>2026-01-10</b>
@@ -811,6 +835,7 @@ const initApp = () => {
             $('#deals').html('').addClass('hidden');
 
             console.time('DOM-Render-Speed');
+            $('#loading-info').text(`Renderuji ${goods.length} položek ...`);
             const start = performance.now();
             renderDeals(goods);
             renderMarkets(deals.markets);
@@ -860,7 +885,18 @@ const renderDeals = (deals) => {
                      data-id="${deal.id}" 
                      data-cat="${deal.cat}" 
                      data-market="${deal.market}">
-                <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" width="60" height="60" class="market-image">
+                <div class="row center-align">
+                    <div class="center-align">
+                        <div class="grayscaled bigger-like relative">
+                            ♥️
+                            ${deal.offer_count ? `<span class="badge circle tiny top right red">${deal.offer_count}</span>` : ''}
+                        </div>
+                    </div>
+                    <div>
+                        <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" width="60" height="60" class="market-image">
+                    </div>
+                    <div class="grayscaled bigger-cart">🛒</div>
+                </div>
                 <div class="product-image-container">
                     <div class="image-wrapper">
                         <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" class="product-image">
@@ -868,6 +904,7 @@ const renderDeals = (deals) => {
                 </div>
                 <div class="product-name bold">${deal.name}</div>
                 <div class="product-note">${deal.note}</div>
+                <div class="product-club bold blue white-text center-align">${deal.club}</div>
                 <div class="product-price">
                     <span class="discount mono">${deal.discount}</span>
                     <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>

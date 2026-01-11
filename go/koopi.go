@@ -414,6 +414,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// club
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())
+			newGoods.Club = strings.ToLower(newGoods.Club)
 			newGoods.Club = sanitizeString(newGoods.Club)
 
 			// validity
@@ -747,7 +748,12 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			imageURL = "default.png"
 		}
 		cleanedItem["image"] = imageURL
-		cleanedItem["offer_count"] = offerCount
+
+		if offerCount <= 1 {
+			cleanedItem["offer_count"] = ""
+		} else {
+			cleanedItem["offer_count"] = fmt.Sprintf("%dx", offerCount)
+		}
 
 		cleanedGoods = append(cleanedGoods, cleanedItem)
 	}
@@ -793,6 +799,8 @@ func main() {
 
 	reader := csv.NewReader(file)
 	reader.Comma = ','
+	reader.FieldsPerRecord = -1
+
 	inputRecords, err := reader.ReadAll()
 	if err != nil {
 		log.Fatalf("[%s] 💥 error reading: %v", INPUT_CSV, err)
@@ -812,6 +820,9 @@ func main() {
 
 	// generate URLs to scrape
 	for _, record := range inputRecords {
+		if len(record) < 2 || strings.TrimSpace(record[1]) == "" {
+			continue
+		}
 		category := strings.TrimSpace(record[0])
 		query := strings.TrimSpace(record[1])
 		pages, _ := strconv.Atoi(strings.TrimSpace(record[2]))
@@ -824,7 +835,6 @@ func main() {
 				urlStr = fmt.Sprintf("%s%s%s%d", KOOPI_SEARCH_URL, escapedQuery, KOOPI_SUBPAGE, pageNum)
 			}
 			cacheKey := fmt.Sprintf("%s-%d.html", strings.ReplaceAll(query, " ", "-"), pageNum)
-
 			urlsToScrape = append(urlsToScrape, struct {
 				url      string
 				cacheKey string
