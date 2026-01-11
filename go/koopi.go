@@ -896,6 +896,19 @@ func main() {
 	marketCounts := make(map[string]int)
 	uniqueVolumes := make(map[string]struct{})
 
+	// category overrides
+	for i := range finalGoods {
+		for _, mapping := range urlsToScrape {
+			if mapping.query == "" {
+				continue
+			}
+			if strings.Contains(strings.ToLower(finalGoods[i].Name), strings.ToLower(mapping.query)) {
+				finalGoods[i].Category = mapping.category
+				break
+			}
+		}
+	}
+
 	for _, good := range finalGoods {
 		if good.Market != "" {
 			uniqueMarkets[good.Market] = struct{}{}
