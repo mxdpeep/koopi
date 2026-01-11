@@ -18,6 +18,7 @@ CUKROVINKY,nutella,1
 CUKROVINKY,ovocný cukr,1
 CUKROVINKY,poleva,1
 CUKROVINKY,sovičky,1
+CUKROVINKY,sušenky,1
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
@@ -29,8 +30,10 @@ CUKROVINKY,želatina,1
 CUKROVINKY,želé,2
 KOŘENÍ,bazalka,1
 KOŘENÍ,bobkový list,1
+KOŘENÍ,bujón,1
 KOŘENÍ,chilli papričky,1
 KOŘENÍ,citronová tráva,1
+KOŘENÍ,hořčice,2
 KOŘENÍ,hřebíček,1
 KOŘENÍ,kmín,1
 KOŘENÍ,libeček,1
@@ -40,6 +43,7 @@ KOŘENÍ,oregano,1
 KOŘENÍ,pažitka,1
 KOŘENÍ,pepř tří barev,1
 KOŘENÍ,pepř,1
+KOŘENÍ,podravka,2
 KOŘENÍ,skořice,1
 KOŘENÍ,sušený česnek,1
 KOŘENÍ,sůl,1
@@ -124,10 +128,12 @@ NÁPOJE,instantní káva,2
 NÁPOJE,lager,2
 NÁPOJE,ležák,3
 NÁPOJE,likér,1
-NÁPOJE,mattoni,2
+NÁPOJE,mattoni,1
 NÁPOJE,minerálka,3
 NÁPOJE,minerální voda,3
 NÁPOJE,mletá káva,3
+NÁPOJE,mošt,1
+NÁPOJE,nektar,1
 NÁPOJE,ovocný čaj,2
 NÁPOJE,pivo,7
 NÁPOJE,rum,3
@@ -141,8 +147,8 @@ NÁPOJE,černý čaj,2
 OBILÍ,bageta,1
 OBILÍ,buchty,1
 OBILÍ,cereálie,1
-OBILÍ,croissant,1
 OBILÍ,chleba,2
+OBILÍ,croissant,1
 OBILÍ,francouzská bageta,1
 OBILÍ,houska,1
 OBILÍ,instantní nudle,1
@@ -164,15 +170,14 @@ OBILÍ,rýže,1
 OBILÍ,těstoviny,2
 OBILÍ,zavářka,1
 OBILÍ,závin,1
-OSTATNÍ,bujón,1
 OSTATNÍ,chipsy,2
 OSTATNÍ,droždí,1
-OSTATNÍ,hořčice,2
 OSTATNÍ,kečup,2
 OSTATNÍ,kvasnice,1
 OSTATNÍ,ocet,1
 OSTATNÍ,omáčka,2
 OSTATNÍ,pomazánka,1
+OSTATNÍ,rybí omáčka,2
 OSTATNÍ,tyčinky,2
 OSTATNÍ,škrob,1
 OVOCE,avokádo,1
