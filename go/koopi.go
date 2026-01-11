@@ -23,14 +23,10 @@ import (
 	"sync"
 	"syscall"
 	"time"
-	"unicode"
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/text/collate"
 	"golang.org/x/text/language"
-	"golang.org/x/text/runes"
-	"golang.org/x/text/transform"
-	"golang.org/x/text/unicode/norm"
 )
 
 const (
@@ -203,6 +199,7 @@ var CZreplacer = strings.NewReplacer(
 	"ľ", "l",
 	"ň", "n",
 	"ó", "o",
+	"ö", "o",
 	"ř", "r",
 	"š", "s",
 	"ť", "t",
@@ -225,12 +222,6 @@ func normalization(s string) string {
 	// 4. ořez white space
 	s = strings.TrimSpace(s)
 	return s
-}
-
-func removeDiacritics(s string) string {
-	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
-	result, _, _ := transform.String(t, s)
-	return result
 }
 
 // deduplicateGoods
@@ -782,10 +773,10 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		}
 		cleanedGoods[i]["id"] = hashmap[hash]
 		name := strings.ToLower(cleanedGoods[i]["name"].(string))
-		for _, w := range strings.Fields(name) {
-			w = strings.Trim(w, ".,!/-")
+		for w := range strings.FieldsSeq(name) {
+			w = strings.Trim(w, ".,!/-+")
 			w = cleaner.Replace(w)
-			w = removeDiacritics(w)
+			w = CZreplacer.Replace(w)
 			if len(w) > 3 && len(w) < 20 && !wordsSeen[w] {
 				wordsSeen[w] = true
 				uniqueWords = append(uniqueWords, w)
