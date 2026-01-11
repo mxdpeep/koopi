@@ -3,7 +3,11 @@ CATEGORY,QUERY,PAGES
 deterministické kategorie:
 
 OBILÍ,bageta,1
+OBILÍ,chléb,2
+OBILÍ,rohlík,2
 NÁPOJE,vodka,3
+MLÉKO,jogurt,1
+MLÉKO,mléko,1
 
 ostatní data:
 
@@ -106,7 +110,6 @@ MASO,žebra,1
 MLÉKO,actimel,1
 MLÉKO,activia,1
 MLÉKO,bezlaktózové mléko,1
-MLÉKO,jogurt,1
 MLÉKO,kefír,1
 MLÉKO,kondenzované mléko,1
 MLÉKO,kostíci,1
@@ -114,7 +117,6 @@ MLÉKO,kyška,1
 MLÉKO,mléko plnotučné,1
 MLÉKO,mléko polotučné,1
 MLÉKO,mléko trvanlivé,1
-MLÉKO,mléko,1
 MLÉKO,mléčná rýže,1
 MLÉKO,podmáslí,1
 MLÉKO,pomazánka,1
@@ -153,7 +155,6 @@ NÁPOJE,zrnková káva,3
 NÁPOJE,černý čaj,2
 OBILÍ,buchty,1
 OBILÍ,cereálie,1
-OBILÍ,chleba,2
 OBILÍ,croissant,1
 OBILÍ,francouzská bageta,1
 OBILÍ,houska,1
