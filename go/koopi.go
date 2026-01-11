@@ -186,6 +186,7 @@ type Goods struct {
 	Url          string
 	ImageUrl     string
 	SubCat       string
+	ScrapedAt    string
 }
 
 var CZreplacer = strings.NewReplacer(
@@ -335,7 +336,7 @@ func isForbidden(name string, forbidden []string) bool {
 }
 
 // extractGoodsFromHtml - extract data from HTML
-func extractGoodsFromHtml(doc *goquery.Document, category string, query string) []Goods {
+func extractGoodsFromHtml(doc *goquery.Document, category string, query string, scrapedAt string) []Goods {
 	var goods []Goods
 	doc.Find("div.group_discounts").Each(func(i int, s *goquery.Selection) {
 		// ignore .notactive
@@ -369,6 +370,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string) 
 			var newGoods Goods
 			newGoods.Category = category
 			newGoods.Query = query
+			newGoods.ScrapedAt = scrapedAt
 			newGoods.Name = productName
 			newGoods.Url = productUrl
 			newGoods.ImageUrl = productImageUrl
@@ -530,7 +532,11 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	// 1. try cache first
 	doc, err := loadFromCache(cacheName)
 	if err == nil {
-		goodsList := extractGoodsFromHtml(doc, category, query)
+		scrapedAt := time.Now().Format("20060102")
+		if info, err := os.Stat(filepath.Join(HTML_CACHE, cacheName)); err == nil {
+			scrapedAt = info.ModTime().Format("20060102")
+		}
+		goodsList := extractGoodsFromHtml(doc, category, query, scrapedAt)
 		mutex.Lock()
 		for _, good := range goodsList {
 			saveImageToCache(good.ImageUrl)
@@ -555,7 +561,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	case <-rateLimiter:
 		defer func() {
 			// A. Calculate sleep time
-			sleepTime := time.Duration(rand.Intn(20000)+7000) * time.Millisecond
+			sleepTime := time.Duration(rand.Intn(20000)+10000) * time.Millisecond
 
 			// B. Wait on a Timer or Context Done (INTERRUPTIBLE SLEEP!)
 			timer := time.NewTimer(sleepTime)
@@ -607,7 +613,8 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	}
 
 	// extract goods from HTML
-	goodsList := extractGoodsFromHtml(resDoc, category, query)
+	scrapedAt := time.Now().Format("20060102")
+	goodsList := extractGoodsFromHtml(resDoc, category, query, scrapedAt)
 
 	// save HTML to cache
 	saveToCache(cacheName, bodyBytes)
@@ -649,7 +656,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 
 	writer := csv.NewWriter(file)
 	writer.Comma = ';'
-	headers := []string{"Name", "Price", "PricePerUnit", "Discount", "Category", "SubCat", "Note", "Club", "Volume", "Market", "Validity", "Url", "ImageUrl", "Query"}
+	headers := []string{"Name", "Price", "PricePerUnit", "Discount", "Category", "SubCat", "Note", "Club", "Volume", "Market", "Validity", "Url", "ImageUrl", "Query", "ScrapedAt"}
 	writer.Write(headers)
 
 	for _, item := range goods {
@@ -673,6 +680,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 			cleanUrl,
 			item.ImageUrl,
 			item.Query,
+			item.ScrapedAt,
 		})
 	}
 
@@ -725,6 +733,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["market"] = item.Market
 		cleanedItem["validity"] = item.Validity
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
+		cleanedItem["scraped_at"] = item.ScrapedAt
 
 		imageURL := item.ImageUrl
 		if before, ok := strings.CutSuffix(imageURL, ".png"); ok {
