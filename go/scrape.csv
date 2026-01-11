@@ -2,12 +2,19 @@ CATEGORY,QUERY,PAGES
 
 deterministické kategorie:
 
-OBILÍ,bageta,1
-OBILÍ,chléb,2
-OBILÍ,rohlík,2
-NÁPOJE,vodka,3
+CUKROVINKY,cukr,2
+CUKROVINKY,džem,1
+CUKROVINKY,poleva,1
+KOŘENÍ,bujón,1
 MLÉKO,jogurt,1
 MLÉKO,mléko,1
+NÁPOJE,vodka,3
+OBILÍ,bageta,1
+OBILÍ,chléb,2
+OBILÍ,mouka,1
+OBILÍ,rohlík,2
+TUKY,olej,1
+UZENINY,šunka,1
 
 ostatní data:
 
@@ -16,10 +23,10 @@ CUKROVINKY,bonbony jojo,2
 CUKROVINKY,bonbony,2
 CUKROVINKY,cukr krystal,2
 CUKROVINKY,cukr moučka,2
-CUKROVINKY,cukr,2
 CUKROVINKY,dezert,1
-CUKROVINKY,džem,1
+CUKROVINKY,fidorka,1
 CUKROVINKY,hambáče,1
+CUKROVINKY,haribo,2
 CUKROVINKY,hroznový cukr,1
 CUKROVINKY,javorový sirup,1
 CUKROVINKY,lízátka,1
@@ -28,9 +35,11 @@ CUKROVINKY,med,1
 CUKROVINKY,nanuk,2
 CUKROVINKY,nutella,1
 CUKROVINKY,ovocný cukr,1
-CUKROVINKY,poleva,1
+CUKROVINKY,piškoty,1
 CUKROVINKY,sovičky,1
 CUKROVINKY,sušenky,1
+CUKROVINKY,tatranka,1
+CUKROVINKY,tatranky,1
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
@@ -40,9 +49,9 @@ CUKROVINKY,čokoláda,3
 CUKROVINKY,čokoládová,1
 CUKROVINKY,želatina,1
 CUKROVINKY,želé,2
+CUKROVINKY,žvýkačky,2
 KOŘENÍ,bazalka,1
 KOŘENÍ,bobkový list,1
-KOŘENÍ,bujón,1
 KOŘENÍ,chilli papričky,1
 KOŘENÍ,citronová tráva,1
 KOŘENÍ,hořčice,2
@@ -59,6 +68,7 @@ KOŘENÍ,podravka,2
 KOŘENÍ,skořice,1
 KOŘENÍ,sušený česnek,1
 KOŘENÍ,sůl,1
+KOŘENÍ,tekuté koření,1
 KOŘENÍ,tymián,1
 KOŘENÍ,uzená paprika,1
 KOŘENÍ,vanilka,1
@@ -155,7 +165,9 @@ NÁPOJE,zrnková káva,3
 NÁPOJE,černý čaj,2
 OBILÍ,buchty,1
 OBILÍ,cereálie,1
+OBILÍ,corn flakes,1
 OBILÍ,croissant,1
+OBILÍ,dupetky,1
 OBILÍ,francouzská bageta,1
 OBILÍ,houska,1
 OBILÍ,instantní nudle,1
@@ -165,7 +177,7 @@ OBILÍ,krupička,1
 OBILÍ,kuskus,1
 OBILÍ,křupavé mysli,1
 OBILÍ,listové těsto,1
-OBILÍ,mouka,1
+OBILÍ,makovky,1
 OBILÍ,muesli,1
 OBILÍ,mysli,1
 OBILÍ,nudle,1
@@ -287,7 +299,6 @@ TUKY,margarín flora,1
 TUKY,margarín perla,1
 TUKY,máslo,1
 TUKY,olej z hroznových jader,1
-TUKY,olej,1
 TUKY,olivový olej,1
 TUKY,rama,1
 TUKY,sezamový olej,1
@@ -316,7 +327,6 @@ UZENINY,vídeňské párky,1
 UZENINY,čabajka,1
 UZENINY,špekáčky,1
 UZENINY,šunka výběrová,1
-UZENINY,šunka,1
 UZENINY,šunková pěna,1
 VEJCE,dresink,1
 VEJCE,majonéza,1
