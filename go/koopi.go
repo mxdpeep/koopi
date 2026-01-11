@@ -834,6 +834,14 @@ func main() {
 		}
 	}
 
+	urlsToScrape2 := make([]struct {
+		url      string
+		cacheKey string
+		category string
+		query    string
+	}, len(urlsToScrape))
+	copy(urlsToScrape2, urlsToScrape)
+
 	// shuffle URLs
 	rand.Shuffle(len(urlsToScrape), func(i, j int) {
 		urlsToScrape[i], urlsToScrape[j] = urlsToScrape[j], urlsToScrape[i]
@@ -898,12 +906,13 @@ func main() {
 
 	// category overrides
 	for i := range finalGoods {
-		for _, mapping := range urlsToScrape {
+		for _, mapping := range urlsToScrape2 {
 			if mapping.query == "" {
 				continue
 			}
 			if strings.Contains(strings.ToLower(finalGoods[i].Name), strings.ToLower(mapping.query)) {
 				finalGoods[i].Category = mapping.category
+				//finalGoods[i].Category = mapping.category + " (" + finalGoods[i].Category + ")"
 				break
 			}
 		}
