@@ -812,7 +812,7 @@ const initApp = () => {
         .then(data => {
             console.timeEnd('JSON-Fetch');
             if (!data) {
-                debug('Chyba: Žádná data nepřišla');
+                $('#loading-info').text('Chyba nahrávání dat!');
                 return;
             }
             let goods = [];
@@ -820,7 +820,7 @@ const initApp = () => {
                 goods = data.goods;
             }
             if (goods.length === 0) {
-                debug('Varování: Žádné zboží k renderování!');
+                $('#loading-info').text('Žádné zboží k renderování!');
                 console.error('Struktura dat neodpovídá: ', data);
                 return;
             }
@@ -833,10 +833,10 @@ const initApp = () => {
             $('#stats').html(`Slev celkem: <b>${goods.length}</b>
                 <br>Obchodů celkem: <b>${data.markets.length}</b>
                 <br>Datum sestavení: <b>${data.created}</b>`);
+                
+            console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
 
-            console.time('DOM-Render-Speed');
-            $('#loading-info').text(`Renderuji ${goods.length} položek ...`);
             const start = performance.now();
             renderDeals(goods);
             renderMarkets(deals.markets);
@@ -848,8 +848,9 @@ const initApp = () => {
             $('#speed-bench').html(`🚀 renderováno za <b>${renderDuration} ms</b>`);
             
             // defaults
-            $('#deals article').addClass('hidden-force');
-            $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+            //$('#deals article').addClass('hidden-force');
+            //$('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+            setDefaults();
             $('#deals').removeClass('hidden');
 
             checkUpdate();
@@ -857,8 +858,8 @@ const initApp = () => {
             window.scrollTo({top: 0});
         })
         .catch(error => {
-            console.error('Chyba při stress-testu:', error);
-            debug('Chyba stažení dat: ' + error.message);
+            console.error('Error:', error);
+            $('#loading-info').text('Chyba dat: ' + error.message);
         });
 };
 
@@ -1178,6 +1179,9 @@ $(document).ready(function() {
     function setDefaults() {
         $('nav.bottom button').addClass('grayscaled');
         $('.but1').removeClass('grayscaled');
+        $('#deals article').addClass('hidden-force');
+        $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+
         // process handedness from localStorage
         if (!window.nolocalstorage) {
             const savedHandedness = localStorage.getItem('handedness');
@@ -1190,6 +1194,7 @@ $(document).ready(function() {
             }
         }
     }
+    window.setDefaults = setDefaults;
 
     // BOTTOM NAVIGATION buttons
     $('.btn-bottom').on('click', function() {
