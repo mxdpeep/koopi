@@ -700,12 +700,18 @@ const catIcons = {
 };
 const categories = Object.keys(catIcons);
 
-/* AUDIO notification*/
+/* AUDIO */
 function notificationSfx() {
-    const sfx = new Audio('notification.mp3?v=' + Date.now());
+    const sfx = new Audio('sfx/notification.mp3');
     sfx.volume = 1.0;
     sfx.play();
 }
+function clickSfx() {
+    const sfx = new Audio('sfx/click4.mp3');
+    sfx.volume = 1.0;
+    sfx.play();
+}
+window.sfx = notificationSfx;
 
 // check for updates
 function checkUpdate() {
@@ -919,25 +925,25 @@ const renderCategories = (categories) => {
 };
 
 function updateCategoryBadges(catCounts) {
-    $('nav.righthanded button[data-cats]').each(function() {
+    const activeCats = window.deals.myCats || [];
+    $('button[data-cats]').each(function() {
         const btn = $(this);
-        const catSelectors = btn.attr('data-cats').split(','); // získá [".c-NÁPOJE", " .c-CUKROVINKY", ...]
+        const catSelectors = btn.attr('data-cats').split(',');
         
         let total = 0;
         catSelectors.forEach(selector => {
-            // Vyčistíme selektor ".c-NÁPOJE" na klíč "NÁPOJE"
             const catKey = selector.trim().replace('.c-', '');
-            total += (catCounts[catKey] || 0);
+            const isCatActive = activeCats.length === 0 || activeCats.includes(catKey);
+            if (isCatActive) {
+                total += (catCounts[catKey] || 0);
+            }
         });
 
-        // Najdeme nebo vytvoříme badge uvnitř tlačítka
         let badge = btn.find('.cat-badge');
         if (badge.length === 0) {
             badge = $('<span class="badge blue black-text bold cat-badge"></span>');
             btn.append(badge);
         }
-
-        // Aktualizujeme číslo a schováme badge, pokud je součet 0
         badge.text(total);
         if (total > 0) badge.show(); else badge.hide();
     });
@@ -964,6 +970,7 @@ $(document).ready(function() {
 
     // ABOUT button
     $('.about-btn').on('click', function() {
+        clickSfx();
         window.scrollTo({top: 0});
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -979,6 +986,7 @@ $(document).ready(function() {
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
+        clickSfx();
         window.scrollTo({top: 0});
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -994,6 +1002,7 @@ $(document).ready(function() {
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
+        clickSfx();
         if (window.refresh_flag) {
             refresh();
         }
@@ -1034,10 +1043,9 @@ $(document).ready(function() {
 
     // handedness button
     $('.settings-button').on('click', function() {
+        clickSfx();
         switchHands();
     });
-
-    // switch handedness
     function switchHands() {
         if (flash_flag) return;
         flash_flag = true;
@@ -1064,6 +1072,7 @@ $(document).ready(function() {
 
     // export settings
     function exportSettings() {
+        clickSfx();
         const data = {
             handedness: localStorage.getItem('handedness') || 'right',
             myCats: deals.myCats || [],
@@ -1092,8 +1101,6 @@ $(document).ready(function() {
     $('.refresh-btn').on('click', function() {
         refresh();
     });
-
-    // refresh page
     function refresh() {
         $(this).prop('disabled', true).html('<i>schedule</i>');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -1103,18 +1110,27 @@ $(document).ready(function() {
         location.href = '/?' + buster;
     }
 
-    // debugger close
+    // close debugger
     $('#debugger').on('click', function() {
+        clickSfx();
         dtimer = null;
         $('#debugger').fadeOut(function() {
             $('#debugger').html('').removeClass('debugger-on');
         });
     });
 
-    // BOTTOM NAVIGATION old
+    // set defaults
+    function setDefaults() {
+        $('nav.bottom button').addClass('grayscaled');
+        $('.but1').removeClass('grayscaled');
+    }
+    setDefaults();
+
+    // BOTTOM NAVIGATION buttons
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
+        clickSfx();
         if (window.refresh_flag) {
             refresh();
         }
@@ -1128,10 +1144,6 @@ $(document).ready(function() {
         $('#deals').show()
         window.scrollTo({top: 0});
     });
-
-    // defaults
-    $('nav.bottom button').addClass('grayscaled');
-    $('.but1').removeClass('grayscaled');
 
     // context event hanlder
     window.handleContextEvent = function(e) {

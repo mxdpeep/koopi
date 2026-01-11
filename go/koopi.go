@@ -128,6 +128,7 @@ var FORBIDDEN_GOODS = []string{
 	"kráječ",
 	"křeslo",
 	"lepidlo",
+	"lis na",
 	"mast",
 	"matrace",
 	"micelární",
