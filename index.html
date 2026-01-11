@@ -139,12 +139,14 @@ button.chip .market-image {
 
 /* NAVIGATION quirks */
 .grayscaled {filter: grayscale(100%);opacity: 0.5;}
-nav.vertical {
-    flex-direction: column !important;
-    height: auto !important;
-    align-items: stretch !important;
-}
+nav.vertical {flex-direction: column !important;height: auto !important;align-items: stretch !important;}
 .width-100 {width: 100%;}
+
+/* NAV bottom badges */
+.cat-badge {
+    position: static;
+    letter-spacing: 0;
+}
 
 /* defaults */
 .slevicky {display: none;}
@@ -193,7 +195,7 @@ nav.bottom button {letter-spacing: 0;}
     text-align: left;
 }
 
-/* settings switch */
+/* SETTINGS switch */
 .settings-button {margin-top: 20px;max-width: 300px;}
 
 /* DEALS */
@@ -318,6 +320,9 @@ nav.bottom button {letter-spacing: 0;}
 .ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;}
 
 /* MEDIA selectors */
+@media(max-width: 899px) {
+    .cat-badge {display: none;}
+}
 @media(min-width: 500px) {
     #deals {
         grid-template-columns: repeat(4, 1fr); /* tablet: 4 sloupců */
@@ -328,7 +333,7 @@ nav.bottom button {letter-spacing: 0;}
     #about, #settings {width: 90%;margin-top: 1rem;}
     #debugger {width: 90%}
 }
-@media(min-width: 700px) {
+@media(min-width: 900px) {
     #deals {
         grid-template-columns: repeat(6, 1fr); /* tablet: 6 sloupců */
     }
@@ -780,8 +785,8 @@ const initApp = () => {
             renderDeals(goods);
             renderMarkets(deals.markets);
             renderCategories(categories);
-            console.timeEnd('DOM-Render-Speed');
             const end = performance.now();
+            console.timeEnd('DOM-Render-Speed');
 
             const renderDuration = Math.round(end - start);
             $('#speed-bench').html(`🚀 renderováno za <b>${renderDuration} ms</b>`);
@@ -810,10 +815,15 @@ const renderDeals = (deals) => {
     const activeMarkets = window.deals.myMarkets || [];
     const activeCats = window.deals.myCats || [];
 
+    // počítadla
+    const catCounts = Object.keys(catIcons).reduce((acc, cat) => ({ ...acc, [cat]: 0 }), {});
+
     dealsGrid.innerHTML = deals.map(deal => {
         const marketMatch = activeMarkets.length === 0 || activeMarkets.includes(deal.market);
         const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
-        const visibilityClass = (marketMatch && catMatch) ? "" : "none"; 
+        const visibilityClass = (marketMatch && catMatch) ? "" : "none";
+
+        if (marketMatch) { catCounts[deal.cat] = (catCounts[deal.cat] || 0) + 1; }
 
         return `
             <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
@@ -836,6 +846,8 @@ const renderDeals = (deals) => {
             </article>
         `;
     }).join('');
+
+    updateCategoryBadges(catCounts);
 };
 
 const renderMarkets = (markets) => {
@@ -905,6 +917,31 @@ const renderCategories = (categories) => {
         localStorage.setItem('myCats', JSON.stringify(window.deals.myCats));
     });
 };
+
+function updateCategoryBadges(catCounts) {
+    $('nav.righthanded button[data-cats]').each(function() {
+        const btn = $(this);
+        const catSelectors = btn.attr('data-cats').split(','); // získá [".c-NÁPOJE", " .c-CUKROVINKY", ...]
+        
+        let total = 0;
+        catSelectors.forEach(selector => {
+            // Vyčistíme selektor ".c-NÁPOJE" na klíč "NÁPOJE"
+            const catKey = selector.trim().replace('.c-', '');
+            total += (catCounts[catKey] || 0);
+        });
+
+        // Najdeme nebo vytvoříme badge uvnitř tlačítka
+        let badge = btn.find('.cat-badge');
+        if (badge.length === 0) {
+            badge = $('<span class="badge blue black-text bold cat-badge"></span>');
+            btn.append(badge);
+        }
+
+        // Aktualizujeme číslo a schováme badge, pokud je součet 0
+        badge.text(total);
+        if (total > 0) badge.show(); else badge.hide();
+    });
+}
 
 // UI bindings
 $(document).ready(function() {
