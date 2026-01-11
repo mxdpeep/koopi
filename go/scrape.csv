@@ -5,7 +5,11 @@ deterministické kategorie:
 CUKROVINKY,cukr,2
 CUKROVINKY,džem,1
 CUKROVINKY,poleva,1
+CUKROVINKY,sušenky,1
 KOŘENÍ,bujón,1
+KOŘENÍ,omáčka worcestrová,1
+MLÉKO,dezert pudink,1
+MLÉKO,dezert zakysaný,1
 MLÉKO,jogurt,1
 MLÉKO,mléko,1
 NÁPOJE,vodka,3
@@ -13,6 +17,7 @@ OBILÍ,bageta,1
 OBILÍ,chléb,2
 OBILÍ,mouka,1
 OBILÍ,rohlík,2
+OŘECHY,kešu,1
 TUKY,olej,1
 UZENINY,šunka,1
 
@@ -37,7 +42,6 @@ CUKROVINKY,nutella,1
 CUKROVINKY,ovocný cukr,1
 CUKROVINKY,piškoty,1
 CUKROVINKY,sovičky,1
-CUKROVINKY,sušenky,1
 CUKROVINKY,tatranka,1
 CUKROVINKY,tatranky,1
 CUKROVINKY,tutti frutti,1
@@ -118,6 +122,7 @@ MASO,vepřové kostky,1
 MASO,vepřový bok,1
 MASO,žebra,1
 MLÉKO,actimel,1
+MLÉKO,lipánek,1
 MLÉKO,activia,1
 MLÉKO,bezlaktózové mléko,1
 MLÉKO,kefír,1
@@ -234,7 +239,6 @@ OŘECHY,chia semínka,1
 OŘECHY,datle,1
 OŘECHY,dýňová semínka,1
 OŘECHY,fíky,1
-OŘECHY,kešu,1
 OŘECHY,kokos,1
 OŘECHY,lískové ořechy,1
 OŘECHY,makadamové ořechy,1
