@@ -52,8 +52,7 @@
     --surface-container-low-light: #f5f5f5;
 }
 
-body {min-width: 320px;font-family: var(--font);}
-body {-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overscroll-behavior-y: contain;-webkit-text-size-adjust: 100%;}
+body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overscroll-behavior-y: contain;-webkit-text-size-adjust: 100%;}
 a {text-decoration: underline!important;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
@@ -123,7 +122,7 @@ button.chip .market-image {
 .noselect {-webkit-user-select: none;-ms-user-select: none;user-select:none;}
 .notap {cursor: pointer;-webkit-tap-highlight-color: transparent;-moz-tap-highlight-color: transparent;-ms-tap-highlight-color: transparent;}
 .nowrap {white-space: nowrap !important;overflow: hidden;text-overflow: ellipsis;}
-.hidden {display: none !important;}
+.hidden {display: none;}
 
 /* VFX bombs */
 .flashbomb {animation: flash 0.5s ease-out;}
@@ -138,21 +137,22 @@ button.chip .market-image {
 }
 
 /* NAVIGATION quirks */
-.grayscaled {filter: grayscale(100%);opacity: 0.5;}
 nav.vertical {flex-direction: column !important;height: auto !important;align-items: stretch !important;}
 .width-100 {width: 100%;}
+.grayscaled {filter: grayscale(100%);opacity: 0.5;}
 
 /* NAV bottom badges */
 .cat-badge {
+    display: none;
     position: static;
     z-index: 9999;
-    display: none;
     border-radius: 0;
     letter-spacing: 0;
 }
 
+/* TOP nav extra row */
 .extras {
-    height: 3rem !important;;
+    height: 3rem !important;
 }
 
 /* defaults */
@@ -327,6 +327,9 @@ nav.bottom button {letter-spacing: 0;}
 .ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;}
 
 /* MEDIA selectors */
+@media(max-width: 499px) {
+    .cat-badge {display: none!important;}
+}
 @media(min-width: 500px) {
     #deals {
         grid-template-columns: repeat(4, 1fr); /* tablet: 4 sloupců */
@@ -336,6 +339,7 @@ nav.bottom button {letter-spacing: 0;}
     nav.bottom button {letter-spacing: 0.3rem;}
     #about, #settings {width: 90%;margin-top: 1rem;}
     #debugger {width: 90%}
+    .cat-badge {display: none;}
 }
 @media(min-width: 900px) {
     #deals {
@@ -360,7 +364,8 @@ nav.bottom button {letter-spacing: 0;}
     .price {font-size: 1.1rem;}
     nav.bottom button {letter-spacing: 0.7rem;}
     #about, #settings {width: 70%;margin-top: 1rem;}
-    #debugger {width: 50%}
+    #debugger {width: 50%;}
+    .cat-badge {display: flex;}
 }
 @media(min-width: 1800px) {
     #deals {
@@ -371,7 +376,8 @@ nav.bottom button {letter-spacing: 0;}
     .price {font-size: 1.2rem;}
     nav.bottom button {letter-spacing: 1rem;}
     #about, #settings {width: 50%;margin-top: 1rem;}
-    #debugger {width: 30%}
+    #debugger {width: 30%;}
+    .cat-badge {display: flex;}
 }
 
 .product-card.none {
@@ -528,7 +534,6 @@ nav.bottom button {
         <ul>
             <li><b>2026-01-11</b>
                 <br>◾️ badges - počty slev
-                <br>◾️ sfx (experimental)
             </li>
             <li><b>2026-01-10</b>
                 <br>◾️ vylepšená loga
@@ -708,19 +713,6 @@ const catIcons = {
 };
 const categories = Object.keys(catIcons);
 
-/* AUDIO */
-function notificationSfx() {
-    const sfx = new Audio('sfx/notification.mp3');
-    sfx.volume = 1.0;
-    sfx.play();
-}
-function clickSfx() {
-    const sfx = new Audio('sfx/click4.mp3');
-    sfx.volume = 1.0;
-    sfx.play();
-}
-window.sfx = notificationSfx;
-
 // check for updates
 function checkUpdate() {
     if (version === '{{' + 'GIT_REV' + '}}') return;
@@ -731,7 +723,6 @@ function checkUpdate() {
                 console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
                 $('.refresh-btn').append('<badge class="bigger">!</badge>').addClass('red-text');
                 clearInterval(updateTimer);
-                window.notificationSfx();
             }
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json.');
@@ -984,7 +975,6 @@ $(document).ready(function() {
 
     // ABOUT button
     $('.about-btn').on('click', function() {
-        clickSfx();
         window.scrollTo({top: 0});
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -1000,7 +990,6 @@ $(document).ready(function() {
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
-        clickSfx();
         window.scrollTo({top: 0});
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -1016,7 +1005,6 @@ $(document).ready(function() {
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
-        clickSfx();
         if (window.refresh_flag) {
             refresh();
         }
@@ -1057,7 +1045,6 @@ $(document).ready(function() {
 
     // handedness button
     $('.settings-button').on('click', function() {
-        clickSfx();
         switchHands();
     });
     function switchHands() {
@@ -1086,7 +1073,6 @@ $(document).ready(function() {
 
     // export settings
     function exportSettings() {
-        clickSfx();
         const data = {
             handedness: localStorage.getItem('handedness') || 'right',
             myCats: deals.myCats || [],
@@ -1126,7 +1112,6 @@ $(document).ready(function() {
 
     // close debugger
     $('#debugger').on('click', function() {
-        clickSfx();
         dtimer = null;
         $('#debugger').fadeOut(function() {
             $('#debugger').html('').removeClass('debugger-on');
@@ -1144,7 +1129,6 @@ $(document).ready(function() {
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
-        clickSfx();
         if (window.refresh_flag) {
             refresh();
         }
