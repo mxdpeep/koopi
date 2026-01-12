@@ -11,10 +11,9 @@ all:
 	@echo "macro: everything";
 
 clear:
-	@echo "🧹 čištění cache (starší 3 dnů kompletně, starší 36 hod náhodný vzorek)"
-	@-find ./cache/ -type f -mmin +4320 -delete -print 2> /dev/null || true
-	@-find ./cache/ -type f -mmin +2160 2> /dev/null \
-		| head -n 1000 \
+	@-find ./cache/ -type f -mmin +3000 -delete -print 2> /dev/null || true
+	@-find ./cache/ -type f -mmin +2000 2> /dev/null \
+		| head -n 2500 \
 		| shuf \
 		| head -n 100 \
 		| xargs -r rm -f || true

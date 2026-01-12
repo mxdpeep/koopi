@@ -774,10 +774,11 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedGoods[i]["id"] = hashmap[hash]
 		name := strings.ToLower(cleanedGoods[i]["name"].(string))
 		for w := range strings.FieldsSeq(name) {
-			w = strings.Trim(w, ".,!/-+")
+			w = strings.Trim(w, ".,;:!/-+")
 			w = cleaner.Replace(w)
 			w = CZreplacer.Replace(w)
-			if len(w) > 3 && len(w) < 20 && !wordsSeen[w] {
+			w = strings.Trim(w, ".,;:!/-+")
+			if len(w) > 2 && len(w) < 15 && !wordsSeen[w] {
 				wordsSeen[w] = true
 				uniqueWords = append(uniqueWords, w)
 			}
@@ -785,13 +786,22 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	}
 	sort.Strings(uniqueWords)
 
+	reversedHashmap := make(map[int]string)
+	for hash, index := range hashmap {
+		reversedHashmap[index] = hash
+	}
+
 	// output data
 	outputData := make(map[string]any)
 	outputData["created"] = time.Now().Format(time.RFC3339)
 	outputData["count"] = len(cleanedGoods)
 	outputData["goods"] = cleanedGoods
 	outputData["markets"] = markets
-	outputData["search"] = strings.Join(uniqueWords, " ")
+	outputData["keywords"] = strings.Join(uniqueWords, " ")
+	outputData["searchmap"] = uniqueWords
+	outputData["hashmap"] = reversedHashmap
+
+	// save to JSON
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", "  ")
 	if err := encoder.Encode(outputData); err != nil {
