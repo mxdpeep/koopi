@@ -822,6 +822,7 @@ const initApp = () => {
             // populate the data
             deals.goods = goods;
             deals.markets = data.markets;
+            deals.catcounts = data.catcounts;
 
             deals.keywords = data.keywords.split(' ');
             deals.keywordsall = data.keywords;
@@ -899,8 +900,7 @@ const renderDeals = (deals) => {
         const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
         const visibilityClass = (marketMatch && catMatch) ? '' : 'none';
 
-        // compute to JSON via Go!
-        if (marketMatch) {catCounts[deal.cat] = (catCounts[deal.cat] || 0) + 1;}
+        //if (marketMatch) {catCounts[deal.cat] = (catCounts[deal.cat] || 0) + 1;}
 
         return `
             <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
@@ -908,7 +908,7 @@ const renderDeals = (deals) => {
                      data-market="${deal.market}">
                 <div class="heartcartrow row center-align">
                     <div class="center-align">
-                        <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right red">${deal.offer_count}</span>` : ''}</div>
+                        <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
                     </div>
                     <div>
                         <img src="/markets-v2/${deal.market}.webp" class="market-image" width="60" height="60" loading="lazy">
@@ -936,7 +936,7 @@ const renderDeals = (deals) => {
     }).join('');
 
     // update badges
-    updateCategoryBadges(catCounts);
+    updateCategoryBadges(window.deals.catcounts);
 };
 const renderMarkets = (markets) => {
     if (!markets) return;

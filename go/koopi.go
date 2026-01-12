@@ -803,6 +803,14 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		reversedHashmap[index] = hash
 	}
 
+	// count cats
+	catCounts := make(map[string]int)
+	for _, item := range cleanedGoods {
+		if cat, ok := item["cat"].(string); ok {
+			catCounts[cat]++
+		}
+	}
+
 	// output data
 	outputData := make(map[string]any)
 	outputData["created"] = time.Now().Format(time.RFC3339)
@@ -812,6 +820,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	outputData["keywords"] = strings.Join(uniqueWords, " ")
 	outputData["keywordsindex"] = keywordsIndex
 	outputData["idhashmap"] = reversedHashmap
+	outputData["catcounts"] = catCounts
 
 	// save to JSON
 	encoder := json.NewEncoder(file)
@@ -1015,14 +1024,14 @@ func main() {
 	sort.Slice(finalGoods, func(i, j int) bool {
 		return c.CompareString(finalGoods[i].Name, finalGoods[j].Name) < 0
 	})
-	// save sorted data to CSV
+	// save data to CSV
 	appendToCsv(finalGoods, OUTPUT_CSV, &csvMutex)
 
 	cExport := collate.New(language.Czech, collate.IgnoreCase)
 	sort.Slice(marketsList, func(i, j int) bool {
 		return cExport.CompareString(marketsList[i], marketsList[j]) < 0
 	})
-	// save sorted data to JSON
+	// save data to JSON
 	appendToJson(finalGoods, OUTPUT_JSON, marketsList, &csvMutex)
 
 	fmt.Printf("\n🍀 Scraping finished %d unique items.\n", len(finalGoods))
