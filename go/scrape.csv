@@ -2,8 +2,8 @@ CATEGORY,QUERY,PAGES
 
 deterministické hledání (určující kategorii):
 
-CUKROVINKY,bonbony,2
-CUKROVINKY,cukr,2
+CUKROVINKY,bonbony,1
+CUKROVINKY,cukr,1
 CUKROVINKY,džem,1
 CUKROVINKY,kit kat,1
 CUKROVINKY,lindt,1
@@ -23,11 +23,13 @@ MLÉKO,pomazánkové,1
 MLÉKO,pudink,1
 MLÉKO,termix,1
 MLÉKO,tvaroh,1
-NÁPOJE,coca-cola,3
-NÁPOJE,nestea,3
-NÁPOJE,pepsi,3
-NÁPOJE,vodka,3
-OBILÍ,bageta,1
+NÁPOJE,absinth,1
+NÁPOJE,božkov,1
+NÁPOJE,coca-cola,1
+NÁPOJE,nestea,1
+NÁPOJE,pepsi,1
+NÁPOJE,vodka,2
+OBILÍ,bageta,2
 OBILÍ,chléb,2
 OBILÍ,mouka,1
 OBILÍ,rohlík,2

@@ -108,6 +108,7 @@ var (
 var FORBIDDEN_GOODS = []string{
 	"alverde",
 	"bambucké",
+	"coolant",
 	"do myčky",
 	"doplněk stravy",
 	"express menu",
