@@ -1349,7 +1349,7 @@ window.addEventListener('appinstalled', () => {
     installBtn.style.display = 'none';
     deferredPrompt = null;
 });
-window.addEventListener('xcontextmenu', function(e) {
+window.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
@@ -1365,7 +1365,6 @@ document.addEventListener('error', function (e) {
         img.style.display = 'none';
     }
 }, true);
-
 </script>
 </body>
 </html>
