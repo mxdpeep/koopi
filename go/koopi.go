@@ -763,7 +763,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	id := 1
 	hashmap := make(map[string]int)
 	wordsSeen := make(map[string]bool)
-	keywordIndex := make(map[string][]int)
+	keywordsIndex := make(map[string][]int)
 	cleaner := strings.NewReplacer("%", "", "°", "", ",", "", "!", "")
 	var uniqueWords []string
 	for i := range cleanedGoods {
@@ -784,9 +784,9 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			w = nonAlphanumeric.ReplaceAllString(w, "")
 
 			if len(w) > 2 && len(w) < 30 && w != "" {
-				existingIDs := keywordIndex[w]
+				existingIDs := keywordsIndex[w]
 				if len(existingIDs) == 0 || existingIDs[len(existingIDs)-1] != currentIntID {
-					keywordIndex[w] = append(existingIDs, currentIntID)
+					keywordsIndex[w] = append(existingIDs, currentIntID)
 				}
 				if !wordsSeen[w] {
 					wordsSeen[w] = true
@@ -809,7 +809,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	outputData["goods"] = cleanedGoods
 	outputData["markets"] = markets
 	outputData["keywords"] = strings.Join(uniqueWords, " ")
-	outputData["keywordindex"] = keywordIndex
+	outputData["keywordsindex"] = keywordsIndex
 	outputData["idhashmap"] = reversedHashmap
 
 	// save to JSON

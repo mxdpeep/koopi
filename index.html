@@ -636,8 +636,8 @@ document.getElementById('loading').style.display = 'flex';
 
 /* DEALS object */
 window.deals = {};
-deals.blocked = [];
-deals.likes = [];
+deals.myBlocks = [];
+deals.myLikes = [];
 deals.myCats = [];
 deals.myMarkets = [];
 
@@ -826,9 +826,21 @@ const initApp = () => {
                 return;
             }
 
-            // save the data
+            // populate the data
             deals.goods = goods;
+            deals.keywords = data.keywords.split(' ');
+            deals.keywordsall = data.keywords;
+	        deals.keywordsindex = data.keywordsindex
             deals.markets = data.markets;
+        	deals.idhashmap = data.idhashmap
+            deals.hashidmap = {};
+            Object.entries(data.idhashmap).forEach(([id, hash]) => {
+                deals.hashidmap[hash] = parseInt(id);
+            });
+            deals.topkeywords = Object.keys(deals.keywordsindex)
+                .filter(word => word.length >= 3)
+                .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length).slice(0, 20);
+
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             $('#stats').html(`Slev celkem: <b>${goods.length}</b>
@@ -1129,13 +1141,14 @@ $(document).ready(function() {
     // EXPORT SETTINGS function
     function exportSettings() {
         const data = {
+            version: version,
+            git_build_date: git_build_date,
+            git_revisions: git_revisions,
             handedness: localStorage.getItem('handedness') || 'right',
             myCats: deals.myCats || [],
             myMarkets: deals.myMarkets || [],
-            blocked: deals.blocked || [],
-            likes: deals.likes || [],
-            version: version,
-            git_build_date: git_build_date
+            myBlocks: deals.myBlocks || [],
+            myLikes: deals.myLikes || [],
         };
         const jsonString = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonString], {type: 'application/json'});
