@@ -1055,7 +1055,6 @@ $(document).ready(function() {
 
     // ABOUT button
     $('.about-btn').on('click', function() {
-        umlog('about_tab');
         window.scrollTo({top: 0});
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -1065,13 +1064,13 @@ $(document).ready(function() {
             }
             $('#deals').show();
         } else {
+            umlog('about_tab');
             $('#about').show();
         }
     });
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
-        umlog('settings_tab');
         window.scrollTo({top: 0});
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -1081,6 +1080,7 @@ $(document).ready(function() {
             }
             $('#deals').show();
         } else {
+            umlog('settings_tab');
             $('#settings').show();
         }
     });
@@ -1267,12 +1267,30 @@ $(document).ready(function() {
         const pushUmamiIdentity = () => {
             if (typeof umami !== 'undefined' && window.uuid) {
                 umami.identify({user_id: window.uuid});
-                console.log('Umami identity set.');
             } else {
                 setTimeout(pushUmamiIdentity, 100);
             }
         };
         pushUmamiIdentity();
+    });
+
+    // UMAMI stats
+    $(function() {
+        const logDailyStats = () => {
+            const today = new Date().toISOString().slice(2, 10).replace(/-/g, '');
+            const lastLog = localStorage.getItem('sync_stats');
+            if (lastLog === today) return;
+            if (typeof umlog === 'function' && window.uuid && window.nolocalstorage === false) {
+                localStorage.setItem('sync_stats', today);
+                umlog('daily_stats', {
+                    markets: localStorage.getItem('myMarkets'),
+                    categories: localStorage.getItem('myCats')
+                });
+            } else {
+                setTimeout(logDailyStats, 10000);
+            }
+        };
+        setTimeout(logDailyStats, 10000);
     });
 
     // UMAMI logger
