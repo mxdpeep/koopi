@@ -155,33 +155,18 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 .grayscaled {filter: grayscale(100%);opacity: 0.5;}
 .basic {position: relative;top: 10px;}
 
-/* NAV bottom badges */
-.cat-badge {
-    display: none;
-    position: static;
-    z-index: 9999;
-    border-radius: 0;
-    letter-spacing: 0;
-}
+/* bottom nav counter badges */
+.cat-badge {display: none;position: static;z-index: 9999;border-radius: 0;letter-spacing: 0;}
 
-/* TOP nav extra row animation */
-.extras {
-    height: 3.0rem !important;
-    opacity: 1;
-    transition: all 0.3s ease;
-}
-.extras-hidden {
-    opacity: 0;
-    height: 0!important;
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
+/* top extras row - animation */
+.extras {height: 3.0rem !important;opacity: 1;transition: all 0.5s ease;}
+.extras-hidden {opacity: 0;height: 0!important;transition: all 0.5s ease;pointer-events: none;}
 
-/* defaults */
+/* top nav - defaults */
 .slevicky {display: none;}
 .topnavtxt {display: none;}
 
-/* vylepšení pozicování */
+/* top nav - better positioning */
 .downer {position: relative;top: 5px;}
 
 /* BUTTONS */
@@ -211,10 +196,9 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
     padding: 5px;
 }
 
-/* remove hover color on top NAV buttons */
+/* remove hover color on top nav buttons */
 nav.top button::before, nav.top button::after {background: none !important;}
-
-/* default NAV buttons letter-spacing */
+/* default nav buttons letter-spacing */
 nav.bottom button {letter-spacing: 0;}
 
 #about, #settings {
@@ -417,7 +401,7 @@ article.hidden-force {
     display: none !important;
 }
 
-/* bottom NAV separators */
+/* cool bottom nav separators */
 nav.bottom > button:not(:last-child) {
   border-right: none !important;
   background-image: linear-gradient(to bottom, 
@@ -442,7 +426,7 @@ nav.bottom button {
 </head>
 <body class="light">
 
-<!-- HTML5 TOP nav -->
+<!-- HTML5 top nav -->
 <nav class="righthanded top notap nowrap black white-text vertical">
     <div class="basic row width-100">
         <button class="install-btn light-blue" style="display: none;">
@@ -504,7 +488,7 @@ nav.bottom button {
     </div> 
 </nav>
 
-<!-- HTML5 BOTTOM nav -->
+<!-- HTML5 bottom nav -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
@@ -1007,7 +991,7 @@ const renderCategories = (categories) => {
     });
 };
 
-// UPDATE BOTTOM NAV BADGES
+// UPDATE BADGES in bottom nav 
 function updateCategoryBadges(catCounts) {
     if (!catCounts) return;
 
@@ -1225,7 +1209,7 @@ $(document).ready(function() {
     window.setDefaults = setDefaults;
     setDefaults();
 
-    // BOTTOM NAVIGATION buttons
+    // bottom navigation buttons
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
