@@ -815,6 +815,7 @@ const initApp = () => {
                 $('#loading-info').text('Chyba nahrávání dat!');
                 return;
             }
+            $('#loading-info').text('👽️ Renderuji data ...');
             let goods = [];
             if (data && data.goods && Array.isArray(data.goods)) {
                 goods = data.goods;
@@ -825,7 +826,7 @@ const initApp = () => {
                 return;
             }
 
-            // save data
+            // save the data
             deals.goods = goods;
             deals.markets = data.markets;
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
@@ -910,7 +911,7 @@ const renderDeals = (deals) => {
                 <div class="product-price">
                     <span class="discount mono">${deal.discount}</span>
                     <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
-                    <span class="ppunit">${deal.priceperunit}</span>
+                    <span class="ppunit">${deal.ppunit}</span>
                 </div>
                 <div class="validity nowrap bold">${deal.validity}</div>
             </article>
