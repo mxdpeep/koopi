@@ -837,9 +837,11 @@ const initApp = () => {
             Object.entries(data.idhashmap).forEach(([id, hash]) => {
                 deals.hashidmap[hash] = parseInt(id);
             });
+            const blockedWords = ["bez", "albert", "billa", "lidl", "penny", "kaufland", "tesco", "kosti", "vyber"];
             deals.topkeywords = Object.keys(deals.keywordsindex)
-                .filter(word => word.length >= 3)
-                .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length).slice(0, 30);
+                .filter(word => !blockedWords.includes(word))
+                .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
+                .slice(0, 30);
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
