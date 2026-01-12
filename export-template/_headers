@@ -12,7 +12,7 @@
 /images/*
   Cache-Control: public, max-age=2592000, immutable
 
-/markets-2/*
+/markets-v2/*
   Cache-Control: public, max-age=2592000, immutable
 
 /jquery.min.js
