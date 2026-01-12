@@ -839,7 +839,7 @@ const initApp = () => {
             });
             deals.topkeywords = Object.keys(deals.keywordsindex)
                 .filter(word => word.length >= 3)
-                .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length).slice(0, 20);
+                .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length).slice(0, 30);
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
