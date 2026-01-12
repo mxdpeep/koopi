@@ -113,6 +113,7 @@ button.chip .market-image {
 #about li {padding: 4px 0;}
 
 /* HELPERS */
+.row-reverse {flex-direction: row-reverse;}
 .bigger {font-size: 2rem;font-weight: bold;}
 .bigger-like {font-size: 1.5rem;font-weight: bold;}
 .bigger-cart {font-size: 1.5rem;font-weight: bold;}
@@ -529,9 +530,9 @@ nav.bottom button {
         <div id="stats"></div>
 
         <h3>Aplikace</h3><hr>
+        📅 date: <b>{{DATE_REV}}</b><br><br>
         👾 build: <b>{{GIT_REV}}</b><br>
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br>
-        📅 date: <b>{{DATE_REV}}</b><br><br>
 
         Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
         Hosting Github + Cloudflare Pages.<br><br>
@@ -806,6 +807,7 @@ const initApp = () => {
                 $('#loading-info').text('Chyba nahrávání dat!');
                 return;
             }
+
             $('#loading-info').text('👽️ Renderuji ...');
             let goods = [];
             if (data && data.goods && Array.isArray(data.goods)) {
@@ -867,8 +869,6 @@ const initApp = () => {
             $('#speed-bench').html(`🚀 renderováno za <b>${renderDuration} ms</b>`);
             
             // defaults
-            //$('#deals article').addClass('hidden-force');
-            //$('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
             setDefaults();
             $('#deals').removeClass('hidden');
 
@@ -897,21 +897,21 @@ const renderDeals = (deals) => {
     dealsGrid.innerHTML = deals.map(deal => {
         const marketMatch = activeMarkets.length === 0 || activeMarkets.includes(deal.market);
         const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
-        const visibilityClass = (marketMatch && catMatch) ? "" : "none";
+        const visibilityClass = (marketMatch && catMatch) ? '' : 'none';
 
-        if (marketMatch) { catCounts[deal.cat] = (catCounts[deal.cat] || 0) + 1; }
+        // compute to JSON via Go!
+        if (marketMatch) {catCounts[deal.cat] = (catCounts[deal.cat] || 0) + 1;}
 
         return `
             <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
                      data-id="${deal.id}" 
-                     data-cat="${deal.cat}" 
                      data-market="${deal.market}">
-                <div class="row center-align">
+                <div class="heartcartrow row center-align">
                     <div class="center-align">
                         <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right red">${deal.offer_count}</span>` : ''}</div>
                     </div>
                     <div>
-                        <img src="/markets-v2/${deal.market}.webp" loading="lazy" alt="${deal.market}" width="60" height="60" class="market-image">
+                        <img src="/markets-v2/${deal.market}.webp" class="market-image" width="60" height="60" loading="lazy">
                     </div>
                     <div class="center-align">
                         <div class="grayscaled bigger-cart">🛒</div>
@@ -919,7 +919,7 @@ const renderDeals = (deals) => {
                 </div>
                 <div class="product-image-container">
                     <div class="image-wrapper">
-                        <img src="/images/${deal.image}" loading="lazy" alt="${deal.name}" class="product-image">
+                        <img src="/images/${deal.image}" class="product-image" loading="lazy">
                     </div>
                 </div>
                 <div class="product-name bold">${deal.name}</div>
@@ -935,6 +935,7 @@ const renderDeals = (deals) => {
         `;
     }).join('');
 
+    // update badges
     updateCategoryBadges(catCounts);
 };
 const renderMarkets = (markets) => {
@@ -1130,6 +1131,8 @@ $(document).ready(function() {
     // handedness button
     $('.settings-button').on('click', function() {
         switchHands();
+        let direction = (deals.handedness === 'right') ? '' : 'row-reverse';
+        $('.heartcartrow').removeClass('row-reverse').addClass(direction);
     });
 
     // SWITCH HANDEDNESS function
@@ -1212,15 +1215,16 @@ $(document).ready(function() {
                 $('.lefthanded').show();
                 $('.righthanded').hide();
                 deals.handedness = 'left';
+                $('.heartcartrow').addClass('row-reverse');
             } else if (savedHandedness === 'right') {
                 $('.lefthanded').hide();
                 $('.righthanded').show();
                 deals.handedness = 'right';
             }
         }
+     
     }
     window.setDefaults = setDefaults;
-    setDefaults();
 
     // bottom navigation buttons
     $('.btn-bottom').on('click', function() {
@@ -1345,7 +1349,7 @@ window.addEventListener('appinstalled', () => {
     installBtn.style.display = 'none';
     deferredPrompt = null;
 });
-window.addEventListener('contextmenu', function(e) {
+window.addEventListener('xcontextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
