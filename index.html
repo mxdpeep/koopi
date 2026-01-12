@@ -442,7 +442,7 @@ nav.bottom button {
 </head>
 <body class="light">
 
-<!-- TOP nav -->
+<!-- HTML5 TOP nav -->
 <nav class="righthanded top notap nowrap black white-text vertical">
     <div class="basic row width-100">
         <button class="install-btn light-blue" style="display: none;">
@@ -504,7 +504,7 @@ nav.bottom button {
     </div> 
 </nav>
 
-<!-- BOTTOM nav -->
+<!-- HTML5 BOTTOM nav -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
@@ -520,10 +520,10 @@ nav.bottom button {
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
 
-<!-- DEBUGGER -->
+<!-- HTML5 DEBUGGER -->
 <div id="debugger" class="notap noselect blue-grey black-text bold debugger"></div>
 
-<!-- CONTENT -->
+<!-- HTML5 CONTENT -->
 <main class="container">
     <noscript>
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
@@ -631,17 +631,17 @@ if (!Array.prototype.shuffle) {
     };
 }
 
-// enable LOADING SPLASH SCREEN
+// SPLASH SCREEN on
 document.getElementById('loading').style.display = 'flex';
 
-/* DEALS object */
+// GLOBAL DEALS object
 window.deals = {};
 deals.myBlocks = [];
 deals.myLikes = [];
 deals.myCats = [];
 deals.myMarkets = [];
 
-// fill data
+// RESTORE DATA from LOCAL STORAGE
 try {
     window.deals.myMarkets = JSON.parse(localStorage.getItem('myMarkets')) || [];
     window.deals.myCats = JSON.parse(localStorage.getItem('myCats')) || [];
@@ -650,7 +650,7 @@ try {
     window.deals.myCats = [];
 }
 
-// SHARE
+// WEBSHARE
 const webShare = async (title, text, url) => {
     if (navigator.share) {
         try {
@@ -720,7 +720,7 @@ if (nolocalstorage) {
     $('#save').prop('disabled', true);
 }
 
-// BUILD info
+// MAIN CONSTANTS
 const version = '{{GIT_REV}}';
 const git_build_date = '{{DATE_REV}}';
 const git_revisions = '{{COUNT_REV}}';
@@ -744,7 +744,7 @@ const catIcons = {
 };
 const categories = Object.keys(catIcons);
 
-// check for updates
+// UPDATES checker
 function checkUpdate() {
     if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
@@ -761,7 +761,7 @@ function checkUpdate() {
     }, 30000);
 }
 
-// APP START
+// *** START ***
 document.addEventListener('DOMContentLoaded', () => {
     progressBar();
     initApp();
@@ -828,15 +828,18 @@ const initApp = () => {
 
             // populate the data
             deals.goods = goods;
+            deals.markets = data.markets;
+
             deals.keywords = data.keywords.split(' ');
             deals.keywordsall = data.keywords;
 	        deals.keywordsindex = data.keywordsindex
-            deals.markets = data.markets;
-        	deals.idhashmap = data.idhashmap
+
+            deals.idhashmap = data.idhashmap
             deals.hashidmap = {};
             Object.entries(data.idhashmap).forEach(([id, hash]) => {
                 deals.hashidmap[hash] = parseInt(id);
             });
+
             const blockedWords = ["bez", "albert", "billa", "lidl", "penny", "kaufland", "tesco", "kosti", "vyber"];
             deals.topkeywords = Object.keys(deals.keywordsindex)
                 .filter(word => !blockedWords.includes(word))
@@ -878,12 +881,12 @@ const initApp = () => {
         });
 };
 
-// RENDER
+// RENDERERS
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
 
-    // aktuální filtry
+    // filtry
     const activeMarkets = window.deals.myMarkets || [];
     const activeCats = window.deals.myCats || [];
 
@@ -904,15 +907,14 @@ const renderDeals = (deals) => {
                      data-market="${deal.market}">
                 <div class="row center-align">
                     <div class="center-align">
-                        <div class="grayscaled bigger-like relative">
-                            ♥️
-                            ${deal.offer_count ? `<span class="badge circle tiny top right red">${deal.offer_count}</span>` : ''}
-                        </div>
+                        <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right red">${deal.offer_count}</span>` : ''}</div>
                     </div>
                     <div>
                         <img src="/markets/${deal.market}.webp" loading="lazy" alt="${deal.market}" width="60" height="60" class="market-image">
                     </div>
-                    <div class="grayscaled bigger-cart">🛒</div>
+                    <div class="center-align">
+                        <div class="grayscaled bigger-cart">🛒</div>
+                    </div>
                 </div>
                 <div class="product-image-container">
                     <div class="image-wrapper">
@@ -934,7 +936,6 @@ const renderDeals = (deals) => {
 
     updateCategoryBadges(catCounts);
 };
-
 const renderMarkets = (markets) => {
     if (!markets) return;
     const marketsDiv = document.getElementById('mymarkets');
@@ -968,7 +969,6 @@ const renderMarkets = (markets) => {
         localStorage.setItem('myMarkets', JSON.stringify(window.deals.myMarkets));
     });
 };
-
 const renderCategories = (categories) => {
     if (!categories) return;
     const catsDiv = document.getElementById('mycats');
@@ -1003,7 +1003,7 @@ const renderCategories = (categories) => {
     });
 };
 
-// UPDATE BADGES in BOTTOM NAV bar
+// UPDATE BOTTOM NAV BADGES
 function updateCategoryBadges(catCounts) {
     if (!catCounts) return;
 
@@ -1049,11 +1049,13 @@ $(document).ready(function() {
 
     // SAVE button
     $('#save').on('click', function() {
+        umlog('save_settings');
         exportSettings();
     });
 
     // ABOUT button
     $('.about-btn').on('click', function() {
+        umlog('about_tab');
         window.scrollTo({top: 0});
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -1069,6 +1071,7 @@ $(document).ready(function() {
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
+        umlog('settings_tab');
         window.scrollTo({top: 0});
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
@@ -1087,6 +1090,7 @@ $(document).ready(function() {
         if (window.refresh_flag) {
             refresh();
         }
+        umlog('roulette');
         roulette();
     });
     
@@ -1136,6 +1140,7 @@ $(document).ready(function() {
         $('.righthanded').toggle();
         const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
         setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
+        deals.handedness = currentMode;
         if (window.nolocalstorage) return;
         localStorage.setItem('handedness', currentMode);
     }
@@ -1197,6 +1202,7 @@ $(document).ready(function() {
         $('.but1').removeClass('grayscaled');
         $('#deals article').addClass('hidden-force');
         $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+        deals.handedness = 'right';
 
         // process handedness from localStorage
         if (!window.nolocalstorage) {
@@ -1204,13 +1210,16 @@ $(document).ready(function() {
             if (savedHandedness === 'left') {
                 $('.lefthanded').show();
                 $('.righthanded').hide();
+                deals.handedness = 'left';
             } else if (savedHandedness === 'right') {
                 $('.lefthanded').hide();
                 $('.righthanded').show();
+                deals.handedness = 'right';
             }
         }
     }
     window.setDefaults = setDefaults;
+    setDefaults();
 
     // BOTTOM NAVIGATION buttons
     $('.btn-bottom').on('click', function() {
@@ -1253,7 +1262,30 @@ $(document).ready(function() {
         return false;
     }
 
-    setDefaults();
+    // UMAMI identity
+    $(function() {
+        const pushUmamiIdentity = () => {
+            if (typeof umami !== 'undefined' && window.uuid) {
+                umami.identify({user_id: window.uuid});
+                console.log('Umami identity set.');
+            } else {
+                setTimeout(pushUmamiIdentity, 100);
+            }
+        };
+        pushUmamiIdentity();
+    });
+
+    // UMAMI logger
+    window.umlog = function(eventName, eventData = {}) {
+        if (typeof umami !== 'undefined' && window.uuid) {
+            const data = {
+                ...eventData,
+                user_id: window.uuid
+            };
+            umami.track(eventName, data);
+        }
+    };
+
 });
 
 // SERVICE WORKER
@@ -1294,19 +1326,16 @@ window.addEventListener('appinstalled', () => {
     installBtn.style.display = 'none';
     deferredPrompt = null;
 });
-
 window.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
 }, true);
-
 window.addEventListener('dblclick', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
 }, true);
-
 document.addEventListener('error', function (e) {
     if (e.target.tagName.toLowerCase() === 'img') {
         const img = e.target;
