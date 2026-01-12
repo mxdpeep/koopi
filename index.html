@@ -159,8 +159,8 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 .cat-badge {display: none;position: static;z-index: 9999;border-radius: 0;letter-spacing: 0;}
 
 /* top extras row - animation */
-.extras {height: 3.0rem !important;opacity: 1;transition: all 0.5s ease;}
-.extras-hidden {opacity: 0;height: 0!important;transition: all 0.5s ease;pointer-events: none;}
+.extras {height: 3.0rem !important;opacity: 1;transition: all 0.3s ease;}
+.extras-hidden {opacity: 0;height: 0!important;transition: all 0.3s ease;pointer-events: none;}
 
 /* top nav - defaults */
 .slevicky {display: none;}
@@ -770,16 +770,16 @@ const progressBar = () => {
         var scrolled = Math.round(scroll * 100 / height);
         if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
 
-        // hide the extras row
+        // hide extras row
         if (window.extras_flag) {
             if (scroll > 100) {
                 $('.extras').addClass('extras-hidden');
                 window.extras_flag = false;
             }
         }
-        // show the extras row
+        // show extras row
         if (!window.extras_flag) {
-            if (scroll === 0) {
+            if (scroll < 100) {
                 $('.extras').removeClass('extras-hidden');
                 window.extras_flag = true;
             }
