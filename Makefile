@@ -44,7 +44,7 @@ img:
 			convert "$$INPUT" -quality 80 "$$OUTPUT"; \
 		fi \
 	' _ {}
-	@cd markets && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
+	@cd markets-v2 && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
 		INPUT="$$1"; \
 		OUTPUT=$${INPUT%.*}.webp; \
 		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
@@ -60,11 +60,11 @@ everything: clear db img cf backup
 
 cf:
 	@echo "Building version: $(GIT_REV)"
-	@mkdir -p export/images export/markets
+	@mkdir -p export/images export/markets-v2
 	@cd export && git pull origin master --allow-unrelated-histories || true
 	@rsync -aq --delete --exclude='.git' export-template/ export/
 	@rsync -aq --delete images/*.webp export/images/
-	@rsync -aq --delete markets/*.webp export/markets/
+	@rsync -aq --delete markets-v2/*.webp export/markets-v2/
 	@cp index.html export/
 	@cp manifest.json export/
 	@cp meta.json export/
