@@ -777,6 +777,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			w = CZreplacer.Replace(w)
 			w = cleaner.Replace(w)
 			w = strings.Trim(w, ".,;:!/-+‑")
+			w = nonAlphanumeric.ReplaceAllString(w, "")
 			if len(w) > 2 && len(w) < 15 && !wordsSeen[w] && w != "" {
 				wordsSeen[w] = true
 				uniqueWords = append(uniqueWords, w)
