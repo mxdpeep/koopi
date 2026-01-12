@@ -774,18 +774,16 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedGoods[i]["id"] = hashmap[hash]
 		name := strings.ToLower(cleanedGoods[i]["name"].(string))
 		for w := range strings.FieldsSeq(name) {
-			w = strings.Trim(w, ".,;:!/-+")
-			w = cleaner.Replace(w)
 			w = CZreplacer.Replace(w)
-			w = strings.Trim(w, ".,;:!/-+")
-			if len(w) > 2 && len(w) < 15 && !wordsSeen[w] {
+			w = cleaner.Replace(w)
+			w = strings.Trim(w, ".,;:!/-+‑")
+			if len(w) > 2 && len(w) < 15 && !wordsSeen[w] && w != "" {
 				wordsSeen[w] = true
 				uniqueWords = append(uniqueWords, w)
 			}
 		}
 	}
 	sort.Strings(uniqueWords)
-
 	reversedHashmap := make(map[int]string)
 	for hash, index := range hashmap {
 		reversedHashmap[index] = hash
