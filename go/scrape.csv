@@ -1,47 +1,58 @@
 CATEGORY,QUERY,PAGES
 
-deterministické kategorie:
+deterministické hledání (určující kategorii):
 
+CUKROVINKY,bonbony,2
 CUKROVINKY,cukr,2
 CUKROVINKY,džem,1
+CUKROVINKY,kit kat,1
+CUKROVINKY,lindt,1
 CUKROVINKY,poleva,1
+CUKROVINKY,studentská pečeť,1
 CUKROVINKY,sušenky,1
 KOŘENÍ,bujón,1
 KOŘENÍ,omáčka worcestrová,1
 MLÉKO,dezert pudink,1
 MLÉKO,dezert zakysaný,1
-MLÉKO,mléčná rýže,1
 MLÉKO,jogurt,1
+MLÉKO,milka,1
 MLÉKO,mléko,1
+MLÉKO,mléčná rýže,1
 MLÉKO,pomazánka,1
 MLÉKO,pomazánkové,1
 MLÉKO,pudink,1
 MLÉKO,termix,1
 MLÉKO,tvaroh,1
+NÁPOJE,coca-cola,3
+NÁPOJE,nestea,3
+NÁPOJE,pepsi,3
 NÁPOJE,vodka,3
 OBILÍ,bageta,1
 OBILÍ,chléb,2
 OBILÍ,mouka,1
 OBILÍ,rohlík,2
 OŘECHY,kešu,1
+SÝRY,olomoucké tvarůžky,1
 SÝRY,smažený sýr,1
 SÝRY,tavený sýr,1
 TUKY,olej,1
 UZENINY,šunka,1
 
-ostatní data:
+ostatní hledání:
 
 CUKROVINKY,bon pari,1
 CUKROVINKY,bonbony jojo,2
-CUKROVINKY,bonbony,2
 CUKROVINKY,cukr krystal,2
 CUKROVINKY,cukr moučka,2
 CUKROVINKY,dezert,1
 CUKROVINKY,fidorka,1
 CUKROVINKY,hambáče,1
 CUKROVINKY,haribo,2
+CUKROVINKY,hašlerky,1
 CUKROVINKY,hroznový cukr,1
 CUKROVINKY,javorový sirup,1
+CUKROVINKY,lentilky,1
+CUKROVINKY,lesněnky,1
 CUKROVINKY,lízátka,1
 CUKROVINKY,marshmallow,1
 CUKROVINKY,med,1
@@ -49,9 +60,11 @@ CUKROVINKY,nanuk,2
 CUKROVINKY,nutella,1
 CUKROVINKY,ovocný cukr,1
 CUKROVINKY,piškoty,1
+CUKROVINKY,ricola,1
 CUKROVINKY,sovičky,1
 CUKROVINKY,tatranka,1
 CUKROVINKY,tatranky,1
+CUKROVINKY,tic tac bonbony,2
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
@@ -130,13 +143,13 @@ MASO,vepřové kostky,1
 MASO,vepřový bok,1
 MASO,žebra,1
 MLÉKO,actimel,1
-MLÉKO,lipánek,1
 MLÉKO,activia,1
 MLÉKO,bezlaktózové mléko,1
 MLÉKO,kefír,1
 MLÉKO,kondenzované mléko,1
 MLÉKO,kostíci,1
 MLÉKO,kyška,1
+MLÉKO,lipánek,1
 MLÉKO,mléko plnotučné,1
 MLÉKO,mléko polotučné,1
 MLÉKO,mléko trvanlivé,1
@@ -154,6 +167,7 @@ NÁPOJE,cider,1
 NÁPOJE,džus,1
 NÁPOJE,instantní káva,2
 NÁPOJE,lager,2
+NÁPOJE,ledový čaj,2
 NÁPOJE,ležák,3
 NÁPOJE,likér,1
 NÁPOJE,mattoni,1
@@ -260,11 +274,13 @@ SÝRY,balkánský sýr,1
 SÝRY,blaťácké zlato,1
 SÝRY,brie,1
 SÝRY,brynza,1
+SÝRY,bánovecké syrečky,1
 SÝRY,camembert,1
 SÝRY,cottage,1
 SÝRY,eidam,2
 SÝRY,ementál,2
 SÝRY,feta,1
+SÝRY,fourme d'ambert,1
 SÝRY,gorgonzola,1
 SÝRY,gouda,1
 SÝRY,gran moravia,1
