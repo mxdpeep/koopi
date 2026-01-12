@@ -791,10 +791,13 @@ const progressBar = () => {
 
 const initApp = () => {
     console.time('JSON-Fetch');
-    
+
     fetch(dataFile)
         .then(response => {
-            if (!response.ok) throw new Error('data.json nebyl nalezen');
+            if (!response.ok) {
+                $('#loading-info').text('Datový soubor nebyl nalezen!');
+                throw new Error('Datový soubor nebyl nalezen!');
+            }
             return response.json();
         })
         .then(data => {
@@ -809,7 +812,7 @@ const initApp = () => {
                 goods = data.goods;
             }
             if (goods.length === 0) {
-                $('#loading-info').text('Žádné zboží k renderování!');
+                $('#loading-info').text('Žádné zboží k zobrazení!');
                 console.error('Struktura dat neodpovídá: ', data);
                 return;
             }
@@ -828,7 +831,17 @@ const initApp = () => {
                 deals.hashidmap[hash] = parseInt(id);
             });
 
-            const blockedWords = ["bez", "albert", "billa", "lidl", "penny", "kaufland", "tesco", "kosti", "vyber"];
+            const blockedWords = [
+                "albert",
+                "bez",
+                "billa",
+                "kaufland",
+                "kosti",
+                "lidl",
+                "penny",
+                "tesco",
+                "vyber"
+            ];
             deals.topkeywords = Object.keys(deals.keywordsindex)
                 .filter(word => !blockedWords.includes(word))
                 .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
