@@ -10,14 +10,22 @@ KOŘENÍ,bujón,1
 KOŘENÍ,omáčka worcestrová,1
 MLÉKO,dezert pudink,1
 MLÉKO,dezert zakysaný,1
+MLÉKO,mléčná rýže,1
 MLÉKO,jogurt,1
 MLÉKO,mléko,1
+MLÉKO,pomazánka,1
+MLÉKO,pomazánkové,1
+MLÉKO,pudink,1
+MLÉKO,termix,1
+MLÉKO,tvaroh,1
 NÁPOJE,vodka,3
 OBILÍ,bageta,1
 OBILÍ,chléb,2
 OBILÍ,mouka,1
 OBILÍ,rohlík,2
 OŘECHY,kešu,1
+SÝRY,smažený sýr,1
+SÝRY,tavený sýr,1
 TUKY,olej,1
 UZENINY,šunka,1
 
@@ -132,19 +140,14 @@ MLÉKO,kyška,1
 MLÉKO,mléko plnotučné,1
 MLÉKO,mléko polotučné,1
 MLÉKO,mléko trvanlivé,1
-MLÉKO,mléčná rýže,1
 MLÉKO,podmáslí,1
-MLÉKO,pomazánka,1
 MLÉKO,pribináček,1
-MLÉKO,pudink,1
 MLÉKO,skyr,1
 MLÉKO,smetana ke šlehání,2
 MLÉKO,smetana na vaření,2
 MLÉKO,smetana zakysaná,2
 MLÉKO,smetanový jogurt,1
 MLÉKO,sojové mléko,1
-MLÉKO,termix,1
-MLÉKO,tvaroh,1
 MLÉKO,řecký jogurt,1
 MLÉKO,šlehačka,1
 NÁPOJE,cider,1
@@ -163,6 +166,7 @@ NÁPOJE,ovocný čaj,2
 NÁPOJE,pivo,7
 NÁPOJE,rum,3
 NÁPOJE,sekt,3
+NÁPOJE,sypaný čaj,2
 NÁPOJE,voda,3
 NÁPOJE,víno,3
 NÁPOJE,zelený čaj,2
@@ -285,8 +289,7 @@ SÝRY,pivní sýr,1
 SÝRY,ricotta,1
 SÝRY,romadur,1
 SÝRY,scamorza,1
-SÝRY,smažený sýr,1
-SÝRY,tavený sýr,1
+SÝRY,sedlčanský hermelín,1
 SÝRY,tvarůžky,1
 SÝRY,tylžský sýr,1
 SÝRY,čedar,1
