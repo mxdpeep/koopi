@@ -39,8 +39,8 @@ const (
 	KOOPI_SUBPAGE      = "&page="
 	LOCK_FILE          = "/tmp/koopi.lock"
 	LOCK_FILE_DURATION = time.Hour
-	MAX_SCRAPED_GOODS  = 500
-	MAX_THREADS        = 3
+	MAX_SCRAPED_GOODS  = 1000
+	MAX_THREADS        = 5
 	OUTPUT_CSV         = "koopi.csv"
 	OUTPUT_JSON        = "koopi.json"
 	REQ_TIMEOUT        = 10 * time.Second
@@ -247,7 +247,7 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// fix spaces via RegEx
+// fix non-breakable spaces
 func typoFix(s string) string {
 	// předložky a spojky
 	rePreps := regexp.MustCompile(`(?i)(^|[\s])([ksvzaiou])\s+`)
@@ -260,7 +260,7 @@ func typoFix(s string) string {
 	return s
 }
 
-// check the lock
+// check the app lock
 func CheckLock() bool {
 	pid := os.Getpid()
 
@@ -304,7 +304,7 @@ func CheckLock() bool {
 	return true
 }
 
-// unlock the lock
+// unlock the app lock
 func Unlock() {
 	pid := os.Getpid()
 	content, err := os.ReadFile(LOCK_FILE)
@@ -326,7 +326,7 @@ func isProcessRunning(pid int) bool {
 	return syscall.Kill(pid, syscall.Signal(0)) == nil
 }
 
-// isForbidden- helper function to check if product name contains forbidden strings
+// isForbidden - helper function to check if product name contains forbidden strings
 func isForbidden(name string, forbidden []string) bool {
 	lowerName := strings.ToLower(name)
 	for _, s := range forbidden {
@@ -760,7 +760,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedGoods = append(cleanedGoods, cleanedItem)
 	}
 
-	// id hashes to integers, unique words map
+	// convert id hashes to integers, find unique keywords, create hashmap
 	id := 1
 	hashmap := make(map[string]int)
 	wordsSeen := make(map[string]bool)
@@ -783,8 +783,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			w = cleaner.Replace(w)
 			w = strings.Trim(w, ".,;:!/-+‑")
 			w = nonAlphanumeric.ReplaceAllString(w, "")
-
-			if len(w) > 2 && len(w) < 30 && w != "" {
+			if len(w) >= 3 && len(w) <= 20 && w != "" {
 				existingIDs := keywordsIndex[w]
 				if len(existingIDs) == 0 || existingIDs[len(existingIDs)-1] != currentIntID {
 					keywordsIndex[w] = append(existingIDs, currentIntID)
@@ -798,17 +797,16 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	}
 	sort.Strings(uniqueWords)
 
+	// reverse hashmap for quick JavaScript pairing
 	reversedHashmap := make(map[int]string)
 	for hash, index := range hashmap {
 		reversedHashmap[index] = hash
 	}
 
-	// count cats
+	// count items
 	catCounts := make(map[string]int)
 	for _, item := range cleanedGoods {
-		if cat, ok := item["cat"].(string); ok {
-			catCounts[cat]++
-		}
+		catCounts[item["cat"].(string)]++
 	}
 
 	// output data
@@ -824,6 +822,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 
 	// save to JSON
 	encoder := json.NewEncoder(file)
+	// pretty print vs compact
 	//encoder.SetIndent("", "  ")
 	if err := encoder.Encode(outputData); err != nil {
 		log.Fatalf("[%s] 💥 error writing to JSON: %v", filename, err)
@@ -842,7 +841,6 @@ func main() {
 	// set random UA
 	UA := UserAgents[rand.Intn(len(UserAgents))]
 	log.Printf("User Agent: %s", UA)
-	//time.Sleep(2 * time.Second)
 
 	// rate limiter
 	rateLimiter = make(chan struct{}, MAX_THREADS)
@@ -865,7 +863,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("[%s] 💥 error reading: %v", INPUT_CSV, err)
 	}
-
 	if len(inputRecords) == 0 {
 		log.Printf("😐️ [%s] is empty. Nothing to scrape.", INPUT_CSV)
 		return
@@ -880,13 +877,14 @@ func main() {
 
 	// generate URLs to scrape
 	for _, record := range inputRecords {
-		if len(record) < 2 || strings.TrimSpace(record[1]) == "" {
+		if len(record) < 2 || strings.TrimSpace(record[0]) == "" || strings.TrimSpace(record[1]) == "" {
 			continue
 		}
 		category := strings.TrimSpace(record[0])
 		query := strings.TrimSpace(record[1])
 		pages, _ := strconv.Atoi(strings.TrimSpace(record[2]))
 		escapedQuery := url.QueryEscape(query)
+
 		for pageNum := 1; pageNum <= pages; pageNum++ {
 			var urlStr string
 			if pageNum == 1 {
@@ -910,6 +908,7 @@ func main() {
 		category string
 		query    string
 	}, len(urlsToScrape))
+	// unshuffled copy of the list
 	copy(urlsToScrape2, urlsToScrape)
 
 	// shuffle URLs
