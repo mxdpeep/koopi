@@ -274,6 +274,7 @@ nav.bottom button {letter-spacing: 0;}
 
 .product-club {
     margin-top: 5px;
+    border-radius: 0 !important;
 }
 .product-club:empty {
     display: none;
@@ -337,7 +338,7 @@ nav.bottom button {letter-spacing: 0;}
 }
 
 .volume {font-size: 0.7rem;font-weight: bold;}
-.ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;}
+.ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;font-weight: 500;}
 
 /* MEDIA selectors */
 @media(max-width: 499px) {
@@ -924,7 +925,7 @@ const renderDeals = (deals) => {
                 </div>
                 <div class="product-name bold">${deal.name}</div>
                 <div class="product-note">${deal.note}</div>
-                <div class="product-club bold blue white-text center-align">${deal.club}</div>
+                <div class="product-club blue white-text center-align">${deal.club}</div>
                 <div class="product-price">
                     <span class="discount mono">${deal.discount}</span>
                     <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
@@ -1201,7 +1202,12 @@ $(document).ready(function() {
                 deals.myMarkets = config.myMarkets || [];
                 deals.myBlocks = config.myBlocks || [];
                 deals.myLikes = config.myLikes || [];
-                if (config.uuid) localStorage.setItem('uuid', config.uuid);
+                if (config.uuid) {
+                    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                    if (uuidRegex.test(config.uuid)) {
+                        localStorage.setItem('uuid', config.uuid);
+                    }
+                }
                 if (config.handedness) localStorage.setItem('handedness', config.handedness);
                 localStorage.setItem('myCats', JSON.stringify(deals.myCats));
                 localStorage.setItem('myMarkets', JSON.stringify(deals.myMarkets));
