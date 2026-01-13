@@ -117,7 +117,7 @@ button.chip .market-image {
 .bigger {font-size: 2rem;font-weight: bold;}
 .bigger-like {font-size: 1.5rem;font-weight: bold;}
 .bigger-cart {font-size: 1.5rem;font-weight: bold;}
-.hover {cursor: pointer;}
+.hover {cursor: pointer !important;}
 .mono {font-family: monospace;}
 .noselect {-webkit-user-select: none;-ms-user-select: none;user-select:none;}
 .notap {cursor: pointer;-webkit-tap-highlight-color: transparent;-moz-tap-highlight-color: transparent;-ms-tap-highlight-color: transparent;}
@@ -547,15 +547,16 @@ nav.bottom button {
         <h4>Changelog</h4><hr>
         <ul>
             <li><b>2026-01-13</b>
-                <br>◾️ aktualizace badges superkategorií
+                <br>◾️ superkategorie: aktualizace badges 
+                <br>◾️ load/save nastavení
             </li>
             <li><b>2026-01-12</b>
                 <br>◾️ procesování klíčových slov pro vyhledávání
-                <br>◾️ optimalizace JSON datové sady
+                <br>◾️ optimalizace datové sady
             </li>
             <li><b>2026-01-11</b>
                 <br>◾️ aktualizace UI pro další funkce
-                <br>◾️ badges - počty slev celkem a u různých obchodníků
+                <br>◾️ badges - celkové počty slev u různých obchodníků
                 <br>◾️ deterministická kategorizaci zboží
             </li>
             <li><b>2026-01-10</b>
@@ -587,12 +588,14 @@ nav.bottom button {
     <div id="settings" class="hidden container">
         <h3>🛠️ Nastavení</h3><hr>
         <div class="s m l">
-            <button class="blue settings-button">👍️ levák &ndash; pravák</button><br>
+            <button class="handedness-button blue settings-button">👍️ levák &ndash; pravák</button><br>
         </div class="s m l">
-        <div id="saveload">
-            <button id="save" class="green settings-button">save</button>
-            <button id="load" class="green settings-button" disabled>load</button>
+
+        <div class="saveload">
+            <button class="save-button green hover settings-button">save</button>
+            <button class="load-button green hover settings-button">load</button>
         </div>
+        <input id="file" type="file" style="display:none" accept=".json">
 
         <h3>🏪 Moje obchody</h3><hr>
         Pokud zde není nic vybráno, zobrazí se všechny slevy.
@@ -707,7 +710,7 @@ try {
 window.nolocalstorage = nolocalstorage;
 $('#info_localStorage').text(!nolocalstorage ? "OK" : "BLOKOVÁNO");
 if (nolocalstorage) {
-    $('#saveload').hide();
+    $('.saveload').hide();
     $('#load').prop('disabled', true);
     $('#save').prop('disabled', true);
 }
@@ -1046,9 +1049,22 @@ $(document).ready(function() {
     });
 
     // SAVE button
-    $('#save').on('click', function() {
+    $('.save-button').on('click', function(e) {
         umlog('save_settings');
         exportSettings();
+    });
+
+    // LOAD file
+    $('.load-button').click(function (e) {
+        $('#file').click();
+    });
+    $('#file').on('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            umlog('load_settings');
+            importSettings(file);
+        }
+        $(this).val('');
     });
 
     // ABOUT button
@@ -1124,8 +1140,8 @@ $(document).ready(function() {
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
-    // handedness button
-    $('.settings-button').on('click', function() {
+    // HANDEDNESS button
+    $('.handedness-button').on('click', function() {
         switchHands();
         let direction = (deals.handedness === 'right') ? '' : 'row-reverse';
         $('.heartcartrow').removeClass('row-reverse').addClass(direction);
@@ -1149,9 +1165,8 @@ $(document).ready(function() {
     function exportSettings() {
         const data = {
             version: version,
-            git_build_date: git_build_date,
-            git_revisions: git_revisions,
-            handedness: localStorage.getItem('handedness') || 'right',
+            handedness: localStorage.getItem('handedness'),
+            uuid: localStorage.getItem('uuid'),
             myCats: deals.myCats || [],
             myMarkets: deals.myMarkets || [],
             myBlocks: deals.myBlocks || [],
@@ -1171,6 +1186,38 @@ $(document).ready(function() {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 0);
+    }
+
+    // IMPORT SETTINGS function
+    function importSettings(file) {
+        if (!file) {
+            console.error("Žádný soubor nebyl vybrán.");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const config = JSON.parse(e.target.result);
+                deals.myCats = config.myCats || [];
+                deals.myMarkets = config.myMarkets || [];
+                deals.myBlocks = config.myBlocks || [];
+                deals.myLikes = config.myLikes || [];
+                if (config.uuid) localStorage.setItem('uuid', config.uuid);
+                if (config.handedness) localStorage.setItem('handedness', config.handedness);
+                localStorage.setItem('myCats', JSON.stringify(deals.myCats));
+                localStorage.setItem('myMarkets', JSON.stringify(deals.myMarkets));
+                localStorage.setItem('myBlocks', JSON.stringify(deals.myBlocks));
+                localStorage.setItem('myLikes', JSON.stringify(deals.myLikes));
+                alert("Nastavení bylo úspěšně importováno.");
+                refresh();
+            } catch (err) {
+                alert("Chyba při parsování JSONu: " + err.message);
+            }
+        };
+        reader.onerror = function() {
+            alert("Chyba při čtení souboru.");
+        };
+        reader.readAsText(file);
     }
 
     // REFRESH button
