@@ -738,6 +738,32 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		cleanedItem["scrapedat"] = item.ScrapedAt
 
+		// validity color logic
+		validity := item.Validity
+		valcol := "green"
+		if strings.Contains(validity, "dnes končí") {
+			valcol = "red"
+		} else if strings.Contains(validity, "zítra končí") {
+			valcol = "orange"
+		}
+		// date in the future?
+		re := regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
+		match := re.FindStringSubmatch(validity)
+		if len(match) >= 3 {
+			d, _ := strconv.Atoi(match[1])
+			m, _ := strconv.Atoi(match[2])
+			now := time.Now()
+			startDate := time.Date(now.Year(), time.Month(m), d, 0, 0, 0, 0, time.Local)
+			if startDate.Before(now.AddDate(0, 0, -1)) {
+				startDate = startDate.AddDate(1, 0, 0)
+			}
+			if startDate.Sub(now).Hours() > 120 {
+				valcol = "blue"
+			}
+		}
+
+		cleanedItem["valcol"] = valcol
+
 		imageURL := item.ImageUrl
 		if before, ok := strings.CutSuffix(imageURL, ".png"); ok {
 			imageURL = before + ".webp"

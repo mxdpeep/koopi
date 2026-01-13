@@ -327,7 +327,6 @@ nav.bottom button {letter-spacing: 0;}
     align-items: center;
     font-size: 0.75rem;
     color: #fff;
-    background-color: green;
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 0;
@@ -547,30 +546,30 @@ nav.bottom button {
         <h4>Changelog</h4><hr>
         <ul>
             <li><b>2026-01-13</b>
-                <br>◾️ superkategorie: aktualizace badges 
-                <br>◾️ load/save nastavení
+                <br>◾️ UI: platnost slevy - různá barevnost
+                <br>◾️ UI: superkategorie - aktualizace badges 
+                <br>◾️ settings: load/save 
             </li>
             <li><b>2026-01-12</b>
-                <br>◾️ procesování klíčových slov pro vyhledávání
-                <br>◾️ optimalizace datové sady
+                <br>◾️ datová sada: klíčová slova - search preprocessing
+                <br>◾️ datová sada: optimalizace 
             </li>
             <li><b>2026-01-11</b>
-                <br>◾️ aktualizace UI pro další funkce
-                <br>◾️ badges - celkové počty slev u různých obchodníků
-                <br>◾️ deterministická kategorizaci zboží
+                <br>◾️ UI: badges - počty slev u různých obchodníků (u srdíčka)
+                <br>◾️ kategorizace: deterministika třídění kategorií
             </li>
             <li><b>2026-01-10</b>
-                <br>◾️ vylepšená loga
-                <br>◾️ filtrování obchodů a kategorií
-                <br>◾️ sekundární navigační lišta
+                <br>◾️ UI: vylepšená loga
+                <br>◾️ UI: filtrování obchodů a kategorií
+                <br>◾️ UI: sekundární navigační lišta
             </li>
             <li><b>2026-01-09</b>
-                <br>◾️ notifikace nové verze
-                <br>◾️ vylepšené UI, pevné mezery, české třídění obchodů
+                <br>◾️ UI: notifikace nové verze
+                <br>◾️ UI: pevné mezery, české třídění obchodů
             </li>
             <li><b>2026-01-08</b>
-                <br>◾️ základní UI
-                <br>◾️ data shuffle přes 🤑
+                <br>◾️ UI: úplně ten nejhrubší základ
+                <br>◾️ UI: data shuffle přes tlačítko 🤑
             </li>
         </ul>
 
@@ -931,7 +930,7 @@ const renderDeals = (deals) => {
                     <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
                     <span class="ppunit">${deal.ppunit}</span>
                 </div>
-                <div class="validity nowrap bold">${deal.validity}</div>
+                <div class="${deal.valcol} validity nowrap bold">${deal.validity}</div>
             </article>
         `;
     }).join('');
