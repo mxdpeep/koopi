@@ -547,6 +547,7 @@ nav.bottom button {
         <h4>Changelog</h4><hr>
         <ul>
             <li><b>2026-01-13</b>
+                <br>◾️ UI: přepsán renderer pomocí AI ♥️
                 <br>◾️ UI: platnost slevy - různá barevnost
                 <br>◾️ UI: superkategorie - aktualizace badges 
                 <br>◾️ settings: load/save 
@@ -873,6 +874,7 @@ const initApp = () => {
             renderDeals(goods);
             renderMarkets(deals.markets);
             renderCategories(categories);
+            updateNavIcons();
             const end = performance.now();
             console.timeEnd('DOM-Render-Speed');
 
@@ -894,17 +896,18 @@ const initApp = () => {
 };
 
 // RENDERERS
-const renderDeals = (deals) => {
+const renderDealsOld = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
 
-    // filtry
-    const activeMarkets = window.deals.myMarkets || [];
-    const activeCats = window.deals.myCats || [];
+    //const activeMarkets = window.deals.myMarkets || [];
+    //const activeCats = window.deals.myCats || [];
+    const activeMarkets = new Set(window.deals.myMarkets || []);
+    const activeCats = new Set(window.deals.myCats || []);
 
     dealsGrid.innerHTML = deals.map(deal => {
-        const marketMatch = activeMarkets.length === 0 || activeMarkets.includes(deal.market);
-        const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
+        const marketMatch = activeMarkets.size === 0 || activeMarkets.has(deal.market);
+        const catMatch = activeCats.size === 0 || activeCats.has(deal.cat);
         const visibilityClass = (marketMatch && catMatch) ? '' : 'none';
 
         return `
@@ -940,6 +943,53 @@ const renderDeals = (deals) => {
         `;
     }).join('');
 };
+const renderDeals = (deals) => {
+    const dealsGrid = document.getElementById('deals');
+    if (!dealsGrid) return;
+
+    //const activeMarkets = window.deals.myMarkets || [];
+    //const activeCats = window.deals.myCats || [];
+    const activeMarkets = new Set(window.deals.myMarkets || []);
+    const activeCats = new Set(window.deals.myCats || []);
+
+    dealsGrid.innerHTML = deals.filter(deal => {
+        const marketMatch = activeMarkets.size === 0 || activeMarkets.has(deal.market);
+        const catMatch = activeCats.size === 0 || activeCats.has(deal.cat);
+        return marketMatch && catMatch;
+    }).map(deal => {
+        return `
+        <article class="noselect notip product-card c-${deal.cat}" 
+                 data-id="${deal.id}" 
+                 data-market="${deal.market}">
+            <div class="heartcartrow row center-align">
+                <div class="center-align">
+                    <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
+                </div>
+                <div>
+                    <img src="/markets-v2/${deal.market}.webp" class="market-image" width="60" height="60" loading="lazy">
+                </div>
+                <div class="center-align">
+                    <div class="grayscaled bigger-cart">🛒</div>
+                </div>
+            </div>
+            <div class="product-image-container">
+                <div class="image-wrapper">
+                    <img src="/images/${deal.image}" class="product-image" loading="lazy">
+                </div>
+            </div>
+            <div class="product-name bold">${deal.name}</div>
+            <div class="product-note">${deal.note}</div>
+            <div class="product-club blue white-text center-align">${deal.club}</div>
+            <div class="product-price">
+                <span class="discount mono">${deal.discount}</span>
+                <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
+                <span class="ppunit">${deal.ppunit}</span>
+            </div>
+            <div class="${deal.valcol} validity nowrap bold">${deal.validity}</div>
+        </article>
+    `;
+    }).join('');
+}
 const renderMarkets = (markets) => {
     if (!markets) return;
     const marketsDiv = document.getElementById('mymarkets');
@@ -1037,6 +1087,22 @@ function updateCategoryBadges(catCounts) {
         if (total) badge.show(); else badge.hide();
     });
 }
+
+// UPDATE NAVICONS
+const updateNavIcons = () => {
+    const activeCats = new Set(window.deals.myCats || []);
+
+    $('nav.bottom button').each(function() {
+        const $btn = $(this);
+        const btnCatsStr = $btn.data('cats') || "";
+        const btnCats = btnCatsStr.split(',').map(c => c.trim().replace('.c-', ''));
+        const updatedIcons = btnCats
+            .map(cat => (activeCats.size === 0 || activeCats.has(cat)) ? (catIcons[cat] || '') : '')
+            .join('');
+        $btn.text(updatedIcons);
+        $btn.css('opacity', updatedIcons.trim() === '' ? '0.2' : '1');
+    });
+};
 
 // UI bindings
 $(document).ready(function() {
