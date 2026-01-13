@@ -17,7 +17,6 @@ clear:
 		| shuf \
 		| head -n 100 \
 		| xargs -r rm -f || true
-	@echo "✅ Hotovo."
 
 build:
 	@echo "Building app ..."

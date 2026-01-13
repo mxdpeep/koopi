@@ -3,6 +3,7 @@ CATEGORY,QUERY,PAGES
 deterministické hledání (určující kategorii):
 
 CUKROVINKY,bonbony,1
+CUKROVINKY,croissant milka,1
 CUKROVINKY,cukr,1
 CUKROVINKY,džem,1
 CUKROVINKY,kit kat,1
@@ -10,12 +11,17 @@ CUKROVINKY,lindt,1
 CUKROVINKY,poleva,1
 CUKROVINKY,studentská pečeť,1
 CUKROVINKY,sušenky,1
+CUKROVINKY,čokoláda milka,1
 KOŘENÍ,bujón,1
 KOŘENÍ,omáčka worcestrová,1
+KOŘENÍ,sójová omáčka,1
+MLÉKO,dezert lipánek,1
 MLÉKO,dezert pudink,1
 MLÉKO,dezert zakysaný,1
+MLÉKO,florian,1
 MLÉKO,jogurt,1
 MLÉKO,milka,1
+MLÉKO,milko,1
 MLÉKO,mléko,1
 MLÉKO,mléčná rýže,1
 MLÉKO,pomazánka,1
@@ -29,6 +35,7 @@ NÁPOJE,coca-cola,1
 NÁPOJE,nestea,1
 NÁPOJE,pepsi,1
 NÁPOJE,vodka,2
+NÁPOJE,žitná myslivecká,1
 OBILÍ,bageta,2
 OBILÍ,chléb,2
 OBILÍ,mouka,1
@@ -44,8 +51,8 @@ ostatní hledání:
 
 CUKROVINKY,bon pari,1
 CUKROVINKY,bonbony jojo,2
-CUKROVINKY,cukr krystal,2
-CUKROVINKY,cukr moučka,2
+CUKROVINKY,cukr krystal,1
+CUKROVINKY,cukr moučka,1
 CUKROVINKY,dezert,1
 CUKROVINKY,fidorka,1
 CUKROVINKY,hambáče,1
@@ -66,7 +73,7 @@ CUKROVINKY,ricola,1
 CUKROVINKY,sovičky,1
 CUKROVINKY,tatranka,1
 CUKROVINKY,tatranky,1
-CUKROVINKY,tic tac bonbony,2
+CUKROVINKY,tic tac bonbony,1
 CUKROVINKY,tutti frutti,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
@@ -181,7 +188,7 @@ NÁPOJE,nektar,1
 NÁPOJE,ovocný čaj,2
 NÁPOJE,pivo,7
 NÁPOJE,rum,3
-NÁPOJE,sekt,3
+NÁPOJE,sekt,2
 NÁPOJE,sypaný čaj,2
 NÁPOJE,voda,3
 NÁPOJE,víno,3
