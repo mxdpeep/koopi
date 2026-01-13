@@ -615,6 +615,10 @@ nav.bottom button {
 <script>
 'use strict';
 
+if (window.location.search.length > 0) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
 // SHUFFLE prototype
 if (!Array.prototype.shuffle) {
     Array.prototype.shuffle = function() {
@@ -1233,11 +1237,13 @@ $(document).ready(function() {
     // REFRESH function
     function refresh() {
         $(this).prop('disabled', true).html('<i>schedule</i>');
+
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
+
         const buster = Math.random().toString(36).substring(2, 6);
-        location.href = '/?' + buster;
+        window.location.replace('/?' + buster);
     }
 
     // close DEBUGGER
