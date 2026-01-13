@@ -174,7 +174,7 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 .mrsmiley {padding: 1rem;}
 .btn-top {
     font-size: 1rem;
-    background-color: 0 !important;
+    background-color: #000 !important;
     color: white !important;
     border: 1px solid #000 !important;
     border-radius: 0!important;
@@ -182,7 +182,7 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 }
 .btn-secrow {
     font-size: 1.5rem;
-    background-color: 0 !important;
+    background-color: #000 !important;
     color: white !important;
     border: 1px solid #000 !important;
     border-radius: 0!important;
@@ -190,7 +190,7 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 }
 .btn-bottom {
     font-size: 1rem;
-    background-color: 0 !important;
+    background-color: #000 !important;
     color: white !important;
     border: 1px solid #000 !important;
     border-radius: 0!important;
@@ -546,6 +546,9 @@ nav.bottom button {
 
         <h4>Changelog</h4><hr>
         <ul>
+            <li><b>2026-01-13</b>
+                <br>◾️ aktualizace badges superkategorií
+            </li>
             <li><b>2026-01-12</b>
                 <br>◾️ procesování klíčových slov pro vyhledávání
                 <br>◾️ optimalizace JSON datové sady
@@ -558,11 +561,11 @@ nav.bottom button {
             <li><b>2026-01-10</b>
                 <br>◾️ vylepšená loga
                 <br>◾️ filtrování obchodů a kategorií
-                <br>◾️ sekundární navigační lišta (zatím nefunkční)
+                <br>◾️ sekundární navigační lišta
             </li>
             <li><b>2026-01-09</b>
-                <br>◾️ vylepšené UI, pevné mezery, české třídění obchodů
                 <br>◾️ notifikace nové verze
+                <br>◾️ vylepšené UI, pevné mezery, české třídění obchodů
             </li>
             <li><b>2026-01-08</b>
                 <br>◾️ základní UI
@@ -892,15 +895,10 @@ const renderDeals = (deals) => {
     const activeMarkets = window.deals.myMarkets || [];
     const activeCats = window.deals.myCats || [];
 
-    // počítadla
-    const catCounts = Object.keys(catIcons).reduce((acc, cat) => ({ ...acc, [cat]: 0 }), {});
-
     dealsGrid.innerHTML = deals.map(deal => {
         const marketMatch = activeMarkets.length === 0 || activeMarkets.includes(deal.market);
         const catMatch = activeCats.length === 0 || activeCats.includes(deal.cat);
         const visibilityClass = (marketMatch && catMatch) ? '' : 'none';
-
-        //if (marketMatch) {catCounts[deal.cat] = (catCounts[deal.cat] || 0) + 1;}
 
         return `
             <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
@@ -934,9 +932,6 @@ const renderDeals = (deals) => {
             </article>
         `;
     }).join('');
-
-    // update badges
-    updateCategoryBadges(window.deals.catcounts);
 };
 const renderMarkets = (markets) => {
     if (!markets) return;
@@ -1005,33 +1000,34 @@ const renderCategories = (categories) => {
     });
 };
 
-// UPDATE BADGES in bottom nav 
+// UPDATE BOTTOM SUPERCATS BADGES
 function updateCategoryBadges(catCounts) {
     if (!catCounts) return;
 
-    const activeCats = window.deals.myCats || [];
+    const globalVisible = $('#deals article:visible').length;
+
     $('button[data-cats]').each(function() {
         const btn = $(this);
         const catSelectors = btn.attr('data-cats').split(',');
         let total = 0;
         catSelectors.forEach(selector => {
-            const catKey = selector.trim().replace('.c-', '');
-            const isCatActive = activeCats.length === 0 || activeCats.includes(catKey);
-            if (isCatActive) {
-                total += (catCounts[catKey] || 0);
-            }
+            total += (catCounts[selector.trim().replace('.c-', '')] || 0);
         });
+
         let badge = btn.find('.cat-badge');
-        if (badge.length === 0) {
-            badge = $('<span class="badge blue black-text bold cat-badge"></span>');
+        if (!badge.length) {
+            badge = $('<span class="badge blue tiny white-text bold cat-badge"></span>');
             btn.append(badge);
         }
-        badge.text(total);
-        if (total > 0) {
-            badge.show();
-         } else {
-            badge.hide();
-         }
+
+        if ($(this).hasClass('active')) {
+            badge.text(`${globalVisible}/${total}`);
+            badge.addClass('orange').removeClass('blue');
+        } else {
+            badge.text(total);
+            badge.addClass('blue').removeClass('orange');
+        }        
+        if (total) badge.show(); else badge.hide();
     });
 }
 
@@ -1203,7 +1199,7 @@ $(document).ready(function() {
     // set DEFAULTS function
     function setDefaults() {
         $('nav.bottom button').addClass('grayscaled');
-        $('.but1').removeClass('grayscaled');
+        $('.but1').removeClass('grayscaled').addClass('active');
         $('#deals article').addClass('hidden-force');
         $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
         deals.handedness = 'right';
@@ -1222,6 +1218,8 @@ $(document).ready(function() {
                 deals.handedness = 'right';
             }
         }
+
+        updateCategoryBadges(window.deals.catcounts);
      
     }
     window.setDefaults = setDefaults;
@@ -1234,14 +1232,16 @@ $(document).ready(function() {
             refresh();
         }
         deals.cats = cats;
-        $('nav.bottom button').addClass('grayscaled');
+        $('nav.bottom button').addClass('grayscaled').removeClass('active');
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
-        $('.' + myClass).removeClass('grayscaled');
+        $('.' + myClass).removeClass('grayscaled').addClass('active');
         $('#deals article').addClass('hidden-force');        
         $(cats).removeClass('hidden-force');
         $('#settings, #about').hide()
         $('#deals').show()
         window.scrollTo({top: 0});
+
+        updateCategoryBadges(window.deals.catcounts);
     });
 
     // context event hanlder
@@ -1349,7 +1349,7 @@ window.addEventListener('appinstalled', () => {
     installBtn.style.display = 'none';
     deferredPrompt = null;
 });
-window.addEventListener('contextmenu', function(e) {
+window.addEventListener('xcontextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
