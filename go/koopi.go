@@ -739,6 +739,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["scrapedat"] = item.ScrapedAt
 
 		// validity color logic
+		// cat data.json | jq '.goods[].validity' | sort | uniq
 		validity := item.Validity
 		valcol := "green"
 		if strings.Contains(validity, "dnes končí") {
@@ -746,6 +747,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		} else if strings.Contains(validity, "zítra končí") {
 			valcol = "orange"
 		}
+
 		// date in the future?
 		re := regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
 		match := re.FindStringSubmatch(validity)
