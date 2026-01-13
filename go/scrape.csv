@@ -31,7 +31,12 @@ MLÉKO,termix,1
 MLÉKO,tvaroh,1
 NÁPOJE,absinth,1
 NÁPOJE,božkov,1
+NÁPOJE,cider,1
 NÁPOJE,coca-cola,1
+NÁPOJE,džus,1
+NÁPOJE,lager,2
+NÁPOJE,ležák,3
+NÁPOJE,likér,1
 NÁPOJE,nestea,1
 NÁPOJE,pepsi,1
 NÁPOJE,vodka,2
@@ -53,7 +58,6 @@ CUKROVINKY,bon pari,1
 CUKROVINKY,bonbony jojo,2
 CUKROVINKY,cukr krystal,1
 CUKROVINKY,cukr moučka,1
-CUKROVINKY,dezert,1
 CUKROVINKY,fidorka,1
 CUKROVINKY,hambáče,1
 CUKROVINKY,haribo,2
@@ -154,6 +158,7 @@ MASO,žebra,1
 MLÉKO,actimel,1
 MLÉKO,activia,1
 MLÉKO,bezlaktózové mléko,1
+MLÉKO,dezert,1
 MLÉKO,kefír,1
 MLÉKO,kondenzované mléko,1
 MLÉKO,kostíci,1
@@ -172,13 +177,8 @@ MLÉKO,smetanový jogurt,1
 MLÉKO,sojové mléko,1
 MLÉKO,řecký jogurt,1
 MLÉKO,šlehačka,1
-NÁPOJE,cider,1
-NÁPOJE,džus,1
 NÁPOJE,instantní káva,2
-NÁPOJE,lager,2
 NÁPOJE,ledový čaj,2
-NÁPOJE,ležák,3
-NÁPOJE,likér,1
 NÁPOJE,mattoni,1
 NÁPOJE,minerálka,3
 NÁPOJE,minerální voda,3
