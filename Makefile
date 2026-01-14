@@ -16,7 +16,7 @@ clear:
 		| head -n 2500 \
 		| shuf \
 		| head -n 100 \
-		| xargs -r rm -f || true
+		| xargs -d '\n' -r rm -f || true
 
 build:
 	@echo "Building app ..."
