@@ -1151,6 +1151,7 @@ function updateFavIcons() {
         }
         e.stopPropagation();
         saveLikes();
+        $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
     });
 }
 
@@ -1175,6 +1176,7 @@ function loadAllLikes() {
                 .removeClass('grayscaled');
         }
     });
+    $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
 }
 
 // FILTER FAVORITES
@@ -1199,6 +1201,7 @@ $('.filter-favs').on('click', function() {
         $btn.removeClass('primary');
         $btn.find('i').text('favorite');
     }
+    $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
     updateCategoryBadges(window.deals.catcounts);
 });
 
