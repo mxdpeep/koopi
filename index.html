@@ -97,6 +97,16 @@ button.chip .market-image {
     top: 5px;
 }
 
+/* ABOUT */
+.fred {
+    border-radius: 50px;
+    margin: 1rem;
+    width: 100px;
+    height: 100px;
+}
+#changelog-check {display: none;}
+#changelog-check:not(:checked) ~ .content {display: none;}
+
 /* DEBUGGER */
 #debugger {width: 75%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
@@ -535,7 +545,8 @@ nav.bottom button {
         👾 build: <b>{{GIT_REV}}</b><br>
         👩‍🔧 revision: <b>{{COUNT_REV}}</b><br><br>
         
-        <img src="/fred.jpg" class="fred" width="50" height="50" alt="Fred">
+        <img src="/fred.jpg" class="fred" alt="Fred"><br>
+
         Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br>
         Hosting Github + Cloudflare Pages.<br><br>
 
@@ -546,36 +557,47 @@ nav.bottom button {
 
         <div id="webshare" class="webshare"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
-        <h4>Changelog</h4><hr>
-        <ul>
-            <li><b>2026-01-13</b>
-                <br>◾️ UI: přepsán renderer s pomocí AI (celé je to až 20x rychlejší) ♥️
-                <br>◾️ UI: platnost slevy - různá barevnost
-                <br>◾️ UI: superkategorie - aktualizace badges, emojis jen pro aktivní kategorie
-                <br>◾️ settings: load/save 
-            </li>
-            <li><b>2026-01-12</b>
-                <br>◾️ datová sada: klíčová slova - search preprocessing
-                <br>◾️ datová sada: optimalizace 
-            </li>
-            <li><b>2026-01-11</b>
-                <br>◾️ UI: badges - počty slev u různých obchodníků (u srdíčka)
-                <br>◾️ kategorizace: deterministika třídění kategorií
-            </li>
-            <li><b>2026-01-10</b>
-                <br>◾️ UI: vylepšená loga
-                <br>◾️ UI: filtrování obchodů a kategorií
-                <br>◾️ UI: sekundární navigační lišta
-            </li>
-            <li><b>2026-01-09</b>
-                <br>◾️ UI: notifikace nové verze
-                <br>◾️ UI: pevné mezery, české třídění obchodů
-            </li>
-            <li><b>2026-01-08</b>
-                <br>◾️ UI: úplně ten nejhrubší základ
-                <br>◾️ UI: data shuffle přes tlačítko 🤑
-            </li>
-        </ul>
+        <article>
+            <label for="changelog-check" class="row cursor-pointer">
+                <div class="max">Changelog</div>
+                <i>expand_more</i>
+            </label>
+            <input type="checkbox" id="changelog-check">
+            <div class="content padding">
+                <ul>
+                    <li><b>2026-01-14</b>
+                        <br>◾️ UI: rozbalovací Changelog
+                    </li>
+                    <li><b>2026-01-13</b>
+                        <br>◾️ UI: přepsán renderer s pomocí AI (až 20x rychlejší) ♥️
+                        <br>◾️ UI: platnost slevy - různá barevnost
+                        <br>◾️ UI: superkategorie - badges, emojis jen pro aktivní kategorie
+                        <br>◾️ settings: load/save 
+                    </li>
+                    <li><b>2026-01-12</b>
+                        <br>◾️ datová sada: klíčová slova + search preprocessing
+                        <br>◾️ datová sada: optimalizace 
+                    </li>
+                    <li><b>2026-01-11</b>
+                        <br>◾️ UI: badges - počty slev u různých obchodníků (♥️)
+                        <br>◾️ kategorizace: deterministické třídění
+                    </li>
+                    <li><b>2026-01-10</b>
+                        <br>◾️ UI: vylepšená loga
+                        <br>◾️ UI: filtrování obchodů a kategorií
+                        <br>◾️ UI: sekundární navigační lišta
+                    </li>
+                    <li><b>2026-01-09</b>
+                        <br>◾️ UI: notifikace nové verze
+                        <br>◾️ UI: pevné mezery v textu
+                    </li>
+                    <li><b>2026-01-08</b>
+                        <br>◾️ UI: úplně nejhrubší základ
+                        <br>◾️ UI: data shuffle - tlačítko 🤑
+                    </li>
+                </ul>
+            </div>
+        </article>
 
         <h4>Podněty a myšlenky</h4><hr>
         <div>
