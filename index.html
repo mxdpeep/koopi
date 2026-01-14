@@ -1418,11 +1418,10 @@ $(document).ready(function() {
         reader.onload = function(e) {
             try {
                 const config = JSON.parse(e.target.result);
-                const translateToId = (hash) => deals.hashidmap[hash] || hash;
-                deals.myCats = (config.myCats || []).map(translateToId);
-                deals.myMarkets = (config.myMarkets || []).map(translateToId);
-                deals.myBlocks = (config.myBlocks || []).map(translateToId);
-                deals.myLikes = (config.myLikes || []).map(translateToId);
+                deals.myCats = config.myCats || [];
+                deals.myMarkets = config.myMarkets || [];
+                deals.myBlocks = config.myBlocks || [];
+                deals.myLikes = config.myLikes || [];
                 if (config.uuid) {
                     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
                     if (uuidRegex.test(config.uuid)) {
@@ -1434,6 +1433,7 @@ $(document).ready(function() {
                 localStorage.setItem('myMarkets', JSON.stringify(deals.myMarkets));
                 localStorage.setItem('myBlocks', JSON.stringify(deals.myBlocks));
                 localStorage.setItem('myLikes', JSON.stringify(deals.myLikes));
+                alert("Nastavení bylo úspěšně importováno.");
                 refresh();
             } catch (err) {
                 alert("Chyba při parsování JSONu: " + err.message);

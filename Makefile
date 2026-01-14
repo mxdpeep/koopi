@@ -11,8 +11,8 @@ all:
 	@echo "macro: everything";
 
 clear:
-	@-find ./cache/ -type f -mmin +3000 -delete -print 2> /dev/null || true
-	@-find ./cache/ -type f -mmin +2000 2> /dev/null \
+	@-find ./cache/ -type f -mmin +3600 -delete -print 2> /dev/null || true
+	@-find ./cache/ -type f -mmin +2500 2> /dev/null \
 		| head -n 2500 \
 		| shuf \
 		| head -n 100 \
