@@ -65,6 +65,22 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
   scrollbar-color: #ffff00 #1a1a1a;
 }
 
+/* LIKE */
+.myheart.grayscaled {
+    filter: grayscale(1);
+    opacity: 0.5;
+    transition: transform 0.2s, filter 0.2s;
+}
+.myheart.active {
+    filter: grayscale(0);
+    opacity: 1;
+    color: #d32f2f; /* Červená pro aktivní srdce */
+    transform: scale(1.2);
+}
+.myheart:hover {
+    transform: scale(1.3);
+}
+
 /* LOADING */
 #loading {
     filter: blur(0px);
@@ -120,7 +136,7 @@ button.chip .market-image {
 /* PWA installer */
 .install-btn {z-index: 100;}
 
-#deals {content-visibility: auto;contain-intrinsic-size: 1px 300px;}
+#deals {content-visibility: auto;contain-intrinsic-size: 1px 300px;align-items: stretch;}
 #about ul {list-style-type: none;padding: 0;margin: 0;}
 #about li {padding: 4px 0;}
 
@@ -465,7 +481,7 @@ nav.bottom button {
     </div>
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
         <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">❤️</button>
+        <button class="grayscaled filter-favs nowrap btn-secrow black white-text bold s1">❤️</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
@@ -497,7 +513,7 @@ nav.bottom button {
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">❤️</button>
+        <button class="grayscaled filter-favs nowrap btn-secrow black white-text bold s1">❤️</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
     </div> 
 </nav>
@@ -573,6 +589,7 @@ nav.bottom button {
             <div class="content padding">
                 <ul>
                     <li><b>2026-01-14</b>
+                        <br>◾️ UI: likes ♥️
                         <br>◾️ UI: rozbalovací Changelog
                     </li>
                     <li><b>2026-01-13</b>
@@ -603,10 +620,10 @@ nav.bottom button {
                         <br>◾️ UI: data shuffle - tlačítko 🤑
                     </li>
                     <li><b>2025-10-19</b>
-                        <br>◾️ Golang scraper - data
+                        <br>◾️ Golang scraper - základní data
                     </li>
                     <li><b>2025-09-26</b>
-                        <br>◾️ Golang scraper - model
+                        <br>◾️ Golang scraper - základní model
                     </li>
                 </ul>
             </div>
@@ -812,7 +829,7 @@ try {
     storage.removeItem('luid'); // Cleanup starého bordelu
 } catch (e) {
     nolocalstorage = true;
-    console.warn('Slevičky: localStorage je blokován (pravděpodobně anonymní režim)');
+    console.warn('Slevičky: localStorage je blokován');
 }
 window.nolocalstorage = nolocalstorage;
 $('#info_localStorage').text(!nolocalstorage ? "OK" : "BLOKOVÁNO");
@@ -905,7 +922,6 @@ const progressBar = () => {
 
 const initApp = () => {
     console.time('JSON-Fetch');
-
     fetch(dataFile)
         .then(response => {
             if (!response.ok) {
@@ -977,6 +993,8 @@ const initApp = () => {
             renderMarkets(deals.markets);
             renderCategories(categories);
             updateNavIcons();
+            updateFavIcons();
+            loadAllLikes();
             const end = performance.now();
             console.timeEnd('DOM-Render-Speed');
 
@@ -998,53 +1016,6 @@ const initApp = () => {
 };
 
 // RENDERERS
-const renderDealsOld = (deals) => {
-    const dealsGrid = document.getElementById('deals');
-    if (!dealsGrid) return;
-
-    //const activeMarkets = window.deals.myMarkets || [];
-    //const activeCats = window.deals.myCats || [];
-    const activeMarkets = new Set(window.deals.myMarkets || []);
-    const activeCats = new Set(window.deals.myCats || []);
-
-    dealsGrid.innerHTML = deals.map(deal => {
-        const marketMatch = activeMarkets.size === 0 || activeMarkets.has(deal.market);
-        const catMatch = activeCats.size === 0 || activeCats.has(deal.cat);
-        const visibilityClass = (marketMatch && catMatch) ? '' : 'none';
-
-        return `
-            <article class="noselect notip product-card c-${deal.cat} ${visibilityClass}" 
-                     data-id="${deal.id}" 
-                     data-market="${deal.market}">
-                <div class="heartcartrow row center-align">
-                    <div class="center-align">
-                        <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
-                    </div>
-                    <div>
-                        <img src="/markets-v2/${deal.market}.webp" class="market-image" width="60" height="60" loading="lazy">
-                    </div>
-                    <div class="center-align">
-                        <div class="grayscaled bigger-cart">🛒</div>
-                    </div>
-                </div>
-                <div class="product-image-container">
-                    <div class="image-wrapper">
-                        <img src="/images/${deal.image}" class="product-image" loading="lazy">
-                    </div>
-                </div>
-                <div class="product-name bold">${deal.name}</div>
-                <div class="product-note">${deal.note}</div>
-                <div class="product-club blue white-text center-align">${deal.club}</div>
-                <div class="product-price">
-                    <span class="discount mono">${deal.discount}</span>
-                    <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
-                    <span class="ppunit">${deal.ppunit}</span>
-                </div>
-                <div class="${deal.valcol} validity nowrap bold">${deal.validity}</div>
-            </article>
-        `;
-    }).join('');
-};
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
@@ -1065,7 +1036,7 @@ const renderDeals = (deals) => {
                  data-market="${deal.market}">
             <div class="heartcartrow row center-align">
                 <div class="center-align">
-                    <div class="grayscaled bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
+                    <div class="grayscaled myheart bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
                 </div>
                 <div>
                     <img src="/markets-v2/${deal.market}.webp" class="market-image" width="60" height="60" loading="lazy">
@@ -1158,6 +1129,78 @@ const renderCategories = (categories) => {
         localStorage.setItem('myCats', JSON.stringify(window.deals.myCats));
     });
 };
+
+// UPDATE FAVORITES
+function updateFavIcons() {
+    $('#deals').off('click', '.myheart').on('click', '.myheart', function(e) {
+        const $heart = $(this);
+        const $card = $heart.closest('.product-card');
+        const numericId = $card.data('id');
+        const productHash = deals.idhashmap[numericId];
+        const $allSameHearts = $(`.product-card[data-id="${numericId}"]`).find('.myheart');
+        $allSameHearts.toggleClass('grayscaled active');
+        if ($heart.hasClass('active')) {
+            if (!window.deals.myLikes.includes(numericId)) {
+                window.deals.myLikes.push(numericId);
+            }
+        } else {
+            window.deals.myLikes = window.deals.myLikes.filter(id => id !== numericId);
+            if (isFavFilterActive) {
+                $(`.product-card[data-id="${numericId}"]`).hide();
+            }
+        }
+        e.stopPropagation();
+        saveLikes();
+    });
+}
+
+// SAVE LIKES
+function saveLikes() {
+    const hashesToSave = window.deals.myLikes.map(id => deals.idhashmap[id]);
+    localStorage.setItem('myLikes', JSON.stringify(hashesToSave.filter(Boolean)));
+}
+
+// LOAD LIKES
+function loadAllLikes() {
+    const savedHashes = JSON.parse(localStorage.getItem('myLikes')) || [];
+    window.deals.myLikes = [];
+    $('.myheart').addClass('grayscaled').removeClass('active');
+    savedHashes.forEach(hash => {
+        const numericId = Object.keys(deals.idhashmap).find(key => deals.idhashmap[key] === hash);
+        if (numericId) {
+            const id = parseInt(numericId);
+            window.deals.myLikes.push(id);
+            $(`.product-card[data-id="${id}"] .myheart`)
+                .addClass('active')
+                .removeClass('grayscaled');
+        }
+    });
+}
+
+// FILTER FAVORITES
+let isFavFilterActive = false;
+$('.filter-favs').on('click', function() {
+    const $btn = $(this);
+    const $cards = $('#deals .product-card');
+    isFavFilterActive = !isFavFilterActive;
+    $btn.toggleClass('grayscaled', !isFavFilterActive);
+    if (isFavFilterActive) {
+        $cards.each(function() {
+            if (!$(this).find('.myheart').hasClass('active')) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+        $btn.addClass('primary');
+        $btn.find('i').text('close'); 
+    } else {
+        $cards.show();
+        $btn.removeClass('primary');
+        $btn.find('i').text('favorite');
+    }
+    updateCategoryBadges(window.deals.catcounts);
+});
 
 // UPDATE BOTTOM SUPERCATS BADGES
 function updateCategoryBadges(catCounts) {
