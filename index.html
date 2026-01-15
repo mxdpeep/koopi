@@ -38,6 +38,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=BAA9LFls7Hk-pPlHS1MeLJYA6vECdzHUd4UYwGadcr3lnEbsV5UfYxNRsnGCCncrNegtdGeQ21qQ_VKAMI&components=hosted-buttons&disable-funding=venmo&currency=CZK"></script>
 <script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
 
@@ -452,7 +453,6 @@ nav.bottom button {
     align-items: center;
 }
 </style>
-<script src="https://www.paypal.com/sdk/js?client-id=BAA9LFls7Hk-pPlHS1MeLJYA6vECdzHUd4UYwGadcr3lnEbsV5UfYxNRsnGCCncrNegtdGeQ21qQ_VKAMI&components=hosted-buttons&disable-funding=venmo&currency=CZK"></script>
 </head>
 <body class="light">
 
@@ -463,7 +463,7 @@ nav.bottom button {
             <span>Instalovat ♥️</span>
         </button>
         <div class="max noselect">
-            <span title="🌀 VŠECHNO ZAMÍCHAT!" class="mrsmiley">
+            <span title="🌀 VŠECHNO ZAMÍCHAT" class="mrsmiley">
                 <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">SLEVIČKY</span>
             </span>
         </div>
@@ -501,7 +501,7 @@ nav.bottom button {
             <span class="topnavtxt downer">Info</span>
         </button>
         <div class="max noselect right-align">
-            <span title="🌀 VŠECHNO ZAMÍCHAT!" class="mrsmiley">
+            <span title="🌀 VŠECHNO ZAMÍCHAT" class="mrsmiley">
                 <span class="dollarface bigger">🤑</span>&nbsp;&nbsp;<span class="slevicky bold">SLEVIČKY</span>
             </span>
         </div>
@@ -628,12 +628,9 @@ nav.bottom button {
                 <div class="max"><b>👾 SLEVIČKY - příběh gamifikace nakupování</b></div>
                 <i>expand_more</i>
             </label>
-            <br>
-            <br>
-            <img src="/fred.jpg" class="fred" alt="Fred"><br>
-
             <input type="checkbox" id="why-check">
             <div class="content padding">
+            <img src="/fred.jpg" class="fred" alt="Fred"><br>
             <strong>Projekt SLEVIČKY: Diagnóza doby</strong><br><br>
                 Mnozí vědí, že jsem veteránem české herní scény (Vietcong atd.).<br><br>
 
@@ -661,27 +658,24 @@ nav.bottom button {
                 Ale čas strávený bez zaměstnání mi dal jedno plus: možnost se učit. A pak přišlo AI Google Gemini.<br><br>
 
                 Dnes už SLEVIČKY nejsou jen nápad. Po 4 měsících vývoje (trošku jsem dělal na hudbě) je to nástroj.<br><br>
-
-                Je to nástroj napsaný v Go, CSS3, Vanila JS, jQuery, Beercss - který v čase krotí tenhle chaos. Alespoň se snaží.<br>
-                
                 Renderuje tisíce karet zboží, třídí je, páruje a dává vám, mým přátelům, do rukou nástroj, jak se v tom víru neutopit.<br><br>
 
-                <strong>Člověk vs. Nástroj</strong><br><br>
-
+                <strong>Člověk vs. nástroj</strong><br><br>
                 I když jsem momentálně bez práce, neznamená to, že jsem přestal tvořit. Právě naopak.<br><br>
 
-                <b>SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu. Přeberte si to, jak chcete.<br><br>
+                <b>SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.<br><br>
 
-                Pokud vám přijde tenhle drobný nástroj nějak užitečný, můžete mi přispět přes PayPal. Nikoho nenutím!<br><br><br>
-                Vše je open source, postavte si to klidně doma sami v kuchyni.<br><br>
+                Pokud vám to přijde nějak užitečné, můžete mi přispět přes PayPal.<br><br><br>
 
                 Fuck the system! 👽️<br><br>
 
                 TBD:<br><br>
-                * detail cards<br>
-                * search, likes, bans<br>
-                * search profiles, settings profiles<br>
-                * možná Google profile sync - uvidíme?<br><br>pište nápady!<br><br>
+                * bans<br>
+                * search<br>
+                * details<br>
+                * search profiles<br>
+                * settings profiles<br>
+                * možná Google profile sync<br><br>
 
                 <h4>Jak to celé funguje?</h4>
                 input data > Go scraper > parse > filter > process > filter > JSON > UI render > a tady jste Vy 👽️<br><br>
@@ -731,11 +725,6 @@ nav.bottom button {
         <h3>📑 Moje kategorie</h3><hr>
         Pokud zde není nic vybráno, zobrazí se všechny slevy.
         <div id="mycats" class="padding s m l"></div>
-
-        <h3>❌ Blokované zboží</h3><hr>
-        Již brzy...
-        <div id="blocked" class="padding s m l"></div>
-
     </div>
 </main>
 
