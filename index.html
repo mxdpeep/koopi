@@ -1034,6 +1034,7 @@ const initApp = () => {
                 .filter(word => !blockedWords.includes(word))
                 .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
                 .slice(0, 30);
+
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             $('#stats').html(`Slev celkem: <b>${goods.length}</b>
@@ -1044,14 +1045,12 @@ const initApp = () => {
             $('#deals').html('').addClass('hidden');
 
             const start = performance.now();
-
             renderDeals(goods);
             renderMarkets(deals.markets);
-            renderCategories(deals.categories);
+            renderCategories(categories);
             updateNavIcons();
             updateFavIcons();
             loadAllLikes();
-
             const end = performance.now();
             console.timeEnd('DOM-Render-Speed');
 
@@ -1342,15 +1341,13 @@ $(document).ready(function() {
         isReversed = !isReversed;
         $(this).text(isReversed ? "🔼" : "🔽");
         $(this).addClass("spin");
+        setTimeout(() => {
+            $(this).removeClass("spin");
+        }, 1000);
         const currentData = isReversed ? window.deals.goods_rev : window.deals.goods;
-
         renderDeals(currentData);
-        renderMarkets(deals.markets);
-        renderCategories(deals.categories);
-        updateNavIcons();
         updateFavIcons();
         loadAllLikes();
-
         if (isFavFilterActive) {
             $('#deals .product-card').each(function() {
                 if (!$(this).find('.myheart').hasClass('active')) {
@@ -1358,10 +1355,6 @@ $(document).ready(function() {
                 }
             });
         }
-
-        setTimeout(() => {
-            $(this).removeClass("spin");
-        }, 1000);
     });
 
     // ABOUT button
