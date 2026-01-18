@@ -582,6 +582,7 @@ nav.bottom button {
             <div class="content padding">
                 <ul>
                     <li><b>2026-01-18</b>
+                        <br>◾️ UI: detekce legacy browseru
                         <br>◾️ UI: vylepšená extra lišta
                     </li>
                     <li><b>2026-01-14</b>
@@ -731,6 +732,27 @@ nav.bottom button {
 
 <script>
 'use strict';
+
+// detect legacy browsers
+(function() {
+    const features = {
+        'fetch': window.fetch,
+        'ES6-Template-Literals': (function() { try { return !!new Function("return `t`")(); } catch(e) { return false; } })()
+    };
+    const missing = Object.keys(features).filter(key => !features[key]);
+    if (missing.length > 0) {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.innerHTML = `
+            <div style="font-family: sans-serif; padding: 40px; text-align: center; background: #fff5f5; color: #c0392b; border: 5px solid #c0392b; margin: 20px;">
+                <h1>⚠️ Starý prohlížeč</h1>
+                <p>Pro správné fungování a bezpečnost prosím <strong>aktualizuj prohlížeč</strong> nebo použij novější počítač.</p>
+                </div>
+                `;
+            });
+            throw new Error("Legacy browser detected. Stopping execution.");
+        window.stop();
+    }
+})();
 
 if (window.location.search.length > 0) {
     window.history.replaceState({}, document.title, window.location.pathname);
