@@ -59,12 +59,10 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 
 /* SCROLLBAR */
 ::-webkit-scrollbar {width: 16px;}
-::-webkit-scrollbar-track {background: #1a1a1a;}
+::-webkit-scrollbar-track {background: #000;}
 ::-webkit-scrollbar-thumb {background-color: #ffff00;border-radius: 4px;border: 2px solid #1a1a1a;}
 ::-webkit-scrollbar-thumb:hover {background-color: #e6e600;}
-* {scrollbar-width: auto;
-  scrollbar-color: #ffff00 #1a1a1a;
-}
+* {scrollbar-width: auto;scrollbar-color: #ffff00 #1a1a1a;}
 
 /* LIKE */
 .myheart.grayscaled {
@@ -75,7 +73,7 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 .myheart.active {
     filter: grayscale(0);
     opacity: 1;
-    color: #d32f2f; /* Červená pro aktivní srdce */
+    color: #d32f2f;
     transform: scale(1.2);
 }
 .myheart:hover {
@@ -583,8 +581,11 @@ nav.bottom button {
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
+                    <li><b>2026-01-18</b>
+                        <br>◾️ UI: vylepšená extra lišta
+                    </li>
                     <li><b>2026-01-14</b>
-                        <br>◾️ UI: likes ♥️ (funguje napříč obchody a stejnými produkty)
+                        <br>◾️ UI: ♥️ lajky (fungují napříč obchody a stejnými produkty)
                         <br>◾️ UI: rozbalovací Changelog
                     </li>
                     <li><b>2026-01-13</b>
@@ -604,7 +605,7 @@ nav.bottom button {
                     <li><b>2026-01-10</b>
                         <br>◾️ UI: vylepšená loga
                         <br>◾️ UI: filtrování obchodů a kategorií
-                        <br>◾️ UI: sekundární navigační lišta
+                        <br>◾️ UI: extra lišta
                     </li>
                     <li><b>2026-01-09</b>
                         <br>◾️ UI: notifikace nové verze
@@ -720,11 +721,11 @@ nav.bottom button {
 
         <h3>🏪 Moje obchody</h3><hr>
         Pokud zde není nic vybráno, zobrazí se všechny slevy.
-        <div id="mymarkets" class="center-align s m l"></div>
+        <div id="mymarkets" class="center-align padding s m l"></div>
 
         <h3>📑 Moje kategorie</h3><hr>
         Pokud zde není nic vybráno, zobrazí se všechny slevy.
-        <div id="mycats" class="center-align s m l"></div>
+        <div id="mycats" class="center-align padding s m l"></div>
     </div>
 </main>
 
@@ -883,37 +884,65 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.extras_flag = true; // bool: is extras row visible?
-
 const progressBar = () => {
     var bar = "_" + Date.now();
     document.getElementsByTagName("body")[0].insertAdjacentHTML(
         'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
     );
 
+    var lastScrollTop = 0;
+    var scrollStartPos = 0;
+    var $extras = $('.extras');
+
     // scrolling event handler
     function onscroll() {
         var scroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         var scrolled = Math.round(scroll * 100 / height);
+
         if (document.getElementById(bar)) document.getElementById(bar).style.width = scrolled + '%';
 
-        // hide extras row
+        var isScrollingUp = scroll < lastScrollTop;
+        var wasScrollingUp = scrollStartPos > lastScrollTop;
+        if (isScrollingUp !== wasScrollingUp) {
+            scrollStartPos = lastScrollTop;
+        }
+        var distanceMoved = Math.abs(scrollStartPos - scroll);
+
         if (window.extras_flag) {
-            if (scroll > 150) {
-                $('.extras').addClass('extras-hidden');
+            if (scroll > 150 && !isScrollingUp && distanceMoved > 100) {
+                $extras.addClass('extras-hidden');
                 window.extras_flag = false;
             }
-        }
-        // show extras row
-        if (!window.extras_flag) {
-            if (scroll < 30) {
-                $('.extras').removeClass('extras-hidden');
+        } else {
+            if (scroll < 30 || (isScrollingUp && distanceMoved > 50)) {
+                $extras.removeClass('extras-hidden');
                 window.extras_flag = true;
             }
         }
+
+        lastScrollTop = scroll <= 0 ? 0 : scroll;
     };
-    window.ontouchmove = onscroll;
-    window.onscroll = onscroll;
+
+    let ticking = false;
+    window.onscroll = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                onscroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+    window.ontouchmove = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                onscroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
 }
 
 const initApp = () => {
