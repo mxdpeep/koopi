@@ -64,6 +64,12 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 ::-webkit-scrollbar-thumb:hover {background-color: #e6e600;}
 * {scrollbar-width: auto;scrollbar-color: #ffff00 #1a1a1a;}
 
+/* AZ-ZA sorting button */
+.spin {
+    transition: transform 0.5s ease-in-out;
+    transform: rotate(360deg);
+}
+
 /* LIKE */
 .myheart.grayscaled {
     filter: grayscale(1);
@@ -480,7 +486,7 @@ nav.bottom button {
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
         <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
         <button class="grayscaled filter-favs nowrap btn-secrow black white-text bold s1">❤️</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
+        <button class="btn-az nowrap btn-secrow black white-text bold s1">🔽</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
     </div> 
@@ -582,7 +588,8 @@ nav.bottom button {
             <div class="content padding">
                 <ul>
                     <li><b>2026-01-18</b>
-                        <br>◾️ UI: detekce legacy browseru
+                        <br>◾️ UI: 🔽🔼 třídění
+                        <br>◾️ UI: detekce legacy browserů
                         <br>◾️ UI: vylepšená extra lišta
                     </li>
                     <li><b>2026-01-14</b>
@@ -754,6 +761,7 @@ nav.bottom button {
     }
 })();
 
+// remove cache buster
 if (window.location.search.length > 0) {
     window.history.replaceState({}, document.title, window.location.pathname);
 }
@@ -984,7 +992,6 @@ const initApp = () => {
                 $('#loading-info').text('Chyba nahrávání dat!');
                 return;
             }
-
             $('#loading-info').text('👽️ Renderuji ...');
             let goods = [];
             if (data && data.goods && Array.isArray(data.goods)) {
@@ -998,6 +1005,7 @@ const initApp = () => {
 
             // populate the data
             deals.goods = goods;
+            deals.goods_rev = [...goods].reverse();
             deals.markets = data.markets;
             deals.catcounts = data.catcounts;
 
@@ -1229,36 +1237,37 @@ function loadAllLikes() {
 
 // FILTER FAVORITES
 let isFavFilterActive = false;
-$('.filter-favs').on('click', function() {
-    const $btn = $(this);
-    const $cards = $('#deals .product-card');
-    isFavFilterActive = !isFavFilterActive;
-    $btn.toggleClass('grayscaled', !isFavFilterActive);
-    if (isFavFilterActive) {
-        $cards.each(function() {
-            if (!$(this).find('.myheart').hasClass('active')) {
-                $(this).hide();
-            } else {
-                $(this).show();
-            }
-        });
-        $btn.addClass('primary');
-        $btn.find('i').text('close'); 
-    } else {
-        $cards.show();
-        $btn.removeClass('primary');
-        $btn.find('i').text('favorite');
-    }
-    $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
-    updateCategoryBadges(window.deals.catcounts);
-});
+function filterFavs() {
+    $('.filter-favs').on('click', function() {
+        const $btn = $(this);
+        const $cards = $('#deals .product-card');
+        isFavFilterActive = !isFavFilterActive;
+        $btn.toggleClass('grayscaled', !isFavFilterActive);
+        if (isFavFilterActive) {
+            $cards.each(function() {
+                if (!$(this).find('.myheart').hasClass('active')) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+            $btn.addClass('primary');
+            $btn.find('i').text('close'); 
+        } else {
+            $cards.show();
+            $btn.removeClass('primary');
+            $btn.find('i').text('favorite');
+        }
+        $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
+        updateCategoryBadges(window.deals.catcounts);
+    });
+}
+filterFavs();
 
 // UPDATE BOTTOM SUPERCATS BADGES
 function updateCategoryBadges(catCounts) {
     if (!catCounts) return;
-
     const globalVisible = $('#deals article:visible').length;
-
     $('button[data-cats]').each(function() {
         const btn = $(this);
         const catSelectors = btn.attr('data-cats').split(',');
@@ -1266,13 +1275,11 @@ function updateCategoryBadges(catCounts) {
         catSelectors.forEach(selector => {
             total += (catCounts[selector.trim().replace('.c-', '')] || 0);
         });
-
         let badge = btn.find('.cat-badge');
         if (!badge.length) {
             badge = $('<span class="badge blue tiny white-text bold cat-badge"></span>');
             btn.append(badge);
         }
-
         if ($(this).hasClass('active')) {
             badge.text(`${globalVisible}/${total}`);
             badge.addClass('orange').removeClass('blue');
@@ -1287,7 +1294,6 @@ function updateCategoryBadges(catCounts) {
 // UPDATE NAVICONS
 const updateNavIcons = () => {
     const activeCats = new Set(window.deals.myCats || []);
-
     $('nav.bottom button').each(function() {
         const $btn = $(this);
         const btnCatsStr = $btn.data('cats') || "";
@@ -1300,14 +1306,10 @@ const updateNavIcons = () => {
     });
 };
 
-// UI bindings
+// WEB-UI bindings
 $(document).ready(function() {
     let flash_flag = false; // bool: is flash animation pending?
     let face_flag = false; // bool: is face animation pending?
-
-    window.onkeydown = function(e) { // TBD: keyboard events
-        //debug('key: '+ e.key);
-    }
 
     // SHARE button
     $('#webshare').on('click', function() {
@@ -1331,6 +1333,28 @@ $(document).ready(function() {
             importSettings(file);
         }
         $(this).val('');
+    });
+
+    // render AZ-ZA button
+    let isReversed = false;
+    $(".btn-az").on("click", function() {
+        isReversed = !isReversed;
+        $(this).text(isReversed ? "🔼" : "🔽");
+        $(this).addClass("spin");
+        setTimeout(() => {
+            $(this).removeClass("spin");
+        }, 1000);
+        const currentData = isReversed ? window.deals.goods_rev : window.deals.goods;
+        renderDeals(currentData);
+        updateFavIcons();
+        loadAllLikes();
+        if (isFavFilterActive) {
+            $('#deals .product-card').each(function() {
+                if (!$(this).find('.myheart').hasClass('active')) {
+                    $(this).hide();
+                }
+            });
+        }
     });
 
     // ABOUT button
@@ -1374,8 +1398,8 @@ $(document).ready(function() {
         roulette();
     });
     
-    let currentFaceIsYummy = false;
     // EMOJI ANIMATION function
+    let currentFaceIsYummy = false;
     function roulette() {
         if (face_flag) return;
         face_flag = true;
@@ -1501,11 +1525,9 @@ $(document).ready(function() {
     // REFRESH function
     function refresh() {
         $(this).prop('disabled', true).html('<i>schedule</i>');
-
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
-
         const buster = Math.random().toString(36).substring(2, 6);
         window.location.replace('/?' + buster);
     }
