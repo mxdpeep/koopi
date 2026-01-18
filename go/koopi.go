@@ -745,7 +745,26 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		// cat data.json | jq '.goods[].validity' | sort | uniq
 		validity := item.Validity
 		valcol := "green"
-		if strings.Contains(validity, "dnes končí") {
+		todayStr := time.Now().Format("20060102")
+		yesterdayStr := time.Now().AddDate(0, 0, -1).Format("20060102")
+
+		// text transformations
+		if item.ScrapedAt == yesterdayStr {
+			if strings.Contains(validity, "zítra končí") {
+				validity = "dnes končí"
+			} else if strings.Contains(validity, "dnes končí") {
+				validity = "akce skončila"
+			}
+		} else if item.ScrapedAt != todayStr {
+			if strings.Contains(validity, "dnes končí") || strings.Contains(validity, "zítra končí") {
+				validity = "platnost neznámá"
+			}
+		}
+
+		// color matching
+		if strings.Contains(validity, "akce skončila") || strings.Contains(validity, "platnost neznámá") {
+			valcol = "grey"
+		} else if strings.Contains(validity, "dnes končí") {
 			valcol = "red"
 		} else if strings.Contains(validity, "zítra končí") {
 			valcol = "orange"
