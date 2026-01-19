@@ -978,6 +978,7 @@ const progressBar = () => {
 
 const initApp = () => {
     console.time('JSON-Fetch');
+
     fetch(dataFile)
         .then(response => {
             if (!response.ok) {
@@ -1416,9 +1417,10 @@ $(document).ready(function() {
             $face.removeClass('facespinner');
             face_flag = false;
         }, 1200);
+
         setTimeout(() => {
             $('#deals').html('').addClass('hidden');
-            let goods = deals.goods;        
+            let goods = window.deals.goods;        
             goods.shuffle();
             renderDeals(goods);
             $('#deals article').addClass('hidden-force');
@@ -1426,7 +1428,8 @@ $(document).ready(function() {
             $('#settings, #about').hide()
             $('#deals').show();
             $('#deals').removeClass('hidden');
-        }, 400);
+        }, 300);
+
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
