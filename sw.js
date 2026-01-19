@@ -6,12 +6,12 @@ const urlsToCache = [
     '/index.html',
     '/manifest.json',
     '/jquery.min.js',
-    'https://cdn.jsdelivr.net/gh/beercss/beercss@v3.11.33/dist/cdn/beer.min.css',
+    'https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.3/dist/cdn/beer.min.css',
     'https://cdn.jsdelivr.net/npm/material-icons@1.13.14/iconfont/material-icons.min.css'
 ];
 
 self.addEventListener('install', (event) => {
-    self.skipWaiting(); // Vynutí update hned
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -20,11 +20,15 @@ self.addEventListener('install', (event) => {
     );
 });
 
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
+});
+
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
-    // IGNOROVAT meta.json
     if (url.pathname.endsWith('meta.json')) return;
-
     event.respondWith(
         caches.match(event.request).then((response) => {
             return response || fetch(event.request);
@@ -35,7 +39,7 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         Promise.all([
-            self.clients.claim(), // Převezme kontrolu hned
+            self.clients.claim(),
             caches.keys().then((cacheNames) => {
                 return Promise.all(
                     cacheNames.map((cacheName) => {

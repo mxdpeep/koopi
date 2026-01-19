@@ -161,6 +161,7 @@ var FORBIDDEN_GOODS = []string{
 	"tablety",
 	"tescoma",
 	"toaletní",
+	"tyčinky vatové",
 	"tělo",
 	"vitamín",
 	"vlasová voda",
