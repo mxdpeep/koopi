@@ -895,9 +895,9 @@ function checkUpdate() {
     if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
         $.getJSON('/meta.json?t=' + new Date().getTime(), function(data) {
-            if (data && data.version && data.version !== version) {
+            if (version && data && data.version && (data.version !== version)) {
+                version = null;
                 debug('Zjištěna nová verze: ' + data.version);
-                console.log('Zjištěna nová verze: ' + data.version + ' vs ' + version);
                 $('.refresh-btn').append('<badge class="bigger">!</badge>').addClass('red-text');
                 clearInterval(updateTimer);
             }
@@ -978,7 +978,6 @@ const progressBar = () => {
 
 const initApp = () => {
     console.time('JSON-Fetch');
-
     fetch(dataFile)
         .then(response => {
             if (!response.ok) {
