@@ -96,12 +96,16 @@ const (
 // token bucket
 var rateLimiter chan struct{}
 
-// typography
+// RegExp
 var (
 	// předložky a spojky
 	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
 	// číslo + mezera + jednotka
 	reUnits = regexp.MustCompile(`(\d+)\s+(g|kg|ml|l|ks)\b`)
+	// datum v budoucnosti
+	reFutureDate = regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
+	// non-alphanumeric
+	nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
 )
 
 // product names to ignore (case-insensitive)
@@ -129,7 +133,7 @@ var FORBIDDEN_GOODS = []string{
 	"lepidlo",
 	"lis na",
 	"mast",
-	"matrace",
+	"matrac",
 	"micelární",
 	"motorový",
 	"měděná",
@@ -210,8 +214,6 @@ var CZreplacer = strings.NewReplacer(
 	"ž", "z",
 )
 
-var nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
-
 // normalization - helper function to normalize Czech strings for comparison
 func normalization(s string) string {
 	// 1. malá písmena
@@ -247,16 +249,10 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// fix non-breakable spaces
+// fix spaces to non-breakable spaces
 func typoFix(s string) string {
-	// předložky a spojky
-	rePreps := regexp.MustCompile(`(?i)(^|[\s])([ksvzaiou])\s+`)
 	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
-
-	// jednotky
-	reUnits := regexp.MustCompile(`(\d+)\s+(kg|ks|ml|[glx])\+?`)
 	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
-
 	return s
 }
 
@@ -741,38 +737,37 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		cleanedItem["scrapedat"] = item.ScrapedAt
 
-		// validity color logic
+		// validity logic
 		// cat data.json | jq '.goods[].validity' | sort | uniq
+		scraped := item.ScrapedAt
 		validity := item.Validity
-		valcol := "green"
 		todayStr := time.Now().Format("20060102")
 		yesterdayStr := time.Now().AddDate(0, 0, -1).Format("20060102")
 
 		// text transformations
-		if item.ScrapedAt == yesterdayStr {
+		if scraped == yesterdayStr {
 			if strings.Contains(validity, "zítra končí") {
 				validity = "dnes končí"
 			} else if strings.Contains(validity, "dnes končí") {
-				validity = "akce skončila"
+				continue
 			}
-		} else if item.ScrapedAt != todayStr {
+		} else if scraped != todayStr {
 			if strings.Contains(validity, "dnes končí") || strings.Contains(validity, "zítra končí") {
-				validity = "platnost neznámá"
+				continue
 			}
 		}
 
 		// color matching
-		if strings.Contains(validity, "akce skončila") || strings.Contains(validity, "platnost neznámá") {
-			valcol = "grey"
-		} else if strings.Contains(validity, "dnes končí") {
+		valcol := "green"
+		if strings.Contains(validity, "dnes končí") {
 			valcol = "red"
-		} else if strings.Contains(validity, "zítra končí") {
+		}
+		if strings.Contains(validity, "zítra končí") {
 			valcol = "orange"
 		}
 
 		// date in the future?
-		re := regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
-		match := re.FindStringSubmatch(validity)
+		match := reFutureDate.FindStringSubmatch(validity)
 		if len(match) >= 3 {
 			d, _ := strconv.Atoi(match[1])
 			m, _ := strconv.Atoi(match[2])
@@ -786,7 +781,9 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			}
 		}
 
+		// save the values
 		cleanedItem["valcol"] = valcol
+		cleanedItem["Validity"] = validity
 
 		imageURL := item.ImageUrl
 		if before, ok := strings.CutSuffix(imageURL, ".png"); ok {

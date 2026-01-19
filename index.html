@@ -306,7 +306,8 @@ nav.bottom button {letter-spacing: 0;}
 }
 
 .product-club {
-    margin-top: 5px;
+    margin-top: 10px;
+    border: 2px solid #000;
     border-radius: 0 !important;
 }
 .product-club:empty {
@@ -581,34 +582,37 @@ nav.bottom button {
 
         <article>
             <label for="changelog-check" class="row cursor-pointer">
-                <div class="max"><strong>🤯 Changelog</strong></div>
+                <div class="max"><strong>🧠 Changelog</strong></div>
                 <i>expand_more</i>
             </label>
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
+                    <li><b>2026-01-19</b>
+                        <br>◾️ optimalizace
+                    </li>
                     <li><b>2026-01-18</b>
                         <br>◾️ UI: 🔽🔼 třídění
-                        <br>◾️ UI: detekce legacy browserů
-                        <br>◾️ UI: vylepšená extra lišta
+                        <br>◾️ UI: detekce nepodporovaných browserů
+                        <br>◾️ UI: lepší skrývání extra lišty
                     </li>
                     <li><b>2026-01-14</b>
                         <br>◾️ UI: ♥️ lajky (fungují napříč obchody a stejnými produkty)
                         <br>◾️ UI: rozbalovací Changelog
                     </li>
                     <li><b>2026-01-13</b>
-                        <br>◾️ UI: přepsán renderer s pomocí AI 🧠 (až 20x rychlejší!)
+                        <br>◾️ UI: přepsán renderer s pomocí AI (až 20x rychlejší!)
                         <br>◾️ UI: platnost slevy - různá barevnost
                         <br>◾️ UI: superkategorie - badges, emojis jen pro aktivní kategorie
-                        <br>◾️ settings: load/save 
+                        <br>◾️ UI: load/save 
                     </li>
                     <li><b>2026-01-12</b>
-                        <br>◾️ datová sada: klíčová slova + search preprocessing
-                        <br>◾️ datová sada: optimalizace 
+                        <br>◾️ DATA: klíčová slova + search preprocessing
+                        <br>◾️ DATA: optimalizace 
                     </li>
                     <li><b>2026-01-11</b>
                         <br>◾️ UI: 🖤 badges - počty slev u různých obchodníků
-                        <br>◾️ kategorizace: deterministické třídění
+                        <br>◾️ DATA: deterministické třídění
                     </li>
                     <li><b>2026-01-10</b>
                         <br>◾️ UI: vylepšená loga
@@ -624,10 +628,10 @@ nav.bottom button {
                         <br>◾️ UI: data shuffle - tlačítko 🤑
                     </li>
                     <li><b>2025-10-19</b>
-                        <br>◾️ Golang scraper - základní data
+                        <br>◾️ DATA: základní scraper
                     </li>
                     <li><b>2025-09-26</b>
-                        <br>◾️ Golang scraper - základní model
+                        <br>◾️ DATA: základní model
                     </li>
                 </ul>
             </div>
@@ -1108,7 +1112,7 @@ const renderDeals = (deals) => {
             </div>
             <div class="product-name bold">${deal.name}</div>
             <div class="product-note">${deal.note}</div>
-            <div class="product-club blue white-text center-align">${deal.club}</div>
+            <div class="product-club grey white-text center-align">${deal.club}</div>
             <div class="product-price">
                 <span class="discount mono">${deal.discount}</span>
                 <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
