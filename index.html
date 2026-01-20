@@ -897,24 +897,19 @@ const categories = Object.keys(catIcons);
 
 // UPDATES checker
 function checkUpdate() {
-    if (version === '{{' + 'GIT_REV' + '}}') {
-        console.log('No update check, dev version.');
-        return;
-    }
+    if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
-        $.getJSON('/meta.json?t=' + new Date().getTime(), function(data) {
-            if (version && data && data.version && (data.version !== version)) {
-                version = null;
+        $.getJSON('/meta.json?' + new Date().getTime(), function(data) {
+            if (data && data.version && (data.version !== version)) {
+                clearInterval(updateTimer);
                 debug('Zjištěna nová verze: ' + data.version);
                 $('.refresh-btn').append('<badge class="bigger">!</badge>').addClass('red-text');
-                clearInterval(updateTimer);
             }
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json.');
         });
     }, 10000);
 }
-checkUpdate();
 
 // *** START ***
 document.addEventListener('DOMContentLoaded', () => {
@@ -1725,6 +1720,8 @@ document.addEventListener('error', function (e) {
         img.style.display = 'none';
     }
 }, true);
+
+checkUpdate();
 
 </script>
 </body>
