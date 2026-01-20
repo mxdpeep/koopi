@@ -41,7 +41,6 @@
 <script src="https://www.paypal.com/sdk/js?client-id=BAA9LFls7Hk-pPlHS1MeLJYA6vECdzHUd4UYwGadcr3lnEbsV5UfYxNRsnGCCncrNegtdGeQ21qQ_VKAMI&components=hosted-buttons&disable-funding=venmo&currency=CZK"></script>
 <script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
-
 /* VARIABLES */
 :root {
     --font: 'Ubuntu', sans-serif;
@@ -56,6 +55,12 @@
 body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overscroll-behavior-y: contain;-webkit-text-size-adjust: 100%;}
 a {text-decoration: underline!important;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
+
+/* BUTTONS OUTLINE off */
+:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar {width: 16px;}
@@ -120,6 +125,7 @@ button.chip .market-image {
 
 /* ABOUT */
 .fred {
+    border: 2px solid #000;
     border-radius: 50px;
     margin: 1rem;
     width: 100px;
@@ -648,7 +654,7 @@ nav.bottom button {
             <input type="checkbox" id="why-check">
             <div class="content padding">
             <img src="/fred.jpg" class="fred" alt="Fred"><br>
-            <strong>Projekt SLEVIČKY: Diagnóza doby</strong><br><br>
+            <strong>SLEVIČKY: Diagnóza doby</strong><br><br>
                 Mnozí vědí, že jsem veteránem české herní scény (Vietcong atd.).<br><br>
 
                 Před třemi lety byl projekt <b>SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
