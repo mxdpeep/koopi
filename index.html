@@ -75,6 +75,11 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
     transform: rotate(360deg);
 }
 
+.pulsefav {
+    transition: transform 0.1s ease-out;
+    transform: rotate(720deg);
+}
+
 /* LIKE */
 .myheart.grayscaled {
     filter: grayscale(1);
@@ -1207,6 +1212,15 @@ function updateFavIcons() {
         const numericId = $card.data('id');
         const productHash = deals.idhashmap[numericId];
         const $allSameHearts = $(`.product-card[data-id="${numericId}"]`).find('.myheart');
+
+        // pop-in the extras row?
+        if (!window.extras_flag) {
+            window.extras_flag = true;
+            $('.extras').removeClass('extras-hidden');
+            $('.filter-favs').addClass('pulsefav');
+            setTimeout(() => {$('.filter-favs').removeClass('pulsefav');}, 500);
+        }
+
         $allSameHearts.toggleClass('grayscaled active');
         if ($heart.hasClass('active')) {
             if (!window.deals.myLikes.includes(numericId)) {
@@ -1235,6 +1249,7 @@ function loadAllLikes() {
     const savedHashes = JSON.parse(localStorage.getItem('myLikes')) || [];
     window.deals.myLikes = [];
     $('.myheart').addClass('grayscaled').removeClass('active');
+
     savedHashes.forEach(hash => {
         const numericId = Object.keys(deals.idhashmap).find(key => deals.idhashmap[key] === hash);
         if (numericId) {
@@ -1355,9 +1370,7 @@ $(document).ready(function() {
         $(this).text(isReversed ? "🔼" : "🔽");
         $(this).addClass("spin");
 
-        setTimeout(() => {
-            $(this).removeClass("spin");
-        }, 600);
+        setTimeout(() => {$(this).removeClass("spin");}, 500);
 
         const currentData = isReversed ? window.deals.goods_rev : window.deals.goods_orig;
         renderDeals(currentData);
