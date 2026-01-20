@@ -2,8 +2,6 @@
 
 const CACHE_NAME = '{{GIT_REV}}';
 const urlsToCache = [
-    '/',
-    '/index.html',
     '/manifest.json',
     '/jquery.min.js',
     'https://cdn.jsdelivr.net/gh/beercss/beercss@v3.13.3/dist/cdn/beer.min.css',
@@ -27,11 +25,24 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') return;
     const url = new URL(event.request.url);
-    if (url.pathname.endsWith('meta.json')) return;
+
+    if (url.pathname.endsWith('meta.json')) {
+        event.respondWith(fetch(event.request)); 
+        return;
+    }
+
+    if (url.pathname.endsWith('index.html')) {
+        event.respondWith(fetch(event.request)); 
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
+            return response || fetch(event.request).catch(() => {
+                return new Response('Offline', { status: 503 });
+            });
         })
     );
 });

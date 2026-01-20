@@ -900,7 +900,8 @@ function checkUpdate() {
     if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
         $.getJSON('/meta.json?' + new Date().getTime(), function(data) {
-            if (data && data.version && (data.version !== version)) {
+            if (data && data.version && data.version !== version) {
+                console.log('UPDATE CHECK - server:', data?.version, 'vs local:', version);
                 clearInterval(updateTimer);
                 debug('Zjištěna nová verze: ' + data.version);
                 $('.refresh-btn').append('<badge class="bigger">!</badge>').addClass('red-text');
@@ -908,7 +909,7 @@ function checkUpdate() {
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json.');
         });
-    }, 10000);
+    }, 1000);
 }
 
 // *** START ***
@@ -1702,7 +1703,7 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
-window.addEventListener('contextmenu', function(e) {
+window.addEventListener('xcontextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
