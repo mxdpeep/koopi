@@ -12,7 +12,7 @@ all:
 
 clear:
 	@-find ./cache/ -type f -mmin +3600 -delete -print 2> /dev/null || true
-	@-find ./cache/ -type f -mmin +2500 2> /dev/null \
+	@-find ./cache/ -type f -mmin +1600 2> /dev/null \
 		| head -n 2500 \
 		| shuf \
 		| head -n 100 \
@@ -51,7 +51,9 @@ img:
 		fi \
 	' _ {}
 
+
 # macros
+
 everything: clear db img cf backup
 	@-git add -A
 	@-git commit -am 'automatic update'
