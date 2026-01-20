@@ -897,7 +897,10 @@ const categories = Object.keys(catIcons);
 
 // UPDATES checker
 function checkUpdate() {
-    if (version === '{{' + 'GIT_REV' + '}}') return;
+    if (version === '{{' + 'GIT_REV' + '}}') {
+        console.log('No update check, dev version.');
+        return;
+    }
     const updateTimer = setInterval(() => {
         $.getJSON('/meta.json?t=' + new Date().getTime(), function(data) {
             if (version && data && data.version && (data.version !== version)) {
@@ -1067,7 +1070,6 @@ const initApp = () => {
             setDefaults();
             $('#deals').removeClass('hidden');
 
-            checkUpdate();
             setTimeout(() => {$('#loading').addClass('fade-away');}, 500);
             window.scrollTo({top: 0});
         })
