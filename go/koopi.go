@@ -767,7 +767,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			valcol = "orange"
 		}
 
-		// date in the future?
+		// validity date in the future?
 		match := reFutureDate.FindStringSubmatch(validity)
 		if len(match) >= 3 {
 			d, _ := strconv.Atoi(match[1])
@@ -795,7 +795,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		imageURL = strings.TrimPrefix(imageURL, "https://img.kupi.cz/kupi/thumbs/")
 		imageURL = strings.TrimPrefix(imageURL, "https://img.kupi.cz/img/no_img/no_discounts.png")
 		if imageURL == "" || strings.Contains(imageURL, "no_discounts") {
-			imageURL = "default.png"
+			imageURL = "default.webp"
 		}
 		cleanedItem["image"] = imageURL
 
