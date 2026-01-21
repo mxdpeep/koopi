@@ -915,15 +915,13 @@ function checkUpdate() {
     const updateTimer = setInterval(() => {
         $.getJSON('/meta.json?' + new Date().getTime(), function(data) {
             if (data && data.version && data.version !== version) {
-                console.log('UPDATE CHECK - server:', data?.version, 'vs local:', version);
                 clearInterval(updateTimer);
-                debug('Zjištěna nová verze: ' + data.version);
-                $('.refresh-btn').append('<badge class="bigger">!</badge>').addClass('red-text');
+                $('.refresh-btn').addClass('red-text');
             }
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json.');
         });
-    }, 1000);
+    }, 5000);
 }
 
 // *** START ***
@@ -1602,14 +1600,16 @@ $(document).ready(function() {
         refresh();
     });
 
-    // REFRESH function
+    // fn: refresh() - refresh the page using a buster
     function refresh() {
-        $(this).prop('disabled', true).html('<i>schedule</i>');
+        $('.refresh-btn').prop('disabled', true).html('<i class="bigger">schedule</i>');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
         const buster = Math.random().toString(36).substring(2, 6);
+        window.stop();
         window.location.replace('/?' + buster);
+        throw new Error("Redirecting to fresh version...");
     }
 
     // close DEBUGGER
