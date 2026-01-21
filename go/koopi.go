@@ -23,26 +23,30 @@ import (
 	"sync"
 	"syscall"
 	"time"
+	"unicode"
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/text/collate"
 	"golang.org/x/text/language"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
 
 const (
 	HTML_CACHE         = "../cache"
 	IMAGE_CACHE        = "../images"
 	INPUT_CSV          = "scrape.csv"
+	OUTPUT_CSV         = "koopi.csv"
+	OUTPUT_JSON        = "koopi.json"
 	KOOPI_HOME_URL     = "https://www.kupi.cz"
 	KOOPI_IMAGE_URL    = "https://img.kupi.cz"
 	KOOPI_SEARCH_URL   = "https://www.kupi.cz/hledej?f="
 	KOOPI_SUBPAGE      = "&page="
 	LOCK_FILE          = "/tmp/koopi.lock"
 	LOCK_FILE_DURATION = time.Hour
-	MAX_SCRAPED_GOODS  = 1000
 	MAX_THREADS        = 5
-	OUTPUT_CSV         = "koopi.csv"
-	OUTPUT_JSON        = "koopi.json"
+	MAX_SCRAPED_GOODS  = 1000
 	REQ_TIMEOUT        = 10 * time.Second
 )
 
@@ -77,13 +81,6 @@ var UserAgents = []string{
 
 // colors
 const (
-	ColorRed    = "\033[31m"
-	ColorGreen  = "\033[32m"
-	ColorYellow = "\033[33m"
-	ColorBlue   = "\033[34m"
-	ColorPurple = "\033[35m"
-	ColorCyan   = "\033[36m"
-	ColorWhite  = "\033[37m"
 	ColorReset  = "\033[0m"
 	ColorBold   = "\033[1m"
 	ColorDim    = "\033[2m"
@@ -91,6 +88,13 @@ const (
 	ColorBlink  = "\033[5m"
 	ColorRev    = "\033[7m"
 	ColorHidden = "\033[8m"
+	ColorRed    = "\033[31m"
+	ColorGreen  = "\033[32m"
+	ColorYellow = "\033[33m"
+	ColorBlue   = "\033[34m"
+	ColorPurple = "\033[35m"
+	ColorCyan   = "\033[36m"
+	ColorWhite  = "\033[37m"
 )
 
 // token bucket
@@ -197,32 +201,19 @@ type Goods struct {
 	ScrapedAt    string
 }
 
-var CZreplacer = strings.NewReplacer(
-	"á", "a",
-	"č", "c",
-	"ď", "d",
-	"é", "e",
-	"ě", "e",
-	"í", "i",
-	"ľ", "l",
-	"ň", "n",
-	"ó", "o",
-	"ö", "o",
-	"ř", "r",
-	"š", "s",
-	"ť", "t",
-	"ú", "u",
-	"ů", "u",
-	"ý", "y",
-	"ž", "z",
-)
+// remove diacritics - helper function to remove diacritics from strings
+func removeDiacritics(s string) string {
+	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+	result, _, _ := transform.String(t, s)
+	return result
+}
 
-// normalization - helper function to normalize Czech strings for comparison
-func normalization(s string) string {
+// normalizeCzechString - helper function to normalize Czech strings for comparison
+func normalizeCzechString(s string) string {
 	// 1. malá písmena
 	s = strings.ToLower(s)
 	// 2. odstranění diakritiky
-	s = CZreplacer.Replace(s)
+	s = removeDiacritics(s)
 	// 3. nahrazení nealfanumerických znaků mezerou
 	s = nonAlphanumeric.ReplaceAllString(s, " ")
 	// 4. ořez white space
@@ -234,7 +225,9 @@ func normalization(s string) string {
 func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	uniqueGoodsMap := make(map[string]Goods)
 	for _, good := range scrapedGoods {
-		normalizedNote := normalization(good.Note)
+
+		normalizedNote := normalizeCzechString(good.Note)
+
 		key := good.Name +
 			good.Price +
 			good.PricePerUnit +
@@ -243,6 +236,7 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 			good.Volume +
 			good.Market +
 			good.Validity
+
 		uniqueGoodsMap[key] = good
 	}
 	var finalGoods []Goods
@@ -252,7 +246,7 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// fix spaces to non-breakable spaces
+// typoFix - fix spaces to non-breakable spaces
 func typoFix(s string) string {
 	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
 	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
@@ -260,7 +254,7 @@ func typoFix(s string) string {
 }
 
 // check the app lock
-func CheckLock() bool {
+func checkLock() bool {
 	pid := os.Getpid()
 
 	// 1. read the lock
@@ -304,7 +298,7 @@ func CheckLock() bool {
 }
 
 // unlock the app lock
-func Unlock() {
+func unlockLock() {
 	pid := os.Getpid()
 	content, err := os.ReadFile(LOCK_FILE)
 	if err == nil && strconv.Itoa(pid) == string(content) {
@@ -459,8 +453,8 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 	return goods
 }
 
-// saveToCache - save HTML to cache
-func saveToCache(cacheName string, content []byte) {
+// saveHtmlToCache - save HTML to cache
+func saveHtmlToCache(cacheName string, content []byte) {
 	if _, err := os.Stat(HTML_CACHE); os.IsNotExist(err) {
 		err = os.MkdirAll(HTML_CACHE, 0755)
 		if err != nil {
@@ -475,8 +469,8 @@ func saveToCache(cacheName string, content []byte) {
 	}
 }
 
-// loadFromCache - load HTML from cache
-func loadFromCache(cacheName string) (*goquery.Document, error) {
+// loadHtmlFromCache - load HTML from cache
+func loadHtmlFromCache(cacheName string) (*goquery.Document, error) {
 	filePath := filepath.Join(HTML_CACHE, cacheName)
 	localFileContent, err := os.ReadFile(filePath)
 	if err != nil {
@@ -535,7 +529,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	defer wg.Done()
 
 	// 1. try cache first
-	doc, err := loadFromCache(cacheName)
+	doc, err := loadHtmlFromCache(cacheName)
 	if err == nil {
 		scrapedAt := time.Now().Format("20060102")
 		if info, err := os.Stat(filepath.Join(HTML_CACHE, cacheName)); err == nil {
@@ -622,7 +616,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	goodsList := extractGoodsFromHtml(resDoc, category, query, scrapedAt)
 
 	// save HTML to cache
-	saveToCache(cacheName, bodyBytes)
+	saveHtmlToCache(cacheName, bodyBytes)
 
 	// extract goods images
 	mutex.Lock()
@@ -829,7 +823,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		// processing unique keywords
 		name := strings.ToLower(cleanedGoods[i]["name"].(string))
 		for w := range strings.FieldsSeq(name) {
-			w = CZreplacer.Replace(w)
+			w = removeDiacritics(w)
 			w = cleaner.Replace(w)
 			w = strings.Trim(w, ".,;:!/-+‑")
 			w = nonAlphanumeric.ReplaceAllString(w, "")
@@ -879,12 +873,12 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	}
 }
 
-// MAIN * MAIN * MAIN
+// main
 func main() {
-	if !CheckLock() {
+	if !checkLock() {
 		os.Exit(1)
 	}
-	defer Unlock()
+	defer unlockLock()
 
 	log.SetFlags(0)
 
@@ -1065,7 +1059,7 @@ func main() {
 	}
 	sort.Strings(volumesList)
 
-	// console printouts
+	// console
 	fmt.Println("\n🏪 Markets:", strings.Join(marketStatsList, ", "))
 	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
 
@@ -1073,14 +1067,12 @@ func main() {
 	sort.Slice(finalGoods, func(i, j int) bool {
 		return c.CompareString(finalGoods[i].Name, finalGoods[j].Name) < 0
 	})
-	// save data to CSV
 	appendToCsv(finalGoods, OUTPUT_CSV, &csvMutex)
 
 	cExport := collate.New(language.Czech, collate.IgnoreCase)
 	sort.Slice(marketsList, func(i, j int) bool {
 		return cExport.CompareString(marketsList[i], marketsList[j]) < 0
 	})
-	// save data to JSON
 	appendToJson(finalGoods, OUTPUT_JSON, marketsList, &csvMutex)
 
 	fmt.Printf("\n🍀 Scraping finished %d unique items.\n", len(finalGoods))
