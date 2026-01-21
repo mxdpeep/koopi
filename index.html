@@ -319,7 +319,7 @@ nav.bottom button {letter-spacing: 0;}
 .product-club {
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 2px solid #000;
+    border: 1px solid #666;
     border-radius: 0 !important;
 }
 .product-club:empty {
@@ -536,14 +536,14 @@ nav.bottom button {
 </nav>
 
 <!-- HTML5 bottom nav -->
-<nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+<nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
 </nav>
-<nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto;">
+<nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
@@ -934,6 +934,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.extras_flag = true; // bool: is extras row visible?
 window.hearts_flag = false; // bool: is hearts active?
+window.settings_flag = false; // bool: is about/settings active?
+
 const progressBar = () => {
     var bar = "_" + Date.now();
     document.getElementsByTagName("body")[0].insertAdjacentHTML(
@@ -961,6 +963,7 @@ const progressBar = () => {
         lastScrollTop = scroll <= 0 ? 0 : scroll;
 
         // extras row
+        if (window.settings_flag) return;
         if (window.hearts_flag) return;
         if (window.extras_flag) {
             if (scroll > 150 && !isScrollingUp && distanceMoved > 100) {
@@ -1091,13 +1094,10 @@ const initApp = () => {
         });
 };
 
-// RENDERERS
+// fn: renderDeals() - render the deals to the DOM
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
-
-    //const activeMarkets = window.deals.myMarkets || [];
-    //const activeCats = window.deals.myCats || [];
     const activeMarkets = new Set(window.deals.myMarkets || []);
     const activeCats = new Set(window.deals.myCats || []);
 
@@ -1139,6 +1139,8 @@ const renderDeals = (deals) => {
     `;
     }).join('');
 }
+
+// fn: renderMarkets() - render the markets to the DOM
 const renderMarkets = (markets) => {
     if (!markets) return;
     const marketsDiv = document.getElementById('mymarkets');
@@ -1172,6 +1174,8 @@ const renderMarkets = (markets) => {
         localStorage.setItem('myMarkets', JSON.stringify(window.deals.myMarkets));
     });
 };
+
+// fn: renderCategories() - render the categories to the DOM
 const renderCategories = (categories) => {
     if (!categories) return;
     const catsDiv = document.getElementById('mycats');
@@ -1206,7 +1210,7 @@ const renderCategories = (categories) => {
     });
 };
 
-// UPDATE FAVORITES
+// fn: updateFavIcons() - update the heart icons with a click handler
 function updateFavIcons() {
     $('#deals').off('click', '.myheart').on('click', '.myheart', function(e) {
         const $heart = $(this);
@@ -1236,15 +1240,21 @@ function updateFavIcons() {
             }
         }
         e.stopPropagation();
+        updateMyLikesCount();
         saveLikes();
-        $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
     });
 }
 
-// SAVE LIKES
+// fn: saveLikes() - save deals.myLikes to localStorage string
 function saveLikes() {
     const hashesToSave = window.deals.myLikes.map(id => deals.idhashmap[id]);
     localStorage.setItem('myLikes', JSON.stringify(hashesToSave.filter(Boolean)));
+}
+
+// fn: saveBlocks() - save deals.myBlocks to localStorage string
+function saveBlocks() {
+    const hashesToSave = window.deals.myBlocks.map(id => deals.idhashmap[id]);
+    localStorage.setItem('myBlocks', JSON.stringify(hashesToSave.filter(Boolean)));
 }
 
 // LOAD LIKES
@@ -1252,7 +1262,6 @@ function loadAllLikes() {
     const savedHashes = JSON.parse(localStorage.getItem('myLikes')) || [];
     window.deals.myLikes = [];
     $('.myheart').addClass('grayscaled').removeClass('active');
-
     savedHashes.forEach(hash => {
         const numericId = Object.keys(deals.idhashmap).find(key => deals.idhashmap[key] === hash);
         if (numericId) {
@@ -1263,17 +1272,44 @@ function loadAllLikes() {
                 .removeClass('grayscaled');
         }
     });
-    $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
+    updateMyLikesCount();
 }
 
-// FILTER FAVORITES
+// fn: updateMyLikesCount() - update the heart icon button with myLikes count
+function updateMyLikesCount() {
+    $('.filter-favs').html('♥️&nbsp;&nbsp;' + window.deals.myLikes.length);
+}
+
+// fn: loadAllBlocks() - populate deals.myBlocks from localStorage string
+function loadAllBlocks() {
+    const savedHashes = JSON.parse(localStorage.getItem('myBlocks')) || [];
+    window.deals.myBlocks = [];
+    savedHashes.forEach(hash => {
+        const numericId = Object.keys(deals.idhashmap).find(key => deals.idhashmap[key] === hash);
+        if (numericId) {
+            const id = parseInt(numericId);
+            window.deals.myBlocks.push(id);
+        }
+    });
+    updateMyBlocksCount();
+}
+
+// fn: updateMyBlocksCount() - update the block icon button with myBlocks count
+function updateMyBlocksCount() {
+    $('.filter-blocks').html('❌&nbsp;&nbsp;' + window.deals.myBlocks.length);
+}
+
+// FILTER FAVORITES button
 let isFavFilterActive = false;
 function filterFavs() {
     $('.filter-favs').on('click', function() {
+        if (window.refresh_flag) refresh();
+        window.scrollTo({top: 0, behavior: 'smooth'});
         const $btn = $(this);
         const $cards = $('#deals .product-card');
         isFavFilterActive = !isFavFilterActive;
         $btn.toggleClass('grayscaled', !isFavFilterActive);
+
         if (isFavFilterActive) {
             $cards.each(function() {
                 if (!$(this).find('.myheart').hasClass('active')) {
@@ -1289,7 +1325,8 @@ function filterFavs() {
             $btn.removeClass('primary');
             $btn.find('i').text('favorite');
         }
-        $('.filter-favs').text('♥️ ' + window.deals.myLikes.length);
+
+        updateMyLikesCount();
         updateCategoryBadges(window.deals.catcounts);
     });
 }
@@ -1299,6 +1336,7 @@ filterFavs();
 function updateCategoryBadges(catCounts) {
     if (!catCounts) return;
     const globalVisible = $('#deals article:visible').length;
+
     $('button[data-cats]').each(function() {
         const btn = $(this);
         const catSelectors = btn.attr('data-cats').split(',');
@@ -1353,7 +1391,7 @@ $(document).ready(function() {
         exportSettings();
     });
 
-    // LOAD file
+    // LOAD/FILE button
     $('.load-button').click(function (e) {
         $('#file').click();
     });
@@ -1366,9 +1404,10 @@ $(document).ready(function() {
         $(this).val('');
     });
 
-    // render AZ-ZA button
+    // rAZ-ZA button
     let isReversed = false;
     $(".btn-az").on("click", function() {
+        if (window.refresh_flag) refresh();
         isReversed = !isReversed;
         $(this).text(isReversed ? "🔼" : "🔽");
         $(this).addClass("spin");
@@ -1389,17 +1428,28 @@ $(document).ready(function() {
         }
     });
 
+    // fn: setSettingsMode() - if About or Settings is pressed
+    function setSettingsMode(state) {
+        if (state) {
+            window.settings_flag = true;
+            $('.extras').addClass('extras-hidden');
+        } else {
+            if (window.refresh_flag) refresh(); // force refresh if needed
+            window.settings_flag = false;
+            $('.extras').removeClass('extras-hidden');
+        }
+    }
+
     // ABOUT button
     $('.about-btn').on('click', function() {
         window.scrollTo({top: 0});
         const isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible) {
-            if (window.refresh_flag) {
-                refresh();
-            }
+            setSettingsMode(false);
             $('#deals').show();
         } else {
+            setSettingsMode(true);
             umlog('about_tab');
             $('#about').show();
         }
@@ -1411,11 +1461,10 @@ $(document).ready(function() {
         const isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible) {
-            if (window.refresh_flag) {
-                refresh();
-            }
+            setSettingsMode(false);
             $('#deals').show();
         } else {
+            setSettingsMode(true);
             umlog('settings_tab');
             $('#settings').show();
         }
@@ -1423,9 +1472,7 @@ $(document).ready(function() {
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
-        if (window.refresh_flag) {
-            refresh();
-        }
+        setSettingsMode(false);
         umlog('roulette');
         roulette();
     });
@@ -1507,7 +1554,6 @@ $(document).ready(function() {
         document.body.appendChild(a); 
         a.click();
 
-        // úklid
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
@@ -1602,13 +1648,11 @@ $(document).ready(function() {
     }
     window.setDefaults = setDefaults;
 
-    // bottom navigation buttons
+    // BOTTOM NAVIGATION buttons
     $('.btn-bottom').on('click', function() {
         const cats = $(this).data('cats');
         if (!cats) return;
-        if (window.refresh_flag) {
-            refresh();
-        }
+        if (window.refresh_flag) refresh();
         deals.cats = cats;
         $('nav.bottom button').addClass('grayscaled').removeClass('active');
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
