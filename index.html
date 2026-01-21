@@ -933,6 +933,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.extras_flag = true; // bool: is extras row visible?
+window.hearts_flag = false; // bool: is hearts active?
 const progressBar = () => {
     var bar = "_" + Date.now();
     document.getElementsByTagName("body")[0].insertAdjacentHTML(
@@ -957,7 +958,10 @@ const progressBar = () => {
             scrollStartPos = lastScrollTop;
         }
         var distanceMoved = Math.abs(scrollStartPos - scroll);
+        lastScrollTop = scroll <= 0 ? 0 : scroll;
 
+        // extras row
+        if (window.hearts_flag) return;
         if (window.extras_flag) {
             if (scroll > 150 && !isScrollingUp && distanceMoved > 100) {
                 $extras.addClass('extras-hidden');
@@ -969,8 +973,6 @@ const progressBar = () => {
                 window.extras_flag = true;
             }
         }
-
-        lastScrollTop = scroll <= 0 ? 0 : scroll;
     };
 
     let ticking = false;
@@ -1216,9 +1218,10 @@ function updateFavIcons() {
         // pop-in the extras row?
         if (!window.extras_flag) {
             window.extras_flag = true;
+            window.hearts_flag = true;
             $('.extras').removeClass('extras-hidden');
             $('.filter-favs').addClass('pulsefav');
-            setTimeout(() => {$('.filter-favs').removeClass('pulsefav');}, 500);
+            setTimeout(() => {$('.filter-favs').removeClass('pulsefav');window.hearts_flag = false;}, 500);
         }
 
         $allSameHearts.toggleClass('grayscaled active');
