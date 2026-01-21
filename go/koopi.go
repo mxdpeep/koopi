@@ -143,6 +143,7 @@ var FORBIDDEN_GOODS = []string{
 	"obývací stěna",
 	"okrasná",
 	"olej dětský",
+	"olejové barvy",
 	"pamlsky",
 	"parfemovaná",
 	"parfém",
