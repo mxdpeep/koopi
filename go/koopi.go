@@ -146,6 +146,7 @@ var FORBIDDEN_GOODS = []string{
 	"pamlsky",
 	"parfemovaná",
 	"parfém",
+	"parkside",
 	"pleť",
 	"pleťová",
 	"postel",
