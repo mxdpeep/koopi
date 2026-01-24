@@ -200,6 +200,7 @@ var blockedGoods = []string{
 	"zdravá zahrada",
 	"zubní",
 	"zuby",
+	"včetně kufříku",
 	"úklid",
 	"ústní",
 	"čistič",
@@ -446,6 +447,10 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " \u0026 ", "\u0026")
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
+			// skip forbidden goods
+			if isForbidden(newGoods.Note, blockedGoods) {
+				newGoods.Name = ""
+			}
 
 			// club
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())
