@@ -110,6 +110,8 @@ var (
 	reFutureDate = regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
 	// non-alphanumeric
 	nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
+	// for bones
+	regaz = regexp.MustCompile(`[^a-z\s]+`)
 )
 
 // product names to ignore
@@ -222,6 +224,14 @@ type Goods struct {
 	ImageUrl     string
 	SubCat       string
 	ScrapedAt    string
+}
+
+func getBone(s string) string {
+	s = removeDiacritics(strings.ToLower(s))
+	s = regaz.ReplaceAllString(s, "")
+	words := strings.Fields(s)
+	limit := min(len(words), 3)
+	return strings.Join(words[:limit], " ")
 }
 
 // remove diacritics - helper function to remove diacritics from strings
@@ -1111,5 +1121,29 @@ func main() {
 	})
 	appendToJson(finalGoods, OUTPUT_JSON, marketsList, &csvMutex)
 
-	fmt.Printf("\n🍀 Scraper finished with %d unique items.\n", len(finalGoods))
+	fmt.Printf("\n🍀 Scraper finished with %d unique items.\n\n", len(finalGoods))
+
+	wordFreq := make(map[string]int)
+	for _, item := range finalGoods {
+		bone := getBone(item.Name)
+		for w := range strings.FieldsSeq(bone) {
+			wordFreq[w]++
+		}
+	}
+	for _, item := range finalGoods {
+		words := strings.Fields(getBone(item.Name))
+		if len(words) == 0 {
+			continue
+		}
+		totalScore := 0
+		for _, w := range words {
+			totalScore += wordFreq[w]
+		}
+		avgFreq := totalScore / len(words)
+		if avgFreq < 2 {
+			fmt.Printf("👻 %-40s\n", item.Name)
+		}
+	}
+
+	fmt.Println()
 }
