@@ -1060,7 +1060,7 @@ func main() {
 	sort.Strings(volumesList)
 
 	// console
-	fmt.Println("\n🏪 Markets:", strings.Join(marketStatsList, ", "))
+	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
 	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
 
 	c := collate.New(language.Czech)
