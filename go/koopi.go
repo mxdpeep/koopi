@@ -545,7 +545,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 
 		// console stats
 		if len(goodsList) == 0 {
-			log.Printf("📦 %d [%s] %sextracted 0 items (cache) %s%s%s", len(*allGoods), query, ColorRed, ColorCyan, urlToScrape, ColorReset)
+			log.Printf("📦 %d [%s] %sextracted 0 items (cache) %s%s%s", len(*allGoods), query, ColorBlue, ColorCyan, urlToScrape, ColorReset)
 		} else {
 			log.Printf("📦 %d [%s] extracted %s%d items%s (cache)", len(*allGoods), query, ColorBlue, len(goodsList), ColorReset)
 		}
@@ -629,7 +629,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 
 	// console
 	if total == 0 {
-		log.Printf("📦 %d [%s] %sextracted 0 items %s%s%s", total, query, ColorRed, ColorCyan, urlToScrape, ColorReset)
+		log.Printf("📦 %d [%s] %sextracted 0 items %s%s%s", total, query, ColorBlue, ColorCyan, urlToScrape, ColorReset)
 		return
 	} else {
 		log.Printf("📦 %d [%s] extracted %s%d items%s", total, query, ColorBlue, len(goodsList), ColorReset)
