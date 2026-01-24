@@ -126,14 +126,12 @@ var FORBIDDEN_GOODS = []string{
 	"formičky",
 	"gimcat",
 	"holení",
-	"inspirace",
 	"jídelní set",
 	"kartáček",
 	"kolekce",
 	"kolínská",
 	"konkor",
 	"koupele",
-	"krku",
 	"kráječ",
 	"křeslo",
 	"lepidlo",
@@ -403,13 +401,19 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// note
 			newGoods.Note = strings.TrimSpace(offer.Find(".discount_note").Text())
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "vybrané druhy", "různé druhy")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "+3 Kč záloha na láhev", "zálohovaná lahev")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "+ 7 Kč záloha na lahev", "zálohovaná lahev ")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhev", "lahev")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhve", "lahve")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "vybrané druhy", "různé druhy")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " 250g", " 250 g")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " 340g", " 340 g")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " 500g", " 500 g")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "max ", "max. ")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "pet lahev", "PET lahev")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "1 + 1", "1+1")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "4 + 2", "4+2")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, " + ", " +")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " & ", "&")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " - ", "-")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "-", "\u2011")
@@ -442,6 +446,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 				newGoods.SubCat = "plech"
 			}
 
+			// function helper to compare prices
 			cleanForCompare := func(s string) string {
 				s = strings.ReplaceAll(s, "\u00a0", "") // remove #A0s
 				s = strings.ReplaceAll(s, " ", "")      // remove spaces
@@ -1027,16 +1032,14 @@ func main() {
 	marketCounts := make(map[string]int)
 	uniqueVolumes := make(map[string]struct{})
 
-	// category overrides
+	// deterministic category
 	for i := range finalGoods {
-
 		for _, mapping := range urlsToScrape2 {
 			if mapping.query == "" {
 				continue
 			}
 			if strings.Contains(strings.ToLower(finalGoods[i].Name), strings.ToLower(mapping.query)) {
 				finalGoods[i].Category = mapping.category
-				//finalGoods[i].Category = mapping.category + " (" + finalGoods[i].Category + ")"
 				break
 			}
 		}
@@ -1069,7 +1072,6 @@ func main() {
 	}
 	sort.Strings(volumesList)
 
-	// console
 	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
 	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
 
