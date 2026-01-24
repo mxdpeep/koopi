@@ -100,7 +100,7 @@ const (
 // token bucket
 var rateLimiter chan struct{}
 
-// RegExp
+// RegExps
 var (
 	// předložky a spojky
 	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
@@ -112,32 +112,53 @@ var (
 	nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
 )
 
-// product names to ignore (case-insensitive)
-var FORBIDDEN_GOODS = []string{
+// product names to ignore
+var blockedGoods = []string{
 	"alverde",
+	"coolant",
+	"corega",
+	"cry babies",
+	"curver",
+	"energizer",
+	"esmara",
+	"finish",
+	"fixodent",
+	"gimcat",
+	"huggies",
+	"konkor",
+	"pampers",
+	"panasonic",
+	"pantene",
+	"parkside",
+	"pedigree",
+	"poké grande",
+	"severochema",
+	"silvercrest",
+	"tescoma",
+	"thermaxx",
+	"varta",
+	"vodafone",
+	"whiskas",
+
 	"bambucké",
 	"březová voda",
-	"coolant",
-	"cry babies",
 	"do myčky",
 	"doplněk stravy",
 	"express menu",
 	"filtr",
 	"formičky",
-	"gimcat",
 	"holení",
 	"jídelní set",
 	"kartáček",
 	"kolekce",
 	"kolínská",
-	"konkor",
 	"koupele",
 	"kráječ",
 	"křeslo",
 	"lepidlo",
 	"lis na",
 	"mast",
-	"matrac",
+	"matrace",
 	"menu box",
 	"micelární",
 	"motorový",
@@ -152,32 +173,26 @@ var FORBIDDEN_GOODS = []string{
 	"olej měsíčkový kojenecký",
 	"olejové barvy",
 	"pamlsky",
-	"parfemovaná",
+	"parfem",
 	"parfém",
-	"parkside",
 	"pleť",
-	"poké grande",
 	"postel",
 	"razítko",
 	"rohožka",
 	"rostoucí vejce",
 	"rty",
 	"rtěnka",
-	"severochema",
 	"sklenice",
 	"společenská hra",
 	"stojánková baterie",
 	"sůl koupelová",
 	"sůl posypová",
 	"tablety",
-	"tescoma",
-	"thermaxx",
 	"toaletní",
 	"tyčinky vatové",
 	"tělo",
 	"vitamín",
 	"vlasová voda",
-	"vodafone",
 	"vonné tyčinky",
 	"vykrajovátka",
 	"zdravá zahrada",
@@ -331,7 +346,7 @@ func isProcessRunning(pid int) bool {
 func isForbidden(name string, forbidden []string) bool {
 	lowerName := strings.ToLower(name)
 	for _, s := range forbidden {
-		if strings.Contains(lowerName, strings.ToLower(s)) {
+		if strings.Contains(lowerName, s) {
 			return true
 		}
 	}
@@ -342,6 +357,7 @@ func isForbidden(name string, forbidden []string) bool {
 func extractGoodsFromHtml(doc *goquery.Document, category string, query string, scrapedAt string) []Goods {
 	var goods []Goods
 	doc.Find("div.group_discounts").Each(func(i int, s *goquery.Selection) {
+
 		// ignore .notactive
 		if s.HasClass("notactive") {
 			return
@@ -353,7 +369,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 		productName = sanitizeString(productName)
 
 		// skip forbidden goods
-		if isForbidden(productName, FORBIDDEN_GOODS) {
+		if isForbidden(productName, blockedGoods) {
 			return
 		}
 
@@ -465,6 +481,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			}
 		})
 	})
+
 	return goods
 }
 
@@ -897,11 +914,16 @@ func main() {
 
 	log.SetFlags(0)
 
+	// just to be sure
+	for i, v := range blockedGoods {
+		blockedGoods[i] = strings.ToLower(v)
+	}
+
 	// set random UA
 	UA := UserAgents[rand.Intn(len(UserAgents))]
-	log.Printf("User Agent: %s", UA)
+	log.Printf("UA: %s", UA)
 
-	// rate limiter
+	// set rate limiter
 	rateLimiter = make(chan struct{}, MAX_THREADS)
 	for range MAX_THREADS {
 		rateLimiter <- struct{}{}
@@ -922,6 +944,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("[%s] 💥 error reading: %v", INPUT_CSV, err)
 	}
+
 	if len(inputRecords) == 0 {
 		log.Printf("😐️ [%s] is empty. Nothing to scrape.", INPUT_CSV)
 		return
@@ -967,7 +990,8 @@ func main() {
 		category string
 		query    string
 	}, len(urlsToScrape))
-	// unshuffled copy of the list
+
+	// unshuffled original copy of the list
 	copy(urlsToScrape2, urlsToScrape)
 
 	// shuffle URLs
@@ -980,15 +1004,15 @@ func main() {
 		log.Println("🍀 Nothing to scrape.")
 		return
 	}
+
 	if len(urlsToScrape) > MAX_SCRAPED_GOODS {
 		urlsToScrape = urlsToScrape[:MAX_SCRAPED_GOODS]
 	}
 
 	var newScrapedGoods []Goods
-	var wg sync.WaitGroup
 	var csvMutex sync.Mutex
 	var goodsMutex sync.Mutex
-
+	var wg sync.WaitGroup
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -1032,7 +1056,7 @@ func main() {
 	marketCounts := make(map[string]int)
 	uniqueVolumes := make(map[string]struct{})
 
-	// deterministic category
+	// process deterministic category
 	for i := range finalGoods {
 		for _, mapping := range urlsToScrape2 {
 			if mapping.query == "" {
@@ -1045,6 +1069,7 @@ func main() {
 		}
 	}
 
+	// unique markets and volumes
 	for _, good := range finalGoods {
 		if good.Market != "" {
 			uniqueMarkets[good.Market] = struct{}{}
@@ -1055,17 +1080,16 @@ func main() {
 		}
 	}
 
+	// output stats
 	var marketsList []string
 	for market := range uniqueMarkets {
 		marketsList = append(marketsList, market)
 	}
 	sort.Strings(marketsList)
-
 	var marketStatsList []string
 	for _, market := range marketsList {
 		marketStatsList = append(marketStatsList, fmt.Sprintf("%s (%d)", market, marketCounts[market]))
 	}
-
 	var volumesList []string
 	for volume := range uniqueVolumes {
 		volumesList = append(volumesList, volume)
@@ -1087,5 +1111,5 @@ func main() {
 	})
 	appendToJson(finalGoods, OUTPUT_JSON, marketsList, &csvMutex)
 
-	fmt.Printf("\n🍀 Scraping finished %d unique items.\n", len(finalGoods))
+	fmt.Printf("\n🍀 Scraper finished with %d unique items.\n", len(finalGoods))
 }
