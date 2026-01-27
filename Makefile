@@ -11,11 +11,10 @@ all:
 	@echo "macro: everything";
 
 clear:
-	@-find ./cache/ -type f -mmin +3600 -delete -print 2> /dev/null || true
+	@-find ./cache/ -type f -mmin +3600 -delete 2> /dev/null || true
 	@-find ./cache/ -type f -mmin +1600 2> /dev/null \
-		| head -n 2000 \
 		| shuf \
-		| head -n 30 \
+		| head -n 100 \
 		| xargs -d '\n' -r rm -f || true
 
 build:
