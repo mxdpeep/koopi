@@ -155,6 +155,7 @@ var blockedGoods = []string{
 	"kartáček",
 	"kolekce",
 	"kolínská",
+	"komoda",
 	"koupele",
 	"kráječ",
 	"křeslo",
