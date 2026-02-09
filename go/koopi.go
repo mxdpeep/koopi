@@ -326,7 +326,7 @@ func checkLock() bool {
 	}
 
 	// 2. make a new lock
-	fmt.Printf("✅ Creating new lock file %s with PID %d.\n", LOCK_FILE, pid)
+	fmt.Printf("🔒️ new lock file %s with PID %d\n", LOCK_FILE, pid)
 	if err := os.WriteFile(LOCK_FILE, []byte(strconv.Itoa(pid)), 0644); err != nil {
 		fmt.Printf("🚨 ERROR: failed to create lock file: %v\n", err)
 		return false
@@ -342,7 +342,7 @@ func unlockLock() {
 		if err := os.Remove(LOCK_FILE); err != nil {
 			fmt.Printf("🚨 ERROR: failed to remove lock file %s: %v\n", LOCK_FILE, err)
 		} else {
-			fmt.Printf("🔓 Lock file %s removed.\n", LOCK_FILE)
+			fmt.Printf("🔓️ lock file %s removed\n", LOCK_FILE)
 		}
 	} else if err != nil && !os.IsNotExist(err) {
 		fmt.Printf("🚨 ERROR: failed to read lock file for verification: %v\n", err)
@@ -595,9 +595,9 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 
 		// console stats
 		if len(goodsList) == 0 {
-			log.Printf("📦 %d [%s] %sextracted 0 items (cache) %s%s%s", len(*allGoods), query, ColorBlue, ColorCyan, urlToScrape, ColorReset)
+			log.Printf("🫥 %d %s %s0%s (cache) %s%s%s", len(*allGoods), query, ColorBlue, ColorReset, ColorCyan, urlToScrape, ColorReset)
 		} else {
-			log.Printf("📦 %d [%s] extracted %s%d items%s (cache)", len(*allGoods), query, ColorBlue, len(goodsList), ColorReset)
+			log.Printf("📦 %d %s %s+%d%s", len(*allGoods), query, ColorBlue, len(goodsList), ColorReset)
 		}
 		return
 	}
@@ -628,7 +628,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 		}()
 	}
 
-	log.Printf("🔎 [%s] scrape %s%s%s", query, ColorCyan, urlToScrape, ColorReset)
+	log.Printf("🔎 %s%s%s %s%s%s", ColorBold, query, ColorReset, ColorCyan, urlToScrape, ColorReset)
 
 	client := &http.Client{
 		Timeout: REQ_TIMEOUT,
@@ -641,7 +641,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	req.Header.Set("User-Agent", UA)
 	res, err := client.Do(req)
 	if err != nil {
-		//		log.Printf("[%s] 💥 error during request: %v", query, err)
+		// log.Printf("[%s] 💥 error during request: %v", query, err)
 		return
 	}
 	defer res.Body.Close()
@@ -679,10 +679,10 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 
 	// console
 	if total == 0 {
-		log.Printf("📦 %d [%s] %sextracted 0 items %s%s%s", total, query, ColorBlue, ColorCyan, urlToScrape, ColorReset)
+		log.Printf("🫥 %d %s %s0%s%s%s", total, query, ColorBlue, ColorCyan, urlToScrape, ColorReset)
 		return
 	} else {
-		log.Printf("📦 %d [%s] extracted %s%d items%s", total, query, ColorBlue, len(goodsList), ColorReset)
+		log.Printf("📦 %d %s %s+%d%s", total, query, ColorBlue, len(goodsList), ColorReset)
 	}
 }
 
