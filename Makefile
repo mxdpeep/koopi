@@ -52,7 +52,6 @@ img:
 
 
 # macros
-
 everything: clear db img cf backup
 	@-git add -A
 	@-git commit -am 'automatic update'
