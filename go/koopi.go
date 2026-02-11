@@ -428,6 +428,9 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Volume = strings.TrimSpace(offer.Find(".discount_amount").Text())
 			newGoods.Volume = strings.TrimPrefix(newGoods.Volume, "/")
 			newGoods.Volume = strings.TrimSpace(newGoods.Volume)
+			if newGoods.Volume == "" {
+				newGoods.Volume = "?"
+			}
 
 			// note
 			newGoods.Note = strings.TrimSpace(offer.Find(".discount_note").Text())
@@ -784,30 +787,30 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		cleanedItem["scrapedat"] = item.ScrapedAt
 
-		// validity logic
 		// cat data.json | jq '.goods[].validity' | sort | uniq
 		scraped := item.ScrapedAt
 		validity := item.Validity
 		todayStr := time.Now().Format("20060102")
+		todayValidity := time.Now().Format("končí 02. 01.")
+		//tomorrowValidity := time.Now().AddDate(0, 0, 1).Format("končí 02. 01.")
 		yesterdayStr := time.Now().AddDate(0, 0, -1).Format("20060102")
 
-		// text transformations
-		if scraped == yesterdayStr {
-			if strings.Contains(validity, "zítra končí") {
-				validity = "dnes končí"
-			} else if strings.Contains(validity, "dnes končí") {
-				continue
-			}
-		} else if scraped != todayStr {
-			if strings.Contains(validity, "dnes končí") || strings.Contains(validity, "zítra končí") {
-				continue
+		// transformations
+		valcol := "green"
+		if scraped == todayStr {
+			if strings.Contains(validity, "dnes končí") {
+				validity = todayValidity
+				valcol = "red"
 			}
 		}
-
-		// color matching
-		valcol := "green"
-		if strings.Contains(validity, "dnes končí") {
-			valcol = "red"
+		if scraped == yesterdayStr {
+			if strings.Contains(validity, "dnes končí") {
+				continue
+			}
+			if strings.Contains(validity, "zítra končí") {
+				validity = todayValidity
+				valcol = "red"
+			}
 		}
 		if strings.Contains(validity, "zítra končí") {
 			valcol = "orange"
@@ -828,9 +831,9 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			}
 		}
 
-		// save the values
+		// store the values
 		cleanedItem["valcol"] = valcol
-		cleanedItem["Validity"] = validity
+		cleanedItem["validity"] = validity
 
 		imageURL := item.ImageUrl
 		if before, ok := strings.CutSuffix(imageURL, ".png"); ok {
