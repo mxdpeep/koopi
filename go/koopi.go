@@ -789,14 +789,13 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["scrapedat"] = item.ScrapedAt
 
 		// cat data.json | jq '.goods[].validity' | sort | uniq
+		now := time.Now()
 		scraped := item.ScrapedAt
 		validity := item.Validity
-
-		todayDateStr := time.Now().Format("20060102")
-		yesterdayDateStr := time.Now().AddDate(0, 0, -1).Format("20060102")
-
-		todayValidity := time.Now().Format("končí dnes 2. 1.")
-		tomorrowValidity := time.Now().AddDate(0, 0, 1).Format("končí zítra 2. 1.")
+		todayDateStr := now.Format("20060102")
+		yesterdayDateStr := now.AddDate(0, 0, -1).Format("20060102")
+		todayValidity := now.Format("končí dnes 2. 1.")
+		tomorrowValidity := now.AddDate(0, 0, 1).Format("končí zítra 2. 1.")
 
 		// transformations
 		valcol := "green"
@@ -824,11 +823,10 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		}
 
 		// validity date in the future?
-		match := reFutureDate.FindStringSubmatch(validity)
+		match := reFutureDate.FindStringSubmatch(item.Validity)
 		if len(match) >= 3 {
 			d, _ := strconv.Atoi(match[1])
 			m, _ := strconv.Atoi(match[2])
-			now := time.Now()
 			startDate := time.Date(now.Year(), time.Month(m), d, 0, 0, 0, 0, time.Local)
 			if startDate.Before(now.AddDate(0, 0, -1)) {
 				startDate = startDate.AddDate(1, 0, 0)
