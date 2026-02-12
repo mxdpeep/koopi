@@ -121,6 +121,7 @@ var blockedGoods = []string{
 	"corega",
 	"cry babies",
 	"curver",
+	"dermacol",
 	"energizer",
 	"esmara",
 	"finish",
