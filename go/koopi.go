@@ -836,6 +836,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["valcol"] = valcol
 		cleanedItem["validity"] = validity
 
+		// image
 		imageURL := item.ImageUrl
 		if before, ok := strings.CutSuffix(imageURL, ".png"); ok {
 			imageURL = before + ".webp"
@@ -1121,12 +1122,14 @@ func main() {
 	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
 	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
 
+	// save to CSV
 	c := collate.New(language.Czech)
 	sort.Slice(finalGoods, func(i, j int) bool {
 		return c.CompareString(finalGoods[i].Name, finalGoods[j].Name) < 0
 	})
 	appendToCsv(finalGoods, OUTPUT_CSV, &csvMutex)
 
+	// save to JSON
 	cExport := collate.New(language.Czech, collate.IgnoreCase)
 	sort.Slice(marketsList, func(i, j int) bool {
 		return cExport.CompareString(marketsList[i], marketsList[j]) < 0
@@ -1135,6 +1138,7 @@ func main() {
 
 	fmt.Printf("\n🍀 Scraper finished with %d unique items.\n\n", len(finalGoods))
 
+	// compute frequences
 	wordFreq := make(map[string]int)
 	for _, item := range finalGoods {
 		bone := getBone(item.Name)

@@ -1,4 +1,5 @@
 #@author Fred Brooker <git@gscloud.cz>
+
 COUNT_REV := $(shell git rev-list --count HEAD)
 DATE_REV := $(shell date +%Y%m%d)
 HASH_REV := $(shell git rev-parse --short=8 HEAD)
@@ -7,8 +8,8 @@ TIMESTAMP := $(shell date +%Y-%m-%d)
 STEMS_DIR := stems
 
 all:
-	@echo "backup | build | clear | db | img";
-	@echo "macro: everything";
+	@echo "backup | build | hashmap | clear | db | img"
+	@echo "macro: everything | cf"
 
 clear:
 	@-find ./cache/ -type f -mmin +3500 -delete 2> /dev/null || true
@@ -20,6 +21,11 @@ clear:
 build:
 	@echo "Building app ..."
 	@cd go/ && go build -o koopi .
+
+hashmap:
+	@echo "Generating hashmap ..."
+	@cat ./stems/data_2026-*.json | jq -cs \
+		'reduce .[] as $$file ({};($$file.idhashmap // {}) as $$local_map | reduce ($$file.goods[] ? | select(.id != null)) as $$item (.;($$local_map[$$item.id | tostring]) as $$global_hash | if $$global_hash then .[$$global_hash] = {image: $$item.image, name: $$item.name, volume: $$item.volume} else . end))' > ./hashmap.json
 
 backup:
 	@echo "Making backup ..."
@@ -52,7 +58,7 @@ img:
 
 
 # macros
-everything: clear db img cf backup
+everything: clear db img hashmap cf backup
 	@-git add -A
 	@-git commit -am 'automatic update'
 	@-git push origin master
@@ -61,18 +67,23 @@ cf:
 	@echo "Building version: $(GIT_REV)"
 	@mkdir -p export/images export/markets-v2
 	@cd export && git pull origin master --allow-unrelated-histories || true
+
 	@rsync -aq --delete --exclude='.git' export-template/ export/
 	@rsync -aq --delete images/*.webp export/images/
 	@rsync -aq --delete markets-v2/*.webp export/markets-v2/
+
 	@cp index.html export/
 	@cp manifest.json export/
-	@cp meta.json export/
 	@cp sw.js export/
+	@cp meta.json export/
 	@cp go/koopi.json export/data.json
+	@cp hashmap.json export/
+
 	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
 	@sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
 	@sed -i 's/{{DATE_REV}}/$(DATE_REV)/g' ./export/index.html
 	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/index.html
+
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
