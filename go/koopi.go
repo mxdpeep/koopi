@@ -791,20 +791,26 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		// cat data.json | jq '.goods[].validity' | sort | uniq
 		scraped := item.ScrapedAt
 		validity := item.Validity
-		todayStr := time.Now().Format("20060102")
-		todayValidity := time.Now().Format("končí 02. 01.")
-		//tomorrowValidity := time.Now().AddDate(0, 0, 1).Format("končí 02. 01.")
-		yesterdayStr := time.Now().AddDate(0, 0, -1).Format("20060102")
+
+		todayDateStr := time.Now().Format("20060102")
+		yesterdayDateStr := time.Now().AddDate(0, 0, -1).Format("20060102")
+
+		todayValidity := time.Now().Format("končí dnes 2. 1.")
+		tomorrowValidity := time.Now().AddDate(0, 0, 1).Format("končí zítra 2. 1.")
 
 		// transformations
 		valcol := "green"
-		if scraped == todayStr {
+		if scraped == todayDateStr {
 			if strings.Contains(validity, "dnes končí") {
 				validity = todayValidity
 				valcol = "red"
 			}
+			if strings.Contains(validity, "zítra končí") {
+				validity = tomorrowValidity
+				valcol = "orange"
+			}
 		}
-		if scraped == yesterdayStr {
+		if scraped == yesterdayDateStr {
 			if strings.Contains(validity, "dnes končí") {
 				continue
 			}
