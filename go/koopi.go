@@ -163,6 +163,7 @@ var blockedGoods = []string{
 	"lepidlo",
 	"lis na",
 	"mast",
+	"napařovač",
 	"matrace",
 	"menu box",
 	"micelární",
