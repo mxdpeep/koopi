@@ -196,6 +196,7 @@ var blockedGoods = []string{
 	"sůl posypová",
 	"tablety",
 	"toaletní",
+	"palma",
 	"tyčinky vatové",
 	"tělo",
 	"vitamín",
