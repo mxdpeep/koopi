@@ -837,7 +837,7 @@ if (!navigator.share) {
     $('.webshare').hide();
 }
 
-// DEBUGGER
+// fn: debug(x) - UI DEBUGGER
 var dtimer = null;
 function debug(x) {
     if (!x) return;
@@ -924,7 +924,7 @@ function checkUpdate() {
                 setRefreshBtn();
             }
         }).fail(function() {
-            console.warn('Nepodařilo se načíst meta.json.');
+            debug('Nepodařilo se načíst meta.json.');
         });
     }, 5000);
 }
@@ -949,7 +949,7 @@ const progressBar = () => {
     var scrollStartPos = 0;
     var $extras = $('.extras');
 
-    // scrolling event handler
+    // fn: scrolling event handler
     function onscroll() {
         var scroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1002,6 +1002,7 @@ const progressBar = () => {
     };
 }
 
+// application init
 const initApp = () => {
     console.time('JSON-Fetch');
     fetch(dataFile)
@@ -1260,7 +1261,7 @@ function saveBlocks() {
     localStorage.setItem('myBlocks', JSON.stringify(hashesToSave.filter(Boolean)));
 }
 
-// LOAD LIKES
+// fn: loadAllLikes() - populate deals.myLikes from localStorage string
 function loadAllLikes() {
     const savedHashes = JSON.parse(localStorage.getItem('myLikes')) || [];
     window.deals.myLikes = [];
@@ -1302,7 +1303,7 @@ function updateMyBlocksCount() {
     $('.filter-blocks').html('❌&nbsp;&nbsp;' + window.deals.myBlocks.length);
 }
 
-// FILTER FAVORITES button
+// fn: filterFavs() - 
 let isFavFilterActive = false;
 function filterFavs() {
     $('.filter-favs').on('click', function() {
@@ -1335,7 +1336,7 @@ function filterFavs() {
 }
 filterFavs();
 
-// UPDATE BOTTOM SUPERCATS BADGES
+// fn: updateCategoryBadges
 function updateCategoryBadges(catCounts) {
     if (!catCounts) return;
     const globalVisible = $('#deals article:visible').length;
@@ -1394,7 +1395,7 @@ $(document).ready(function() {
         exportSettings();
     });
 
-    // LOAD/FILE button
+    // LOAD/FILE button click
     $('.load-button').click(function (e) {
         $('#file').click();
     });
@@ -1473,14 +1474,14 @@ $(document).ready(function() {
         }
     });
 
-    // SMILEY button
+    // SMILEY button click
     $('.mrsmiley').on('click', function() {
         setSettingsMode(false);
         umlog('roulette');
         roulette();
     });
     
-    // EMOJI ANIMATION function
+    // fn: roulette() - EMOJI ANIMATION function
     let currentFaceIsYummy = false;
     function roulette() {
         if (face_flag) return;
@@ -1521,7 +1522,7 @@ $(document).ready(function() {
         $('.heartcartrow').removeClass('row-reverse').addClass(direction);
     });
 
-    // SWITCH HANDEDNESS function
+    // fn: switchHands() - SWITCH HANDEDNESS
     function switchHands() {
         if (flash_flag) return;
         flash_flag = true;
@@ -1535,7 +1536,7 @@ $(document).ready(function() {
         localStorage.setItem('handedness', currentMode);
     }
 
-    // EXPORT SETTINGS function
+    // fn: exportSettings() - EXPORT SETTINGS
     function exportSettings() {
         const translateToHash = (id) => deals.idhashmap[id] || id;
         const data = {
@@ -1563,7 +1564,7 @@ $(document).ready(function() {
         }, 0);
     }
 
-    // IMPORT SETTINGS function
+    // fn: importSettings() - IMPORT SETTINGS
     function importSettings(file) {
         if (!file) {
             console.error("Žádný soubor nebyl vybrán.");
@@ -1605,7 +1606,7 @@ $(document).ready(function() {
         refresh();
     });
 
-    // set REFRESH button animated indicator
+    // fn: setRefreshBtn() - set refresh button animated indicator
     function setRefreshBtn() {
         $('.refresh-btn').addClass('orange-text new-version-icon-wave');
         setTimeout(() => {$('.refresh-btn').addClass('orange-text new-version-icon-spin');}, 2500);
@@ -1632,7 +1633,7 @@ $(document).ready(function() {
         });
     });
 
-    // set DEFAULTS function
+    // fn: setDefaults() - set global UI DEFAULTS
     function setDefaults() {
         $('nav.bottom button').addClass('grayscaled');
         $('.but1').removeClass('grayscaled').addClass('active');
@@ -1790,7 +1791,7 @@ window.addEventListener('xcontextmenu', function(e) {
     window.handleContextEvent(e);
 }, true);
 
-window.addEventListener('dblclick', function(e) {
+window.addEventListener('xdblclick', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
