@@ -177,6 +177,22 @@ button.chip .market-image {
     100% { opacity: 1; }
 }
 
+.new-version-icon-wave {
+    animation: google-wave 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.new-version-icon-spin {
+    animation: slow-spin 10s linear infinite;
+}
+@keyframes slow-spin {from { transform: rotate(0deg); }to { transform: rotate(360deg);}}
+@keyframes google-wave {
+  0% { transform: scale(1) rotate(0deg); }
+  20% { transform: scale(1.2) rotate(-10deg); }
+  40% { transform: scale(1.1) rotate(10deg); }
+  60% { transform: scale(1.2) rotate(-5deg); }
+  80% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
 /* interactive buttons */
 .bigger-like, .bigger-cart {
     cursor: pointer;
@@ -907,7 +923,7 @@ function checkUpdate() {
         $.getJSON('/meta.json?' + new Date().getTime(), function(data) {
             if (data && data.version && data.version !== version) {
                 clearInterval(updateTimer);
-                $('.refresh-btn').addClass('red-text');
+                setRefreshBtn();
             }
         }).fail(function() {
             console.warn('Nepodařilo se načíst meta.json.');
@@ -1149,7 +1165,7 @@ const renderMarkets = (markets) => {
 
     $(marketsDiv).off('click', 'button').on('click', 'button', function() {
         window.refresh_flag = true;
-        $('.refresh-btn').addClass('orange-text');
+        setRefreshBtn();
         const $this = $(this);
         const market = $this.data('market');
         $this.toggleClass('outline blue');
@@ -1184,7 +1200,7 @@ const renderCategories = (categories) => {
 
     $(catsDiv).off('click', 'button').on('click', 'button', function() {
         window.refresh_flag = true;
-        $('.refresh-btn').addClass('orange-text');
+        setRefreshBtn();
         const $this = $(this);
         const cat = $this.data('category');
         $this.toggleClass('outline blue');
@@ -1586,14 +1602,21 @@ $(document).ready(function() {
         reader.readAsText(file);
     }
 
-    // REFRESH button
+    // REFRESH button click
     $('.refresh-btn').on('click', function() {
         refresh();
     });
 
+    // set REFRESH button animated indicator
+    function setRefreshBtn() {
+        $('.refresh-btn').addClass('orange-text new-version-icon-wave');
+        setTimeout(() => {$('.refresh-btn').addClass('orange-text new-version-icon-spin');}, 2500);
+    }
+    window.setRefreshBtn = setRefreshBtn;
+
     // fn: refresh() - refresh the page using a buster
     function refresh() {
-        $('.refresh-btn').prop('disabled', true).html('<i class="bigger">schedule</i>');
+        $('.refresh-btn').prop('disabled', true).html('<i>schedule</i>');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
