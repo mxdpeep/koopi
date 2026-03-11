@@ -1789,13 +1789,13 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
-window.addEventListener('xcontextmenu', function(e) {
+window.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
 }, true);
 
-window.addEventListener('xdblclick', function(e) {
+window.addEventListener('dblclick', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
