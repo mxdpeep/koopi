@@ -138,7 +138,7 @@ button.chip .market-image {
 #why-check:not(:checked) ~ .content {display: none;}
 
 /* DEBUGGER */
-#debugger {width: 75%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;display: flex;flex-direction: column-reverse;}
+#debugger {width: 75%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;}
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
@@ -564,7 +564,7 @@ nav.bottom button {
 </nav>
 
 <!-- HTML5 DEBUGGER -->
-<div id="debugger" class="notap noselect blue-grey black-text bold debugger"></div>
+<div id="debugger" class="notap noselect blue-grey white-text bold debugger"></div>
 
 <!-- HTML5 CONTENT -->
 <main class="container">
@@ -837,7 +837,7 @@ if (!navigator.share) {
     $('.webshare').hide();
 }
 
-// fn: debug(x) - UI DEBUGGER
+// fn: debug(x) - UI DEBUGGER with Autoscroll
 var dtimer = null;
 function debug(x) {
     if (!x) return;
@@ -846,12 +846,14 @@ function debug(x) {
         + ':' + now.getMinutes().toString().padStart(2, '0')
         + ':' + now.getSeconds().toString().padStart(2, '0')
         + '.' + now.getMilliseconds().toString().padStart(3, '0');
-    $('#debugger').append('[' + ts + '] ' + x + '<br>').addClass('debugger-on').fadeIn();
+    const $db = $('#debugger');
+    $db.append('<span class="orange-text">' + ts + ':</span>&nbsp;&nbsp;' + x + '<br>').addClass('debugger-on').fadeIn();
+    $db.scrollTop($db[0].scrollHeight);
     if (dtimer) clearTimeout(dtimer);
     dtimer = setTimeout(function() {
         dtimer = null;
-        $('#debugger').fadeOut(function() {
-            $('#debugger').html('').removeClass('debugger-on');
+        $db.fadeOut(function() {
+            $db.html('').removeClass('debugger-on').scrollTop(0);
         });
     }, 5000);
 }
@@ -914,7 +916,7 @@ const catIcons = {
 };
 const categories = Object.keys(catIcons);
 
-// UPDATES checker
+// fn: checkUpdate() - version checker
 function checkUpdate() {
     if (version === '{{' + 'GIT_REV' + '}}') return;
     const updateTimer = setInterval(() => {
@@ -1073,12 +1075,14 @@ const initApp = () => {
             $('#deals').html('').addClass('hidden');
 
             const start = performance.now();
+
             renderDeals(goods);
             renderMarkets(deals.markets);
             renderCategories(categories);
             updateNavIcons();
             updateFavIcons();
             loadAllLikes();
+
             const end = performance.now();
             console.timeEnd('DOM-Render-Speed');
 
