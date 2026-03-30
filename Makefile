@@ -19,8 +19,15 @@ clear:
 		| xargs -d '\n' -r rm -f || true
 
 build:
-	@echo "Building app ..."
+	@echo "Building koopi app ..."
 	@cd go/ && go build -mod=vendor -o koopi .
+	@echo "Building imgconv ..."
+	@cd go/imgconv && go build -mod=vendor -o imgconv .
+	@cp go/imgconv/imgconv ./imgconv
+
+img:
+	@echo "Converting images ..."
+	@./imgconv
 
 hashmap:
 	@echo "Generating hashmap ..."
@@ -39,24 +46,6 @@ db: build
 	@cp data.json $(STEMS_DIR)/data_$(TIMESTAMP).json
 	@printf '{\n  "count": "%s",\n  "date": "%s",\n  "hash": "%s",\n  "version": "%s"\n}\n' \
 		"$(COUNT_REV)" "$(DATE_REV)" "$(HASH_REV)" "$(GIT_REV)" > meta.json
-
-img:
-	@echo "Converting images ..."
-	@cd images && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
-		INPUT="$$1"; \
-		OUTPUT=$${INPUT%.*}.webp; \
-		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
-			convert "$$INPUT" -quality 80 "$$OUTPUT"; \
-		fi \
-	' _ {}
-	@cd markets-v2 && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
-		INPUT="$$1"; \
-		OUTPUT=$${INPUT%.*}.webp; \
-		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
-			convert "$$INPUT" -quality 80 "$$OUTPUT"; \
-		fi \
-	' _ {}
-
 
 # macros
 everything: clear db img hashmap cf backup
