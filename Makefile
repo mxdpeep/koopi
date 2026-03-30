@@ -20,11 +20,11 @@ clear:
 
 build:
 	@echo "Building app ..."
-	@cd go/ && go build -o koopi .
+	@cd go/ && go build -mod=vendor -o koopi .
 
 hashmap:
 	@echo "Generating hashmap ..."
-	@cat ./stems/data_2026-*.json | jq -cs \
+	@find ./stems -name "data_2026-*.json" -print0 | xargs -0 cat | jq -cs \
 		'reduce .[] as $$file ({};($$file.idhashmap // {}) as $$local_map | reduce ($$file.goods[] ? | select(.id != null)) as $$item (.;($$local_map[$$item.id | tostring]) as $$global_hash | if $$global_hash then .[$$global_hash] = {image: $$item.image, name: $$item.name, volume: $$item.volume} else . end))' > ./hashmap.json
 	@echo "Created hashmap with $$(jq 'length' ./hashmap.json) unique items."
 
