@@ -62,27 +62,27 @@ func main() {
 func convert(in, out string) error {
 	f, err := os.Open(in)
 	if err != nil {
-		fmt.Printf("Error converting %s: %v\n", in, err)
+		fmt.Printf("Open: Error converting %s: %v\n", in, err)
 		return err
 	}
 	defer f.Close()
 
 	img, _, err := image.Decode(f)
 	if err != nil {
-		fmt.Printf("Error converting %s: %v\n", in, err)
+		fmt.Printf("Decode: Error converting %s: %v\n", in, err)
 		return err
 	}
 
 	outF, err := os.Create(out)
 	if err != nil {
-		fmt.Printf("Error converting %s: %v\n", in, err)
+		fmt.Printf("Create: Error converting %s: %v\n", in, err)
 		return err
 	}
 	defer outF.Close()
 
 	err = webp.Encode(outF, img, &webp.Options{Quality: 80})
 	if err != nil {
-		fmt.Printf("Error converting %s: %v\n", in, err)
+		fmt.Printf("Encode: Error converting %s: %v\n", in, err)
 		return err
 	}
 	return nil
