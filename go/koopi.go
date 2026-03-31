@@ -34,20 +34,26 @@ import (
 )
 
 const (
-	HTML_CACHE         = "../cache"
-	IMAGE_CACHE        = "../images"
-	INPUT_CSV          = "scrape.csv"
-	OUTPUT_CSV         = "koopi.csv"
-	OUTPUT_JSON        = "koopi.json"
-	KOOPI_HOME_URL     = "https://www.kupi.cz"
-	KOOPI_IMAGE_URL    = "https://img.kupi.cz"
-	KOOPI_SEARCH_URL   = "https://www.kupi.cz/hledej?f="
-	KOOPI_SUBPAGE      = "&page="
+	HTML_CACHE  = "../cache"
+	IMAGE_CACHE = "../images"
+
+	INPUT_CSV   = "scrape.csv"
+	OUTPUT_CSV  = "koopi.csv"
+	OUTPUT_JSON = "koopi.json"
+
+	KOOPI_HOME_URL   = "https://www.kupi.cz"
+	KOOPI_IMAGE_URL  = "https://img.kupi.cz"
+	KOOPI_SEARCH_URL = "https://www.kupi.cz/hledej?f="
+	KOOPI_SUBPAGE    = "&page="
+
 	LOCK_FILE          = "/tmp/koopi.lock"
 	LOCK_FILE_DURATION = time.Hour
-	MAX_THREADS        = 5
-	MAX_SCRAPED_GOODS  = 1000
-	REQ_TIMEOUT        = 10 * time.Second
+
+	MAX_THREADS       = 7
+	MAX_SCRAPED_GOODS = 777
+	SLEEP_RANDOM_MS   = 77777
+	SLEEP_STATIC_MS   = 17777
+	REQ_TIMEOUT       = 17 * time.Second
 )
 
 // UA strings
@@ -629,7 +635,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	case <-rateLimiter:
 		defer func() {
 			// A. Calculate sleep time
-			sleepTime := time.Duration(rand.Intn(50000)+10000) * time.Millisecond
+			sleepTime := time.Duration(rand.Intn(SLEEP_RANDOM_MS)+SLEEP_STATIC_MS) * time.Millisecond
 
 			// B. Wait on a Timer or Context Done (INTERRUPTIBLE SLEEP!)
 			timer := time.NewTimer(sleepTime)
@@ -1042,7 +1048,7 @@ func main() {
 
 	// check limits
 	if len(urlsToScrape) > MAX_SCRAPED_GOODS {
-		log.Println("😶 Applying MAX_SCRAPED_GOODS limit!")
+		log.Println("😶 Applying MAX_SCRAPED_GOODS limit.")
 		urlsToScrape = urlsToScrape[:MAX_SCRAPED_GOODS]
 	}
 
@@ -1058,7 +1064,7 @@ func main() {
 	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		<-signals
-		log.Println("\n\nInterrupted ...")
+		log.Println("\n\n🤯 Ctrl+C ...")
 		cancel()
 	}()
 

@@ -63,10 +63,11 @@ cf:
 	@cp go/koopi.json export/data.json
 	@cp sw.js export/
 
-	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
+	@sed -i 's/{{DEPT}}/food/g' ./export/index.html
 	@sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
 	@sed -i 's/{{DATE_REV}}/$(DATE_REV)/g' ./export/index.html
 	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/index.html
+	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
 
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
