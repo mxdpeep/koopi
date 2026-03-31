@@ -5,7 +5,9 @@ import (
 	"image"
 	_ "image/jpeg"
 	_ "image/png"
+	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -70,7 +72,12 @@ func convert(in, out string) error {
 	img, _, err := image.Decode(f)
 	if err != nil {
 		fmt.Printf("Decode: Error converting %s: %v\n", in, err)
-		return err
+		cmd := exec.Command("convert", in, "-quality", "80", out)
+		if err := cmd.Run(); err != nil {
+			log.Printf("Even ImageMagick failed on %s: %v", in, err)
+			return err
+		}
+		return nil
 	}
 
 	outF, err := os.Create(out)

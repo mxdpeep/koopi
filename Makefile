@@ -8,7 +8,7 @@ TIMESTAMP := $(shell date +%Y-%m-%d)
 STEMS_DIR := stems
 
 all:
-	@echo "backup | build | hashmap | clear | db | img | img2 | cf"
+	@echo "backup | build | hashmap | clear | db | img | cf"
 	@echo "macro: everything"
 
 clear:
@@ -28,16 +28,6 @@ build:
 img:
 	@echo "Converting images ..."
 	@./imgconv
-
-img2:
-	@echo "Converting deprecated images ..."
-	@cd images && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
-		INPUT="$$1"; \
-		OUTPUT=$${INPUT%.*}.webp; \
-		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
-			convert "$$INPUT" -quality 80 "$$OUTPUT"; \
-		fi \
-	' _ {}
 
 hashmap:
 	@echo "Generating hashmap ..."
