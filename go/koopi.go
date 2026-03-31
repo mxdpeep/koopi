@@ -110,7 +110,7 @@ var (
 	reFutureDate = regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
 	// non-alphanumeric
 	nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
-	// for bones
+	// bones
 	regaz = regexp.MustCompile(`[^a-z\s]+`)
 )
 
@@ -243,6 +243,7 @@ type Goods struct {
 	ScrapedAt    string
 }
 
+// getBone - helper function to get string bones
 func getBone(s string) string {
 	s = removeDiacritics(strings.ToLower(s))
 	s = regaz.ReplaceAllString(s, "")
@@ -260,14 +261,17 @@ func removeDiacritics(s string) string {
 
 // normalizeCzechString - helper function to normalize Czech strings for comparison
 func normalizeCzechString(s string) string {
-	// 1. malá písmena
 	s = strings.ToLower(s)
-	// 2. odstranění diakritiky
 	s = removeDiacritics(s)
-	// 3. nahrazení nealfanumerických znaků mezerou
 	s = nonAlphanumeric.ReplaceAllString(s, " ")
-	// 4. ořez white space
 	s = strings.TrimSpace(s)
+	return s
+}
+
+// typoFix - helper function to fix spaces to non-breakable spaces
+func typoFix(s string) string {
+	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
+	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
 	return s
 }
 
@@ -296,14 +300,7 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// typoFix - fix spaces to non-breakable spaces
-func typoFix(s string) string {
-	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
-	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
-	return s
-}
-
-// check the app lock
+// check the app lock / create new lock
 func checkLock() bool {
 	pid := os.Getpid()
 
@@ -364,7 +361,7 @@ func unlockLock() {
 	}
 }
 
-// isProcessRunning - helper function for process existence
+// isProcessRunning - helper function for the process existence
 func isProcessRunning(pid int) bool {
 	return syscall.Kill(pid, syscall.Signal(0)) == nil
 }
@@ -378,6 +375,12 @@ func isForbidden(name string, forbidden []string) bool {
 		}
 	}
 	return false
+}
+
+// sanitizeString - helper function to remove spaces and newlines
+func sanitizeString(s string) string {
+	fields := strings.Fields(s)
+	return strings.Join(fields, " ")
 }
 
 // extractGoodsFromHtml - extract data from HTML
@@ -519,7 +522,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 	return goods
 }
 
-// saveHtmlToCache - save HTML to cache
+// saveHtmlToCache - save HTML to the cache
 func saveHtmlToCache(cacheName string, content []byte) {
 	if _, err := os.Stat(HTML_CACHE); os.IsNotExist(err) {
 		err = os.MkdirAll(HTML_CACHE, 0755)
@@ -535,7 +538,7 @@ func saveHtmlToCache(cacheName string, content []byte) {
 	}
 }
 
-// loadHtmlFromCache - load HTML from cache
+// loadHtmlFromCache - load HTML from the cache
 func loadHtmlFromCache(cacheName string) (*goquery.Document, error) {
 	filePath := filepath.Join(HTML_CACHE, cacheName)
 	localFileContent, err := os.ReadFile(filePath)
@@ -550,7 +553,7 @@ func loadHtmlFromCache(cacheName string) (*goquery.Document, error) {
 	return doc, nil
 }
 
-// saveImageToCache - save image to cache for WebP processing
+// saveImageToCache - save original image to cache for processing
 func saveImageToCache(imageUrl string) {
 	if _, err := os.Stat(IMAGE_CACHE); os.IsNotExist(err) {
 		err = os.MkdirAll(IMAGE_CACHE, 0755)
@@ -702,13 +705,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	}
 }
 
-// sanitizeString - remove spaces and newlines
-func sanitizeString(s string) string {
-	fields := strings.Fields(s)
-	return strings.Join(fields, " ")
-}
-
-// appendToCsv - add data to CSV
+// appendToCsv - add data to CSV file
 func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -727,7 +724,6 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	for _, item := range goods {
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/kupi/thumbs/")
 		item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/img/no_img/no_discounts.png")
-		//item.ImageUrl = strings.TrimPrefix(item.ImageUrl, "https://img.kupi.cz/")
 
 		cleanUrl := strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		writer.Write([]string{
@@ -755,7 +751,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	}
 }
 
-// appendToJson - save data to JSON
+// appendToJson - save data to JSON file
 func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.Mutex) {
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -944,19 +940,15 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	}
 }
 
-// main
+// MAIN
 func main() {
 	if !checkLock() {
 		os.Exit(1)
 	}
 	defer unlockLock()
 
+	// set flags
 	log.SetFlags(0)
-
-	// just to be sure
-	for i, v := range blockedGoods {
-		blockedGoods[i] = strings.ToLower(v)
-	}
 
 	// set random UA
 	UA := UserAgents[rand.Intn(len(UserAgents))]
@@ -966,6 +958,11 @@ func main() {
 	rateLimiter = make(chan struct{}, MAX_THREADS)
 	for range MAX_THREADS {
 		rateLimiter <- struct{}{}
+	}
+
+	// just to be sure make blocked goods lowercase
+	for i, v := range blockedGoods {
+		blockedGoods[i] = strings.ToLower(v)
 	}
 
 	// load input CSV
@@ -978,7 +975,6 @@ func main() {
 	reader := csv.NewReader(file)
 	reader.Comma = ','
 	reader.FieldsPerRecord = -1
-
 	inputRecords, err := reader.ReadAll()
 	if err != nil {
 		log.Fatalf("[%s] 💥 error reading: %v", INPUT_CSV, err)
@@ -1038,13 +1034,15 @@ func main() {
 		urlsToScrape[i], urlsToScrape[j] = urlsToScrape[j], urlsToScrape[i]
 	})
 
-	// limits
+	// check limits
 	if len(urlsToScrape) == 0 {
 		log.Println("🍀 Nothing to scrape.")
 		return
 	}
 
+	// check limits
 	if len(urlsToScrape) > MAX_SCRAPED_GOODS {
+		log.Println("😶 Applying MAX_SCRAPED_GOODS limit!")
 		urlsToScrape = urlsToScrape[:MAX_SCRAPED_GOODS]
 	}
 
@@ -1119,7 +1117,7 @@ func main() {
 		}
 	}
 
-	// output stats
+	// Markets stats
 	var marketsList []string
 	for market := range uniqueMarkets {
 		marketsList = append(marketsList, market)
@@ -1129,14 +1127,15 @@ func main() {
 	for _, market := range marketsList {
 		marketStatsList = append(marketStatsList, fmt.Sprintf("%s (%d)", market, marketCounts[market]))
 	}
+	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
+
+	// Volumes stats
 	var volumesList []string
 	for volume := range uniqueVolumes {
 		volumesList = append(volumesList, volume)
 	}
 	sort.Strings(volumesList)
-
-	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
-	//fmt.Println("\n🥡 Volumes:", strings.Join(volumesList, ", "))
+	//fmt.Printf("\n🥡 Volumes [%d]: %s\n", len(volumesList), strings.Join(volumesList, ", "))
 
 	// save to CSV
 	c := collate.New(language.Czech)

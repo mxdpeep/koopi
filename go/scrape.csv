@@ -41,21 +41,22 @@ NÁPOJE,božkov,1
 NÁPOJE,cider,1
 NÁPOJE,coca-cola,1
 NÁPOJE,džus,1
-NÁPOJE,lager,2
-NÁPOJE,ležák,3
+NÁPOJE,lager,1
+NÁPOJE,ležák,5
 NÁPOJE,likér,1
 NÁPOJE,nestea,1
 NÁPOJE,pepsi,1
 NÁPOJE,stará myslivecká,1
-NÁPOJE,vodka,2
+NÁPOJE,vodka,3
 NÁPOJE,žitná myslivecká,1
 
-OBILÍ,bageta,2
-OBILÍ,chléb,2
+OBILÍ,bageta,1
+OBILÍ,chléb,3
+OBILÍ,houska,2
 OBILÍ,hrášek smažený leimer,1
-OBILÍ,mouka,1
+OBILÍ,mouka,2
 OBILÍ,rohlík,2
-OBILÍ,strouhanka,2
+OBILÍ,strouhanka,1
 OBILÍ,uzel česnekový,1
 
 OŘECHY,kešu,1
@@ -67,7 +68,7 @@ SÝRY,sýr zrající,1
 SÝRY,tavený sýr,1
 SÝRY,zottarella,1
 
-TUKY,olej,1
+TUKY,olej,2
 
 UZENINY,šunka,1
 
@@ -93,7 +94,7 @@ CUKROVINKY,med,1
 CUKROVINKY,nanuk,2
 CUKROVINKY,nutella,1
 CUKROVINKY,ovocný cukr,1
-CUKROVINKY,pedro,1
+CUKROVINKY,pedro,2
 CUKROVINKY,piškoty,1
 CUKROVINKY,ricola,1
 CUKROVINKY,sovičky,1
@@ -102,18 +103,18 @@ CUKROVINKY,tatranky,1
 CUKROVINKY,tic tac bonbony,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
-CUKROVINKY,zmrzlina,2
+CUKROVINKY,zmrzlina,3
 CUKROVINKY,čekankový sirup,1
 CUKROVINKY,čokoláda,3
 CUKROVINKY,čokoládová,1
 CUKROVINKY,želatina,1
 CUKROVINKY,želé,2
-CUKROVINKY,žvýkačky,2
+CUKROVINKY,žvýkačky,1
 KOŘENÍ,bazalka,1
 KOŘENÍ,bobkový list,1
 KOŘENÍ,chilli papričky,1
 KOŘENÍ,citronová tráva,1
-KOŘENÍ,hořčice,2
+KOŘENÍ,hořčice,3
 KOŘENÍ,hřebíček,1
 KOŘENÍ,kmín,1
 KOŘENÍ,libeček,1
@@ -123,7 +124,7 @@ KOŘENÍ,oregano,1
 KOŘENÍ,pažitka,1
 KOŘENÍ,pepř tří barev,1
 KOŘENÍ,pepř,1
-KOŘENÍ,podravka,2
+KOŘENÍ,podravka,1
 KOŘENÍ,skořice,1
 KOŘENÍ,sušená rajčata,1
 KOŘENÍ,sušený česnek,1
@@ -194,7 +195,7 @@ MLÉKO,skyr,1
 MLÉKO,smetana ke šlehání,2
 MLÉKO,smetana na vaření,2
 MLÉKO,smetana zakysaná,2
-MLÉKO,smetanový jogurt,1
+MLÉKO,smetanový jogurt,2
 MLÉKO,sojové mléko,1
 MLÉKO,řecký jogurt,1
 MLÉKO,šlehačka,1
@@ -207,14 +208,14 @@ NÁPOJE,mletá káva,3
 NÁPOJE,mošt,1
 NÁPOJE,nektar,1
 NÁPOJE,ovocný čaj,2
-NÁPOJE,pivo,7
+NÁPOJE,pivo,10
 NÁPOJE,rum,3
 NÁPOJE,sekt,2
 NÁPOJE,sypaný čaj,2
 NÁPOJE,voda,3
-NÁPOJE,víno,3
+NÁPOJE,víno,5
 NÁPOJE,zelený čaj,2
-NÁPOJE,zrnková káva,3
+NÁPOJE,zrnková káva,5
 NÁPOJE,černý čaj,2
 OBILÍ,buchty,1
 OBILÍ,cereálie,1
@@ -222,7 +223,6 @@ OBILÍ,corn flakes,1
 OBILÍ,croissant,1
 OBILÍ,dupetky,1
 OBILÍ,francouzská bageta,1
-OBILÍ,houska,1
 OBILÍ,instantní nudle,1
 OBILÍ,knedlík,1
 OBILÍ,knedlíky,1
@@ -232,28 +232,27 @@ OBILÍ,křupavé mysli,1
 OBILÍ,listové těsto,1
 OBILÍ,makovky,1
 OBILÍ,muesli,1
-OBILÍ,mysli,1
 OBILÍ,mysli na zdraví emco,1
+OBILÍ,mysli,1
 OBILÍ,nudle,1
 OBILÍ,ovesné vločky,1
 OBILÍ,pečivo,1
 OBILÍ,pohanka,1
 OBILÍ,rohlík,1
 OBILÍ,rýže,1
-OBILÍ,těstoviny,2
+OBILÍ,těstoviny,3
 OBILÍ,zavářka,1
 OBILÍ,závin,1
-OSTATNÍ,chipsy,2
+OSTATNÍ,chipsy,3
 OSTATNÍ,droždí,1
 OSTATNÍ,jedlá soda,1
-OSTATNÍ,kečup,2
+OSTATNÍ,kečup,3
 OSTATNÍ,kvasnice,1
 OSTATNÍ,kyselina citronová,1
 OSTATNÍ,ocet,1
-OSTATNÍ,omáčka,2
+OSTATNÍ,omáčka,3
 OSTATNÍ,pomazánka,1
-OSTATNÍ,rybí omáčka,2
-OSTATNÍ,tyčinky,2
+OSTATNÍ,tyčinky,3
 OSTATNÍ,škrob,1
 OVOCE,avokádo,1
 OVOCE,banány,1
@@ -263,7 +262,7 @@ OVOCE,broskve,1
 OVOCE,citrony,1
 OVOCE,hrozny,1
 OVOCE,hrušky,1
-OVOCE,jablka,2
+OVOCE,jablka,3
 OVOCE,jahody,1
 OVOCE,kaki,1
 OVOCE,karambola,1
@@ -354,7 +353,6 @@ TUKY,lněný olej,1
 TUKY,margarín flora,1
 TUKY,margarín perla,1
 TUKY,máslo,1
-TUKY,olej z hroznových jader,1
 TUKY,olivový olej,1
 TUKY,rama,1
 TUKY,sezamový olej,1
@@ -385,9 +383,9 @@ UZENINY,špekáčky,1
 UZENINY,šunka výběrová,1
 UZENINY,šunková pěna,1
 VEJCE,dresink,1
-VEJCE,majonéza,1
-VEJCE,tatarská omáčka,1
-VEJCE,vejce,2
+VEJCE,majonéza,2
+VEJCE,tatarská omáčka,2
+VEJCE,vejce,3
 ZELENINA,batáty,1
 ZELENINA,brambory,1
 ZELENINA,brokolice,1

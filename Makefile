@@ -8,18 +8,18 @@ TIMESTAMP := $(shell date +%Y-%m-%d)
 STEMS_DIR := stems
 
 all:
-	@echo "backup | build | hashmap | clear | db | img"
-	@echo "macro: everything | cf"
+	@echo "backup | build | hashmap | clear | db | img | img2 | cf"
+	@echo "macro: everything"
 
 clear:
-	@-find ./cache/ -type f -mmin +3500 -delete 2> /dev/null || true
+	@-find ./cache/ -type f -mmin +4000 -delete 2> /dev/null || true
 	@-find ./cache/ -type f -mmin +2000 2> /dev/null \
 		| shuf \
-		| head -n 200 \
+		| head -n 100 \
 		| xargs -d '\n' -r rm -f || true
 
 build:
-	@echo "Building koopi app ..."
+	@echo "Building koopi ..."
 	@cd go/ && go build -mod=vendor -o koopi .
 	@echo "Building imgconv ..."
 	@cd go/imgconv && go build -mod=vendor -o imgconv .
@@ -28,6 +28,16 @@ build:
 img:
 	@echo "Converting images ..."
 	@./imgconv
+
+img2:
+	@echo "Converting deprecated images ..."
+	@cd images && find . -type f \( -name "*.jpg" -o -name "*.png" \) -print0 | xargs -0 -P $(shell nproc) -I {} sh -c ' \
+		INPUT="$$1"; \
+		OUTPUT=$${INPUT%.*}.webp; \
+		if [ "$$INPUT" -nt "$$OUTPUT" ] || [ ! -f "$$OUTPUT" ]; then \
+			convert "$$INPUT" -quality 80 "$$OUTPUT"; \
+		fi \
+	' _ {}
 
 hashmap:
 	@echo "Generating hashmap ..."
@@ -47,12 +57,6 @@ db: build
 	@printf '{\n  "count": "%s",\n  "date": "%s",\n  "hash": "%s",\n  "version": "%s"\n}\n' \
 		"$(COUNT_REV)" "$(DATE_REV)" "$(HASH_REV)" "$(GIT_REV)" > meta.json
 
-# macros
-everything: clear db img hashmap cf backup
-	@-git add -A
-	@-git commit -am 'automatic update'
-	@-git push origin master
-
 cf:
 	@echo "Building version: $(GIT_REV)"
 	@mkdir -p export/images export/markets-v2
@@ -64,10 +68,10 @@ cf:
 
 	@cp index.html export/
 	@cp manifest.json export/
-	@cp sw.js export/
+	@cp hashmap.json export/
 	@cp meta.json export/
 	@cp go/koopi.json export/data.json
-	@cp hashmap.json export/
+	@cp sw.js export/
 
 	@sed -i 's/{{GIT_REV}}/$(GIT_REV)/g' ./export/sw.js
 	@sed -i 's/{{COUNT_REV}}/$(COUNT_REV)/g' ./export/index.html
@@ -77,3 +81,8 @@ cf:
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
+
+everything: clear db img hashmap cf backup
+	@-git add -A
+	@-git commit -am 'automatic update'
+	@-git push origin master
