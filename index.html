@@ -1239,16 +1239,15 @@ function updateFavIcons() {
         const numericId = $card.data('id');
         const productHash = deals.idhashmap[numericId];
         const $allSameHearts = $(`.product-card[data-id="${numericId}"]`).find('.myheart');
+        window.hearts_flag = true;
 
         // pop-in the extras row?
         if (!window.extras_flag) {
             $('.extras').removeClass('extras-hidden');
             window.extras_flag = true;
-            window.hearts_flag = true;
         }
 
         // vfx
-        window.hearts_flag = true;
         $('.filter-favs').addClass('pulsefav');
         setTimeout(() => {
             $('.filter-favs').removeClass('pulsefav');
