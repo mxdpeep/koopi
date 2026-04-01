@@ -254,7 +254,7 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
     font-size: 1.5rem;
     /*background-color: #000 !important;*/
     color: white !important;
-    border: 1px solid #000 !important;
+    /*border: 1px solid #000 !important;*/
     border-radius: 0!important;
     padding: 5px;
 }
@@ -981,7 +981,7 @@ const progressBar = () => {
 
         // extras row
         if (window.settings_flag) return;
-        if (window.hearts_flag) return;
+        /*if (window.hearts_flag) return;*/
         if (window.extras_flag) {
             if (scroll > 150 && !isScrollingUp && distanceMoved > 100) {
                 $extras.addClass('extras-hidden');
@@ -1248,7 +1248,8 @@ function updateFavIcons() {
         // vfx
         $('.filter-favs').addClass('pulsefav');
         setTimeout(() => {
-            $('.filter-favs').removeClass('pulsefav');window.hearts_flag = false;
+            $('.filter-favs').removeClass('pulsefav');
+            window.hearts_flag = false;
         }, 300);
 
         $allSameHearts.toggleClass('grayscaled active');
