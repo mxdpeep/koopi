@@ -65,15 +65,16 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 /* SCROLLBAR */
 * {scrollbar-width: 32px;scrollbar-color: #ffff00 #1a1a1a;}
 
-/* BUTTONs VFX */
+/* VFX */
 .spin {
-    transition: transform 0.5s ease-in-out;
+    transition: transform 1s ease-in-out;
     transform: rotate(360deg);
 }
 
 .transparent {
     background-color: transparent !important;
 }
+
 .pulsefav {
     animation: pulseHeart 0.29s ease-in-out; 
     animation-fill-mode: forwards;
@@ -526,11 +527,11 @@ nav.bottom button {
         </button>
     </div>
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-        <button disabled class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
-        <button class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">❤️</button>
-        <button class="btn-az nowrap btn-secrow black white-text bold s1">🔽</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
+        <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
+        <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
+        <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
+        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔽</button>
+        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">❤️</button>
     </div> 
 </nav>
 <nav class="lefthanded top notap nowrap black white-text vertical" style="display: none;">
@@ -556,11 +557,11 @@ nav.bottom button {
         </button>
     </div>
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-        <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">🔽</button>
-        <button class="grayscaled filter-favs nowrap btn-secrow black white-text bold s1">❤️</button>
-        <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
+        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">❤️</button>
+        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔽</button>
+        <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
+        <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
+        <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
     </div> 
 </nav>
 
@@ -1436,14 +1437,19 @@ $(document).ready(function() {
         if (window.refresh_flag) refresh();
         isReversed = !isReversed;
         $(this).text(isReversed ? "🔼" : "🔽");
-        $(this).addClass("spin");
+        $(this).addClass("pulsefav");
 
-        setTimeout(() => {$(this).removeClass("spin");}, 500);
+        setTimeout(() => {
+            $(this).removeClass("pulsefav");
+        }, 300);
 
+        // delay rendering
         const currentData = isReversed ? window.deals.goods_rev : window.deals.goods_orig;
-        renderDeals(currentData);
-        updateFavIcons();
-        loadAllLikes();
+        setTimeout(() => {
+            renderDeals(currentData);
+            updateFavIcons();
+            loadAllLikes();
+        }, 10);
 
         if (isFavFilterActive) {
             $('#deals .product-card').each(function() {
