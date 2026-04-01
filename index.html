@@ -65,15 +65,23 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 /* SCROLLBAR */
 * {scrollbar-width: 32px;scrollbar-color: #ffff00 #1a1a1a;}
 
-/* SORTING BUTTON VFX */
+/* BUTTONs VFX */
 .spin {
     transition: transform 0.5s ease-in-out;
     transform: rotate(360deg);
 }
 
 .pulsefav {
-    transition: transform 0.1s ease-out;
-    transform: rotate(720deg);
+    animation: pulseHeart 0.29s ease-in-out; 
+    animation-fill-mode: forwards; 
+}
+@keyframes pulseHeart {
+    0% {transform: scale(1);}
+    15% {transform: scale(2.5);}
+    50% {transform: scale(1.3);}
+    60% {transform: scale(1);}
+    75% {transform: scale(1.5);}
+    100% {transform: scale(1);}
 }
 
 /* LIKE */
@@ -156,7 +164,7 @@ button.chip .market-image {
 
 /* HELPERS */
 .row-reverse {flex-direction: row-reverse;}
-.sbigger {font-size: 1.5rem;font-weight: bold;color:red;margin-left: 1rem;margin-right: 1rem;}
+.sbigger {font-size: 1.3rem;font-weight: bold;color:rgb(55, 182, 255);margin-left: 0.5rem;margin-right: 1rem;}
 .bigger {font-size: 2rem;font-weight: bold;}
 .bigger-like {font-size: 1.5rem;font-weight: bold;}
 .bigger-cart {font-size: 1.5rem;font-weight: bold;}
@@ -183,7 +191,7 @@ button.chip .market-image {
     animation: google-wave 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .new-version-icon-spin {
-    animation: slow-spin 10s linear infinite;
+    animation: slow-spin 5s linear infinite;
 }
 @keyframes slow-spin {from { transform: rotate(0deg); }to { transform: rotate(360deg);}}
 @keyframes google-wave {
@@ -306,8 +314,8 @@ nav.bottom button {letter-spacing: 0;}
 .product-image {
     display: block;
     width: 100%;
-    height: var(--product-image-height); /* fixní výška pro srovnání řádků */
-    object-fit: contain; /* obrázek se nebude deformovat */
+    height: var(--product-image-height);
+    object-fit: contain;
     margin: 5px 0;
     border-radius: 3px !important;
 }
@@ -367,7 +375,7 @@ nav.bottom button {letter-spacing: 0;}
     font-weight: bold;
     color: white;
     background-color: red;
-    padding: 5px;
+    padding: 5px 15px 5px 15px;
     margin: 0 auto;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -400,6 +408,7 @@ nav.bottom button {letter-spacing: 0;}
 }
 
 .volume {font-size: 0.7rem;font-weight: bold;}
+
 .ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;font-weight: 500;}
 
 /* MEDIA selectors */
@@ -588,13 +597,18 @@ nav.bottom button {
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
-        <h3>Statistika</h3><hr>
+        <h3>📈 Statistika</h3><hr>
         <div id="stats"></div>
+        <div id="speed-bench" class="s m l"></div>
         
-        <h3>Aplikace</h3><hr>
+        <h3>🚚 Aplikace</h3><hr>
         <div id="appbuild"></div>
-        👾 build: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revision: <b>{{COUNT_REV}}</b><br><br>
+        👾 build: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revision: <b>{{COUNT_REV}}</b>
+        <div class="s m l">📦️ local storage: <span id="info_localStorage" class="bold"></span></div>
+        <br><br>
         
+        <div id="webshare" class="webshare"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
+
         <a
             href="https://github.com/mxdpeep/koopi"
             target="_blank"
@@ -603,8 +617,6 @@ nav.bottom button {
             <svg height="24" width="24" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
             <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
             </svg> github.com/mxdpeep/koopi</a><br>
-
-        <div id="webshare" class="webshare"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
         <article>
             <label for="changelog-check" class="row cursor-pointer">
@@ -724,19 +736,13 @@ nav.bottom button {
             hostedButtonId: "27G3BMUCN2VU2",
         }).render("#paypal-container-27G3BMUCN2VU2")
         </script>            
-
         <br>
-        <h4>Podněty a myšlenky</h4><hr>
+
+        <h4>💡 Podněty a myšlenky</h4><hr>
         <div>
             <i>link</i>
-            💡 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
         </div>
-
-        <br>
-        <h4>Pod kapotou</h4><hr>
-        <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
-        <div id="speed-bench" class="s m l"></div>
-
     </div>
     <div id="settings" class="hidden container">
         <h3>🛠️ Nastavení</h3><hr>
@@ -839,7 +845,7 @@ if (!navigator.share) {
     $('.webshare').hide();
 }
 
-// fn: debug(x) - UI DEBUGGER with Autoscroll
+// fn: debug(x) - UI DEBUGGER with autoscroll
 var dtimer = null;
 function debug(x) {
     if (!x) return;
@@ -887,7 +893,7 @@ try {
     console.warn('Slevičky: localStorage je blokován');
 }
 window.nolocalstorage = nolocalstorage;
-$('#info_localStorage').text(!nolocalstorage ? "OK" : "BLOKOVÁNO");
+$('#info_localStorage').text(!nolocalstorage ? "OK" : "ZABLOKOVÁN");
 if (nolocalstorage) {
     $('.saveload').hide();
     $('#load').prop('disabled', true);
@@ -1070,8 +1076,8 @@ const initApp = () => {
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
-            $('#stats').html(`Sleviček: <b class=sbigger>${goods.length}</b> &nbsp;&nbsp;&nbsp; Obchodů: <b class=sbigger>${data.markets.length}</b>`);
-            $('#appbuild').html(`Datum sestavení: <b>${data.created}</b>`);
+            $('#stats').html(`Slevičky: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; Obchody: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
+            $('#appbuild').html(`🗓️ sestaveno: <b>${data.created}</b>`);
                 
             console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
@@ -1089,7 +1095,7 @@ const initApp = () => {
             console.timeEnd('DOM-Render-Speed');
 
             const renderDuration = Math.round(end - start);
-            $('#speed-bench').html(`🚀 renderováno za <b>${renderDuration} ms</b>`);
+            $('#speed-bench').html(`Rendering: <b class=sbigger>${renderDuration} ms</b>`);
             
             // defaults
             setDefaults();
@@ -1231,12 +1237,16 @@ function updateFavIcons() {
 
         // pop-in the extras row?
         if (!window.extras_flag) {
+            $('.extras').removeClass('extras-hidden');
             window.extras_flag = true;
             window.hearts_flag = true;
-            $('.extras').removeClass('extras-hidden');
-            $('.filter-favs').addClass('pulsefav');
-            setTimeout(() => {$('.filter-favs').removeClass('pulsefav');window.hearts_flag = false;}, 500);
         }
+
+        // vfx
+        $('.filter-favs').addClass('pulsefav');
+        setTimeout(() => {
+            $('.filter-favs').removeClass('pulsefav');window.hearts_flag = false;
+        }, 300);
 
         $allSameHearts.toggleClass('grayscaled active');
         if ($heart.hasClass('active')) {
@@ -1285,7 +1295,7 @@ function loadAllLikes() {
     updateMyLikesCount();
 }
 
-// fn: updateMyLikesCount() - update the heart icon button with myLikes count
+// fn: updateMyLikesCount() - update the heart icon + myLikes count
 function updateMyLikesCount() {
     $('.filter-favs').html('♥️&nbsp;&nbsp;' + window.deals.myLikes.length);
 }
@@ -1401,7 +1411,7 @@ $(document).ready(function() {
         exportSettings();
     });
 
-    // LOAD/FILE button click
+    // LOAD/FILE button
     $('.load-button').click(function (e) {
         $('#file').click();
     });
@@ -1414,7 +1424,7 @@ $(document).ready(function() {
         $(this).val('');
     });
 
-    // rAZ-ZA button
+    // AZ-ZA button
     let isReversed = false;
     $(".btn-az").on("click", function() {
         if (window.refresh_flag) refresh();
@@ -1480,7 +1490,7 @@ $(document).ready(function() {
         }
     });
 
-    // SMILEY button click
+    // SMILEY button
     $('.mrsmiley').on('click', function() {
         setSettingsMode(false);
         umlog('roulette');
@@ -1761,7 +1771,7 @@ $(document).ready(function() {
 
 });
 
-// SERVICE WORKER
+// SERVICE WORKER registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -1800,7 +1810,7 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
-window.addEventListener('contextmenu', function(e) {
+window.addEventListener('xcontextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);

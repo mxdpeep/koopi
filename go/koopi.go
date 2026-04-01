@@ -277,8 +277,10 @@ func normalizeCzechString(s string) string {
 
 // typoFix - helper function to fix spaces to non-breakable spaces
 func typoFix(s string) string {
-	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
-	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
+	//	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
+	//	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
+	s = rePreps.ReplaceAllString(s, "$1$2\u202F")
+	s = reUnits.ReplaceAllString(s, "$1\u202F$2")
 	return s
 }
 
@@ -445,13 +447,14 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			// discount
 			newGoods.Discount = strings.TrimSpace(offer.Find(".discount_percentage").Text())
 			newGoods.Discount = strings.ReplaceAll(newGoods.Discount, "–", "-")
+			newGoods.Discount = strings.ReplaceAll(newGoods.Discount, "\u00A0", "\u202F")
 			newGoods.Discount = strings.TrimSpace(newGoods.Discount)
 
 			// volume
 			newGoods.Volume = strings.TrimSpace(offer.Find(".discount_amount").Text())
 			newGoods.Volume = strings.TrimPrefix(newGoods.Volume, "/")
 			newGoods.Volume = strings.TrimSpace(newGoods.Volume)
-			if newGoods.Volume == "" {
+			if newGoods.Volume == "" { // no volume specified
 				newGoods.Volume = "?"
 			}
 
@@ -476,6 +479,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " \u0026 ", "\u0026")
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
+
 			// skip forbidden goods
 			if isForbidden(newGoods.Note, blockedGoods) {
 				newGoods.Name = ""
@@ -508,7 +512,8 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// function helper to compare prices
 			cleanForCompare := func(s string) string {
-				s = strings.ReplaceAll(s, "\u00a0", "") // remove #A0s
+				s = strings.ReplaceAll(s, "\u00A0", "") // remove No-Break Space
+				s = strings.ReplaceAll(s, "\u202F", "") // remove Narrow No-Break Space
 				s = strings.ReplaceAll(s, " ", "")      // remove spaces
 				s = strings.ToLower(s)
 				return s
@@ -516,7 +521,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			fullPrice := fmt.Sprintf("%s/%s", newGoods.Price, newGoods.Volume)
 			if cleanForCompare(fullPrice) == cleanForCompare(newGoods.PricePerUnit) {
-				newGoods.PricePerUnit = "\u00a0"
+				newGoods.PricePerUnit = "\u00A0"
 			}
 
 			// append the struct to the global list
