@@ -71,6 +71,9 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
     transform: rotate(360deg);
 }
 
+.transparent {
+    background-color: transparent !important;
+}
 .pulsefav {
     animation: pulseHeart 0.29s ease-in-out; 
     animation-fill-mode: forwards; 
@@ -249,7 +252,7 @@ nav.vertical {flex-direction: column !important;height: auto !important;align-it
 }
 .btn-secrow {
     font-size: 1.5rem;
-    background-color: #000 !important;
+    /*background-color: #000 !important;*/
     color: white !important;
     border: 1px solid #000 !important;
     border-radius: 0!important;
@@ -522,8 +525,8 @@ nav.bottom button {
         </button>
     </div>
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-        <button disabled class="nowrap btn-secrow black white-text bold s1">❌</button>
-        <button class="grayscaled filter-favs nowrap btn-secrow black white-text bold s1">❤️</button>
+        <button disabled class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
+        <button class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">❤️</button>
         <button class="btn-az nowrap btn-secrow black white-text bold s1">🔽</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🛒</button>
         <button disabled class="nowrap btn-secrow black white-text bold s1">🔍</button>
