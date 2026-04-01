@@ -195,34 +195,36 @@ button.chip .market-image {
 .hidden {display: none;}
 
 /* VFX bombs */
-.flashbomb {animation: flash 0.5s ease-out;}
-.facespinner {display: inline-block;animation: spin 1s cubic-bezier(0.15, 0, 0.15, 1) forwards;}
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(1800deg); } /* 5 plných otoček */
-}
+.flashbomb {animation: flash 0.49s ease-out;}
 @keyframes flash {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
 
+.facespinner {display: inline-block;animation: spin 1s cubic-bezier(0.15, 0, 0.15, 1) forwards;}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(1800deg); }
+}
+
 .new-version-icon-wave {
     animation: google-wave 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+@keyframes google-wave {
+    0% { transform: scale(1) rotate(0deg); }
+    20% { transform: scale(1.2) rotate(-10deg); }
+    40% { transform: scale(1.1) rotate(10deg); }
+    60% { transform: scale(1.2) rotate(-5deg); }
+    80% { transform: scale(1.1) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
 .new-version-icon-spin {
     animation: slow-spin 5s linear infinite;
 }
-@keyframes slow-spin {from { transform: rotate(0deg); }to { transform: rotate(360deg);}}
-@keyframes google-wave {
-  0% { transform: scale(1) rotate(0deg); }
-  20% { transform: scale(1.2) rotate(-10deg); }
-  40% { transform: scale(1.1) rotate(10deg); }
-  60% { transform: scale(1.2) rotate(-5deg); }
-  80% { transform: scale(1.1) rotate(5deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
+@keyframes slow-spin {from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
 
-/* interactive buttons */
+/* INTERACTIVE BUTTONS */
 .bigger-like, .bigger-cart {
     cursor: pointer;
     transition: transform 0.2s, filter 0.2s;
@@ -1549,6 +1551,11 @@ $(document).ready(function() {
             let goods = window.deals.goods;        
             goods.shuffle();
             renderDeals(goods);
+
+            flash_flag = true;
+            $('body').addClass('flashbomb');
+            setTimeout(() => {$('body').removeClass('flashbomb');flash_flag = false;}, 500);
+
             $('#deals article').addClass('hidden-force');
             $(deals.cats).removeClass('hidden-force');
             $('#settings, #about').hide()
@@ -1569,8 +1576,6 @@ $(document).ready(function() {
     // fn: switchHands() - SWITCH HANDEDNESS
     function switchHands() {
         if (flash_flag) return;
-        flash_flag = true;
-        $('nav').addClass('flashbomb');
         $('.lefthanded').toggle();
         $('.righthanded').toggle();
         const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
@@ -1581,7 +1586,11 @@ $(document).ready(function() {
             $('.levak').hide();
             $('.pravak').show();
         }
+
+        flash_flag = true;
+        $('nav').addClass('flashbomb');
         setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
+
         deals.handedness = currentMode;
         if (window.nolocalstorage) return;
         localStorage.setItem('handedness', currentMode);
@@ -1738,8 +1747,10 @@ $(document).ready(function() {
         if (card) {
             const productName = card.querySelector('.product-name')?.innerText;
             debug('produkt: ' + productName);
+
             $(card).addClass('flashbomb');
             setTimeout(() => {$(card).removeClass('flashbomb');}, 200);
+
             return false;
         }
         // data-id
