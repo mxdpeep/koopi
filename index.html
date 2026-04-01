@@ -609,9 +609,9 @@ nav.bottom button {
         <div id="appbuild"></div>
         👾 build: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revision: <b>{{COUNT_REV}}</b>
         <div class="s m l">📦️ local storage: <span id="info_localStorage" class="bold"></span></div>
-        <br><br>
         
         <div id="webshare" class="webshare"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
+        <br><br>
 
         <a
             href="https://github.com/mxdpeep/koopi"
@@ -982,7 +982,7 @@ const progressBar = () => {
 
         // extras row
         if (window.settings_flag) return;
-        /*if (window.hearts_flag) return;*/
+        if (window.hearts_flag) return;
         if (window.extras_flag) {
             if (scroll > 150 && !isScrollingUp && distanceMoved > 100) {
                 $extras.addClass('extras-hidden');
@@ -1244,13 +1244,15 @@ function updateFavIcons() {
             $('.extras').removeClass('extras-hidden');
             window.extras_flag = true;
             window.hearts_flag = true;
-            // vfx
-            $('.filter-favs').addClass('pulsefav');
-            setTimeout(() => {
-                $('.filter-favs').removeClass('pulsefav');
-                window.hearts_flag = false;
-            }, 300);
         }
+
+        // vfx
+        window.hearts_flag = true;
+        $('.filter-favs').addClass('pulsefav');
+        setTimeout(() => {
+            $('.filter-favs').removeClass('pulsefav');
+            window.hearts_flag = false;
+        }, 300);
 
         $allSameHearts.toggleClass('grayscaled active');
         if ($heart.hasClass('active')) {
