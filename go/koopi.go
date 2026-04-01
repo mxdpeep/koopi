@@ -195,6 +195,7 @@ var blockedGoods = []string{
 	"parfém",
 	"pivoňka",
 	"pleť",
+	"plot",
 	"postel",
 	"radiátor",
 	"razítko",
