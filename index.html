@@ -82,10 +82,24 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 }
 @keyframes pulseHeart {
     0% {transform: scale(1);}
-    15% {transform: scale(2.5);}
+    5% {transform: scale(2.3);}
     50% {transform: scale(1.3);}
     60% {transform: scale(1);}
-    75% {transform: scale(1.5);}
+    75% {transform: scale(1.3);}
+    100% {transform: scale(1);}
+}
+
+.pulsebutt {
+    animation: pulseButt 0.29s ease-in-out; 
+    animation-fill-mode: forwards;
+    z-index: 99999;
+}
+@keyframes pulseButt {
+    0% {transform: scale(1);}
+    5% {transform: scale(2);}
+    50% {transform: scale(1.7);}
+    60% {transform: scale(1.5);}
+    75% {transform: scale(1.2);}
     100% {transform: scale(1);}
 }
 
@@ -529,7 +543,7 @@ nav.bottom button {
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
         <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
-        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">❤️</button>
+        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
         <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔽</button>
         <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
     </div> 
@@ -559,7 +573,7 @@ nav.bottom button {
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
         <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
         <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔽</button>
-        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">❤️</button>
+        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
         <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
     </div> 
@@ -1161,6 +1175,7 @@ const renderDeals = (deals) => {
         </article>
     `;
     }).join('');
+    window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 // fn: renderMarkets() - render the markets to the DOM
@@ -1251,10 +1266,7 @@ function updateFavIcons() {
 
         // vfx
         $('.filter-favs').addClass('pulsefav');
-        setTimeout(() => {
-            $('.filter-favs').removeClass('pulsefav');
-            window.hearts_flag = false;
-        }, 300);
+        setTimeout(() => {$('.filter-favs').removeClass('pulsefav');window.hearts_flag = false;}, 300);
 
         $allSameHearts.toggleClass('grayscaled active');
         if ($heart.hasClass('active')) {
@@ -1268,7 +1280,7 @@ function updateFavIcons() {
             }
         }
         e.stopPropagation();
-        updateMyLikesCount();
+        updateMyFavCount();
         saveLikes();
     });
 }
@@ -1300,12 +1312,16 @@ function loadAllLikes() {
                 .removeClass('grayscaled');
         }
     });
-    updateMyLikesCount();
+    updateMyFavCount();
 }
 
-// fn: updateMyLikesCount() - update the heart icon + myLikes count
-function updateMyLikesCount() {
-    $('.filter-favs').html('♥️&nbsp;&nbsp;' + window.deals.myLikes.length);
+// fn: updateMyFavCount() - update the heart icon + myLikes count
+function updateMyFavCount() {
+    let icon = '🤍';
+    if (isFavFilterActive) {
+        icon = '❤️';
+    }
+    $('.filter-favs').html(icon + '&nbsp;&nbsp;' + window.deals.myLikes.length);
 }
 
 // fn: loadAllBlocks() - populate deals.myBlocks from localStorage string
@@ -1337,6 +1353,8 @@ function filterFavs() {
         const $cards = $('#deals .product-card');
         isFavFilterActive = !isFavFilterActive;
         $btn.toggleClass('grayscaled', !isFavFilterActive);
+        $btn.addClass('pulsefav');
+        setTimeout(() => {$btn.removeClass('pulsefav');}, 300);
 
         if (isFavFilterActive) {
             $cards.each(function() {
@@ -1354,7 +1372,7 @@ function filterFavs() {
             $btn.find('i').text('favorite');
         }
 
-        updateMyLikesCount();
+        updateMyFavCount();
         updateCategoryBadges(window.deals.catcounts);
     });
 }
@@ -1438,11 +1456,8 @@ $(document).ready(function() {
         if (window.refresh_flag) refresh();
         isReversed = !isReversed;
         $(this).text(isReversed ? "🔼" : "🔽");
-        $(this).addClass("pulsefav");
-
-        setTimeout(() => {
-            $(this).removeClass("pulsefav");
-        }, 300);
+        $(this).addClass("pulsebutt");
+        setTimeout(() => {$(this).removeClass("pulsebutt");}, 300);
 
         // delay rendering
         const currentData = isReversed ? window.deals.goods_rev : window.deals.goods_orig;
