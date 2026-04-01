@@ -156,6 +156,7 @@ button.chip .market-image {
 
 /* HELPERS */
 .row-reverse {flex-direction: row-reverse;}
+.sbigger {font-size: 1.5rem;font-weight: bold;color:red;margin-left: 1rem;margin-right: 1rem;}
 .bigger {font-size: 2rem;font-weight: bold;}
 .bigger-like {font-size: 1.5rem;font-weight: bold;}
 .bigger-cart {font-size: 1.5rem;font-weight: bold;}
@@ -589,10 +590,10 @@ nav.bottom button {
     <div id="about" class="hidden">
         <h3>Statistika</h3><hr>
         <div id="stats"></div>
-
+        
         <h3>Aplikace</h3><hr>
-        👾 build: <b>{{GIT_REV}}</b><br>
-        👩‍🔧 revision: <b>{{COUNT_REV}}</b><br><br>
+        <div id="appbuild"></div>
+        👾 build: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revision: <b>{{COUNT_REV}}</b><br><br>
         
         <a
             href="https://github.com/mxdpeep/koopi"
@@ -615,6 +616,10 @@ nav.bottom button {
                 <b>◾️ optimalizace, refaktorizace, bugfixing</b>
                 <br><br>
                 <ul>
+                    <li><b>2026-04-01</b>
+                        <br>◾️ aktualizace UI
+                        <br>◾️ rozšíření sortimentu
+                    </li>
                     <li><b>2026-01-18</b>
                         <br>◾️ UI: 🔽🔼 třídění
                         <br>◾️ UI: detekce nepodporovaných browserů
@@ -669,7 +674,7 @@ nav.bottom button {
             <div class="content padding">
             <img src="/fred.jpg" class="fred" alt="Fred"><br>
             <strong>SLEVIČKY: Diagnóza doby</strong><br><br>
-                Mnozí vědí, že jsem veteránem české herní scény (Vietcong atd.).<br><br>
+                Mnozí vědí, že jsem veteránem české herní scény (Vietcong, Flying Heroes, Fish Fillets atd.).<br><br>
 
                 Před třemi lety byl projekt <b>SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
                 Tehdy jsem ale ještě netušil, jak moc se změní svět – a jak moc se změní můj vlastní život.<br><br>
@@ -704,21 +709,12 @@ nav.bottom button {
 
                 Pokud vám to přijde užitečné, můžete mi přispět přes PayPal.<br><br><br>
 
-                TBD:<br><br>
-                * details<br>
-                * search<br>
-                * bans<br>
-                * search profiles<br>
-                * settings profiles<br>
-                * Google profile sync?<br><br>
-
                 <h4>Jak to celé funguje?</h4>
-                input data > Go scraper > parse > filter > process > filter > JSON > UI render > a tady jste Vy 👽️<br><br>
+                data > Golang scraper > parser > filter > processor > filter > JSON > render > UI > uživatel 👽️<br><br>
 
                 <h4>Technicky</h4>
                 Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br><br>
                 Hosting Github + Cloudflare Pages.<br><br>
-                + Fred
             </div>
         </article>
         <div id="paypal-container-27G3BMUCN2VU2"></div>
@@ -1074,9 +1070,8 @@ const initApp = () => {
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
-            $('#stats').html(`Slev celkem: <b>${goods.length}</b>
-                <br>Obchodů celkem: <b>${data.markets.length}</b>
-                <br>Datum sestavení: <b>${data.created}</b>`);
+            $('#stats').html(`Sleviček: <b class=sbigger>${goods.length}</b> &nbsp;&nbsp;&nbsp; Obchodů: <b class=sbigger>${data.markets.length}</b>`);
+            $('#appbuild').html(`Datum sestavení: <b>${data.created}</b>`);
                 
             console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
