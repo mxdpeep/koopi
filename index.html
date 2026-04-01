@@ -76,7 +76,8 @@ hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, bl
 }
 .pulsefav {
     animation: pulseHeart 0.29s ease-in-out; 
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
+    z-index: 99999;
 }
 @keyframes pulseHeart {
     0% {transform: scale(1);}
@@ -1243,14 +1244,13 @@ function updateFavIcons() {
             $('.extras').removeClass('extras-hidden');
             window.extras_flag = true;
             window.hearts_flag = true;
+            // vfx
+            $('.filter-favs').addClass('pulsefav');
+            setTimeout(() => {
+                $('.filter-favs').removeClass('pulsefav');
+                window.hearts_flag = false;
+            }, 300);
         }
-
-        // vfx
-        $('.filter-favs').addClass('pulsefav');
-        setTimeout(() => {
-            $('.filter-favs').removeClass('pulsefav');
-            window.hearts_flag = false;
-        }, 300);
 
         $allSameHearts.toggleClass('grayscaled active');
         if ($heart.hasClass('active')) {
