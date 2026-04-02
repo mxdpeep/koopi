@@ -127,6 +127,7 @@ button.chip .market-image {
 #about li {padding: 4px 0;}
 
 /* HELPERS */
+.smaller {font-size: 0.9rem;}
 .bigger {font-size: 2rem;font-weight: bold;}
 .bigger-cart {font-size: 1.5rem;font-weight: bold;}
 .bigger-like {font-size: 1.5rem;font-weight: bold;}
@@ -370,7 +371,7 @@ nav.bottom button {letter-spacing: 0;}
 }
 .discount:empty {display: none;}
 .price {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: var(--primary);
 }
@@ -388,7 +389,7 @@ nav.bottom button {letter-spacing: 0;}
     position: relative;
     top: 6px;
 }
-.volume {font-size: 0.7rem;font-weight: bold;}
+.volume {font-size: 0.9rem;font-weight: bold;}
 .ppunit {font-size: 0.8rem;color: #000;opacity: 0.6;font-weight: 500;}
 
 /* MEDIA selectors */
@@ -1129,7 +1130,7 @@ const renderDeals = (deals) => {
             <div class="product-club indigo5 white-text center-align">${deal.club}</div>
             <div class="product-price">
                 <span class="discount mono">${deal.discount}</span>
-                <span class="price">${deal.price} <span class="volume">(${deal.volume})</span></span>
+                <span class="price">${deal.price_w}.<span class="smaller">${deal.price_d}</span> <span class="volume">(${deal.volume})</span></span>
                 <span class="ppunit">${deal.ppunit}</span>
             </div>
             <div class="${deal.valcol} validity nowrap bold">${deal.validity}</div>
