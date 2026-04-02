@@ -216,6 +216,7 @@ var blockedGoods = []string{
 	"vitamín",
 	"vlasová voda",
 	"vodárna",
+	"vonné oleje",
 	"vonné tyčinky",
 	"vykrajovátka",
 	"včetně kufříku",
