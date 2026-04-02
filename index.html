@@ -566,13 +566,13 @@ nav.bottom button {
             <h3>
                 Tahle appka je zcela závislá na použití JavaScriptu 😐️
                 <br><br>
-                Bez něj to prostě nepůjde ...
+                Bez něj to prostě nepůjde ☠️
             </h3>
         </div>
     </noscript>
     <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
         <h2 id="loading-info" style="color: black;">
-            👩‍🔧 Nahrávám ...
+            👩‍🔧 Nahrávám
         </h2>
     </div>
     <div id="deals"></div>
@@ -1012,7 +1012,7 @@ const initApp = () => {
                 $('#loading-info').text('Chyba nahrávání dat!');
                 return;
             }
-            $('#loading-info').text('👽️ Renderuji ...');
+            $('#loading-info').text('👽️ Renderuji');
             let goods = [];
             if (data && data.goods && Array.isArray(data.goods)) {
                 goods = data.goods;
