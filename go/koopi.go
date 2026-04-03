@@ -440,11 +440,11 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// price
 			newGoods.Price = strings.TrimSpace(offer.Find(".discount_price_value").Text())
-			newGoods.Price = strings.ReplaceAll(newGoods.Price, ",", ".")
+			//newGoods.Price = strings.ReplaceAll(newGoods.Price, ",", ".")
 
 			// price per unit
 			newGoods.PricePerUnit = strings.TrimSpace(offer.Find(".price_per_unit").Text())
-			newGoods.PricePerUnit = strings.ReplaceAll(newGoods.PricePerUnit, ",", ".")
+			//newGoods.PricePerUnit = strings.ReplaceAll(newGoods.PricePerUnit, ",", ".")
 
 			// discount
 			newGoods.Discount = strings.TrimSpace(offer.Find(".discount_percentage").Text())
@@ -799,8 +799,8 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["subcat"] = item.SubCat
 		cleanedItem["query"] = item.Query
 		cleanedItem["name"] = item.Name
-		cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
-		cleanedItem["ppunit"] = strings.Replace(item.PricePerUnit, ",", ".", 1)
+		//cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
+		cleanedItem["ppunit"] = strings.Replace(item.PricePerUnit, ".", ",", 1)
 		cleanedItem["discount"] = item.Discount
 		cleanedItem["note"] = item.Note
 		cleanedItem["club"] = item.Club
