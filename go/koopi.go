@@ -799,7 +799,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["subcat"] = item.SubCat
 		cleanedItem["query"] = item.Query
 		cleanedItem["name"] = item.Name
-		//cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
+		cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
 		cleanedItem["ppunit"] = strings.Replace(item.PricePerUnit, ".", ",", 1)
 		cleanedItem["discount"] = item.Discount
 		cleanedItem["note"] = item.Note
@@ -816,6 +816,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanPrice = strings.ReplaceAll(cleanPrice, "\u202F", "")
 		cleanPrice = strings.Replace(cleanPrice, ",", ".", 1)
 		cleanPrice = strings.TrimSpace(cleanPrice)
+
 		if priceFloat, err := strconv.ParseFloat(cleanPrice, 64); err == nil {
 			whole, frac := math.Modf(priceFloat)
 			cleanedItem["pw"] = strconv.Itoa(int(whole))
