@@ -6,6 +6,7 @@ CUKROVINKY,bonbony,1
 CUKROVINKY,croissant milka,1
 CUKROVINKY,cukr,1
 CUKROVINKY,džem,1
+CUKROVINKY,kinder,1
 CUKROVINKY,kit kat,1
 CUKROVINKY,lindt,1
 CUKROVINKY,linecké,1
@@ -13,6 +14,7 @@ CUKROVINKY,orion,1
 CUKROVINKY,perník,1
 CUKROVINKY,perníčky,1
 CUKROVINKY,poleva,1
+CUKROVINKY,skittles,1
 CUKROVINKY,studentská pečeť,1
 CUKROVINKY,sušenky,1
 CUKROVINKY,tyčinka banány,1
@@ -45,14 +47,20 @@ NÁPOJE,absinth,1
 NÁPOJE,božkov,1
 NÁPOJE,cider,1
 NÁPOJE,coca-cola,1
+NÁPOJE,diplomatico,1
+NÁPOJE,don papa,1
 NÁPOJE,džus,1
+NÁPOJE,el general,1
+NÁPOJE,jack daniel's,1
 NÁPOJE,lager,1
+NÁPOJE,lavazza,1
 NÁPOJE,ležák,5
 NÁPOJE,likér,1
 NÁPOJE,nestea,1
 NÁPOJE,pepsi,1
 NÁPOJE,stará myslivecká,1
 NÁPOJE,vodka,3
+NÁPOJE,zacapa,1
 NÁPOJE,žitná myslivecká,1
 
 OBILÍ,bageta,1
@@ -99,6 +107,7 @@ CUKROVINKY,haribo,2
 CUKROVINKY,hašlerky,1
 CUKROVINKY,hroznový cukr,1
 CUKROVINKY,javorový sirup,1
+CUKROVINKY,kakaové věnečky,1
 CUKROVINKY,lentilky,1
 CUKROVINKY,lesněnky,1
 CUKROVINKY,lízátka,1
@@ -106,6 +115,9 @@ CUKROVINKY,marshmallow,1
 CUKROVINKY,med,1
 CUKROVINKY,nanuk,2
 CUKROVINKY,nutella,1
+CUKROVINKY,opavia esíčka,1
+CUKROVINKY,opavia polomáčené,1
+CUKROVINKY,opavia zlaté,1
 CUKROVINKY,oplatka,1
 CUKROVINKY,ovocný cukr,1
 CUKROVINKY,pedro,2
@@ -253,23 +265,25 @@ OBILÍ,makovky,1
 OBILÍ,muesli,1
 OBILÍ,mysli na zdraví emco,1
 OBILÍ,mysli,1
-OBILÍ,ranní chlebík,1
 OBILÍ,noční chlebík,1
 OBILÍ,nudle,1
 OBILÍ,ovesné vločky,1
 OBILÍ,pečivo,1
 OBILÍ,pohanka,1
+OBILÍ,ranní chlebík,1
 OBILÍ,rohlík,1
 OBILÍ,rýže,1
 OBILÍ,těstoviny,3
 OBILÍ,zavářka,1
 OBILÍ,závin,1
+OSTATNÍ,brambůrky,3
 OSTATNÍ,chipsy,3
 OSTATNÍ,droždí,1
 OSTATNÍ,jedlá soda,1
 OSTATNÍ,kečup,3
 OSTATNÍ,kvasnice,1
 OSTATNÍ,kyselina citronová,1
+OSTATNÍ,lay's,3
 OSTATNÍ,ocet,1
 OSTATNÍ,omáčka,3
 OSTATNÍ,pomazánka,1
@@ -329,6 +343,7 @@ SÝRY,brie,1
 SÝRY,brynza,1
 SÝRY,bánovecké syrečky,1
 SÝRY,camembert,1
+SÝRY,cheddar,1
 SÝRY,cottage,1
 SÝRY,eidam,2
 SÝRY,ementál,1
@@ -364,7 +379,6 @@ SÝRY,sedlčanský hermelín,1
 SÝRY,tolštejn,1
 SÝRY,tvarůžky,1
 SÝRY,tylžský sýr,1
-SÝRY,čedar,1
 SÝRY,žervé,1
 TUKY,arašídový olej,1
 TUKY,avokádový olej,1
@@ -393,6 +407,7 @@ UZENINY,grilovací klobása,1
 UZENINY,grilovací tyčinky,1
 UZENINY,herkules,1
 UZENINY,jemné párky,1
+UZENINY,junior salám,1
 UZENINY,klobása,1
 UZENINY,kuřecí párky,1
 UZENINY,kuřecí šunka,1
@@ -407,6 +422,8 @@ UZENINY,prosciutto,1
 UZENINY,slanina,1
 UZENINY,uherská klobása,1
 UZENINY,uherák,1
+UZENINY,uzená krkovice,1
+UZENINY,uzená šunka,1
 UZENINY,vepřová šunka,1
 UZENINY,vepřové párky,1
 UZENINY,vysočina,1
