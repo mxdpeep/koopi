@@ -1107,8 +1107,7 @@ const renderDeals = (deals) => {
     }).map(deal => {
         return `
         <article class="noselect notip product-card c-${deal.cat}" 
-                 data-id="${deal.id}" 
-                 data-market="${deal.market}">
+                 data-id="${deal.id}" data-market="${deal.market}">
             <div class="heartcartrow row center-align">
                 <div class="center-align">
                     <div class="grayscaled myheart bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
