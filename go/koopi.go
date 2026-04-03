@@ -810,23 +810,19 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
 		cleanedItem["scrapedat"] = item.ScrapedAt
 
-		// 1. Vyčistíme string od "Kč", mezer a upravíme čárku na tečku
-		// Odstraní "Kč", pak všechny mezery (včetně nezlomitelných)
 		cleanPrice := strings.ReplaceAll(item.Price, "Kč", "")
 		cleanPrice = strings.ReplaceAll(cleanPrice, " ", "")
 		cleanPrice = strings.ReplaceAll(cleanPrice, "\u00a0", "")
+		cleanPrice = strings.ReplaceAll(cleanPrice, "\u202F", "")
 		cleanPrice = strings.Replace(cleanPrice, ",", ".", 1)
 		cleanPrice = strings.TrimSpace(cleanPrice)
-
-		// 2. Teď už ParseFloat projde, protože v cleanPrice je jen "19.90"
 		if priceFloat, err := strconv.ParseFloat(cleanPrice, 64); err == nil {
 			whole, frac := math.Modf(priceFloat)
-			cleanedItem["price_w"] = strconv.Itoa(int(whole))
-			cleanedItem["price_d"] = fmt.Sprintf("%02d", int(math.Round(frac*100)))
+			cleanedItem["pw"] = strconv.Itoa(int(whole))
+			cleanedItem["pd"] = fmt.Sprintf("%02d", int(math.Round(frac*100)))
 		} else {
-			// Tohle nastane jen když tam bude úplný nesmysl
-			cleanedItem["price_w"] = cleanPrice
-			cleanedItem["price_d"] = "00"
+			cleanedItem["pw"] = cleanPrice
+			cleanedItem["pd"] = "00"
 		}
 
 		// cat data.json | jq '.goods[].validity' | sort | uniq
