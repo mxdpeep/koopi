@@ -478,7 +478,6 @@ nav.bottom button {
 </style>
 </head>
 <body class="light">
-
 <!-- HTML5 top nav -->
 <nav class="righthanded top notap nowrap black white-text vertical">
     <div class="basic row width-100">
@@ -540,7 +539,6 @@ nav.bottom button {
         <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
     </div> 
 </nav>
-
 <!-- HTML5 bottom nav -->
 <nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
@@ -556,10 +554,8 @@ nav.bottom button {
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
-
 <!-- HTML5 DEBUGGER -->
 <div id="debugger" class="notap noselect blue-grey white-text bold debugger"></div>
-
 <!-- HTML5 CONTENT -->
 <main class="container">
     <noscript>
@@ -751,7 +747,7 @@ nav.bottom button {
         <div id="mycats" class="center-align padding s m l"></div>
     </div>
 </main>
-
+<!-- RUNTIME -->
 <script>
 'use strict';
 
@@ -996,7 +992,7 @@ const progressBar = () => {
     };
 }
 
-// application init
+// app init
 const initApp = () => {
     console.time('JSON-Fetch');
     fetch(dataFile)
@@ -1389,10 +1385,22 @@ const updateNavIcons = () => {
     });
 };
 
-// WEB-UI bindings
+// UI BINDINGS
 $(document).ready(function() {
     let flash_flag = false; // bool: is flash animation pending?
     let face_flag = false; // bool: is face animation pending?
+
+    // fn: setSettingsMode() - if About or Settings is pressed
+    function setSettingsMode(state) {
+        if (state) {
+            window.settings_flag = true;
+            $('.extras').addClass('extras-hidden');
+        } else {
+            if (window.refresh_flag) refresh(); // force refresh if needed
+            window.settings_flag = false;
+            $('.extras').removeClass('extras-hidden');
+        }
+    }
 
     // SHARE button
     $('#webshare').on('click', function() {
@@ -1447,18 +1455,6 @@ $(document).ready(function() {
             });
         }
     });
-
-    // fn: setSettingsMode() - if About or Settings is pressed
-    function setSettingsMode(state) {
-        if (state) {
-            window.settings_flag = true;
-            $('.extras').addClass('extras-hidden');
-        } else {
-            if (window.refresh_flag) refresh(); // force refresh if needed
-            window.settings_flag = false;
-            $('.extras').removeClass('extras-hidden');
-        }
-    }
 
     // ABOUT button
     $('.about-btn').on('click', function() {
@@ -1638,8 +1634,8 @@ $(document).ready(function() {
 
     // fn: setRefreshBtn() - set refresh button animated indicator
     function setRefreshBtn() {
-        $('.refresh-btn').addClass('orange-text icon-wave');
-        setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin');}, 2500);
+        $('.refresh-btn').removeClass('icon-wave icon-spin').addClass('orange-text icon-wave');
+        setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin');}, 300);
     }
     window.setRefreshBtn = setRefreshBtn;
 
