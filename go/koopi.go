@@ -456,7 +456,9 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Volume = strings.TrimSpace(offer.Find(".discount_amount").Text())
 			newGoods.Volume = strings.TrimPrefix(newGoods.Volume, "/")
 			newGoods.Volume = strings.TrimSpace(newGoods.Volume)
-			if newGoods.Volume == "" { // no volume specified
+			newGoods.Volume = strings.ReplaceAll(newGoods.Volume, ".", ",")
+			if newGoods.Volume == "" {
+				// no volume specified
 				newGoods.Volume = "?"
 			}
 
