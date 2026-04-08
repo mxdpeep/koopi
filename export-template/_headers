@@ -7,7 +7,7 @@
   Referrer-Policy: no-referrer
 
 /index.html
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=14400
 
 /images/*
   Cache-Control: public, max-age=2592000, immutable
