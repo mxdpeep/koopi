@@ -111,12 +111,19 @@ var rateLimiter chan struct{}
 var (
 	// předložky a spojky
 	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
+
 	// číslo + mezera + jednotka
 	reUnits = regexp.MustCompile(`(\d+)\s+(g|kg|ml|l|ks)\b`)
+
+	// datum v minulosti
+	rePastDate = regexp.MustCompile(`\D*(\d{1,2})\.\s*(\d{1,2})\.`)
+
 	// datum v budoucnosti
-	reFutureDate = regexp.MustCompile(`(\d{1,2})\.\s*(\d{1,2})\.`)
+	reFutureDate = regexp.MustCompile(`\D*(\d+)\.\s*(\d+)\.`)
+
 	// non-alphanumeric
 	nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
+
 	// bones
 	regaz = regexp.MustCompile(`[^a-z\s]+`)
 )
@@ -499,6 +506,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// validity
 			newGoods.Validity = strings.TrimSpace(offer.Find(".discounts_validity").Text())
+			newGoods.Validity = strings.TrimPrefix(newGoods.Validity, "v ")
 			newGoods.Validity = sanitizeString(newGoods.Validity)
 
 			// market
@@ -819,6 +827,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanPrice = strings.Replace(cleanPrice, ",", ".", 1)
 		cleanPrice = strings.TrimSpace(cleanPrice)
 
+		// split price to parts: whole,decimal
 		if priceFloat, err := strconv.ParseFloat(cleanPrice, 64); err == nil {
 			whole, frac := math.Modf(priceFloat)
 			cleanedItem["pw"] = strconv.Itoa(int(whole))
@@ -862,7 +871,24 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			valcol = "orange"
 		}
 
-		// validity date in the future?
+		// validity date in the past
+		matchPast := rePastDate.FindStringSubmatch(item.Validity)
+		if len(matchPast) >= 3 {
+			dp, _ := strconv.Atoi(matchPast[1])
+			mp, _ := strconv.Atoi(matchPast[2])
+			endDate := time.Date(now.Year(), time.Month(mp), dp, 23, 59, 59, 0, time.Local)
+			if endDate.After(now.AddDate(0, 6, 0)) {
+				endDate = endDate.AddDate(-1, 0, 0)
+			}
+			if endDate.Before(now.AddDate(0, -6, 0)) {
+				endDate = endDate.AddDate(1, 0, 0)
+			}
+			if now.After(endDate) {
+				continue // skip - invalid
+			}
+		}
+
+		// validity date in the future
 		match := reFutureDate.FindStringSubmatch(item.Validity)
 		if len(match) >= 3 {
 			d, _ := strconv.Atoi(match[1])
