@@ -868,6 +868,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			}
 		}
 		if strings.Contains(validity, "zítra končí") {
+			validity = tomorrowValidity
 			valcol = "orange"
 		}
 
@@ -991,8 +992,10 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 
 	// save to JSON
 	encoder := json.NewEncoder(file)
+
 	// pretty print vs compact
 	//encoder.SetIndent("", "  ")
+
 	if err := encoder.Encode(outputData); err != nil {
 		log.Fatalf("[%s] 💥 error writing to JSON: %v", filename, err)
 	}
