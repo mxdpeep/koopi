@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>🤑 SLEVIČKY</title>
-<link rel="canonical" href="https://slevicky.pages.dev/">
+<link rel="canonical" href="https://slevicky.hmcgames.com/">
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://umami.gscloud.cz">
@@ -661,16 +661,16 @@ nav.bottom button {
         </article>
         <article>
             <label for="why-check" class="row cursor-pointer">
-                <div class="max"><b>👾 SLEVIČKY - příběh gamifikace nakupování</b></div>
+                <div class="max"><b>🤑 SLEVIČKY - příběh gamifikace nakupování</b></div>
                 <i>expand_more</i>
             </label>
             <input type="checkbox" id="why-check">
             <div class="content padding">
             <img src="/fred.jpg" class="fred" alt="Fred"><br>
-            <strong>SLEVIČKY: Diagnóza doby</strong><br><br>
+            <strong>SLEVIČKY: diagnóza doby</strong><br><br>
                 Mnozí vědí, že jsem veteránem české herní scény (Vietcong, Flying Heroes, Fish Fillets atd.).<br><br>
 
-                Před třemi lety byl projekt <b>SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
+                Před třemi lety byl projekt <b>🤑&nbsp;SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
                 Tehdy jsem ale ještě netušil, jak moc se změní svět – a jak moc se změní můj vlastní život.<br><br>
 
                 <strong>2.5 roku mimo systém</strong><br><br>
@@ -699,7 +699,7 @@ nav.bottom button {
                 <strong>Člověk vs. nástroj</strong><br><br>
                 I když jsem momentálně bez práce, neznamená to, že jsem přestal tvořit. Právě naopak.<br><br>
 
-                <b>SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.<br><br>
+                <b>🤑&nbsp;SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.<br><br>
 
                 Pokud vám to přijde užitečné, můžete mi přispět přes PayPal.<br><br><br>
 
@@ -872,7 +872,7 @@ try {
     storage.removeItem('luid'); // Cleanup starého bordelu
 } catch (e) {
     nolocalstorage = true;
-    console.warn('Slevičky: localStorage je blokován');
+    console.warn('SLEVIČKY: localStorage je zablokován');
 }
 window.nolocalstorage = nolocalstorage;
 $('#info_localStorage').text(!nolocalstorage ? "OK" : "ZABLOKOVÁN");
@@ -1058,7 +1058,7 @@ const initApp = () => {
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
-            $('#stats').html(`Slevičky: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; Obchody: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
+            $('#stats').html(`SLEVIČKY: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; Obchody: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
             $('#appbuild').html(`🗓️ sestaveno: <b>${data.created}</b>`);
                 
             console.time('DOM-Render-Speed');
@@ -1407,7 +1407,7 @@ $(document).ready(function() {
 
     // SHARE button
     $('#webshare').on('click', function() {
-        webShare('Slevičky', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public alfa)', 'https://slevicky.pages.dev/');
+        webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public alfa)', 'https://slevicky.pages.dev/');
     });
 
     // SAVE button
