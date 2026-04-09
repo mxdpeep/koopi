@@ -447,11 +447,9 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// price
 			newGoods.Price = strings.TrimSpace(offer.Find(".discount_price_value").Text())
-			//newGoods.Price = strings.ReplaceAll(newGoods.Price, ",", ".")
 
 			// price per unit
 			newGoods.PricePerUnit = strings.TrimSpace(offer.Find(".price_per_unit").Text())
-			//newGoods.PricePerUnit = strings.ReplaceAll(newGoods.PricePerUnit, ",", ".")
 
 			// discount
 			newGoods.Discount = strings.TrimSpace(offer.Find(".discount_percentage").Text())
@@ -465,8 +463,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Volume = strings.TrimSpace(newGoods.Volume)
 			newGoods.Volume = strings.ReplaceAll(newGoods.Volume, ".", ",")
 			if newGoods.Volume == "" {
-				// no volume specified
-				newGoods.Volume = "?"
+				newGoods.Volume = "?" // no volume specified
 			}
 
 			// note
@@ -513,6 +510,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Market = strings.TrimSpace(offer.Find(".discounts_shop_name a span").Text())
 			newGoods.Market = strings.ReplaceAll(newGoods.Market, "&", "and")
 			newGoods.Market = sanitizeString(newGoods.Market)
+			newGoods.Market = strings.ReplaceAll(newGoods.Market, "Albert supermarket", "Albert")
 
 			// add SubCat based on Note
 			if strings.Contains(newGoods.Note, "zálohovaná lahev") {
