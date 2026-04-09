@@ -14,6 +14,9 @@ CUKROVINKY,orion,1
 CUKROVINKY,perník,1
 CUKROVINKY,perníčky,1
 CUKROVINKY,poleva,1
+CUKROVINKY,pralinky,1
+CUKROVINKY,proteinová sušenka,1
+CUKROVINKY,proteinová tyčinka,1
 CUKROVINKY,skittles,1
 CUKROVINKY,studentská pečeť,1
 CUKROVINKY,sušenky,1
@@ -26,6 +29,7 @@ KOŘENÍ,omáčka worcestrová,1
 KOŘENÍ,rybí omáčka,1
 KOŘENÍ,sójová omáčka,1
 
+MLÉKO,danone,1
 MLÉKO,dezert zakysaný,1
 MLÉKO,florian,1
 MLÉKO,hollandia,1
@@ -72,6 +76,7 @@ OBILÍ,houska,2
 OBILÍ,hrášek smažený leimer,1
 OBILÍ,kaiserka,1
 OBILÍ,kobliha,2
+OBILÍ,koblihový banánek,2
 OBILÍ,krajánek,1
 OBILÍ,mazanec,1
 OBILÍ,mouka,2
@@ -87,12 +92,15 @@ SÝRY,olomoucké tvarůžky,1
 SÝRY,smažený sýr,1
 SÝRY,sýr zrající,1
 SÝRY,tavený sýr,1
+SÝRY,toustový sýr,1
 SÝRY,zottarella,1
 
 TUKY,hellmann's,2
 TUKY,olej,2
 
 UZENINY,šunka,1
+
+ZELENINA,znojmia,1
 
 
 
@@ -126,8 +134,8 @@ CUKROVINKY,piškoty,1
 CUKROVINKY,ricola,1
 CUKROVINKY,sovičky,1
 CUKROVINKY,tatranka,1
-CUKROVINKY,tatranky,1
 CUKROVINKY,tic tac bonbony,1
+CUKROVINKY,trubičky alaska,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
 CUKROVINKY,zmrzlina,3
@@ -255,6 +263,7 @@ OBILÍ,corn flakes,1
 OBILÍ,croissant,1
 OBILÍ,dupetky,1
 OBILÍ,francouzská bageta,1
+OBILÍ,instantní kaše,1
 OBILÍ,instantní nudle,1
 OBILÍ,knedlík,1
 OBILÍ,knedlíky,1
@@ -299,6 +308,7 @@ OVOCE,brusinky,1
 OVOCE,citrony,1
 OVOCE,datle,1
 OVOCE,fíky,1
+OVOCE,hrozny bezsemenné,1
 OVOCE,hrozny,1
 OVOCE,hrušky,1
 OVOCE,jablka,3
@@ -418,6 +428,7 @@ UZENINY,moravské uzené,1
 UZENINY,pancetta,1
 UZENINY,paprikáš,1
 UZENINY,paštika,1
+UZENINY,pivní salám,1
 UZENINY,pražská šunka,1
 UZENINY,prosciutto,1
 UZENINY,slanina,1
