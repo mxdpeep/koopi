@@ -483,6 +483,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " + ", " +")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " & ", "&")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " - ", "-")
+			newGoods.Note = strings.ReplaceAll(newGoods.Note, "6 7 edice", "Skrill edice")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, "-", "\u2011")
 			newGoods.Note = strings.ReplaceAll(newGoods.Note, " \u0026 ", "\u0026")
 			newGoods.Note = sanitizeString(newGoods.Note)
