@@ -57,6 +57,29 @@ const (
 	REQ_TIMEOUT       = 17 * time.Second
 )
 
+// note fixes
+var noteFixes = []struct {
+	old string
+	new string
+}{
+	{"vybrané druhy", "různé druhy"},
+	{"+3 Kč záloha na láhev", "zálohovaná lahev"},
+	{"+ 7 Kč záloha na lahev", "zálohovaná lahev "},
+	{"láhev", "lahev"},
+	{"láhve", "lahve"},
+	{"0g", "0 g"},
+	{"max ", "max. "},
+	{"pet lahev", "PET lahev"},
+	{"1 + 1", "1+1"},
+	{"4 + 2", "4+2"},
+	{" + ", " +"},
+	{" & ", "&"},
+	{" - ", "-"},
+	{"6 7 edice", "Skrill edice"},
+	{"-", "\u2011"},
+	{" \u0026 ", "\u0026"},
+}
+
 // UA strings
 var UserAgents = []string{
 	"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
@@ -468,22 +491,10 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// note
 			newGoods.Note = strings.TrimSpace(offer.Find(".discount_note").Text())
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "vybrané druhy", "různé druhy")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "+3 Kč záloha na láhev", "zálohovaná lahev")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "+ 7 Kč záloha na lahev", "zálohovaná lahev ")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhev", "lahev")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "láhve", "lahve")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, " 0g", " 0 g")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "max ", "max. ")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "pet lahev", "PET lahev")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "1 + 1", "1+1")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "4 + 2", "4+2")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, " + ", " +")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, " & ", "&")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, " - ", "-")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "6 7 edice", "Skrill edice")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, "-", "\u2011")
-			newGoods.Note = strings.ReplaceAll(newGoods.Note, " \u0026 ", "\u0026")
+			for _, fix := range noteFixes {
+				newGoods.Note = strings.ReplaceAll(newGoods.Note, fix.old, fix.new)
+			}
+
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
 
