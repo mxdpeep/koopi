@@ -1195,7 +1195,7 @@ func main() {
 		volumesList = append(volumesList, volume)
 	}
 	sort.Strings(volumesList)
-	//fmt.Printf("\n🥡 Volumes [%d]: %s\n", len(volumesList), strings.Join(volumesList, ", "))
+	fmt.Printf("\n🥡 Volumes [%d]: %s\n", len(volumesList), strings.Join(volumesList, ", "))
 
 	// save to CSV
 	c := collate.New(language.Czech)
