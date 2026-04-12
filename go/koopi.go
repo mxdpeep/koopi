@@ -494,14 +494,8 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			for _, fix := range noteFixes {
 				newGoods.Note = strings.ReplaceAll(newGoods.Note, fix.old, fix.new)
 			}
-
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
-
-			// skip forbidden goods
-			if isForbidden(newGoods.Note, blockedGoods) {
-				newGoods.Name = ""
-			}
 
 			// club
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())
@@ -1204,7 +1198,7 @@ func main() {
 		volumesList = append(volumesList, volume)
 	}
 	sort.Strings(volumesList)
-	fmt.Printf("\n🥡 Volumes [%d]: %s\n", len(volumesList), strings.Join(volumesList, ", "))
+	//fmt.Printf("\n🥡 Volumes [%d]: %s\n", len(volumesList), strings.Join(volumesList, ", "))
 
 	// save to CSV
 	c := collate.New(language.Czech)
