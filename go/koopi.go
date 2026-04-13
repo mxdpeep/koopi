@@ -234,6 +234,7 @@ var blockedGoods = []string{
 	"rostoucí vejce",
 	"rty",
 	"rtěnka",
+	"rybářská sada",
 	"sazenice",
 	"sklenice",
 	"společenská hra",
