@@ -1040,6 +1040,7 @@ const initApp = () => {
                 deals.hashidmap[hash] = parseInt(id);
             });
 
+            // top keywords block list
             const blockedWords = [
                 "albert",
                 "bez",
@@ -1051,17 +1052,16 @@ const initApp = () => {
                 "tesco",
                 "vyber"
             ];
+
             deals.topkeywords = Object.keys(deals.keywordsindex)
                 .filter(word => !blockedWords.includes(word))
                 .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
-                .slice(0, 30);
+                .slice(0, 50);
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             $('#stats').html(`SLEVIČKY: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; Obchody: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
             $('#appbuild').html(`🗓️ sestaveno: <b>${data.created}</b>`);
-                
-            console.time('DOM-Render-Speed');
             $('#deals').html('').addClass('hidden');
 
             const start = performance.now();
@@ -1074,10 +1074,11 @@ const initApp = () => {
             loadAllLikes();
 
             const end = performance.now();
-            console.timeEnd('DOM-Render-Speed');
 
             const renderDuration = Math.round(end - start);
             $('#speed-bench').html(`Rendering: <b class=sbigger>${renderDuration} ms</b>`);
+            debug(`Deals: ${goods.length}`);
+            debug(`Rendering: ${renderDuration} ms`);
             
             // defaults
             setDefaults();
