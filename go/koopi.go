@@ -196,6 +196,7 @@ var blockedGoods = []string{
 	"kapradina",
 	"kapradiny",
 	"kartáček",
+	"keřík",
 	"kolekce",
 	"kolínská",
 	"komoda",

@@ -9,7 +9,7 @@ STEMS_DIR := stems
 
 all:
 	@echo "backup | build | hashmap | clear | db | img | cf"
-	@echo "macro: everything"
+	@echo "macro: everything | normalize"
 
 clear:
 	@-find ./cache/ -type f -mmin +2500 -delete 2> /dev/null || true
@@ -72,6 +72,11 @@ cf:
 	@cd export && git add -A
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
+
+normalize: db img hashmap cf
+	@-git add -A
+	@-git commit -am 'automatic update'
+	@-git push origin master
 
 everything: clear db img hashmap cf backup
 	@-git add -A
