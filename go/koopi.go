@@ -243,6 +243,7 @@ var blockedGoods = []string{
 	"sklenice",
 	"společenská hra",
 	"stojánková baterie",
+	"substrát",
 	"sůl koupelová",
 	"sůl posypová",
 	"tablety",
