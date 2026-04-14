@@ -398,7 +398,7 @@ func unlockLock() {
 		if err := os.Remove(LOCK_FILE); err != nil {
 			fmt.Printf("🚨 ERROR: failed to remove lock file %s: %v\n", LOCK_FILE, err)
 		} else {
-			fmt.Printf("🔓️ lock file %s removed\n", LOCK_FILE)
+			fmt.Printf("🔓️ lock file %s removed\n\n", LOCK_FILE)
 		}
 	} else if err != nil && !os.IsNotExist(err) {
 		fmt.Printf("🚨 ERROR: failed to read lock file for verification: %v\n", err)
