@@ -99,17 +99,11 @@ button.chip .market-image {
 }
 
 /* ABOUT */
-.fred {
-    width: 100px;
-    height: 100px;
-    border: 2px solid #000;
-    border-radius: 50px;
-    margin: 1rem;
-}
 #changelog-check {display: none;}
 #changelog-check:not(:checked) ~ .content {display: none;}
 #why-check {display: none;}
 #why-check:not(:checked) ~ .content {display: none;}
+.fred {width: 100px;height: 100px;border: 2px solid #000;border-radius: 50px;margin: 1rem;}
 
 /* DEBUGGER */
 #debugger {width: 75%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;}
@@ -673,42 +667,51 @@ nav.bottom button {
                 Před třemi lety byl projekt <b>🤑&nbsp;SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
                 Tehdy jsem ale ještě netušil, jak moc se změní svět – a jak moc se změní můj vlastní život.<br><br>
 
-                <strong>2.5 roku mimo systém</strong><br><br>
+                <strong>3 roky mimo systém</strong><br><br>
 
-                Posledních dva a půl roku jsem nezaměstnaný.
-                Pro někoho je to statistika, pro Freda to byla škola tvrdé reality a prostor pro pozorování.
+                Posledních skoro 3 roky jsem nezaměstnaný.
+                Pro někoho je to statistika, pro Freda to je škola tvrdé reality a prostor pro pozorování.
                 Když jste mimo klasický pracovní kolotoč, začnete vnímat věci, které ostatní v tom spěchu přehlížejí.
                 Vidíte, jak se společnost láme a spěchá, jak se nákupní seznamy mění v taktické plány, jak se lidé stávají de facto rukojmí barevných cenovek Lidl a Kaufland.
+
                 <br><br>
 
                 <strong>Slevový trh jako projev šílenství</strong><br><br>
+
                 To, co se dnes děje okolo slev, už není běžný obchod.
                 Je to uragán. Gamifikace nakupování.
-                Je to kolektivní psychóza.<br><br>
+                Je to kolektivní psychóza.
+
+                <br><br>
+
                 Lidé už nekupují věci, protože je potřebují, ale proto, že jsou "v akci". Hrajeme hru.
                 Slevové letáky se staly nejdůležitější literaturou dneška a já jsem se rozhodl, že tohle šílenství potřebuje řád, alespoň trošku.<br><br>
 
                 <strong>Od nuly v Golangu k funkční zbrani</strong><br><br>
 
                 Když ten nápad přišel poprvé, neuměl jsem v Golang ani řádku. Byl jsem "starý pes" odkojený na PHP.
-                Ale čas strávený bez zaměstnání mi dal jedno plus: možnost se učit. A pak přišlo AI Google Gemini.<br><br>
+                Ale čas strávený bez zaměstnání mi dal jedno plus: možnost se učit. A pak přišlo AI Google Gemini.
+                
+                <br><br>
 
-                Dnes už SLEVIČKY nejsou jen nápad. Po 4 měsících vývoje (trošku jsem dělal na hudbě) je to nástroj.<br><br>
-                Renderuje tisíce karet zboží, třídí je, páruje a dává vám, mým přátelům, do rukou nástroj, jak se v tom víru neutopit.<br><br>
+                Dnes už SLEVIČKY nejsou jen nápad. Je to nástroj. Renderuje tisíce karet zboží, třídí je, organizuje.<br><br>
 
                 <strong>Člověk vs. nástroj</strong><br><br>
-                I když jsem momentálně bez práce, neznamená to, že jsem přestal tvořit. Právě naopak.<br><br>
 
-                <b>🤑&nbsp;SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.<br><br>
+                <b>🤑&nbsp;SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.
+                
+                <br><br>
 
                 Pokud vám to přijde užitečné, můžete mi přispět přes PayPal.<br><br><br>
 
                 <h4>Jak to celé funguje?</h4>
+
                 data > Golang scraper > parser > filter > processor > filter > JSON > render > UI > uživatel 👽️<br><br>
 
-                <h4>Technicky</h4>
-                Backend je napsán v Golang, frontend HTML5, CSS3, JavaScript, jQuery + Beercss framework.<br><br>
-                Hosting Github + Cloudflare Pages.<br><br>
+                <h4>Technologie</h4>
+
+                Backend je napsán v moderním jazyce Go, frontend je čisté HTML5, Beercss framework, JavaScript a jQuery.<br><br>
+                Github + Cloudflare Pages.<br><br>
             </div>
         </article>
         <div id="paypal-container-27G3BMUCN2VU2"></div>
@@ -1638,14 +1641,14 @@ $(document).ready(function() {
 
     // fn: setRefreshBtn() - set refresh button animated indicator
     function setRefreshBtn() {
-        $('.refresh-btn').removeClass('icon-wave icon-spin').addClass('orange-text icon-wave');
+        $('.refresh-btn').removeClass('icon-wave icon-spin').addClass('orange-text icon-wave bold');
         setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin');}, 300);
     }
     window.setRefreshBtn = setRefreshBtn;
 
     // fn: refresh() - refresh the page using a buster
     function refresh() {
-        $('.refresh-btn').prop('disabled', true).html('<i>schedule</i>');
+        $('.refresh-btn').html('<i>schedule</i>').addClass('orange-text bold');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
