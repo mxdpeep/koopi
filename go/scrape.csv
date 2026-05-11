@@ -10,6 +10,7 @@ CUKROVINKY,kinder,1
 CUKROVINKY,kit kat,1
 CUKROVINKY,lindt,1
 CUKROVINKY,linecké,1
+CUKROVINKY,mandle v čokoládě,1
 CUKROVINKY,orion,1
 CUKROVINKY,perník,1
 CUKROVINKY,perníčky,1
@@ -17,6 +18,7 @@ CUKROVINKY,poleva,1
 CUKROVINKY,pralinky,1
 CUKROVINKY,proteinová sušenka,1
 CUKROVINKY,proteinová tyčinka,1
+CUKROVINKY,rozinky v čokoládě,1
 CUKROVINKY,skittles,1
 CUKROVINKY,studentská pečeť,1
 CUKROVINKY,sušenky,1
@@ -28,6 +30,8 @@ KOŘENÍ,bujón,1
 KOŘENÍ,omáčka worcestrová,1
 KOŘENÍ,rybí omáčka,1
 KOŘENÍ,sójová omáčka,1
+
+MASO,šunkový závitek s křenem,1
 
 MLÉKO,danone,1
 MLÉKO,dezert zakysaný,1
@@ -93,6 +97,7 @@ SÝRY,bayerntaler,1
 SÝRY,olomoucké tvarůžky,1
 SÝRY,smažený sýr,1
 SÝRY,sýr zrající,1
+SÝRY,sýrové nugetky,1
 SÝRY,tavený sýr,1
 SÝRY,toustový sýr,1
 SÝRY,zottarella,1
