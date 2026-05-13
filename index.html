@@ -533,14 +533,14 @@ nav.bottom button {
     </div> 
 </nav>
 <!-- HTML5 bottom nav -->
-<nav class="righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
+<nav class="catbuttons righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
 </nav>
-<nav class="lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
+<nav class="catbuttons lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
@@ -1373,10 +1373,12 @@ $(document).ready(function() {
         if (state) {
             window.settings_flag = true;
             $('.extras').addClass('extras-hidden');
+            $('.catbuttons').hide();
         } else {
             if (window.refresh_flag) refresh(); // force refresh if needed
             window.settings_flag = false;
             $('.extras').removeClass('extras-hidden');
+            $('.catbuttons').show();
         }
     }
 
