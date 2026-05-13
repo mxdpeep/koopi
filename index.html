@@ -38,7 +38,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="/manifest.json">
 <script src="/jquery.min.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=BAA9LFls7Hk-pPlHS1MeLJYA6vECdzHUd4UYwGadcr3lnEbsV5UfYxNRsnGCCncrNegtdGeQ21qQ_VKAMI&components=hosted-buttons&disable-funding=venmo&currency=CZK"></script>
 <script defer src="https://umami.gscloud.cz/script.js" data-website-id="685f5416-a5da-48ad-bddd-27b9f4e76321"></script>
 <style>
 /* VARIABLES */
@@ -593,59 +592,44 @@ nav.bottom button {
 
         <article>
             <label for="changelog-check" class="row cursor-pointer">
-                <div class="max"><strong>🧠 Changelog</strong></div>
-                <i>expand_more</i>
+                <div class="max hover"><strong>🧠 Changelog</strong></div>
+                <i class="hover">expand_more</i>
             </label>
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
-                <b>◾️ optimalizace, refaktorizace, bugfixing</b>
-                <br><br>
                 <ul>
                     <li><b>2026-05-13</b>
-                        <br>◾️ kompletní blokování vybraných obchodů
+                        <br>◾️ DATA: blokování vybraných obchodů
                     </li>
                     <li><b>2026-04-09</b>
-                        <br>◾️ spojení Albert a Albert supermarket
+                        <br>◾️ DATA: spojení Albert a Albert supermarket
                     </li>
                     <li><b>2026-04-01</b>
-                        <br>◾️ aktualizace UI
-                        <br>◾️ rozšíření sortimentu
+                        <br>◾️ DATA: rozšíření sortimentu
                     </li>
                     <li><b>2026-01-18</b>
                         <br>◾️ UI: 🔽🔼 třídění
                         <br>◾️ UI: detekce nepodporovaných browserů
-                        <br>◾️ UI: lepší skrývání extra lišty
                     </li>
                     <li><b>2026-01-14</b>
                         <br>◾️ UI: ♥️ lajky (fungují napříč obchody a stejnými produkty)
-                        <br>◾️ UI: rozbalovací Changelog
+                        <br>◾️ UI: CHANGELOG
                     </li>
                     <li><b>2026-01-13</b>
-                        <br>◾️ UI: přepsán renderer s pomocí AI (až 20x rychlejší!)
-                        <br>◾️ UI: platnost slevy - různá barevnost
+                        <br>◾️ UI: přepsán renderer s pomocí Gemini AI
+                        <br>◾️ UI: různá barevnost platnosti slevy
                         <br>◾️ UI: superkategorie - badges, emojis jen pro aktivní kategorie
                         <br>◾️ UI: load/save 
                     </li>
                     <li><b>2026-01-12</b>
                         <br>◾️ DATA: klíčová slova + search preprocessing
-                        <br>◾️ DATA: optimalizace 
                     </li>
                     <li><b>2026-01-11</b>
                         <br>◾️ UI: 🖤 badges - počty slev u různých obchodníků
                         <br>◾️ DATA: deterministické třídění
                     </li>
-                    <li><b>2026-01-10</b>
-                        <br>◾️ UI: vylepšená loga
-                        <br>◾️ UI: filtrování obchodů a kategorií
-                        <br>◾️ UI: extra lišta
-                    </li>
-                    <li><b>2026-01-09</b>
-                        <br>◾️ UI: notifikace nové verze
-                        <br>◾️ UI: pevné mezery v textu
-                    </li>
                     <li><b>2026-01-08</b>
-                        <br>◾️ UI: úplně nejhrubší základ
-                        <br>◾️ UI: data shuffle - tlačítko 🤑
+                        <br>◾️ UI: nejhrubší základ
                     </li>
                     <li><b>2025-10-19</b>
                         <br>◾️ DATA: základní scraper
@@ -658,22 +642,20 @@ nav.bottom button {
         </article>
         <article>
             <label for="why-check" class="row cursor-pointer">
-                <div class="max"><b>🤑 SLEVIČKY - příběh gamifikace nakupování</b></div>
-                <i>expand_more</i>
+                <div class="max hover"><b>🤑 SLEVIČKY - příběh gamifikace nakupování</b></div>
+                <i class="hover">expand_more</i>
             </label>
             <input type="checkbox" id="why-check">
             <div class="content padding">
             <img src="/fred.jpg" class="fred" alt="Fred"><br>
             <strong>SLEVIČKY: diagnóza doby</strong><br><br>
-                Mnozí vědí, že jsem veteránem české herní scény (Vietcong, Flying Heroes, Fish Fillets atd.).<br><br>
-
-                Před třemi lety byl projekt <b>🤑&nbsp;SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
+                Před lety byl projekt <b>🤑&nbsp;SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
                 Tehdy jsem ale ještě netušil, jak moc se změní svět – a jak moc se změní můj vlastní život.<br><br>
 
-                <strong>3 roky mimo systém</strong><br><br>
+                <strong>Mimo systém</strong><br><br>
 
-                Posledních skoro 3 roky jsem nezaměstnaný.
-                Pro někoho je to statistika, pro Freda to je škola tvrdé reality a prostor pro pozorování.
+                Posledních pár let jsem nezaměstnaný.
+                Pro někoho je to statistika, pro mě je to škola tvrdé reality a prostor pro pozorování.
                 Když jste mimo klasický pracovní kolotoč, začnete vnímat věci, které ostatní v tom spěchu přehlížejí.
                 Vidíte, jak se společnost láme a spěchá, jak se nákupní seznamy mění v taktické plány, jak se lidé stávají de facto rukojmí barevných cenovek Lidl a Kaufland.
 
@@ -697,40 +679,26 @@ nav.bottom button {
                 
                 <br><br>
 
-                Dnes už SLEVIČKY nejsou jen nápad. Je to nástroj. Renderuje tisíce karet zboží, třídí je, organizuje.<br><br>
-
-                <strong>Člověk vs. nástroj</strong><br><br>
+                Dnes už SLEVIČKY nejsou jen nápad. Je to nástroj, který renderuje tisíce karet zboží, třídí je, organizuje.<br><br>
 
                 <b>🤑&nbsp;SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.
                 
                 <br><br>
 
-                Pokud vám to přijde užitečné, můžete mi přispět přes PayPal.<br><br><br>
+                <h5>Jak to celé funguje?</h5>
 
-                <h4>Jak to celé funguje?</h4>
+                <br>
 
-                data > Golang scraper > parser > filter > processor > filter > JSON > render > UI > uživatel 👽️<br><br>
+                DATA > Golang scraper > parser > filter > processor > filter > JSON > render > UI > uživatel 👽️<br><br>
 
-                <h4>Technologie</h4>
+                <h5>Technologie</h5>
+
+                <br>
 
                 Backend je napsán v moderním jazyce Go, frontend je čisté HTML5, Beercss framework, JavaScript a jQuery.<br><br>
-                Github + Cloudflare Pages.<br><br>
+                Hosting: Github + Cloudflare Pages.<br><br>
             </div>
         </article>
-        <div id="paypal-container-27G3BMUCN2VU2"></div>
-        <div class="s m l center-align bold red-text">poplatek za transakci je 10 Kč + 3,4 %</div>
-        <script>
-        paypal.HostedButtons({
-            hostedButtonId: "27G3BMUCN2VU2",
-        }).render("#paypal-container-27G3BMUCN2VU2")
-        </script>            
-        <br>
-
-        <h4>💡 Podněty a myšlenky</h4><hr>
-        <div>
-            <i>link</i>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDAro5rHG_Mj2rRra3oqaWUgCVfn1asFtI3z_pgfqcrL85qg/viewform?usp=dialog">máš nápad? napiš ho sem!</a>
-        </div>
     </div>
     <div id="settings" class="hidden container">
         <h3>🛠️ Nastavení</h3><hr>
