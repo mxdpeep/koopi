@@ -151,6 +151,17 @@ var (
 	regaz = regexp.MustCompile(`[^a-z\s]+`)
 )
 
+// markets to ignore
+var blockedMarkets = []string{
+	"auto kelly",
+	"barvy a laky",
+	"benu lékárna",
+	"dm drogerie",
+	"dr. max",
+	"ráj drogerie",
+	"teta drogerie",
+}
+
 // product names to ignore
 var blockedGoods = []string{
 	"alverde",
@@ -522,6 +533,11 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Market = strings.ReplaceAll(newGoods.Market, "&", "and")
 			newGoods.Market = sanitizeString(newGoods.Market)
 			newGoods.Market = strings.ReplaceAll(newGoods.Market, "Albert supermarket", "Albert")
+
+			// skip forbidden markets
+			if isForbidden(newGoods.Market, blockedMarkets) {
+				return
+			}
 
 			// add SubCat based on Note
 			if strings.Contains(newGoods.Note, "zálohovaná lahev") {
