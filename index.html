@@ -1368,17 +1368,17 @@ $(document).ready(function() {
     let flash_flag = false; // bool: is flash animation pending?
     let face_flag = false; // bool: is face animation pending?
 
-    // fn: setSettingsMode() - if About or Settings is pressed
+    // fn: setSettingsMode(bool) - set to true if About or Settings is pressed
     function setSettingsMode(state) {
         if (state) {
             window.settings_flag = true;
-            $('.extras').addClass('extras-hidden');
-            $('.catbuttons').hide();
+            $('.extras').addClass('extras-hidden'); // extras row
+            $('.catbuttons').hide(); // category row
         } else {
             if (window.refresh_flag) refresh(); // force refresh if needed
             window.settings_flag = false;
-            $('.extras').removeClass('extras-hidden');
-            $('.catbuttons').show();
+            $('.extras').removeClass('extras-hidden'); // extras row
+            $('.catbuttons').show(); // category row
         }
     }
 
