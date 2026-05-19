@@ -155,9 +155,11 @@ var (
 var blockedMarkets = []string{
 	"auto kelly",
 	"barvy a laky",
+	"baumax",
 	"benu lékárna",
 	"dm drogerie",
 	"dr. max",
+	"obi",
 	"ráj drogerie",
 	"teta drogerie",
 }
