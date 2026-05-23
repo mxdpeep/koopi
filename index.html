@@ -812,6 +812,7 @@ function debug(x) {
         + '.' + now.getMilliseconds().toString().padStart(3, '0');
     const $db = $('#debugger');
     $db.append('<span class="orange-text">' + ts + ':</span>&nbsp;&nbsp;' + x + '<br>').addClass('debugger-on').fadeIn();
+    //console.log(x);
     $db.scrollTop($db[0].scrollHeight);
     if (dtimer) clearTimeout(dtimer);
     dtimer = setTimeout(function() {
@@ -1311,6 +1312,7 @@ function filterFavs() {
             $btn.find('i').text('favorite');
         }
 
+        // flashbomb vfx
         $('body').addClass('flashbomb2');
         setTimeout(() => {$('body').removeClass('flashbomb2');}, 999);
 
@@ -1372,13 +1374,13 @@ $(document).ready(function() {
     function setSettingsMode(state) {
         if (state) {
             window.settings_flag = true;
-            $('.extras').addClass('extras-hidden'); // extras row
-            $('.catbuttons').hide(); // category row
+            $('.extras').addClass('extras-hidden');
+            $('.catbuttons').hide();
         } else {
             if (window.refresh_flag) refresh(); // force refresh if needed
             window.settings_flag = false;
-            $('.extras').removeClass('extras-hidden'); // extras row
-            $('.catbuttons').show(); // category row
+            $('.extras').removeClass('extras-hidden');
+            $('.catbuttons').show();
         }
     }
 
@@ -1393,7 +1395,7 @@ $(document).ready(function() {
         exportSettings();
     });
 
-    // LOAD/FILE button
+    // LOAD button
     $('.load-button').click(function (e) {
         $('#file').click();
     });
@@ -1420,6 +1422,7 @@ $(document).ready(function() {
         setTimeout(() => {
             renderDeals(currentData);
 
+            // flashbomb vfx
             $('body').addClass('flashbomb2');
             setTimeout(() => {$('body').removeClass('flashbomb2');}, 999);
 
@@ -1439,32 +1442,36 @@ $(document).ready(function() {
     // ABOUT button
     $('.about-btn').on('click', function() {
         window.scrollTo({top: 0});
-        const isVisible = $('#about').is(':visible');
+        var isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
-        if (isVisible) {
+        if (isVisible === true) {
             setSettingsMode(false);
             $('#deals').show();
+            setHandedness();
         } else {
             setSettingsMode(true);
-            umlog('about_tab');
             $('#about').show();
+            umlog('about_tab');
         }
     });
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
         window.scrollTo({top: 0});
-        const isVisible = $('#settings').is(':visible');
+        var isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
-        if (isVisible) {
+        if (isVisible === true) {
             setSettingsMode(false);
             $('#deals').show();
+            setHandedness();
         } else {
             setSettingsMode(true);
-            umlog('settings_tab');
             $('#settings').show();
+            umlog('settings_tab');
         }
     });
+
+    let currentFaceIsYummy = false;
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
@@ -1472,9 +1479,8 @@ $(document).ready(function() {
         umlog('roulette');
         roulette();
     });
-    
+
     // fn: roulette() - EMOJI ANIMATION function
-    let currentFaceIsYummy = false;
     function roulette() {
         if (face_flag) return;
         face_flag = true;
@@ -1498,6 +1504,7 @@ $(document).ready(function() {
             goods.shuffle();
             renderDeals(goods);
 
+            // flashbomb vfx
             flash_flag = true;
             $('body').addClass('flashbomb2');
             setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, 999);
@@ -1507,6 +1514,7 @@ $(document).ready(function() {
             $('#settings, #about').hide()
             $('#deals').show();
             $('#deals').removeClass('hidden');
+            setHandedness();
         }, 300);
 
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -1516,9 +1524,28 @@ $(document).ready(function() {
     $('.handedness-button').on('click', function() {
         switchHands();
     });
+
     // fn: switchHands() - switch handedness
     function switchHands() {
-        const mode = deals.handedness === 'left' ? 'right' : 'left';
+        const newMode = deals.handedness === 'left' ? 'right' : 'left';
+        deals.handedness = newMode;
+        if (!window.nolocalstorage) {
+            localStorage.setItem('handedness', newMode);
+        }
+        $('#settings').hide();
+        $('#deals').show()
+        setHandedness();
+
+        // flashbomb vfx
+        if (flash_flag) return;
+        flash_flag = true;
+        $('nav').addClass('flashbomb');
+        setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
+    }
+
+    // fn: setHandedness() - set visibilities for handedness
+    function setHandedness() {
+        const mode = deals.handedness
         if (mode === 'left') {
             $('.pravak').hide();
             $('.righthanded').hide();
@@ -1533,18 +1560,8 @@ $(document).ready(function() {
             $('.lefthanded').hide();
             $('.heartcartrow').removeClass('row-reverse');
         }
-        deals.handedness = mode;
-        if (!window.nolocalstorage) {
-            localStorage.setItem('handedness', mode);
-        }
-        $('#settings, #about').hide();
-        $('#deals').show()
-        // flashbomb effect        
-        if (flash_flag) return;
-        flash_flag = true;
-        $('nav').addClass('flashbomb');
-        setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
     }
+    window.setHandedness = setHandedness;
 
     // fn: exportSettings() - EXPORT SETTINGS
     function exportSettings() {
@@ -1631,7 +1648,6 @@ $(document).ready(function() {
         window.location.replace('/?' + buster);
         throw new Error("Redirecting to fresh version...");
     }
-
     // close DEBUGGER
     $('#debugger').on('click', function() {
         dtimer = null;
@@ -1692,10 +1708,9 @@ $(document).ready(function() {
         if (card) {
             const productName = card.querySelector('.product-name')?.innerText;
             debug('produkt: ' + productName);
-
+            // flashbomb vfx
             $(card).addClass('flashbomb');
             setTimeout(() => {$(card).removeClass('flashbomb');}, 500);
-
             return false;
         }
         // data-id
@@ -1707,7 +1722,7 @@ $(document).ready(function() {
         }
         // fallback
         const info = e.target.title || e.target.id || e.target.tagName;
-        debug('Target: ' + info);
+        debug('target: ' + info);
         return false;
     }
 
