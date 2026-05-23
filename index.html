@@ -739,8 +739,8 @@ nav.bottom button {
         document.addEventListener('DOMContentLoaded', function() {
             document.body.innerHTML = `
             <div style="font-family: sans-serif; padding: 40px; text-align: center; background: #fff5f5; color: #c0392b; border: 5px solid #c0392b; margin: 20px;">
-                <h1>⚠️ Starý prohlížeč</h1>
-                <p>Pro správné fungování a bezpečnost prosím <strong>aktualizuj prohlížeč</strong> nebo použij novější počítač.</p>
+                <h1>⚠️ Zastaralý prohlížeč</h1>
+                <p>Pro správné fungování prosím <strong>aktualizuj prohlížeč</strong> nebo použij novější počítač.</p>
                 </div>
                 `;
             });
@@ -1368,7 +1368,7 @@ $(document).ready(function() {
     let flash_flag = false; // bool: is flash animation pending?
     let face_flag = false; // bool: is face animation pending?
 
-    // fn: setSettingsMode(bool) - set to true if About or Settings is pressed
+    // fn: setSettingsMode(bool) - set to true if ABOUT or SETTINGS is pressed
     function setSettingsMode(state) {
         if (state) {
             window.settings_flag = true;
@@ -1515,31 +1515,35 @@ $(document).ready(function() {
     // HANDEDNESS button
     $('.handedness-button').on('click', function() {
         switchHands();
-        let direction = (deals.handedness === 'right') ? '' : 'row-reverse';
-        $('.heartcartrow').removeClass('row-reverse').addClass(direction);
     });
-
-    // fn: switchHands() - SWITCH HANDEDNESS
+    // fn: switchHands() - switch handedness
     function switchHands() {
-        if (flash_flag) return;
-        $('.lefthanded').toggle();
-        $('.righthanded').toggle();
-        const currentMode = $('.lefthanded').is(':visible') ? 'left' : 'right';
-        if (currentMode == "left") {
+        const mode = deals.handedness === 'left' ? 'right' : 'left';
+        if (mode === 'left') {
             $('.pravak').hide();
+            $('.righthanded').hide();
             $('.levak').show();
-        } else {
-            $('.levak').hide();
-            $('.pravak').show();
+            $('.lefthanded').show();
+            $('.heartcartrow').addClass('row-reverse');
         }
-
+        if (mode === 'right') {
+            $('.pravak').show();
+            $('.righthanded').show();
+            $('.levak').hide();
+            $('.lefthanded').hide();
+            $('.heartcartrow').removeClass('row-reverse');
+        }
+        deals.handedness = mode;
+        if (!window.nolocalstorage) {
+            localStorage.setItem('handedness', mode);
+        }
+        $('#settings, #about').hide();
+        $('#deals').show()
+        // flashbomb effect        
+        if (flash_flag) return;
         flash_flag = true;
         $('nav').addClass('flashbomb');
         setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
-
-        deals.handedness = currentMode;
-        if (window.nolocalstorage) return;
-        localStorage.setItem('handedness', currentMode);
     }
 
     // fn: exportSettings() - EXPORT SETTINGS
@@ -1563,17 +1567,14 @@ $(document).ready(function() {
         a.download = 'slevicky_settings.json';
         document.body.appendChild(a); 
         a.click();
-
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 0);
+        // clean-up
+        setTimeout(() => {document.body.removeChild(a);window.URL.revokeObjectURL(url);}, 0);
     }
 
     // fn: importSettings() - IMPORT SETTINGS
     function importSettings(file) {
         if (!file) {
-            console.error("Žádný soubor nebyl vybrán.");
+            console.error("No file selected!");
             return;
         }
         const reader = new FileReader();
@@ -1663,9 +1664,7 @@ $(document).ready(function() {
                 deals.handedness = 'right';
             }
         }
-
         updateCategoryBadges(window.deals.catcounts);
-     
     }
     window.setDefaults = setDefaults;
 
@@ -1680,7 +1679,7 @@ $(document).ready(function() {
         $('.' + myClass).removeClass('grayscaled').addClass('active');
         $('#deals article').addClass('hidden-force');        
         $(cats).removeClass('hidden-force');
-        $('#settings, #about').hide()
+        $('#settings, #about').hide();
         $('#deals').show()
         window.scrollTo({top: 0});
 
@@ -1773,25 +1772,21 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    installButtons.forEach(btn => {
-        btn.style.display = 'block';
-    });
+    document.querySelectorAll('.install-btn').forEach(btn => btn.style.display = 'block');
 });
-const installButtons = document.querySelectorAll('.install-btn');
-installButtons.forEach(btn => {
-    btn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            installButtons.forEach(b => b.style.display = 'none');
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
+document.addEventListener('click', async (e) => {
+    if (e.target.matches('.install-btn') && deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            document.querySelectorAll('.install-btn').forEach(b => b.style.display = 'none');
         }
-    });
+        deferredPrompt = null;
+    }
 });
 
-// OTHER LISTENERS
 window.addEventListener('appinstalled', () => {
-    installBtn.style.display = 'none';
+    document.querySelectorAll('.install-btn').forEach(b => b.style.display = 'none');
     deferredPrompt = null;
 });
 
