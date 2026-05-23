@@ -162,11 +162,14 @@ var blockedMarkets = []string{
 	"obi",
 	"ráj drogerie",
 	"teta drogerie",
+	"sconto nábytek",
 }
 
 // product names to ignore
 var blockedGoods = []string{
 	"alverde",
+	"bazénová",
+	"bazénový",
 	"coolant",
 	"corega",
 	"cry babies",
