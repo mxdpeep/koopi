@@ -145,7 +145,7 @@ CUKROVINKY,tic tac bonbony,1
 CUKROVINKY,trubičky alaska,1
 CUKROVINKY,třtinový cukr,1
 CUKROVINKY,vexta,1
-CUKROVINKY,zmrzlina,3
+CUKROVINKY,zmrzlina,5
 CUKROVINKY,čekankový sirup,1
 CUKROVINKY,čokoláda,3
 CUKROVINKY,čokoládová,1
@@ -248,19 +248,19 @@ MLÉKO,řecký jogurt,1
 MLÉKO,šlehačka,1
 NÁPOJE,instantní káva,2
 NÁPOJE,ledový čaj,2
-NÁPOJE,mattoni,1
-NÁPOJE,minerálka,3
+NÁPOJE,mattoni,2
+NÁPOJE,minerálka,5
 NÁPOJE,minerální voda,3
-NÁPOJE,mletá káva,3
+NÁPOJE,mletá káva,5
 NÁPOJE,mošt,1
 NÁPOJE,nektar,1
 NÁPOJE,ovocný čaj,2
-NÁPOJE,pivo,9
+NÁPOJE,pivo,10
 NÁPOJE,rum,3
 NÁPOJE,sekt,2
 NÁPOJE,sypaný čaj,2
-NÁPOJE,voda,3
-NÁPOJE,víno,5
+NÁPOJE,voda,10
+NÁPOJE,víno,10
 NÁPOJE,zelený čaj,2
 NÁPOJE,zrnková káva,5
 NÁPOJE,černý čaj,2
