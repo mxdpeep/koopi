@@ -12,8 +12,8 @@ all:
 	@echo "macro: everything | normalize"
 
 clear:
-	@-find ./cache/ -type f -mmin +2500 -delete 2> /dev/null || true
-	@-find ./cache/ -type f -mmin +1500 2> /dev/null \
+	@-find ./cache/ -type f -mmin +4000 -delete 2> /dev/null || true
+	@-find ./cache/ -type f -mmin +2000 2> /dev/null \
 		| shuf \
 		| head -n 200 \
 		| xargs -d '\n' -r rm -f || true
