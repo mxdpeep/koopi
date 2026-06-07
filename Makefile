@@ -15,7 +15,7 @@ clear:
 	@-find ./cache/ -type f -mmin +6000 -delete 2> /dev/null || true
 	@-find ./cache/ -type f -mmin +3000 2> /dev/null \
 		| shuf \
-		| head -n 300 \
+		| head -n 500 \
 		| xargs -d '\n' -r rm -f || true
 
 build:

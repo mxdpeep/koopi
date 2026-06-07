@@ -50,7 +50,7 @@ const (
 	LOCK_FILE          = "/tmp/koopi.lock"
 	LOCK_FILE_DURATION = time.Hour
 
-	MAX_THREADS       = 7
+	MAX_THREADS       = 9
 	MAX_SCRAPED_GOODS = 1000
 	SLEEP_RANDOM_MS   = 25000
 	SLEEP_STATIC_MS   = 9785
