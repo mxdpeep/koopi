@@ -51,10 +51,10 @@ const (
 	LOCK_FILE_DURATION = time.Hour
 
 	MAX_THREADS       = 7
-	MAX_SCRAPED_GOODS = 777
-	SLEEP_RANDOM_MS   = 77777
-	SLEEP_STATIC_MS   = 17777
-	REQ_TIMEOUT       = 17 * time.Second
+	MAX_SCRAPED_GOODS = 1000
+	SLEEP_RANDOM_MS   = 25000
+	SLEEP_STATIC_MS   = 9785
+	REQ_TIMEOUT       = 10 * time.Second
 )
 
 // note fixes
@@ -161,8 +161,9 @@ var blockedMarkets = []string{
 	"dr. max",
 	"obi",
 	"ráj drogerie",
-	"teta drogerie",
 	"sconto nábytek",
+	"teta drogerie",
+	"šlak drogerie",
 }
 
 // product names to ignore
