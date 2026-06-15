@@ -110,7 +110,7 @@ UZENINY,šunka,1
 VEJCE,hellmann's,2
 VEJCE,majonéza,2
 VEJCE,tatarská omáčka,2
-VEJCE,vejce,2
+VEJCE,vejce,5
 
 ZELENINA,znojmia,1
 
@@ -236,9 +236,9 @@ MLÉKO,dezert,1
 MLÉKO,kefírové mléko,1
 MLÉKO,kondenzované mléko,1
 MLÉKO,kyška,1
-MLÉKO,mléko plnotučné,1
-MLÉKO,mléko polotučné,1
-MLÉKO,mléko trvanlivé,1
+MLÉKO,mléko plnotučné,2
+MLÉKO,mléko polotučné,2
+MLÉKO,mléko trvanlivé,2
 MLÉKO,podmáslí,1
 MLÉKO,pribináček,1
 MLÉKO,skyr,1
@@ -415,7 +415,7 @@ TUKY,kokosový olej,1
 TUKY,lněný olej,1
 TUKY,margarín flora,1
 TUKY,margarín perla,1
-TUKY,máslo,1
+TUKY,máslo,2
 TUKY,olivový olej,1
 TUKY,rama,1
 TUKY,sezamový olej,1
