@@ -1,0 +1,519 @@
+CATEGORY,QUERY,PAGES
+
+deterministické hledání (určující kategorii):
+
+CUKROVINKY,bonbony,1
+CUKROVINKY,croissant milka,1
+CUKROVINKY,cukr,1
+CUKROVINKY,džem,1
+CUKROVINKY,kinder,1
+CUKROVINKY,kit kat,1
+CUKROVINKY,lindt,1
+CUKROVINKY,linecké,1
+CUKROVINKY,mandle v čokoládě,1
+CUKROVINKY,orion,1
+CUKROVINKY,perník,1
+CUKROVINKY,perníčky,1
+CUKROVINKY,poleva,1
+CUKROVINKY,pralinky,1
+CUKROVINKY,proteinová sušenka,1
+CUKROVINKY,proteinová tyčinka,1
+CUKROVINKY,rozinky v čokoládě,1
+CUKROVINKY,skittles,1
+CUKROVINKY,studentská pečeť,1
+CUKROVINKY,sušenky,1
+CUKROVINKY,tyčinka banány,1
+CUKROVINKY,tyčinka bez lepku super ořechy emco,1
+CUKROVINKY,čokoláda milka,1
+
+KOŘENÍ,bujón,1
+KOŘENÍ,omáčka worcestrová,1
+KOŘENÍ,rybí omáčka,1
+KOŘENÍ,sójová omáčka,1
+
+MASO,šunkový závitek s křenem,1
+
+MLÉKO,danone,1
+MLÉKO,dezert zakysaný,1
+MLÉKO,florian,1
+MLÉKO,hollandia,1
+MLÉKO,jogobella,1
+MLÉKO,jogurt,1
+MLÉKO,kostíci,1
+MLÉKO,lipánek,1
+MLÉKO,milka,1
+MLÉKO,milko,1
+MLÉKO,mléko,1
+MLÉKO,mléčná rýže,1
+MLÉKO,monte,1
+MLÉKO,pomazánka,1
+MLÉKO,pomazánkové,1
+MLÉKO,pudink,1
+MLÉKO,termix,1
+MLÉKO,tvaroh,1
+
+NÁPOJE,absinth,1
+NÁPOJE,božkov,1
+NÁPOJE,cider,1
+NÁPOJE,coca-cola,1
+NÁPOJE,diplomatico,1
+NÁPOJE,don papa,1
+NÁPOJE,džus,1
+NÁPOJE,el general,1
+NÁPOJE,jack daniel's,1
+NÁPOJE,lager,1
+NÁPOJE,lavazza,1
+NÁPOJE,ležák,5
+NÁPOJE,likér,1
+NÁPOJE,nestea,1
+NÁPOJE,pepsi,1
+NÁPOJE,stará myslivecká,1
+NÁPOJE,vodka,3
+NÁPOJE,zacapa,1
+NÁPOJE,žitná myslivecká,1
+
+OBILÍ,bageta,1
+OBILÍ,beránek,1
+OBILÍ,chléb,3
+OBILÍ,cornies,1
+OBILÍ,houska,2
+OBILÍ,hrášek smažený leimer,1
+OBILÍ,kaiserka,1
+OBILÍ,kobliha,2
+OBILÍ,koblihový banánek,2
+OBILÍ,krajánek,1
+OBILÍ,mazanec,1
+OBILÍ,mouka,2
+OBILÍ,odkolek,1
+OBILÍ,pekárna král,2
+OBILÍ,rohlík,2
+OBILÍ,strouhanka,1
+OBILÍ,toustový chléb,1
+OBILÍ,uzel česnekový,1
+
+OŘECHY,kešu,1
+
+SÝRY,bayerntaler,1
+SÝRY,olomoucké tvarůžky,1
+SÝRY,smažený sýr,1
+SÝRY,sýr zrající,1
+SÝRY,sýrové nugetky,1
+SÝRY,tavený sýr,1
+SÝRY,toustový sýr,1
+SÝRY,zottarella,1
+
+TUKY,dresink,1
+TUKY,olej,2
+
+UZENINY,šunka,1
+
+VEJCE,hellmann's,2
+VEJCE,majonéza,2
+VEJCE,tatarská omáčka,2
+VEJCE,vejce,5
+
+ZELENINA,znojmia,1
+
+
+ostatní hledání:
+
+CUKROVINKY,bon pari,1
+CUKROVINKY,bonbony jojo,2
+CUKROVINKY,cukr krystal,1
+CUKROVINKY,cukr moučka,1
+CUKROVINKY,fidorka,1
+CUKROVINKY,hambáče,1
+CUKROVINKY,haribo,2
+CUKROVINKY,hašlerky,1
+CUKROVINKY,hroznový cukr,1
+CUKROVINKY,javorový sirup,1
+CUKROVINKY,kakaové věnečky,1
+CUKROVINKY,lentilky,1
+CUKROVINKY,lesněnky,1
+CUKROVINKY,lízátka,1
+CUKROVINKY,marshmallow,1
+CUKROVINKY,med,1
+CUKROVINKY,nanuk,2
+CUKROVINKY,nutella,1
+CUKROVINKY,opavia esíčka,1
+CUKROVINKY,opavia polomáčené,1
+CUKROVINKY,opavia zlaté,1
+CUKROVINKY,oplatka,1
+CUKROVINKY,ovocný cukr,1
+CUKROVINKY,pedro,2
+CUKROVINKY,piškoty,1
+CUKROVINKY,ricola,1
+CUKROVINKY,sovičky,1
+CUKROVINKY,tatranka,1
+CUKROVINKY,tic tac bonbony,1
+CUKROVINKY,trubičky alaska,1
+CUKROVINKY,třtinový cukr,1
+CUKROVINKY,vexta,1
+CUKROVINKY,zmrzlina,5
+CUKROVINKY,čekankový sirup,1
+CUKROVINKY,čokoláda,3
+CUKROVINKY,čokoládová,1
+CUKROVINKY,želatina,1
+CUKROVINKY,želé,2
+CUKROVINKY,žvýkačky,1
+KOŘENÍ,bazalka,1
+KOŘENÍ,bobkový list,1
+KOŘENÍ,chilli papričky,1
+KOŘENÍ,citronová tráva,1
+KOŘENÍ,hořčice,2
+KOŘENÍ,hřebíček,1
+KOŘENÍ,kmín,1
+KOŘENÍ,libeček,1
+KOŘENÍ,majoránka,1
+KOŘENÍ,nové koření,1
+KOŘENÍ,oregano,1
+KOŘENÍ,pažitka,1
+KOŘENÍ,pepř tří barev,1
+KOŘENÍ,pepř,1
+KOŘENÍ,podravka,1
+KOŘENÍ,skořice,1
+KOŘENÍ,sušená rajčata,1
+KOŘENÍ,sušený česnek,1
+KOŘENÍ,sůl,1
+KOŘENÍ,tekuté koření,1
+KOŘENÍ,tymián,1
+KOŘENÍ,uzená paprika,1
+KOŘENÍ,vanilka,1
+LUŠTĚNINY,cizrna,1
+LUŠTĚNINY,fazole,1
+LUŠTĚNINY,hrách,1
+LUŠTĚNINY,hummus,1
+LUŠTĚNINY,mungo,1
+LUŠTĚNINY,sója,1
+LUŠTĚNINY,tofu,1
+LUŠTĚNINY,červená čočka,1
+LUŠTĚNINY,čočka,1
+MASO,bůček,1
+MASO,candát,1
+MASO,hovězí kostky,1
+MASO,hovězí zadní,1
+MASO,husa,1
+MASO,jehněčí,1
+MASO,játra,1
+MASO,kachna,1
+MASO,kachní čtvrtky,1
+MASO,kapr,1
+MASO,kližka,1
+MASO,krevety,1
+MASO,krkovice,1
+MASO,králík,1
+MASO,krůta,1
+MASO,kuřecí prsní řízky,1
+MASO,kuřecí stehna,1
+MASO,kuřecí zadní čtvrtky,1
+MASO,kuřecí,1
+MASO,losos,1
+MASO,makrela,1
+MASO,marinovaná krkovice,1
+MASO,mleté maso,1
+MASO,mořský vlk,1
+MASO,panenka,1
+MASO,pražma,1
+MASO,pstruh,1
+MASO,roštěnec,1
+MASO,rybí filé,1
+MASO,rybí prsty,1
+MASO,sardinky,1
+MASO,sleď,1
+MASO,svíčková,1
+MASO,telecí,1
+MASO,treska,1
+MASO,tuňák,1
+MASO,vepřová kýta,1
+MASO,vepřová pečeně,1
+MASO,vepřová plec,1
+MASO,vepřová žebra,1
+MASO,vepřové kostky,1
+MASO,vepřový bok,1
+MLÉKO,actimel,1
+MLÉKO,activia,1
+MLÉKO,dezert,1
+MLÉKO,kefírové mléko,1
+MLÉKO,kondenzované mléko,1
+MLÉKO,kyška,1
+MLÉKO,mléko plnotučné,2
+MLÉKO,mléko polotučné,2
+MLÉKO,mléko trvanlivé,2
+MLÉKO,podmáslí,1
+MLÉKO,pribináček,1
+MLÉKO,skyr,1
+MLÉKO,smetana ke šlehání,2
+MLÉKO,smetana na vaření,2
+MLÉKO,smetana zakysaná,2
+MLÉKO,smetanový jogurt,2
+MLÉKO,sojové mléko,1
+MLÉKO,tvarohový mls,1
+MLÉKO,řecký jogurt,1
+MLÉKO,šlehačka,1
+NÁPOJE,instantní káva,2
+NÁPOJE,ledový čaj,2
+NÁPOJE,mattoni,2
+NÁPOJE,minerálka,5
+NÁPOJE,minerální voda,3
+NÁPOJE,mletá káva,5
+NÁPOJE,mošt,1
+NÁPOJE,nektar,1
+NÁPOJE,ovocný čaj,2
+NÁPOJE,pivo,10
+NÁPOJE,rum,3
+NÁPOJE,sekt,2
+NÁPOJE,sypaný čaj,2
+NÁPOJE,voda,10
+NÁPOJE,víno,10
+NÁPOJE,zelený čaj,2
+NÁPOJE,zrnková káva,5
+NÁPOJE,černý čaj,2
+OBILÍ,buchty,1
+OBILÍ,cereálie,1
+OBILÍ,corn flakes,1
+OBILÍ,croissant,1
+OBILÍ,dupetky,1
+OBILÍ,francouzská bageta,1
+OBILÍ,instantní kaše,1
+OBILÍ,instantní nudle,1
+OBILÍ,knedlík,1
+OBILÍ,knedlíky,1
+OBILÍ,krupička,1
+OBILÍ,kuskus,1
+OBILÍ,křupavé mysli,1
+OBILÍ,listové těsto,1
+OBILÍ,makovky,1
+OBILÍ,muesli,1
+OBILÍ,mysli na zdraví emco,1
+OBILÍ,mysli,1
+OBILÍ,noční chlebík,1
+OBILÍ,nudle,1
+OBILÍ,ovesné vločky,1
+OBILÍ,pečivo,1
+OBILÍ,pohanka,1
+OBILÍ,ranní chlebík,1
+OBILÍ,rohlík,1
+OBILÍ,rýže,1
+OBILÍ,tyčinky grissini italiamo,1
+OBILÍ,tyčinky opavské sýrové,1
+OBILÍ,těstoviny,3
+OBILÍ,večerní chlebík,1
+OBILÍ,zavářka,1
+OBILÍ,závin,1
+OSTATNÍ,brambůrky,3
+OSTATNÍ,chipsy,3
+OSTATNÍ,droždí,1
+OSTATNÍ,jedlá soda,1
+OSTATNÍ,kečup,3
+OSTATNÍ,kvasnice,1
+OSTATNÍ,kyselina citronová,1
+OSTATNÍ,lay's,3
+OSTATNÍ,ocet,1
+OSTATNÍ,omáčka fix,1
+OSTATNÍ,pomazánka,1
+OSTATNÍ,tyčinky,3
+OSTATNÍ,škrob,1
+OVOCE,avokádo,1
+OVOCE,banány,1
+OVOCE,blumy,1
+OVOCE,borůvky,1
+OVOCE,broskve,1
+OVOCE,brusinky,1
+OVOCE,citrony,1
+OVOCE,datle,1
+OVOCE,fíky,1
+OVOCE,hrozny bezsemenné,1
+OVOCE,hrozny,1
+OVOCE,hrušky,1
+OVOCE,jablka,3
+OVOCE,jahody,1
+OVOCE,kaki,1
+OVOCE,karambola,1
+OVOCE,kiwi,1
+OVOCE,kompot,1
+OVOCE,liči,1
+OVOCE,maliny,1
+OVOCE,mandarinky,1
+OVOCE,mango,1
+OVOCE,meloun,1
+OVOCE,mučenka,1
+OVOCE,nektarinky,1
+OVOCE,papája,1
+OVOCE,physalis,1
+OVOCE,pomelo,1
+OVOCE,pomeranče,1
+OVOCE,rozinky,1
+OVOCE,sušené mrazem,2
+OVOCE,sušené ovoce,1
+OVOCE,švestky,1
+OŘECHY,arašídy,1
+OŘECHY,chia semínka,1
+OŘECHY,dýňová semínka,1
+OŘECHY,kokos,1
+OŘECHY,lískové ořechy,1
+OŘECHY,makadamové ořechy,1
+OŘECHY,mandle,1
+OŘECHY,mák,1
+OŘECHY,ořechy,1
+OŘECHY,para ořechy,1
+OŘECHY,pekanové ořechy,1
+OŘECHY,piniové oříšky,1
+OŘECHY,pistácie,1
+OŘECHY,sezam,1
+OŘECHY,slunečnicová semínka,1
+OŘECHY,vlašské ořechy,1
+SÝRY,balkánský sýr,1
+SÝRY,blaťácké zlato,1
+SÝRY,brie,1
+SÝRY,brynza,1
+SÝRY,bánovecké syrečky,1
+SÝRY,camembert,1
+SÝRY,cheddar,1
+SÝRY,cottage,1
+SÝRY,eidam,2
+SÝRY,ementál,1
+SÝRY,emmental,1
+SÝRY,feta,1
+SÝRY,fourme d'ambert,1
+SÝRY,gorgonzola,1
+SÝRY,gouda,1
+SÝRY,gran moravia,1
+SÝRY,grana padano,1
+SÝRY,halloumi,1
+SÝRY,hermelín,1
+SÝRY,jadel,1
+SÝRY,koliba,1
+SÝRY,korbáčik,1
+SÝRY,kozí sýr,1
+SÝRY,krolewski,1
+SÝRY,limburger,1
+SÝRY,lučina,1
+SÝRY,mascarpone,1
+SÝRY,mozzarella,1
+SÝRY,niva,1
+SÝRY,ovčí sýr,1
+SÝRY,oštěpok,1
+SÝRY,parenica,1
+SÝRY,parmazán,1
+SÝRY,parmigiano reggiano,1
+SÝRY,pivní sýr,1
+SÝRY,ricotta,1
+SÝRY,romadur,1
+SÝRY,scamorza,1
+SÝRY,sedlčanský hermelín,1
+SÝRY,tolštejn,1
+SÝRY,tvarůžky,1
+SÝRY,tylžský sýr,1
+SÝRY,žervé,1
+TUKY,arašídový olej,1
+TUKY,avokádový olej,1
+TUKY,dýňový olej,1
+TUKY,ghí,1
+TUKY,hera na pečení,1
+TUKY,kachní sádlo,1
+TUKY,kokosový olej,1
+TUKY,lněný olej,1
+TUKY,margarín flora,1
+TUKY,margarín perla,1
+TUKY,máslo,2
+TUKY,olivový olej,1
+TUKY,rama,1
+TUKY,sezamový olej,1
+TUKY,slunečnicový olej,1
+TUKY,vepřové sádlo,1
+TUKY,řepkový olej,1
+UZENINY,anglická slanina,1
+UZENINY,anglická slanina,1
+UZENINY,bavorské klobásky,1
+UZENINY,debrecínská pečeně,1
+UZENINY,farmářská slanina,1
+UZENINY,grilovací klobása,1
+UZENINY,grilovací tyčinky,1
+UZENINY,herkules,1
+UZENINY,jemné párky,1
+UZENINY,junior salám,1
+UZENINY,klobása,1
+UZENINY,kuřecí párky,1
+UZENINY,kuřecí šunka,1
+UZENINY,lovecký salám,1
+UZENINY,moravská klobása,1
+UZENINY,moravské uzené,1
+UZENINY,pancetta,1
+UZENINY,paprikáš,1
+UZENINY,paštika,1
+UZENINY,pivní salám,1
+UZENINY,pražská šunka,1
+UZENINY,prosciutto,1
+UZENINY,slanina,1
+UZENINY,uherská klobása,1
+UZENINY,uherák,1
+UZENINY,uzená krkovice,1
+UZENINY,uzená šunka,1
+UZENINY,vepřová šunka,1
+UZENINY,vepřové párky,1
+UZENINY,vysočina,1
+UZENINY,vídeňské párky,1
+UZENINY,čabajka,1
+UZENINY,špekáčky,1
+UZENINY,šunka nejvyšší kvality,1
+UZENINY,šunka výběrová,1
+UZENINY,šunková pěna,1
+UZENINY,šunkové koleno,1
+ZELENINA,batáty,1
+ZELENINA,bramborová kaše,1
+ZELENINA,brambory,1
+ZELENINA,brokolice,1
+ZELENINA,bílé zelí,1
+ZELENINA,celer,1
+ZELENINA,chilli,1
+ZELENINA,chřest,1
+ZELENINA,cibule červená,1
+ZELENINA,cibule,1
+ZELENINA,cibulka lahůdková,1
+ZELENINA,cuketa,1
+ZELENINA,dýně,1
+ZELENINA,fazolky,1
+ZELENINA,fenykl,1
+ZELENINA,hlávkové zelí,1
+ZELENINA,hlávkový salát,1
+ZELENINA,hlíva,1
+ZELENINA,hranolky,1
+ZELENINA,hrášek,1
+ZELENINA,jarní cibulka,1
+ZELENINA,kadeřavá petržel,1
+ZELENINA,kapusta,1
+ZELENINA,kopr,1
+ZELENINA,krokety,1
+ZELENINA,kukuřice,1
+ZELENINA,květák,1
+ZELENINA,kysané zelí,1
+ZELENINA,křen,1
+ZELENINA,ledový salát,1
+ZELENINA,lilek,1
+ZELENINA,mrkev,1
+ZELENINA,okurka,1
+ZELENINA,okurky,1
+ZELENINA,olivy,1
+ZELENINA,paprika zelená,1
+ZELENINA,paprika červená,1
+ZELENINA,paprika,1
+ZELENINA,pekingské zelí,1
+ZELENINA,petržel,1
+ZELENINA,polníček,1
+ZELENINA,pórek,1
+ZELENINA,rajčata cherry,1
+ZELENINA,rajčata oválná,1
+ZELENINA,rajčata,3
+ZELENINA,rajčatový protlak,1
+ZELENINA,rukola,1
+ZELENINA,růžičková kapusta,1
+ZELENINA,sterilované okurky,1
+ZELENINA,zázvor,1
+ZELENINA,červená řepa,1
+ZELENINA,červené zelí,1
+ZELENINA,česnek,1
+ZELENINA,řapíkatý celer,1
+ZELENINA,ředkvičky,1
+ZELENINA,šalotka,1
+ZELENINA,špenát,1
+ZELENINA,žampiony,1
