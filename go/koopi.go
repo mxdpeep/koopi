@@ -289,7 +289,7 @@ var blockedGoods = []string{
 	"šťouchadlo",
 }
 
-// product structure
+// Goods - struct for goods
 type Goods struct {
 	Category     string
 	Query        string
@@ -342,7 +342,7 @@ func typoFix(s string) string {
 	return s
 }
 
-// deduplicateGoods
+// deduplicateGoods - helper function to deduplicate scraped goods
 func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	uniqueGoodsMap := make(map[string]Goods)
 	for _, good := range scrapedGoods {
@@ -367,7 +367,7 @@ func deduplicateGoods(scrapedGoods []Goods) []Goods {
 	return finalGoods
 }
 
-// check the app lock / create new lock
+// check the app lock / create new lock - if it's locked, return false
 func checkLock() bool {
 	pid := os.Getpid()
 
@@ -610,7 +610,7 @@ func loadHtmlFromCache(cacheName string) (*goquery.Document, error) {
 	return doc, nil
 }
 
-// saveImageToCache - save original image to cache for processing
+// saveImageToCache - save the original image to the cache for processing
 func saveImageToCache(imageUrl string) {
 	if _, err := os.Stat(IMAGE_CACHE); os.IsNotExist(err) {
 		err = os.MkdirAll(IMAGE_CACHE, 0755)
@@ -762,7 +762,7 @@ func scrapePage(UA string, ctx context.Context, urlToScrape string, cacheName st
 	}
 }
 
-// appendToCsv - add data to CSV file
+// appendToCsv - append data to the CSV file
 func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -808,7 +808,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 	}
 }
 
-// appendToJson - save data to JSON file
+// appendToJson - save data to the JSON file
 func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.Mutex) {
 	mutex.Lock()
 	defer mutex.Unlock()
