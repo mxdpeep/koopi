@@ -526,6 +526,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 
 			// club
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())
+			newGoods.Club = sanitizeString(newGoods.Club)
 			newGoods.Club = strings.ToLower(newGoods.Club)
 			newGoods.Club = strings.ReplaceAll(newGoods.Club, "platí pro členy klubu", "pouze pro členy klubu")
 			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s aplikací lidl plus", "aplikace Lidl Plus 📱")
