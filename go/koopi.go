@@ -529,8 +529,8 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Club = sanitizeString(newGoods.Club)
 			newGoods.Club = strings.ToLower(newGoods.Club)
 			newGoods.Club = strings.ReplaceAll(newGoods.Club, "platí pro členy klubu", "pouze pro členy klubu")
-			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s aplikací lidl plus", "aplikace Lidl Plus 📱")
-			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s kaufland card xtra", "Kaufland Card XTRA 💳️")
+			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s aplikací lidl plus", "s aplikací Lidl Plus 📱")
+			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s kaufland card xtra", "s Kaufland Card XTRA 💳️")
 			newGoods.Club = sanitizeString(newGoods.Club)
 
 			// validity
