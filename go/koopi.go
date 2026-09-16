@@ -501,13 +501,13 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			// price per unit
 			newGoods.PricePerUnit = strings.TrimSpace(offer.Find(".price_per_unit").Text())
 
-			// discount
+			// discounts
 			newGoods.Discount = strings.TrimSpace(offer.Find(".discount_percentage").Text())
 			newGoods.Discount = strings.ReplaceAll(newGoods.Discount, "–", "-")
 			newGoods.Discount = strings.ReplaceAll(newGoods.Discount, "\u00A0", "\u202F")
 			newGoods.Discount = strings.TrimSpace(newGoods.Discount)
 
-			// volume
+			// volumes
 			newGoods.Volume = strings.TrimSpace(offer.Find(".discount_amount").Text())
 			newGoods.Volume = strings.TrimPrefix(newGoods.Volume, "/")
 			newGoods.Volume = strings.TrimSpace(newGoods.Volume)
@@ -516,7 +516,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 				newGoods.Volume = "?" // no volume specified
 			}
 
-			// note
+			// notes
 			newGoods.Note = strings.TrimSpace(offer.Find(".discount_note").Text())
 			for _, fix := range noteFixes {
 				newGoods.Note = strings.ReplaceAll(newGoods.Note, fix.old, fix.new)
@@ -524,13 +524,13 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
 
-			// club
+			// clubs
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())
 			newGoods.Club = sanitizeString(newGoods.Club)
 			newGoods.Club = strings.ToLower(newGoods.Club)
-			newGoods.Club = strings.ReplaceAll(newGoods.Club, "platí pro členy klubu", "pouze pro členy klubu")
-			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s aplikací lidl plus", "s aplikací Lidl Plus 📱")
-			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s kaufland card xtra", "s Kaufland Card XTRA 💳️")
+			newGoods.Club = strings.ReplaceAll(newGoods.Club, "platí pro členy klubu", "pro členy klubu 🤑")
+			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s aplikací lidl plus", "aplikace Lidl Plus 📱")
+			newGoods.Club = strings.ReplaceAll(newGoods.Club, "cena s kaufland card xtra", "Kaufland Card XTRA 💳️")
 			newGoods.Club = sanitizeString(newGoods.Club)
 
 			// validity
@@ -538,7 +538,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Validity = strings.TrimPrefix(newGoods.Validity, "v ")
 			newGoods.Validity = sanitizeString(newGoods.Validity)
 
-			// market
+			// markets
 			newGoods.Market = strings.TrimSpace(offer.Find(".discounts_shop_name a span").Text())
 			newGoods.Market = strings.ReplaceAll(newGoods.Market, "&", "and")
 			newGoods.Market = sanitizeString(newGoods.Market)
