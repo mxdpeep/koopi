@@ -192,6 +192,7 @@ var blockedGoods = []string{
 	"hnojivo",
 	"holení",
 	"huggies",
+	"ideenwelt",
 	"jídelní set",
 	"kappruet",
 	"kapradina",
