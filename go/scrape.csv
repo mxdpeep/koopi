@@ -28,11 +28,14 @@ CUKROVINKY,čokokrém,1
 CUKROVINKY,čokoláda milka,1
 
 KOŘENÍ,bujón,1
+KOŘENÍ,chilli omáčka,1
 KOŘENÍ,omáčka worcestrová,1
 KOŘENÍ,rybí omáčka,1
 KOŘENÍ,sezamová pasta,1
 KOŘENÍ,sójová omáčka,1
 
+MASO,kotlet s pepřem,1
+MASO,křidélka s chutí medu,1
 MASO,šunkový závitek s křenem,1
 
 MLÉKO,danone,1
@@ -271,6 +274,8 @@ NÁPOJE,pivo,10
 NÁPOJE,rum,3
 NÁPOJE,sekt,2
 NÁPOJE,sypaný čaj,2
+NÁPOJE,sirup,2
+NÁPOJE,sirup hustý hello,2
 NÁPOJE,voda,10
 NÁPOJE,víno,10
 NÁPOJE,zelený čaj,2
@@ -458,6 +463,9 @@ UZENINY,uherská klobása,1
 UZENINY,uherák,1
 UZENINY,uzená krkovice,1
 UZENINY,uzená šunka,1
+UZENINY,uzený bok,1
+UZENINY,uzený vepřový bok,1
+UZENINY,uzený bok s česnekem,1
 UZENINY,vepřová šunka,1
 UZENINY,vepřové párky,1
 UZENINY,vysočina,1

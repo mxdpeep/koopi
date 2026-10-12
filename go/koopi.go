@@ -236,6 +236,8 @@ var blockedGoods = []string{
 	"parfém",
 	"parkside",
 	"pastely",
+	"paštika pro kočky",
+	"paštika pro psy",
 	"pedigree",
 	"pivoňka",
 	"pivoňky",
@@ -337,8 +339,6 @@ func normalizeCzechString(s string) string {
 
 // typoFix - helper function to fix spaces to non-breakable spaces
 func typoFix(s string) string {
-	//	s = rePreps.ReplaceAllString(s, "$1$2\u00A0")
-	//	s = reUnits.ReplaceAllString(s, "$1\u00A0$2")
 	s = rePreps.ReplaceAllString(s, "$1$2\u202F")
 	s = reUnits.ReplaceAllString(s, "$1\u202F$2")
 	return s
