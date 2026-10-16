@@ -211,6 +211,7 @@ var blockedGoods = []string{
 	"křídy",
 	"lepidlo",
 	"lis na",
+	"louskáček",
 	"mast",
 	"matrace",
 	"menu box",
