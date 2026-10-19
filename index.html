@@ -105,7 +105,7 @@ button.chip .market-image {
 .fred {width: 100px;height: 100px;border: 2px solid #000;border-radius: 50px;margin: 1rem;}
 
 /* DEBUGGER */
-#debugger {width: 75%;opacity: 0.85;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;}
+#debugger {width: 50%;opacity: 0.75;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;}
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
@@ -1049,11 +1049,11 @@ const initApp = () => {
             loadAllLikes();
 
             const end = performance.now();
-
             const renderDuration = Math.round(end - start);
+
             $('#speed-bench').html(`Rendering: <b class=sbigger>${renderDuration} ms</b>`);
-            debug(`Deals: ${goods.length}`);
-            debug(`Rendering: ${renderDuration} ms`);
+            //debug(`Deals: ${goods.length}`);
+            //debug(`Rendering: ${renderDuration} ms`);
             
             // defaults
             setDefaults();
@@ -1646,7 +1646,6 @@ $(document).ready(function() {
         const buster = Math.random().toString(36).substring(2, 6);
         window.stop();
         window.location.replace('/?' + buster);
-        throw new Error("Redirecting to fresh version...");
     }
     // close DEBUGGER
     $('#debugger').on('click', function() {

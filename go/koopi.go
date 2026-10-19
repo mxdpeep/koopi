@@ -160,6 +160,8 @@ var blockedMarkets = []string{
 	"dm drogerie",
 	"dr. max",
 	"obi",
+	"pharmapoint",
+	"rossmann drogerie",
 	"ráj drogerie",
 	"sconto nábytek",
 	"teta drogerie",
