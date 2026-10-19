@@ -165,6 +165,7 @@ var blockedMarkets = []string{
 	"ráj drogerie",
 	"sconto nábytek",
 	"teta drogerie",
+	"vyplatíse",
 	"šlak drogerie",
 }
 
