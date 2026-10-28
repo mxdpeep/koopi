@@ -171,6 +171,8 @@ var blockedMarkets = []string{
 
 // product names to ignore
 var blockedGoods = []string{
+	"křídly",
+	"demon hunters",
 	"alverde",
 	"bambucké",
 	"barbie",
@@ -539,6 +541,10 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			}
 			newGoods.Note = sanitizeString(newGoods.Note)
 			newGoods.Note = typoFix(newGoods.Note)
+			// skip forbidden goods
+			if isForbidden(newGoods.Note, blockedGoods) {
+				return
+			}
 
 			// clubs
 			newGoods.Club = strings.TrimSpace(offer.Find(".discounts_club").Text())
