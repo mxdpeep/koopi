@@ -212,6 +212,7 @@ var blockedGoods = []string{
 	"kartáček",
 	"keřík",
 	"kidland",
+	"kid land",
 	"kolekce",
 	"kolínská",
 	"komoda",
