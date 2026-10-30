@@ -169,10 +169,8 @@ var blockedMarkets = []string{
 	"šlak drogerie",
 }
 
-// product names to ignore
+// blocked goods strings
 var blockedGoods = []string{
-	"křídly",
-	"demon hunters",
 	"alverde",
 	"bambucké",
 	"barbie",
@@ -183,6 +181,7 @@ var blockedGoods = []string{
 	"corega",
 	"cry babies",
 	"curver",
+	"demon hunters",
 	"dermacol",
 	"desková hra",
 	"disney",
@@ -205,12 +204,14 @@ var blockedGoods = []string{
 	"holení",
 	"huggies",
 	"ideenwelt",
+	"interaktivní",
 	"jídelní set",
 	"kappruet",
 	"kapradina",
 	"kapradiny",
 	"kartáček",
 	"keřík",
+	"kidland",
 	"kolekce",
 	"kolínská",
 	"komoda",
@@ -220,6 +221,7 @@ var blockedGoods = []string{
 	"koupele",
 	"kráječ",
 	"křeslo",
+	"křídly",
 	"křídy",
 	"lepidlo",
 	"lis na",
@@ -284,6 +286,7 @@ var blockedGoods = []string{
 	"sůl posypová",
 	"tablety",
 	"tescoma",
+	"textilní panenka",
 	"thermaxx",
 	"toaletní",
 	"tyčinky vatové",

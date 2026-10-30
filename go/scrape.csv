@@ -3,7 +3,6 @@ CATEGORY,QUERY,PAGES
 deterministické hledání (určující kategorii):
 
 CUKROVINKY,bonbony,1
-CUKROVINKY,croissant milka,1
 CUKROVINKY,cukr,1
 CUKROVINKY,džem,1
 CUKROVINKY,kinder,1
@@ -20,12 +19,14 @@ CUKROVINKY,proteinová sušenka,1
 CUKROVINKY,proteinová tyčinka,1
 CUKROVINKY,rozinky v čokoládě,1
 CUKROVINKY,skittles,1
+CUKROVINKY,sladkosti milka,1
 CUKROVINKY,studentská pečeť,1
 CUKROVINKY,sušenky,1
 CUKROVINKY,tyčinka banány,1
 CUKROVINKY,tyčinka bez lepku super ořechy emco,1
 CUKROVINKY,čokokrém,1
 CUKROVINKY,čokoláda milka,1
+CUKROVINKY,čokoládový kapr,1
 
 KOŘENÍ,bujón,1
 KOŘENÍ,chilli omáčka,1
@@ -84,6 +85,7 @@ OBILÍ,bageta,1
 OBILÍ,beránek,1
 OBILÍ,chléb,3
 OBILÍ,cornies,1
+OBILÍ,croissant milka,1
 OBILÍ,houska,2
 OBILÍ,hrášek smažený leimer,1
 OBILÍ,kaiserka,1
@@ -97,7 +99,9 @@ OBILÍ,pekárna král,2
 OBILÍ,rohlík,2
 OBILÍ,strouhanka,1
 OBILÍ,toustový chléb,1
+OBILÍ,těstoviny rummo,1
 OBILÍ,uzel česnekový,1
+OBILÍ,vánočka máslová,1
 
 OŘECHY,kešu,1
 
@@ -120,8 +124,9 @@ VEJCE,majonéza,3
 VEJCE,tatarská omáčka,3
 VEJCE,vejce,5
 
-ZELENINA,znojmia,1
+ZELENINA,dýně máslová,1
 ZELENINA,garden gourmet,1
+ZELENINA,znojmia,1
 
 
 
