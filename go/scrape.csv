@@ -3,6 +3,7 @@ CATEGORY,QUERY,PAGES
 deterministické hledání (určující kategorii):
 
 CUKROVINKY,bonbony,1
+CUKROVINKY,choco snack,1
 CUKROVINKY,cukr,1
 CUKROVINKY,džem,1
 CUKROVINKY,kinder,1
@@ -26,6 +27,7 @@ CUKROVINKY,tyčinka banány,1
 CUKROVINKY,tyčinka bez lepku super ořechy emco,1
 CUKROVINKY,čokokrém,1
 CUKROVINKY,čokoláda milka,1
+CUKROVINKY,čokoládová figurka,1
 CUKROVINKY,čokoládový kapr,1
 
 KOŘENÍ,bujón,1
@@ -35,9 +37,10 @@ KOŘENÍ,rybí omáčka,1
 KOŘENÍ,sezamová pasta,1
 KOŘENÍ,sójová omáčka,1
 
-MASO,kotlet s pepřem,1
 MASO,kmotrovky,1
+MASO,kotlet s pepřem,1
 MASO,křidélka s chutí medu,1
+MASO,rybí pepřenky,1
 MASO,šunkový závitek s křenem,1
 
 MLÉKO,danone,1
