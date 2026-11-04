@@ -598,6 +598,9 @@ nav.bottom button {
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
+                    <li><b>2026-11-04</b>
+                        <br>◾️ UI: dblclick otevírá okno hledání na Kupi.cz
+                    </li>
                     <li><b>2026-05-13</b>
                         <br>◾️ DATA: blokování vybraných obchodů
                     </li>
@@ -1704,10 +1707,14 @@ $(document).ready(function() {
         const card = e.target.closest('.product-card');
         if (card) {
             const productName = card.querySelector('.product-name')?.innerText;
-            debug('produkt: ' + productName);
             // flashbomb vfx
             $(card).addClass('flashbomb');
-            setTimeout(() => {$(card).removeClass('flashbomb');}, 500);
+            setTimeout(() => {
+                $(card).removeClass('flashbomb');
+                if (productName) {
+                    const searchUrl = 'https://www.kupi.cz/hledej?f=' + encodeURIComponent(productName);
+                    window.open(searchUrl, '_blank');
+                }}, 250);
             return false;
         }
         // data-id
