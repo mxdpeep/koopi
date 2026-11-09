@@ -278,6 +278,7 @@ var blockedGoods = []string{
 	"schwarzkopf",
 	"severochema",
 	"shell",
+	"silikon",
 	"silvercrest",
 	"sklenice",
 	"sparkle",
