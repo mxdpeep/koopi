@@ -80,6 +80,15 @@ var noteFixes = []struct {
 	{" \u0026 ", "\u0026"},
 }
 
+// name fixes
+var nameFixes = []struct {
+	old string
+	new string
+}{
+	{"-", "\u2011"},
+	{"Chlébík", "Chlebík"},
+}
+
 // UA strings
 var UserAgents = []string{
 	"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
@@ -518,7 +527,9 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.ImageUrl = productImageUrl
 
 			// name
-			newGoods.Name = strings.ReplaceAll(newGoods.Name, "-", "\u2011")
+			for _, fix := range nameFixes {
+				newGoods.Name = strings.ReplaceAll(newGoods.Name, fix.old, fix.new)
+			}
 
 			// price
 			newGoods.Price = strings.TrimSpace(offer.Find(".discount_price_value").Text())
