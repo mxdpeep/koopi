@@ -187,6 +187,7 @@ var blockedGoods = []string{
 	"bazénová",
 	"bazénový",
 	"březová voda",
+	"collagen",
 	"coolant",
 	"corega",
 	"cry babies",
