@@ -240,6 +240,7 @@ var blockedGoods = []string{
 	"lis na",
 	"louskáček",
 	"mast",
+	"masážní",
 	"matrace",
 	"mattel",
 	"menu box",
