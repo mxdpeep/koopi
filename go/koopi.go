@@ -87,6 +87,7 @@ var nameFixes = []struct {
 }{
 	{"-", "\u2011"},
 	{"Chlébík", "Chlebík"},
+	{"Krupavé", "Křupavé"},
 }
 
 // UA strings
@@ -236,6 +237,7 @@ var blockedGoods = []string{
 	"kopretiny",
 	"koupele",
 	"kočárkem",
+	"krmivo pro",
 	"kráječ",
 	"křeslo",
 	"křídly",
