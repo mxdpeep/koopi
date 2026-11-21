@@ -643,65 +643,6 @@ nav.bottom button {
                 </ul>
             </div>
         </article>
-        <article>
-            <label for="why-check" class="row cursor-pointer">
-                <div class="max hover"><b>🤑 SLEVIČKY - příběh gamifikace nakupování</b></div>
-                <i class="hover">expand_more</i>
-            </label>
-            <input type="checkbox" id="why-check">
-            <div class="content padding">
-            <img src="/fred.jpg" class="fred" alt="Fred"><br>
-            <strong>SLEVIČKY: diagnóza doby</strong><br><br>
-                Před lety byl projekt <b>🤑&nbsp;SLEVIČKY</b> jen matnou skicou v mých myšlenkách...
-                Tehdy jsem ale ještě netušil, jak moc se změní svět – a jak moc se změní můj vlastní život.<br><br>
-
-                <strong>Mimo systém</strong><br><br>
-
-                Posledních pár let jsem nezaměstnaný.
-                Pro někoho je to statistika, pro mě je to škola tvrdé reality a prostor pro pozorování.
-                Když jste mimo klasický pracovní kolotoč, začnete vnímat věci, které ostatní v tom spěchu přehlížejí.
-                Vidíte, jak se společnost láme a spěchá, jak se nákupní seznamy mění v taktické plány, jak se lidé stávají de facto rukojmí barevných cenovek Lidl a Kaufland.
-
-                <br><br>
-
-                <strong>Slevový trh jako projev šílenství</strong><br><br>
-
-                To, co se dnes děje okolo slev, už není běžný obchod.
-                Je to uragán. Gamifikace nakupování.
-                Je to kolektivní psychóza.
-
-                <br><br>
-
-                Lidé už nekupují věci, protože je potřebují, ale proto, že jsou "v akci". Hrajeme hru.
-                Slevové letáky se staly nejdůležitější literaturou dneška a já jsem se rozhodl, že tohle šílenství potřebuje řád, alespoň trošku.<br><br>
-
-                <strong>Od nuly v Golangu k funkční zbrani</strong><br><br>
-
-                Když ten nápad přišel poprvé, neuměl jsem v Golang ani řádku. Byl jsem "starý pes" odkojený na PHP.
-                Ale čas strávený bez zaměstnání mi dal jedno plus: možnost se učit. A pak přišlo AI Google Gemini.
-                
-                <br><br>
-
-                Dnes už SLEVIČKY nejsou jen nápad. Je to nástroj, který renderuje tisíce karet zboží, třídí je, organizuje.<br><br>
-
-                <b>🤑&nbsp;SLEVIČKY</b> jsou nástroj, který odpovídá na tuhle šílenou dobu.
-                
-                <br><br>
-
-                <h5>Jak to celé funguje?</h5>
-
-                <br>
-
-                DATA > Golang scraper > parser > filter > processor > filter > JSON > render > UI > uživatel 👽️<br><br>
-
-                <h5>Technologie</h5>
-
-                <br>
-
-                Backend je napsán v moderním jazyce Go, frontend je čisté HTML5, Beercss framework, JavaScript a jQuery.<br><br>
-                Hosting: Github + Cloudflare Pages.<br><br>
-            </div>
-        </article>
     </div>
     <div id="settings" class="hidden container">
         <h3>🛠️ Nastavení</h3><hr>
@@ -1036,8 +977,8 @@ const initApp = () => {
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
-            $('#stats').html(`SLEVIČKY: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; Obchody: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
-            $('#appbuild').html(`🗓️ sestaveno: <b>${data.created}</b>`);
+            $('#stats').html(`SLEVIČKY: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
+            $('#appbuild').html(`🗓️ SESTAVENO: <b>${data.created}</b>`);
             $('#deals').html('').addClass('hidden');
 
             const start = performance.now();
