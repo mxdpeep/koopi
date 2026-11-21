@@ -573,8 +573,8 @@ nav.bottom button {
         
         <h3>🚚 Aplikace</h3><hr>
         <div id="appbuild"></div>
-        👾 build: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revision: <b>{{COUNT_REV}}</b>
-        <div class="s m l">📦️ local storage: <span id="info_localStorage" class="bold"></span></div>
+        👾 build <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revize <b>{{COUNT_REV}}</b>
+        <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
         
         <div id="webshare" class="webshare center-align"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
@@ -592,20 +592,24 @@ nav.bottom button {
 
         <article>
             <label for="changelog-check" class="row cursor-pointer">
-                <div class="max hover"><strong>🧠 Changelog</strong></div>
+                <div class="max hover"><strong>🧠 Seznam změn</strong></div>
                 <i class="hover">expand_more</i>
             </label>
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
+                    <li><b>2026-11-21</b>
+                        <br>◾️ DATA: rozšíření sortimentu
+                        <br>◾️ DATA: rozšíření blokování
+                    </li>
                     <li><b>2026-11-04</b>
-                        <br>◾️ UI: dblclick otevírá okno hledání na Kupi.cz
+                        <br>◾️ UI: dvojklik otevře externí okno hledání
                     </li>
                     <li><b>2026-05-13</b>
                         <br>◾️ DATA: blokování vybraných obchodů
                     </li>
                     <li><b>2026-04-09</b>
-                        <br>◾️ DATA: spojení Albert a Albert supermarket
+                        <br>◾️ DATA: spojení obchodů Albert a Albert supermarket
                     </li>
                     <li><b>2026-04-01</b>
                         <br>◾️ DATA: rozšíření sortimentu
@@ -616,29 +620,28 @@ nav.bottom button {
                     </li>
                     <li><b>2026-01-14</b>
                         <br>◾️ UI: ♥️ lajky (fungují napříč obchody a stejnými produkty)
-                        <br>◾️ UI: CHANGELOG
                     </li>
                     <li><b>2026-01-13</b>
-                        <br>◾️ UI: přepsán renderer s pomocí Gemini AI
+                        <br>◾️ UI: přepsán renderer s pomocí Gemini
                         <br>◾️ UI: různá barevnost platnosti slevy
                         <br>◾️ UI: superkategorie - badges, emojis jen pro aktivní kategorie
                         <br>◾️ UI: load/save 
                     </li>
                     <li><b>2026-01-12</b>
-                        <br>◾️ DATA: klíčová slova + search preprocessing
+                        <br>◾️ DATA: klíčová slova + preprocessing vyhledávání
                     </li>
                     <li><b>2026-01-11</b>
                         <br>◾️ UI: 🖤 badges - počty slev u různých obchodníků
                         <br>◾️ DATA: deterministické třídění
                     </li>
                     <li><b>2026-01-08</b>
-                        <br>◾️ UI: nejhrubší základ
+                        <br>◾️ UI: nejhrubší návrh
                     </li>
                     <li><b>2025-10-19</b>
                         <br>◾️ DATA: základní scraper
                     </li>
                     <li><b>2025-09-26</b>
-                        <br>◾️ DATA: základní model
+                        <br>◾️ DATA: základní datový model
                     </li>
                 </ul>
             </div>
@@ -977,8 +980,8 @@ const initApp = () => {
 
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
-            $('#stats').html(`SLEVIČKY: <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY: <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
-            $('#appbuild').html(`🗓️ SESTAVENO: <b>${data.created}</b>`);
+            $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
+            $('#appbuild').html(`🗓️ sestaveno <b>${data.created}</b>`);
             $('#deals').html('').addClass('hidden');
 
             const start = performance.now();
@@ -992,12 +995,7 @@ const initApp = () => {
 
             const end = performance.now();
             const renderDuration = Math.round(end - start);
-
-            $('#speed-bench').html(`Rendering: <b class=sbigger>${renderDuration} ms</b>`);
-            //debug(`Deals: ${goods.length}`);
-            //debug(`Rendering: ${renderDuration} ms`);
-            
-            // defaults
+            $('#speed-bench').html(`VYKRESLENÍ <b class=sbigger>${renderDuration} ms</b>`);
             setDefaults();
             $('#deals').removeClass('hidden');
 
