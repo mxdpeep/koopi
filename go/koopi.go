@@ -1279,6 +1279,19 @@ func main() {
 	}
 	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
 
+	// Markets stats (podle počtu slev sestupně)
+	sort.Slice(marketsList, func(i, j int) bool {
+		if marketCounts[marketsList[i]] == marketCounts[marketsList[j]] {
+			return marketsList[i] < marketsList[j]
+		}
+		return marketCounts[marketsList[i]] > marketCounts[marketsList[j]]
+	})
+	var marketStatsSortedList []string
+	for _, market := range marketsList {
+		marketStatsSortedList = append(marketStatsSortedList, fmt.Sprintf("%s (%d)", market, marketCounts[market]))
+	}
+	fmt.Printf("\n\n🏆 Markets by count [%d]: %s\n", len(marketStatsSortedList), strings.Join(marketStatsSortedList, ", "))
+
 	// Volumes stats
 	var volumesList []string
 	for volume := range uniqueVolumes {
