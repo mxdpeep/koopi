@@ -1277,7 +1277,7 @@ func main() {
 	for _, market := range marketsList {
 		marketStatsList = append(marketStatsList, fmt.Sprintf("%s (%d)", market, marketCounts[market]))
 	}
-	fmt.Printf("\n🏪 Markets [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
+	fmt.Printf("\n🏪 Markets by name [%d]: %s\n", len(marketStatsList), strings.Join(marketStatsList, ", "))
 
 	// Markets stats (podle počtu slev sestupně)
 	sort.Slice(marketsList, func(i, j int) bool {
