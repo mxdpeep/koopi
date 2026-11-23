@@ -90,6 +90,33 @@ var nameFixes = []struct {
 	{"Krupavé", "Křupavé"},
 }
 
+// shouldRejectGoods - helper to reject goods by rules
+func shouldRejectGoods(g Goods) bool {
+	for _, rule := range rejectedGoods {
+		if rule.Name != "" && g.Name != rule.Name {
+			continue
+		}
+		if rule.Volume != "" && g.Volume != rule.Volume {
+			continue
+		}
+		return true
+	}
+	return false
+}
+
+type goodsRejectRule struct {
+	Name   string
+	Volume string
+}
+
+// goods to be rejected
+var rejectedGoods = []goodsRejectRule{
+	{
+		Name:   "Panenka",
+		Volume: "1 ks",
+	},
+}
+
 // UA strings
 var UserAgents = []string{
 	"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
@@ -564,6 +591,11 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Volume = strings.ReplaceAll(newGoods.Volume, ".", ",")
 			if newGoods.Volume == "" {
 				newGoods.Volume = "?" // no volume specified
+			}
+
+			// !!! focking specials to be rejected
+			if shouldRejectGoods(newGoods) {
+				return
 			}
 
 			// notes
