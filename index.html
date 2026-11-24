@@ -472,7 +472,7 @@ nav.bottom button {
 </head>
 <body class="light">
 
-<!-- HTML5 top nav -->
+<!-- HTML5 TOP NAV -->
 <nav class="righthanded top notap nowrap black white-text vertical">
     <div class="basic row width-100">
         <button class="install-btn light-blue" style="display: none;">
@@ -485,11 +485,11 @@ nav.bottom button {
         </div>
         <button data-id="about" class="about-btn transparent white-text">
             <i>info</i>
-            <span class="topnavtxt downer">Info</span>
+            <span class="topnavtxt downer">info</span>
         </button>
         <button data-id="settings" class="settings-btn transparent white-text">
             <i>settings</i>
-            <span class="topnavtxt downer">Nastavení</span>
+            <span class="topnavtxt downer">nastavení</span>
         </button>
         <button data-id="refresh" class="refresh-btn transparent white-text">
             <i class="bigger">refresh</i>
@@ -497,9 +497,9 @@ nav.bottom button {
     </div>
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(4, 1fr); height: auto;">
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
-        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
-        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔻</button>
-        <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
+        <button title="třídění" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔻</button>
+        <button title="oblíbené" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
+        <button disabled title="košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
     </div> 
 </nav>
 <nav class="lefthanded top notap nowrap black white-text vertical" style="display: none;">
@@ -521,18 +521,18 @@ nav.bottom button {
             </span>
         </div>
         <button class="install-btn light-blue" style="display: none;">
-            <span>Instalovat ♥️</span>
+            <span>instalovat ♥️</span>
         </button>
     </div>
     <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(4, 1fr); height: auto;">
-        <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
-        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔻</button>
-        <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
+        <button disabled title="košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
+        <button title="oblíbené" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
+        <button title="třídění" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔻</button>
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
     </div> 
 </nav>
 
-<!-- HTML5 bottom nav -->
+<!-- HTML5 BOTTOM NAV -->
 <nav class="catbuttons righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
@@ -547,16 +547,18 @@ nav.bottom button {
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
+
 <!-- HTML5 DEBUGGER -->
 <div id="debugger" class="notap noselect blue-grey white-text bold debugger"></div>
+
 <!-- HTML5 CONTENT -->
 <main class="container">
     <noscript>
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; z-index: 9999; text-align: center; padding: 20px;">
             <h3>
-                Tahle appka je zcela závislá na použití JavaScriptu 😐️
+                Aplikace je zcela závislá na použití JavaScriptu 😐️
                 <br><br>
-                Bez něj to prostě nepůjde ☠️
+                Bez něj to prostě nepůjde ... ☠️
             </h3>
         </div>
     </noscript>
@@ -601,7 +603,7 @@ nav.bottom button {
                 <ul>
                     <li><b>2026-11-24</b>
                         <br>◾️ UI: aktualizace
-                        <br>◾️ DATA: oprava zatřídění sortimentu
+                        <br>◾️ DATA: opravy výpisů a třídění
                     </li>
                     <li><b>2026-11-21</b>
                         <br>◾️ DATA: rozšíření sortimentu
@@ -652,6 +654,7 @@ nav.bottom button {
             </div>
         </article>
     </div>
+
     <div id="settings" class="hidden container">
         <h3>🛠️ Nastavení</h3><hr>
         <div class="s m l center-align">
@@ -662,8 +665,8 @@ nav.bottom button {
         </div>
 
         <div class="saveload center-align">
-            <button class="save-button green hover settings-button">💾 uložit do souboru</button>
-            <button class="load-button green hover settings-button">💾 načíst ze souboru</button>
+            <button class="save-button green hover settings-button">➡️💾 uložit</button>
+            <button class="load-button green hover settings-button">💾➡️ načíst</button>
         </div>
         <input id="file" type="file" style="display:none" accept=".json">
 
@@ -725,6 +728,7 @@ window.deals = {};
 deals.myLikes = [];
 deals.myCats = [];
 deals.myMarkets = [];
+deals.catbut = 1;
 
 // RESTORE DATA from LOCAL STORAGE
 try {
@@ -1328,7 +1332,7 @@ $(document).ready(function() {
         $(this).val('');
     });
 
-    // AZ-ZA button
+    // SORTING button
     let isReversed = false;
     $(".btn-az").on("click", function() {
         if (window.refresh_flag) refresh();
@@ -1346,8 +1350,9 @@ $(document).ready(function() {
             $('body').addClass('flashbomb2');
             setTimeout(() => {$('body').removeClass('flashbomb2');}, 999);
 
-            updateFavIconsNoVfx();
+            updateFavIcons();
             loadAllLikes();
+            setCategory(deals.catbut);
         }, 10);
 
         if (isFavFilterActive) {
@@ -1435,17 +1440,18 @@ $(document).ready(function() {
             $('#deals').show();
             $('#deals').removeClass('hidden');
             setHandedness();
+            setCategory(deals.catbut);
         }, 300);
 
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
-    // HANDEDNESS button
+    // HANDS button
     $('.handedness-button').on('click', function() {
         switchHands();
     });
 
-    // fn: switchHands() - switch handedness
+    // fn: switchHands() - switch hands
     function switchHands() {
         const newMode = deals.handedness === 'left' ? 'right' : 'left';
         deals.handedness = newMode;
@@ -1455,7 +1461,6 @@ $(document).ready(function() {
 
         setSettingsMode(false);
         setHandedness();
-        
 
         // flashbomb vfx
         if (flash_flag) return;
@@ -1464,7 +1469,7 @@ $(document).ready(function() {
         setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
     }
 
-    // fn: setHandedness() - set visibilities for handedness
+    // fn: setHandedness() - set visibilities for hands
     function setHandedness() {
         const mode = deals.handedness
         if (mode === 'left') {
@@ -1573,6 +1578,14 @@ $(document).ready(function() {
         });
     });
 
+    // fn: setCategory() - set category by clicking on buttons 1-5
+    function setCategory(no) {
+        const categoryNo = (no >= 1 && no <= 5) ? no : 0;
+        if (!no) return;
+        deals.catbut = categoryNo;
+        $('.but' + categoryNo).trigger('click');
+    }
+
     // fn: setDefaults() - set global UI DEFAULTS
     function setDefaults() {
         $('nav.bottom button').addClass('grayscaled');
@@ -1580,6 +1593,7 @@ $(document).ready(function() {
         $('#deals article').addClass('hidden-force');
         $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
         deals.handedness = 'right';
+        deals.catbut = 1;
 
         // process handedness from localStorage
         if (!window.nolocalstorage) {
@@ -1606,46 +1620,21 @@ $(document).ready(function() {
         const cats = $(this).data('cats');
         if (!cats) return;
         if (window.refresh_flag) refresh();
+
         deals.cats = cats;
         $('nav.bottom button').addClass('grayscaled').removeClass('active');
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
         $('.' + myClass).removeClass('grayscaled').addClass('active');
+        deals.catbut = myClass.split('but')[1];
+        console.log(`CAT BUTTON: ${deals.catbut}`);
+
         $('#deals article').addClass('hidden-force');        
         $(cats).removeClass('hidden-force');
         $('#settings, #about').hide();
         $('#deals').show()
         window.scrollTo({top: 0});
-
         updateCategoryBadges(window.deals.catcounts);
     });
-
-    // context event hanlder - open Kupi website
-    window.handleContextEvent = function(e) {
-        const card = e.target.closest('.product-card');
-        if (card) {
-            const productName = card.querySelector('.product-name')?.innerText;
-            // flashbomb vfx
-            $(card).addClass('flashbomb');
-            setTimeout(() => {
-                $(card).removeClass('flashbomb');
-                if (productName) {
-                    const searchUrl = 'https://www.kupi.cz/hledej?f=' + encodeURIComponent(productName);
-                    window.open(searchUrl, '_blank');
-                }}, 250);
-            return false;
-        }
-        // data-id
-        const elementWithId = e.target.closest('[data-id]');
-        if (elementWithId) {
-            const id = elementWithId.getAttribute('data-id');
-            debug('data-id: ' + id);
-            return false;
-        }
-        // fallback
-        const info = e.target.title || e.target.id || e.target.tagName;
-        debug('target: ' + info);
-        return false;
-    }
 
     // UMAMI identity
     $(function() {
@@ -1727,18 +1716,49 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
+// context event handler - open Kupi website
+window.handleContextEvent = function(e) {
+    const card = e.target.closest('.product-card');
+    if (card) {
+        const productName = card.querySelector('.product-name')?.innerText;
+        // flashbomb vfx
+        $(card).addClass('flashbomb');
+        setTimeout(() => {
+            $(card).removeClass('flashbomb');
+            if (productName) {
+                const searchUrl = 'https://www.kupi.cz/hledej?f=' + encodeURIComponent(productName);
+                window.open(searchUrl, '_blank');
+            }}, 250);
+        return false;
+    }
+    // data-id
+    const elementWithId = e.target.closest('[data-id]');
+    if (elementWithId) {
+        const id = elementWithId.getAttribute('data-id');
+        debug('data-id: ' + id);
+        return false;
+    }
+    // fallback
+    const info = e.target.title || e.target.id || e.target.tagName;
+    debug('target: ' + info);
+    return false;
+}
+
+// context menu handler
 window.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
 }, true);
 
+// dblclick handler
 window.addEventListener('dblclick', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
 }, true);
 
+// error handler
 document.addEventListener('error', function (e) {
     if (e.target.tagName.toLowerCase() === 'img') {
         const img = e.target;
