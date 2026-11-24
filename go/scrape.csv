@@ -2,6 +2,7 @@ CATEGORY,QUERY,PAGES
 
 deterministické hledání (určující kategorii):
 
+CUKROVINKY,adventní kalendář,1
 CUKROVINKY,biscoff,1
 CUKROVINKY,bonbony,1
 CUKROVINKY,brambory marcipánové,1
@@ -11,6 +12,7 @@ CUKROVINKY,džem,1
 CUKROVINKY,hořické trubičky,1
 CUKROVINKY,kinder,1
 CUKROVINKY,kit kat,1
+CUKROVINKY,kokosky,1
 CUKROVINKY,lindt,1
 CUKROVINKY,linecké rohlíčky,1
 CUKROVINKY,mandle v čokoládě,1
@@ -33,11 +35,15 @@ CUKROVINKY,tyčinka bez lepku super ořechy emco,1
 CUKROVINKY,čokokrém,1
 CUKROVINKY,čokoláda milka,1
 CUKROVINKY,čokoládová figurka,1
+CUKROVINKY,čokoládové kuličky,1
 CUKROVINKY,čokoládový kapr,1
 
 KOŘENÍ,bujón,1
 KOŘENÍ,chilli omáčka,1
 KOŘENÍ,kokosové mléko,1
+KOŘENÍ,koprová omáčka,1
+KOŘENÍ,koření americké brambory,1
+KOŘENÍ,koření paprika,1
 KOŘENÍ,omáčka worcestrová,1
 KOŘENÍ,rybí omáčka,1
 KOŘENÍ,sardelová pasta,1
@@ -45,12 +51,18 @@ KOŘENÍ,sezamová pasta,1
 KOŘENÍ,sójová omáčka,1
 
 MASO,ančovičky,1
+MASO,holandský řízek se sýrem,1
 MASO,kotlet s pepřem,1
 MASO,krab,1
 MASO,krabí tyčinky,1
+MASO,krůtí roláda s chřestem,1
 MASO,křidélka s chutí medu,1
+MASO,obalované masové kuličky,1
 MASO,rybí pepřenky,1
 MASO,salát kuře,1
+MASO,česneková kýta,1
+MASO,řízek,1
+MASO,šunkové rolky s křenem,1
 MASO,šunkový závitek s křenem,1
 
 MLÉKO,danone,1

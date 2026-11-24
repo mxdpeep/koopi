@@ -109,8 +109,8 @@ button.chip .market-image {
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
-.progress-container {position: fixed;top: 0;left: 0;height: 4px;width: 100%;background-color: #fff;z-index: 9999;}
-.progress-bar {height: 4px;background: rgb(115, 115, 211);transition: width 0.1s ease;}
+.progress-container {position: fixed;top: 0;left: 0;height: 4px;width: 100%;background-color: #000;z-index: 9999;}
+.progress-bar {height: 4px;background: rgb(9, 253, 41);transition: width 0.1s ease;}
 
 /* PWA installer */
 .install-btn {z-index: 100;}
@@ -471,6 +471,7 @@ nav.bottom button {
 </style>
 </head>
 <body class="light">
+
 <!-- HTML5 top nav -->
 <nav class="righthanded top notap nowrap black white-text vertical">
     <div class="basic row width-100">
@@ -494,11 +495,10 @@ nav.bottom button {
             <i class="bigger">refresh</i>
         </button>
     </div>
-    <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
-        <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
+    <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(4, 1fr); height: auto;">
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
         <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
-        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔽</button>
+        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔻</button>
         <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
     </div> 
 </nav>
@@ -524,14 +524,14 @@ nav.bottom button {
             <span>Instalovat ♥️</span>
         </button>
     </div>
-    <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto;">
+    <div class="extras row width-100 center-align" style="display: grid; grid-template-columns: repeat(4, 1fr); height: auto;">
         <button disabled title="nákupní košík" class="nowrap btn-secrow white-text bold s1 transparent">🛒</button>
-        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔽</button>
+        <button title="třídění výpisu" class="btn-az nowrap btn-secrow white-text bold s1 transparent">🔻</button>
         <button title="♥️ oblíbené produkty" class="grayscaled filter-favs nowrap btn-secrow white-text bold s1 transparent">🤍</button>
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
-        <button disabled title="❌ zablokované produkty" class="nowrap btn-secrow white-text bold s1 transparent">❌</button>
     </div> 
 </nav>
+
 <!-- HTML5 bottom nav -->
 <nav class="catbuttons righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
@@ -573,12 +573,13 @@ nav.bottom button {
         
         <h3>🚚 Aplikace</h3><hr>
         <div id="appbuild"></div>
-        👾 build <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revize <b>{{COUNT_REV}}</b>
+        👾 sestavení <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revize <b>{{COUNT_REV}}</b>
         <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
         
         <div id="webshare" class="webshare center-align"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
         <div class="center-align">
+            <br>
             <a
                 href="https://github.com/mxdpeep/koopi"
                 target="_blank"
@@ -598,12 +599,15 @@ nav.bottom button {
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
+                    <li><b>2026-11-24</b>
+                        <br>◾️ UI: aktualizace
+                    </li>
                     <li><b>2026-11-21</b>
                         <br>◾️ DATA: rozšíření sortimentu
                         <br>◾️ DATA: rozšíření blokování
                     </li>
                     <li><b>2026-11-04</b>
-                        <br>◾️ UI: dvojklik otevře externí okno hledání
+                        <br>◾️ UI: dvojklik/RMB/kontext = externí okno vyhledávání
                     </li>
                     <li><b>2026-05-13</b>
                         <br>◾️ DATA: blokování vybraných obchodů
@@ -615,7 +619,7 @@ nav.bottom button {
                         <br>◾️ DATA: rozšíření sortimentu
                     </li>
                     <li><b>2026-01-18</b>
-                        <br>◾️ UI: 🔽🔼 třídění
+                        <br>◾️ UI: 🔻🔺 třídění
                         <br>◾️ UI: detekce nepodporovaných browserů
                     </li>
                     <li><b>2026-01-14</b>
@@ -717,7 +721,6 @@ document.getElementById('loading').style.display = 'flex';
 
 // GLOBAL DEALS object
 window.deals = {};
-deals.myBlocks = [];
 deals.myLikes = [];
 deals.myCats = [];
 deals.myMarkets = [];
@@ -981,7 +984,7 @@ const initApp = () => {
             deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
 
             $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
-            $('#appbuild').html(`🗓️ sestaveno <b>${data.created}</b>`);
+            $('#appbuild').html(`🗓️ datum <b>${data.created}</b>`);
             $('#deals').html('').addClass('hidden');
 
             const start = performance.now();
@@ -1163,12 +1166,6 @@ function saveLikes() {
     localStorage.setItem('myLikes', JSON.stringify(hashesToSave.filter(Boolean)));
 }
 
-// fn: saveBlocks() - save deals.myBlocks to a localStorage string
-function saveBlocks() {
-    const hashesToSave = window.deals.myBlocks.map(id => deals.idhashmap[id]);
-    localStorage.setItem('myBlocks', JSON.stringify(hashesToSave.filter(Boolean)));
-}
-
 // fn: loadAllLikes() - populate deals.myLikes from a localStorage string
 function loadAllLikes() {
     const savedHashes = JSON.parse(localStorage.getItem('myLikes')) || [];
@@ -1204,25 +1201,6 @@ function updateMyFavCountNoVfx() {
         icon = '❤️';
     }
     $('.filter-favs').html(icon + '&nbsp;&nbsp;' + window.deals.myLikes.length);
-}
-
-// fn: loadAllBlocks() - populate deals.myBlocks from localStorage string
-function loadAllBlocks() {
-    const savedHashes = JSON.parse(localStorage.getItem('myBlocks')) || [];
-    window.deals.myBlocks = [];
-    savedHashes.forEach(hash => {
-        const numericId = Object.keys(deals.idhashmap).find(key => deals.idhashmap[key] === hash);
-        if (numericId) {
-            const id = parseInt(numericId);
-            window.deals.myBlocks.push(id);
-        }
-    });
-    updateMyBlocksCount();
-}
-
-// fn: updateMyBlocksCount() - update the block icon button with myBlocks count
-function updateMyBlocksCount() {
-    $('.filter-blocks').html('❌&nbsp;&nbsp;' + window.deals.myBlocks.length);
 }
 
 // fn: filterFavs() - 
@@ -1321,6 +1299,7 @@ $(document).ready(function() {
             window.settings_flag = false;
             $('.extras').removeClass('extras-hidden');
             $('.catbuttons').show();
+            $('#deals').show();
         }
     }
 
@@ -1353,7 +1332,7 @@ $(document).ready(function() {
     $(".btn-az").on("click", function() {
         if (window.refresh_flag) refresh();
         isReversed = !isReversed;
-        $(this).text(isReversed ? "🔼" : "🔽");
+        $(this).text(isReversed ? "🔺" : "🔻");
         $(this).addClass("pulsebutt");
         setTimeout(() => {$(this).removeClass("pulsebutt");}, 300);
 
@@ -1472,9 +1451,10 @@ $(document).ready(function() {
         if (!window.nolocalstorage) {
             localStorage.setItem('handedness', newMode);
         }
-        $('#settings').hide();
-        $('#deals').show()
+
+        setSettingsMode(false);
         setHandedness();
+        
 
         // flashbomb vfx
         if (flash_flag) return;
@@ -1510,10 +1490,8 @@ $(document).ready(function() {
             version: version,
             handedness: localStorage.getItem('handedness'),
             uuid: localStorage.getItem('uuid'),
-            // Proženeme IDčka přes tvou mapu
             myCats: (deals.myCats || []).map(translateToHash),
             myMarkets: (deals.myMarkets || []).map(translateToHash),
-            myBlocks: (deals.myBlocks || []).map(translateToHash),
             myLikes: (deals.myLikes || []).map(translateToHash),
         };
         const jsonString = JSON.stringify(data, null, 2);
@@ -1524,7 +1502,7 @@ $(document).ready(function() {
         a.download = 'slevicky_settings.json';
         document.body.appendChild(a); 
         a.click();
-        // clean-up
+
         setTimeout(() => {document.body.removeChild(a);window.URL.revokeObjectURL(url);}, 0);
     }
 
@@ -1540,7 +1518,6 @@ $(document).ready(function() {
                 const config = JSON.parse(e.target.result);
                 deals.myCats = config.myCats || [];
                 deals.myMarkets = config.myMarkets || [];
-                deals.myBlocks = config.myBlocks || [];
                 deals.myLikes = config.myLikes || [];
                 if (config.uuid) {
                     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -1551,7 +1528,6 @@ $(document).ready(function() {
                 if (config.handedness) localStorage.setItem('handedness', config.handedness);
                 localStorage.setItem('myCats', JSON.stringify(deals.myCats));
                 localStorage.setItem('myMarkets', JSON.stringify(deals.myMarkets));
-                localStorage.setItem('myBlocks', JSON.stringify(deals.myBlocks));
                 localStorage.setItem('myLikes', JSON.stringify(deals.myLikes));
                 alert("Nastavení bylo úspěšně importováno.");
                 refresh();
@@ -1587,6 +1563,7 @@ $(document).ready(function() {
         window.stop();
         window.location.replace('/?' + buster);
     }
+
     // close DEBUGGER
     $('#debugger').on('click', function() {
         dtimer = null;
@@ -1641,7 +1618,7 @@ $(document).ready(function() {
         updateCategoryBadges(window.deals.catcounts);
     });
 
-    // context event hanlder
+    // context event hanlder - open Kupi website
     window.handleContextEvent = function(e) {
         const card = e.target.closest('.product-card');
         if (card) {
@@ -1732,6 +1709,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
     document.querySelectorAll('.install-btn').forEach(btn => btn.style.display = 'block');
 });
+
 document.addEventListener('click', async (e) => {
     if (e.target.matches('.install-btn') && deferredPrompt) {
         deferredPrompt.prompt();
@@ -1748,7 +1726,7 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
-window.addEventListener('xcontextmenu', function(e) {
+window.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
