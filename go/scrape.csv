@@ -73,7 +73,6 @@ MLÉKO,jogobella,1
 MLÉKO,jogurt,1
 MLÉKO,kostíci,1
 MLÉKO,lipánek,1
-MLÉKO,milka,1
 MLÉKO,milko,1
 MLÉKO,mléko,1
 MLÉKO,mléčná rýže,1
@@ -218,10 +217,12 @@ KOŘENÍ,chilli papričky,1
 KOŘENÍ,citronová tráva,1
 KOŘENÍ,hořčice,2
 KOŘENÍ,hřebíček,1
+KOŘENÍ,kečup,3
 KOŘENÍ,kmín,1
 KOŘENÍ,libeček,1
 KOŘENÍ,majoránka,1
 KOŘENÍ,nové koření,1
+KOŘENÍ,ocet,1
 KOŘENÍ,oregano,1
 KOŘENÍ,pažitka,1
 KOŘENÍ,pepř tří barev,1
@@ -235,6 +236,8 @@ KOŘENÍ,tekuté koření,1
 KOŘENÍ,tymián,1
 KOŘENÍ,uzená paprika,1
 KOŘENÍ,vanilka,1
+KOŘENÍ,vývar cibule,1
+KOŘENÍ,vývar,1
 LUŠTĚNINY,cizrna,1
 LUŠTĚNINY,fazole,1
 LUŠTĚNINY,hrách,1
@@ -340,6 +343,7 @@ OBILÍ,corn flakes,1
 OBILÍ,croissant,1
 OBILÍ,dupetky,1
 OBILÍ,francouzská bageta,1
+OBILÍ,havlík,1
 OBILÍ,instantní kaše,1
 OBILÍ,instantní nudle,1
 OBILÍ,knedlík,1
@@ -358,11 +362,13 @@ OBILÍ,oves,1
 OBILÍ,ovesné vločky,1
 OBILÍ,pečivo,1
 OBILÍ,pohanka,1
+OBILÍ,preclíky,1
 OBILÍ,ranní chlebík,1
 OBILÍ,rohlík,1
 OBILÍ,rýže,1
 OBILÍ,tyčinky grissini italiamo,1
 OBILÍ,tyčinky opavské sýrové,1
+OBILÍ,těstovinové,1
 OBILÍ,těstoviny,3
 OBILÍ,večerní chlebík,1
 OBILÍ,zavářka,1
@@ -370,14 +376,13 @@ OBILÍ,závin,1
 OSTATNÍ,brambůrky,3
 OSTATNÍ,chipsy,3
 OSTATNÍ,droždí,1
+OSTATNÍ,instantní kaše,2
+OSTATNÍ,instantní polévka,2
 OSTATNÍ,jedlá soda,1
-OSTATNÍ,kečup,3
 OSTATNÍ,kvasnice,1
 OSTATNÍ,kyselina citronová,1
-OSTATNÍ,lay's,3
-OSTATNÍ,ocet,1
-OSTATNÍ,preclíky,1
-OSTATNÍ,tyčinky,3
+OSTATNÍ,lay's,2
+OSTATNÍ,tapas,1
 OSTATNÍ,škrob,1
 OVOCE,ananas,1
 OVOCE,avokádo,1
