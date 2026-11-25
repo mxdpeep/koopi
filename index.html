@@ -585,8 +585,8 @@ nav.bottom button {
         
         <h3>🚚 Aplikace</h3><hr>
         <div id="appbuild"></div>
-        👾 sestavení <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revize <b>{{COUNT_REV}}</b>
-        <div class="s m l">📦️ local storage <span id="info_localStorage" class="bold"></span></div>
+        👾 sestavení: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revize: <b>{{COUNT_REV}}</b>
+        <div class="s m l">📦️ local storage: <span id="info_localStorage" class="bold"></span></div>
         
         <div id="webshare" class="webshare center-align"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
@@ -772,6 +772,7 @@ if (!navigator.share) {
 
 // fn: debug(x) - UI DEBUGGER with autoscroll
 var dtimer = null;
+window.debug = debug;
 function debug(x) {
     if (!x) return;
     const now = new Date();
@@ -781,7 +782,6 @@ function debug(x) {
         + '.' + now.getMilliseconds().toString().padStart(3, '0');
     const $db = $('#debugger');
     $db.append('<span class="orange-text">' + ts + ':</span>&nbsp;&nbsp;' + x + '<br>').addClass('debugger-on').fadeIn();
-    //console.log(x);
     $db.scrollTop($db[0].scrollHeight);
     if (dtimer) clearTimeout(dtimer);
     dtimer = setTimeout(function() {
@@ -791,7 +791,6 @@ function debug(x) {
         });
     }, 5000);
 }
-window.debug = debug;
 
 // UUID
 var uuid = null;
@@ -819,11 +818,13 @@ try {
     console.warn('SLEVIČKY: localStorage je zablokován');
 }
 window.nolocalstorage = nolocalstorage;
-$('#info_localStorage').text(!nolocalstorage ? "OK" : "ZABLOKOVÁN");
 if (nolocalstorage) {
     $('.saveload').hide();
     $('#load').prop('disabled', true);
     $('#save').prop('disabled', true);
+} else {
+    var sz = (new Blob([localStorage.deals_cache]).size / 1024).toFixed(1) + ' KB';
+    $('#info_localStorage').text(!nolocalstorage ? sz : "ZABLOKOVÁNO");
 }
 
 // MAIN CONSTANTS
@@ -832,6 +833,7 @@ const version = '{{GIT_REV}}';
 const git_build_date = '{{DATE_REV}}';
 const git_revisions = '{{COUNT_REV}}';
 const dataFile = './data.json'; 
+const cacheKey = 'deals_cache';
 const catIcons = {
     CUKROVINKY: '🍬',
     KOŘENÍ: '🌶️',
@@ -938,8 +940,118 @@ const progressBar = () => {
     };
 }
 
-// app init
+// init app
 const initApp = () => {
+    console.time('JSON-Fetch');
+
+    const processData = (data) => {
+        console.timeEnd('JSON-Fetch');
+        if (!data) {
+            $('#loading-info').text('Chyba nahrávání dat!');
+            return;
+        }
+        $('#loading-info').text('👽️ Renderuji');
+        let goods = [];
+        if (data && data.goods && Array.isArray(data.goods)) {
+            goods = data.goods;
+        }
+        if (goods.length === 0) {
+            $('#loading-info').text('Žádné slevy k zobrazení!');
+            console.error('Struktura dat neodpovídá:', data);
+            return;
+        }
+
+        // data processing
+        deals.goods = goods;
+        deals.goods_orig = goods;
+        deals.goods_rev = [...goods].reverse();
+        deals.markets = data.markets;
+        deals.catcounts = data.catcounts;
+        deals.keywords = data.keywords.split(' ');
+        deals.keywordsall = data.keywords;
+        deals.keywordsindex = data.keywordsindex
+        deals.idhashmap = data.idhashmap
+        deals.hashidmap = {};
+        Object.entries(data.idhashmap).forEach(([id, hash]) => {
+            deals.hashidmap[hash] = parseInt(id);
+        });
+
+        // top keywords block list
+        const blockedWords = [
+            "albert",
+            "bez",
+            "billa",
+            "kaufland",
+            "kosti",
+            "lidl",
+            "penny",
+            "tesco",
+            "vyber"
+        ];
+
+        deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
+        deals.topkeywords = Object.keys(deals.keywordsindex)
+            .filter(word => !blockedWords.includes(word))
+            .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
+            .slice(0, 50);
+
+        $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
+        $('#appbuild').html(`🗓️ datum <b>${data.created}</b>`);
+        $('#deals').html('').addClass('hidden');
+
+        const start = performance.now();
+        renderDeals(goods);
+        renderMarkets(deals.markets);
+        renderCategories(categories);
+        updateNavIcons();
+        updateFavIcons();
+        loadAllLikes();
+        const end = performance.now();
+
+        const renderDuration = Math.round(end - start);
+        $('#speed-bench').html(`VYKRESLENÍ <b class=sbigger>${renderDuration} ms</b>`);
+        $('#deals').removeClass('hidden');
+        window.scrollTo({top: 0});
+        setTimeout(() => {$('#loading').addClass('fade-away');setDefaults();}, 750);
+    }
+
+    const cachedRaw = localStorage.getItem(cacheKey);
+    if (cachedRaw) {
+        try {
+            const cachedData = JSON.parse(cachedRaw);
+            console.log('Processing cached data.');
+            processData(cachedData);
+            return;
+        } catch (e) {
+            console.error('Cache is invalid:', e);
+            localStorage.removeItem(cacheKey);
+        }
+    }
+
+    fetch(dataFile)
+        .then(response => {
+            if (!response.ok) {
+                $('#loading-info').text('Datový soubor nebyl nalezen!');
+                throw new Error('Datový soubor nebyl nalezen!');
+            }
+            return response.json();
+        })
+        .then(data => {
+            try {
+                localStorage.setItem(cacheKey, JSON.stringify(data));
+            } catch (e) {
+                console.error('Nepodařilo se uložit data do localStorage:', e);
+            }
+            console.log('Processing online data.');
+            processData(data);
+        })
+        .catch(error => {
+            console.error('Error downloading data: ', error);
+        });
+};
+
+/*
+const initAppold = () => {
     console.time('JSON-Fetch');
     fetch(dataFile)
         .then(response => {
@@ -1030,11 +1142,13 @@ const initApp = () => {
             $('#loading-info').text('Chyba dat: ' + error.message);
         });
 };
+*/
 
 // fn: renderDeals() - render the deals to the DOM
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
+  
     const activeMarkets = new Set(window.deals.myMarkets || deals.defaultMarkets);
     const activeCats = new Set(window.deals.myCats || []);
 
@@ -1583,11 +1697,12 @@ $(document).ready(function() {
     });
 
     // fn: setRefreshBtn() - set refresh button animated indicator
+    window.setRefreshBtn = setRefreshBtn;
     function setRefreshBtn() {
+        localStorage.removeItem(cacheKey);
         $('.refresh-btn').removeClass('icon-wave icon-spin').addClass('orange-text icon-wave bold');
         setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin');}, 300);
     }
-    window.setRefreshBtn = setRefreshBtn;
 
     // fn: refresh() - refresh the page using a buster
     function refresh() {
@@ -1617,6 +1732,7 @@ $(document).ready(function() {
     }
 
     // fn: setDefaults() - set global UI DEFAULTS
+    window.setDefaults = setDefaults;
     function setDefaults() {
         $('nav.bottom button').addClass('grayscaled');
         $('.but1').removeClass('grayscaled').addClass('active');
@@ -1643,7 +1759,6 @@ $(document).ready(function() {
         }
         updateCategoryBadges(window.deals.catcounts);
     }
-    window.setDefaults = setDefaults;
 
     // BOTTOM NAVIGATION buttons
     $('.btn-bottom').on('click', function() {
@@ -1776,7 +1891,7 @@ window.handleContextEvent = function(e) {
 }
 
 // context menu handler
-window.addEventListener('xcontextmenu', function(e) {
+window.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
