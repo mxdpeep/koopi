@@ -802,7 +802,7 @@ try {
   );
 }
 
-// LOCAL STORAGE test
+// LOCAL STORAGE TEST
 let nolocalstorage = false;
 try {
     const storage = window.localStorage;
@@ -812,7 +812,7 @@ try {
     if (!storage.getItem('uuid') || storage.getItem('uuid').length !== 36) {
         storage.setItem('uuid', uuid);
     }
-    storage.removeItem('luid'); // Cleanup starého bordelu
+    storage.removeItem('luid');
 } catch (e) {
     nolocalstorage = true;
     console.warn('SLEVIČKY: localStorage je zablokován');
@@ -822,10 +822,8 @@ if (nolocalstorage) {
     $('.saveload').hide();
     $('#load').prop('disabled', true);
     $('#save').prop('disabled', true);
-} else {
-    var sz = (new Blob([localStorage.deals_cache]).size / 1024).toFixed(1) + ' KB';
-    $('#info_localStorage').text(!nolocalstorage ? sz : "ZABLOKOVÁNO");
 }
+$('#info_localStorage').text(!nolocalstorage ? 'OK' : "ZABLOKOVÁNO");
 
 // MAIN CONSTANTS
 const dept = '{{DEPT}}';
@@ -948,7 +946,7 @@ const initApp = () => {
         console.timeEnd('JSON-Fetch');
         if (!data) {
             $('#loading-info').text('Chyba nahrávání dat!');
-            umlog('error_no_data');
+            window.umlog('error_no_data');
             return;
         }
         $('#loading-info').text('👽️ Renderuji');
@@ -958,7 +956,7 @@ const initApp = () => {
         }
         if (goods.length === 0) {
             $('#loading-info').text('Žádné slevy k zobrazení!');
-            umlog('error_bad_data_structure');
+            window.umlog('error_bad_data_structure');
             console.error('Struktura dat neodpovídá:', data);
             return;
         }
@@ -1023,7 +1021,8 @@ const initApp = () => {
         try {
             const cachedData = JSON.parse(cachedRaw);
             console.log('Processing cached data.');
-            umlog('data_from_cache');
+            $('#info_localStorage').text((new Blob([localStorage.deals_cache]).size / 1024).toFixed(1) + ' KB');
+            window.umlog('data_from_cache');
             processData(cachedData);
             return;
         } catch (e) {
@@ -1047,11 +1046,11 @@ const initApp = () => {
                 console.error('Nepodařilo se uložit data do localStorage:', e);
             }
             console.log('Processing online data.');
-            umlog('data_from_online');
+            window.umlog('data_from_online');
             processData(data);
         })
         .catch(error => {
-            umlog('error_downloading');
+            window.umlog('error_downloading');
             console.error('Error downloading data:', error);
         });
 };
@@ -1450,13 +1449,13 @@ $(document).ready(function() {
 
     // DELETE button
     $('.delete-button').on('click', function(e) {
-        umlog('delete_settings');
+        window.umlog('delete_settings');
         deleteSettings();
     });
 
     // SAVE button
     $('.save-button').on('click', function(e) {
-        umlog('save_settings');
+        window.umlog('save_settings');
         exportSettings();
     });
 
@@ -1469,7 +1468,7 @@ $(document).ready(function() {
     $('#file').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
-            umlog('load_settings');
+            window.umlog('load_settings');
             importSettings(file);
         }
         $(this).val('');
@@ -1519,7 +1518,7 @@ $(document).ready(function() {
         } else {
             setSettingsMode(true);
             $('#about').show();
-            umlog('about_tab');
+            window.umlog('about_tab');
         }
     });
 
@@ -1535,7 +1534,7 @@ $(document).ready(function() {
         } else {
             setSettingsMode(true);
             $('#settings').show();
-            umlog('settings_tab');
+            window.umlog('settings_tab');
         }
     });
 
@@ -1544,7 +1543,7 @@ $(document).ready(function() {
     // SMILEY button
     $('.mrsmiley').on('click', function() {
         setSettingsMode(false);
-        umlog('roulette');
+        window.umlog('roulette');
         roulette();
     });
 
@@ -1808,7 +1807,7 @@ $(document).ready(function() {
             if (lastLog === today) return;
             if (typeof umlog === 'function' && window.uuid && window.nolocalstorage === false) {
                 localStorage.setItem('sync_stats', today);
-                umlog('daily_stats', {
+                window.umlog('daily_stats', {
                     markets: localStorage.getItem('myMarkets'),
                     categories: localStorage.getItem('myCats')
                 });
