@@ -1022,8 +1022,8 @@ const initApp = () => {
             .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
             .slice(0, 50);
 
-        $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
-        $('#appbuild').html(`🗓️ datum: <b>${data.created}</b>`);
+        $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}</b><br>OBCHODY <b class=sbigger>${data.markets.length}</b>`);
+        $('#appbuild').html(`🗓️ <b>${data.created}</b>`);
         $('#deals').html('').addClass('hidden');
 
         const start = performance.now();
