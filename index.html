@@ -1623,10 +1623,11 @@ $(document).ready(function() {
 
         deals.cats = cats;
         $('nav.bottom button').addClass('grayscaled').removeClass('active');
+
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
         $('.' + myClass).removeClass('grayscaled').addClass('active');
         deals.catbut = myClass.split('but')[1];
-        console.log(`CAT BUTTON: ${deals.catbut}`);
+        //console.log(`CAT BUTTON: ${deals.catbut}`);
 
         $('#deals article').addClass('hidden-force');        
         $(cats).removeClass('hidden-force');
