@@ -885,6 +885,18 @@ window.extras_flag = true; // bool: is extras row visible?
 window.hearts_flag = false; // bool: is hearts active?
 window.settings_flag = false; // bool: is about/settings active?
 
+// control extras row visibility
+window.setExtrasVisible = (visible) => {
+    const $extras = $('.extras');
+    if (visible) {
+        $extras.removeClass('extras-hidden');
+        window.extras_flag = true;
+    } else {
+        $extras.addClass('extras-hidden');
+        window.extras_flag = false;
+    }
+};
+
 const progressBar = () => {
     var bar = "_" + Date.now();
     var lastScrollTop = 0;
@@ -894,7 +906,7 @@ const progressBar = () => {
         'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
     );
 
-    // fn: scrolling event handler
+    // fn: scroll event handler
     function onscroll() {
         var scroll = document.body.scrollTop || document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1192,11 +1204,7 @@ function updateFavIcons() {
         const productHash = deals.idhashmap[numericId];
         const $allSameHearts = $(`.product-card[data-id="${numericId}"]`).find('.myheart');
 
-        // pop-in the extras row?
-        if (!window.extras_flag) {
-            window.extras_flag = true;
-            $('.extras').removeClass('extras-hidden');
-        }
+        setExtrasVisible(true);
 
         $allSameHearts.toggleClass('grayscaled active');
         if ($heart.hasClass('active')) {
@@ -1351,7 +1359,6 @@ $(document).ready(function() {
             $('.extras').addClass('extras-hidden');
             $('.catbuttons').hide();
         } else {
-            if (window.refresh_flag) refresh(); // force refresh if needed
             window.settings_flag = false;
             $('.extras').removeClass('extras-hidden');
             $('.catbuttons').show();
