@@ -684,7 +684,7 @@ nav.bottom button {
         </div>
         <input id="file" type="file" style="display:none" accept=".json">
 
-        <h3>🏪 Moje obchody</h3><hr>
+        <h3>🏪 Moje obchody <span id="mojeobchody"></span></h3><hr>
         <div id="mymarkets" class="center-align padding s m l"></div>
 
         <h3>📑 Moje kategorie</h3><hr>
@@ -1070,100 +1070,6 @@ const initApp = () => {
         });
 };
 
-/*
-const initAppold = () => {
-    console.time('JSON-Fetch');
-    fetch(dataFile)
-        .then(response => {
-            if (!response.ok) {
-                $('#loading-info').text('Datový soubor nebyl nalezen!');
-                throw new Error('Datový soubor nebyl nalezen!');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.timeEnd('JSON-Fetch');
-            if (!data) {
-                $('#loading-info').text('Chyba nahrávání dat!');
-                return;
-            }
-            $('#loading-info').text('👽️ Renderuji');
-            let goods = [];
-            if (data && data.goods && Array.isArray(data.goods)) {
-                goods = data.goods;
-            }
-            if (goods.length === 0) {
-                $('#loading-info').text('Žádné zboží k zobrazení!');
-                console.error('Struktura dat neodpovídá: ', data);
-                return;
-            }
-
-            // populate the data
-            deals.goods = goods;
-            deals.goods_orig = goods;
-            deals.goods_rev = [...goods].reverse();
-            deals.markets = data.markets;
-            deals.catcounts = data.catcounts;
-
-            deals.keywords = data.keywords.split(' ');
-            deals.keywordsall = data.keywords;
-	        deals.keywordsindex = data.keywordsindex
-
-            deals.idhashmap = data.idhashmap
-            deals.hashidmap = {};
-            Object.entries(data.idhashmap).forEach(([id, hash]) => {
-                deals.hashidmap[hash] = parseInt(id);
-            });
-
-            // top keywords block list
-            const blockedWords = [
-                "albert",
-                "bez",
-                "billa",
-                "kaufland",
-                "kosti",
-                "lidl",
-                "penny",
-                "tesco",
-                "vyber"
-            ];
-
-            deals.topkeywords = Object.keys(deals.keywordsindex)
-                .filter(word => !blockedWords.includes(word))
-                .sort((a, b) => deals.keywordsindex[b].length - deals.keywordsindex[a].length)
-                .slice(0, 50);
-
-            deals.cats = '.c-ZELENINA, .c-OVOCE, .c-OŘECHY';
-
-            $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
-            $('#appbuild').html(`🗓️ datum <b>${data.created}</b>`);
-            $('#deals').html('').addClass('hidden');
-
-            const start = performance.now();
-
-            renderDeals(goods);
-            renderMarkets(deals.markets);
-            renderCategories(categories);
-            updateNavIcons();
-            updateFavIcons();
-            loadAllLikes();
-
-            const end = performance.now();
-            const renderDuration = Math.round(end - start);
-            $('#speed-bench').html(`VYKRESLENÍ <b class=sbigger>${renderDuration} ms</b>`);
-            setDefaults();
-            $('#deals').removeClass('hidden');
-
-            setTimeout(() => {$('#loading').addClass('fade-away');}, 500);
-            window.scrollTo({top: 0});
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            $('#loading-info').text('Chyba dat: ' + error.message);
-        });
-};
-*/
-
 // fn: renderDeals() - render the deals to the DOM
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
@@ -1228,6 +1134,7 @@ const renderMarkets = (markets) => {
             </button>
         `;
     }).join('');
+    $('#mojeobchody').html(`${deals.myMarkets.length}/${deals.markets.length}`);
 
     $(marketsDiv).off('click', 'button').on('click', 'button', function() {
         window.refresh_flag = true;
@@ -1243,6 +1150,7 @@ const renderMarkets = (markets) => {
             window.deals.myMarkets = window.deals.myMarkets.filter(m => m !== market);
         }
         localStorage.setItem('myMarkets', JSON.stringify(window.deals.myMarkets));
+        $('#mojeobchody').html(`${deals.myMarkets.length}/${deals.markets.length}`);
     });
 };
 
