@@ -57,6 +57,17 @@ const (
 	REQ_TIMEOUT       = 10 * time.Second
 )
 
+// name fixes
+var nameFixes = []struct {
+	old string
+	new string
+}{
+	{"-", "\u2011"},
+	{" 0% tuku", " 0 % tuku"},
+	{"Chlébík", "Chlebík"},
+	{"Krupavé", "Křupavé"},
+}
+
 // note fixes
 var noteFixes = []struct {
 	old string
@@ -64,7 +75,9 @@ var noteFixes = []struct {
 }{
 	{"vybrané druhy", "různé druhy"},
 	{"+3 Kč záloha na láhev", "zálohovaná lahev"},
-	{"+ 7 Kč záloha na lahev", "zálohovaná lahev "},
+	{"+3 Kč záloha na lahev", "zálohovaná lahev"},
+	{"+ 7 Kč záloha na láhev", "zálohovaná lahev"},
+	{"+ 7 Kč záloha na lahev", "zálohovaná lahev"},
 	{"láhev", "lahev"},
 	{"láhve", "lahve"},
 	{"0g", "0 g"},
@@ -75,19 +88,9 @@ var noteFixes = []struct {
 	{" + ", " +"},
 	{" & ", "&"},
 	{" - ", "-"},
-	{"6 7 edice", "Skrill edice"},
+	{"6 7 edice", "Skrilla edice"},
 	{"-", "\u2011"},
 	{" \u0026 ", "\u0026"},
-}
-
-// name fixes
-var nameFixes = []struct {
-	old string
-	new string
-}{
-	{"-", "\u2011"},
-	{"Chlébík", "Chlebík"},
-	{"Krupavé", "Křupavé"},
 }
 
 // shouldRejectGoods - helper to reject goods by rules
