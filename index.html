@@ -1350,7 +1350,7 @@ const updateNavIcons = () => {
 
 // UI BINDINGS
 $(document).ready(function() {
-    let flash_flag = false; // bool: is flash animation pending?
+    window.flash_flag = false; // bool: is flash animation pending?
     let face_flag = false; // bool: is face animation pending?
 
     // fn: setSettingsMode(bool) - set to true if ABOUT or SETTINGS is pressed
@@ -1530,11 +1530,9 @@ $(document).ready(function() {
             localStorage.setItem('handedness', newMode);
         }
 
-        setSettingsMode(false);
         setHandedness();
 
         // flashbomb vfx
-        if (flash_flag) return;
         flash_flag = true;
         $('nav').addClass('flashbomb');
         setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
