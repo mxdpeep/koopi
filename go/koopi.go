@@ -375,7 +375,7 @@ type Goods struct {
 	Validity     string
 	Url          string
 	ImageUrl     string
-	SubCat       string
+	Sub          string
 	ScrapedAt    string
 }
 
@@ -628,12 +628,12 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 				return
 			}
 
-			// add SubCat based on Note
+			// add Sub based on Note
 			if strings.Contains(newGoods.Note, "zálohovaná lahev") {
-				newGoods.SubCat = "lahev"
+				newGoods.Sub = "lahev"
 			}
 			if strings.Contains(newGoods.Note, "plech") {
-				newGoods.SubCat = "plech"
+				newGoods.Sub = "plech"
 			}
 
 			// function helper to compare prices
@@ -856,7 +856,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 
 	writer := csv.NewWriter(file)
 	writer.Comma = ';'
-	headers := []string{"Name", "Price", "PricePerUnit", "Discount", "Category", "SubCat", "Note", "Club", "Volume", "Market", "Validity", "Url", "ImageUrl", "Query", "ScrapedAt"}
+	headers := []string{"Name", "Price", "PricePerUnit", "Discount", "Category", "Sub", "Note", "Club", "Volume", "Market", "Validity", "Url", "ImageUrl", "Query", "ScrapedAt"}
 	writer.Write(headers)
 
 	for _, item := range goods {
@@ -870,7 +870,7 @@ func appendToCsv(goods []Goods, filename string, mutex *sync.Mutex) {
 			item.PricePerUnit,
 			item.Discount,
 			item.Category,
-			item.SubCat,
+			item.Sub,
 			item.Note,
 			item.Club,
 			item.Volume,
@@ -897,7 +897,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	// this map is used to find how many offers exist for a given product name/volume combination
 	genericProductCounts := make(map[string]int)
 	for _, item := range goods {
-		genericHashKey := item.Name + item.Volume + item.Category + item.SubCat
+		genericHashKey := item.Name + item.Volume + item.Category + item.Sub
 		genericProductCounts[genericHashKey]++
 	}
 
@@ -909,18 +909,18 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 
 	var cleanedGoods []map[string]any
 	for _, item := range goods {
-		hashString := item.Name + item.Volume + item.Category + item.SubCat // unique good hash (for ID)
+		hashString := item.Name + item.Volume + item.Category + item.Sub // unique good hash (for ID)
 		hash := md5.Sum([]byte(hashString))
 		md5Hash := hex.EncodeToString(hash[:])
 
 		// retrieve the offer count for the generic product
-		genericHashKey := item.Name + item.Volume + item.Category + item.SubCat
+		genericHashKey := item.Name + item.Volume + item.Category + item.Sub
 		offerCount := genericProductCounts[genericHashKey]
 
 		cleanedItem := make(map[string]any)
 		cleanedItem["id"] = md5Hash
 		cleanedItem["cat"] = item.Category
-		cleanedItem["subcat"] = item.SubCat
+		cleanedItem["sub"] = item.Sub
 		cleanedItem["query"] = item.Query
 		cleanedItem["name"] = item.Name
 		cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
