@@ -948,6 +948,7 @@ const initApp = () => {
         console.timeEnd('JSON-Fetch');
         if (!data) {
             $('#loading-info').text('Chyba nahrávání dat!');
+            umlog('error_no_data');
             return;
         }
         $('#loading-info').text('👽️ Renderuji');
@@ -957,6 +958,7 @@ const initApp = () => {
         }
         if (goods.length === 0) {
             $('#loading-info').text('Žádné slevy k zobrazení!');
+            umlog('error_bad_data_structure');
             console.error('Struktura dat neodpovídá:', data);
             return;
         }
@@ -976,7 +978,7 @@ const initApp = () => {
             deals.hashidmap[hash] = parseInt(id);
         });
 
-        // top keywords block list
+        // keywords to block
         const blockedWords = [
             "albert",
             "bez",
@@ -1007,11 +1009,12 @@ const initApp = () => {
         updateFavIcons();
         loadAllLikes();
         const end = performance.now();
-
         const renderDuration = Math.round(end - start);
+
         $('#speed-bench').html(`VYKRESLENÍ <b class=sbigger>${renderDuration} ms</b>`);
         $('#deals').removeClass('hidden');
         window.scrollTo({top: 0});
+
         setTimeout(() => {$('#loading').addClass('fade-away');setDefaults();}, 750);
     }
 
@@ -1020,6 +1023,7 @@ const initApp = () => {
         try {
             const cachedData = JSON.parse(cachedRaw);
             console.log('Processing cached data.');
+            umlog('data_from_cache');
             processData(cachedData);
             return;
         } catch (e) {
@@ -1043,10 +1047,12 @@ const initApp = () => {
                 console.error('Nepodařilo se uložit data do localStorage:', e);
             }
             console.log('Processing online data.');
+            umlog('data_from_online');
             processData(data);
         })
         .catch(error => {
-            console.error('Error downloading data: ', error);
+            umlog('error_downloading');
+            console.error('Error downloading data:', error);
         });
 };
 
