@@ -58,11 +58,6 @@ body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialia
 a {text-decoration: underline!important;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
-/* helper */
-.is-hidden {
-    display: none !important;
-}
-
 /* BUTTONS */
 :focus {outline: none !important;box-shadow: none !important;}
 .button, button {margin: 0 5px!important;}
@@ -107,7 +102,8 @@ button.chip .market-image {
 #changelog-check:not(:checked) ~ .content {display: none;}
 #why-check {display: none;}
 #why-check:not(:checked) ~ .content {display: none;}
-.fred {width: 100px;height: 100px;border: 2px solid #000;border-radius: 50px;margin: 1rem;}
+
+.menicko {font-size: 1.5rem;}
 
 /* DEBUGGER */
 #debugger {width: 100%;opacity: 0.8;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;}
@@ -582,8 +578,11 @@ nav.bottom button {
         
         <h3>🚚 Aplikace</h3><hr>
         <div id="appbuild"></div>
-        👾 sestavení: <b>{{GIT_REV}}</b> &nbsp;&nbsp;&nbsp;👩‍🔧 revize: <b>{{COUNT_REV}}</b>
-        <div class="s m l">📦️ local storage: <span id="info_localStorage" class="bold"></span></div>
+        👾 sestavení: <b>{{GIT_REV}}</b>
+        <br>
+        👩‍🔧 revize: <b>{{COUNT_REV}}</b>
+        <br>
+        📦️ local storage: <span id="info_localStorage" class="bold"></span>
         
         <div id="webshare" class="webshare center-align"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
@@ -602,13 +601,14 @@ nav.bottom button {
 
         <article>
             <label for="changelog-check" class="row cursor-pointer">
-                <div class="max hover"><strong>🧠 Seznam změn</strong></div>
+                <div class="max hover menicko"><strong>🧠 Seznam změn</strong></div>
                 <i class="hover">expand_more</i>
             </label>
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
                     <li><b>2026-11-25</b>
+                        <br>◾️ UI: opravy
                         <br>◾️ DATA: local storage cache
                     </li>
                     <li><b>2026-11-24</b>
