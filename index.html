@@ -537,14 +537,14 @@ nav.bottom button {
 </nav>
 
 <!-- HTML5 BOTTOM NAV -->
-<nav class="catbuttons righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
+<nav class="catbuttons righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999; opacity:0;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
 </nav>
-<nav class="catbuttons lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999;">
+<nav class="catbuttons lefthanded bottom notap black white-text grid no-space" style="display: none; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999; opacity:0;">
     <button title="ZELENINA - OVOCE - OŘECHY" data-cats=".c-ZELENINA, .c-OVOCE, .c-OŘECHY" class="but1 nowrap btn-bottom black white-text bold s1">🥦🍎🥜</button>
     <button title="MLÉKO - SÝRY - VEJCE" data-cats=".c-MLÉKO, .c-SÝRY, .c-VEJCE" class="but2 nowrap btn-bottom black white-text bold s1">🥛🧀🥚</button>
     <button title="OBILOVINY - LUŠTĚNINY - KOŘENÍ" data-cats=".c-OBILÍ, .c-LUŠTĚNINY, .c-KOŘENÍ" class="but3 nowrap btn-bottom black white-text bold s1">🌾🫘🌶️</button>
@@ -959,6 +959,8 @@ const progressBar = () => {
     };
 }
 
+
+
 // init app
 const initApp = () => {
     console.time('JSON-Fetch');
@@ -1297,7 +1299,6 @@ function filterFavs() {
         // flashbomb vfx
         $('body').addClass('flashbomb2');
         setTimeout(() => {$('body').removeClass('flashbomb2');}, 999);
-
         updateMyFavCountNoVfx();
         updateCategoryBadges(window.deals.catcounts);
     });
@@ -1398,7 +1399,7 @@ $(document).ready(function() {
         $(this).val('');
     });
 
-    // SORTING button
+    // AZ/AZ SORTING BUTTON
     let isReversed = false;
     $(".btn-az").on("click", function() {
         if (window.refresh_flag) refresh();
@@ -1409,25 +1410,28 @@ $(document).ready(function() {
 
         // delay rendering
         const currentData = isReversed ? window.deals.goods_rev : window.deals.goods_orig;
+
         setTimeout(() => {
             renderDeals(currentData);
 
             // flashbomb vfx
+            flash_flag = true;
             $('body').addClass('flashbomb2');
-            setTimeout(() => {$('body').removeClass('flashbomb2');}, 999);
+            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, 999);
 
             updateFavIcons();
             loadAllLikes();
             setCategory(deals.catbut);
+
+            if (isFavFilterActive) {
+                $('#deals .product-card').each(function() {
+                    if (!$(this).find('.myheart').hasClass('active')) {
+                        $(this).hide();
+                    }
+                });
+            }
         }, 10);
 
-        if (isFavFilterActive) {
-            $('#deals .product-card').each(function() {
-                if (!$(this).find('.myheart').hasClass('active')) {
-                    $(this).hide();
-                }
-            });
-        }
     });
 
     // ABOUT button
@@ -1466,7 +1470,6 @@ $(document).ready(function() {
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
-        setSettingsMode(false);
         window.umlog('roulette');
         roulette();
     });
@@ -1489,26 +1492,28 @@ $(document).ready(function() {
             face_flag = false;
         }, 1200);
 
+        const currentData = window.deals.goods_orig.shuffle();
+
         setTimeout(() => {
-            $('#deals').html('').addClass('hidden');
-            let goods = window.deals.goods;
-            goods.shuffle();
-            renderDeals(goods);
+            renderDeals(currentData);
 
             // flashbomb vfx
             flash_flag = true;
             $('body').addClass('flashbomb2');
             setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, 999);
 
-            $('#deals article').addClass('hidden-force');
-            $(deals.cats).removeClass('hidden-force');
-            $('#settings, #about').hide()
-            $('#deals').show();
-            $('#deals').removeClass('hidden');
-            setHandedness();
+            updateFavIcons();
+            loadAllLikes();
             setCategory(deals.catbut);
+            
+            if (isFavFilterActive) {
+                $('#deals .product-card').each(function() {
+                    if (!$(this).find('.myheart').hasClass('active')) {
+                        $(this).hide();
+                    }
+                });
+            }
         }, 300);
-
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
@@ -1668,6 +1673,7 @@ $(document).ready(function() {
         $('.but1').removeClass('grayscaled').addClass('active');
         $('#deals article').addClass('hidden-force');
         $('.c-ZELENINA, .c-OVOCE, .c-OŘECHY').removeClass('hidden-force');
+        $('.catbuttons').css({ opacity: 1 });
         deals.handedness = 'right';
         deals.catbut = 1;
 
