@@ -58,6 +58,11 @@ body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialia
 a {text-decoration: underline!important;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
+/* helper */
+.is-hidden {
+    display: none !important;
+}
+
 /* BUTTONS */
 :focus {outline: none !important;box-shadow: none !important;}
 .button, button {margin: 0 5px!important;}
@@ -285,7 +290,6 @@ nav.bottom button {letter-spacing: 0;}
 /* PRODUCT card */
 .product-card {
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     height: 100%;
     margin: 0 !important;
@@ -333,9 +337,7 @@ nav.bottom button {letter-spacing: 0;}
     margin-bottom: 10px;
     border-radius: 2px !important;
 }
-.product-club:empty {
-    display: none;
-}
+/*.product-club:empty {display: none;}*/
 .product-note {
     display: -webkit-box;
     line-clamp: 3;
@@ -349,6 +351,7 @@ nav.bottom button {letter-spacing: 0;}
     border-radius: 0 !important;
     margin-top: 10px;
 }
+/*.product-note:empty {display: none;}*/
 .product-price {
     display: flex;
     flex-direction: column;
@@ -700,6 +703,7 @@ try {
   );
 }
 window.uuid = uuid;
+window.vfxdelay = 750;
 
 // detect legacy browsers
 (function() {
@@ -1034,9 +1038,8 @@ const initApp = () => {
 
         $('#speed-bench').html(`VYKRESLENÍ <b class=sbigger>${renderDuration} ms</b>`);
         $('#deals').removeClass('hidden');
-        window.scrollTo({top: 0});
-
-        setTimeout(() => {$('#loading').addClass('fade-away');setDefaults();}, 750);
+        window.scrollTo({top:0});
+        setTimeout(() => {$('#loading').addClass('fade-away');setDefaults();}, window.vfxdelay);
     }
 
     const cachedRaw = localStorage.getItem(cacheKey);
@@ -1242,9 +1245,7 @@ function loadAllLikes() {
         if (numericId) {
             const id = parseInt(numericId);
             window.deals.myLikes.push(id);
-            $(`.product-card[data-id="${id}"] .myheart`)
-                .addClass('active')
-                .removeClass('grayscaled');
+            $(`.product-card[data-id="${id}"] .myheart`).addClass('active').removeClass('grayscaled');
         }
     });
     updateMyFavCount();
@@ -1298,7 +1299,7 @@ function filterFavs() {
 
         // flashbomb vfx
         $('body').addClass('flashbomb2');
-        setTimeout(() => {$('body').removeClass('flashbomb2');}, 999);
+        setTimeout(() => {$('body').removeClass('flashbomb2');}, window.vfxdelay);
         updateMyFavCountNoVfx();
         updateCategoryBadges(window.deals.catcounts);
     });
@@ -1417,7 +1418,7 @@ $(document).ready(function() {
             // flashbomb vfx
             flash_flag = true;
             $('body').addClass('flashbomb2');
-            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, 999);
+            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, window.vfxdelay);
 
             updateFavIcons();
             loadAllLikes();
@@ -1500,7 +1501,7 @@ $(document).ready(function() {
             // flashbomb vfx
             flash_flag = true;
             $('body').addClass('flashbomb2');
-            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, 999);
+            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, window.vfxdelay);
 
             updateFavIcons();
             loadAllLikes();
@@ -1535,7 +1536,7 @@ $(document).ready(function() {
         // flashbomb vfx
         flash_flag = true;
         $('nav').addClass('flashbomb');
-        setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, 500);
+        setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, window.vfxdelay);
     }
 
     // fn: setHandedness() - set visibilities for hands
