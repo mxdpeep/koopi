@@ -1011,7 +1011,7 @@ const initApp = () => {
             .slice(0, 50);
 
         $('#stats').html(`SLEVIČKY <b class=sbigger>${goods.length}&nbsp;x</b> &nbsp;&nbsp;&nbsp; OBCHODY <b class=sbigger>${data.markets.length}&nbsp;x</b>`);
-        $('#appbuild').html(`🗓️ datum <b>${data.created}</b>`);
+        $('#appbuild').html(`🗓️ datum: <b>${data.created}</b>`);
         $('#deals').html('').addClass('hidden');
 
         const start = performance.now();
@@ -1034,11 +1034,10 @@ const initApp = () => {
     const cachedRaw = localStorage.getItem(cacheKey);
     if (cachedRaw) {
         try {
-            const cachedData = JSON.parse(cachedRaw);
+            $('#info_localStorage').text((new Blob([localStorage[cacheKey]]).size / 1024).toFixed(1) + ' KB');
             console.log('Processing cached data.');
-            $('#info_localStorage').text((new Blob([localStorage.deals_cache]).size / 1024).toFixed(1) + ' KB');
             window.umlog('data_from_cache');
-            processData(cachedData);
+            processData(JSON.parse(cachedRaw));
             return;
         } catch (e) {
             console.error('Cache is invalid:', e);
@@ -1057,6 +1056,7 @@ const initApp = () => {
         .then(data => {
             try {
                 localStorage.setItem(cacheKey, JSON.stringify(data));
+                $('#info_localStorage').text((new Blob([localStorage[cacheKey]]).size / 1024).toFixed(1) + ' KB');
             } catch (e) {
                 console.error('Nepodařilo se uložit data do localStorage:', e);
             }
