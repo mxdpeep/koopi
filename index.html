@@ -1548,8 +1548,9 @@ $(document).ready(function() {
         }
     }
 
-    // fn: deleteSettings() - DELETE SETTINGS
+    // fn: deleteSettings() - DELETE SETTINGS & CACHE
     function deleteSettings() {
+        localStorage.removeItem(cacheKey);
         localStorage.removeItem('myCats');
         localStorage.removeItem('myMarkets');
         localStorage.removeItem('myLikes');
@@ -1601,10 +1602,10 @@ $(document).ready(function() {
                 localStorage.setItem('myCats', JSON.stringify(deals.myCats));
                 localStorage.setItem('myMarkets', JSON.stringify(deals.myMarkets));
                 localStorage.setItem('myLikes', JSON.stringify(deals.myLikes));
-                //alert("Nastavení bylo úspěšně importováno.");
                 refresh();
             } catch (err) {
-                alert("Chyba při parsování JSONu: " + err.message);
+                alert("Chyba při parsování souboru!");
+                console.error("Chyba při parsování JSON:" + err.message);
             }
         };
         reader.onerror = function() {
@@ -1623,12 +1624,12 @@ $(document).ready(function() {
     function setRefreshBtn() {
         localStorage.removeItem(cacheKey);
         $('.refresh-btn').removeClass('icon-wave icon-spin').addClass('orange-text icon-wave bold');
-        setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin');}, 300);
+        setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin bold');}, 300);
     }
 
     // fn: refresh() - refresh the page using a buster
     function refresh() {
-        $('.refresh-btn').html('<i>schedule</i>').addClass('orange-text bold');
+        $('.refresh-btn').html('<i>schedule</i>').addClass('red-text bold');
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({type: 'SKIP_WAITING'});
         }
