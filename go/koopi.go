@@ -57,70 +57,7 @@ const (
 	REQ_TIMEOUT       = 10 * time.Second
 )
 
-// name fixes
-var nameFixes = []struct {
-	old string
-	new string
-}{
-	{"-", "\u2011"},
-	{" 0% tuku", " 0 % tuku"},
-	{"Chlébík", "Chlebík"},
-	{"Krupavé", "Křupavé"},
-}
-
-// note fixes
-var noteFixes = []struct {
-	old string
-	new string
-}{
-	{"vybrané druhy", "různé druhy"},
-	{"+3 Kč záloha na láhev", "zálohovaná lahev"},
-	{"+3 Kč záloha na lahev", "zálohovaná lahev"},
-	{"+ 7 Kč záloha na láhev", "zálohovaná lahev"},
-	{"+ 7 Kč záloha na lahev", "zálohovaná lahev"},
-	{"láhev", "lahev"},
-	{"láhve", "lahve"},
-	{"0g", "0 g"},
-	{"max ", "max. "},
-	{"pet lahev", "PET lahev"},
-	{"1 + 1", "1+1"},
-	{"4 + 2", "4+2"},
-	{" + ", " +"},
-	{" & ", "&"},
-	{" - ", "-"},
-	{"6 7 edice", "Skrilla edice"},
-	{"-", "\u2011"},
-	{" \u0026 ", "\u0026"},
-}
-
-// shouldRejectGoods - helper to reject goods by rules
-func shouldRejectGoods(g Goods) bool {
-	for _, rule := range rejectedGoods {
-		if rule.Name != "" && g.Name != rule.Name {
-			continue
-		}
-		if rule.Volume != "" && g.Volume != rule.Volume {
-			continue
-		}
-		return true
-	}
-	return false
-}
-
-type goodsRejectRule struct {
-	Name   string
-	Volume string
-}
-
-// goods to be rejected
-var rejectedGoods = []goodsRejectRule{
-	{
-		Name:   "Panenka",
-		Volume: "1 ks",
-	},
-}
-
-// UA strings
+// UA
 var UserAgents = []string{
 	"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
 	"Mozilla/5.0 (Linux; Android 10; LM-Q720) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
@@ -167,6 +104,64 @@ const (
 	ColorWhite  = "\033[37m"
 )
 
+// fix names
+var nameFixes = []struct {
+	old string
+	new string
+}{
+	{"-", "\u2011"},
+	{" 0% tuku", " 0\u202F%\u202Ftuku"},
+	{"Chlébík", "Chlebík"},
+	{"Krupavé", "Křupavé"},
+}
+
+// fix notes
+var noteFixes = []struct {
+	old string
+	new string
+}{
+	{"vybrané druhy", "různé druhy"},
+	{"+3 Kč záloha na láhev", "zálohovaná lahev"},
+	{"+3 Kč záloha na lahev", "zálohovaná lahev"},
+	{"+ 7 Kč záloha na láhev", "zálohovaná lahev"},
+	{"+ 7 Kč záloha na lahev", "zálohovaná lahev"},
+	{"láhev", "lahev"},
+	{"láhve", "lahve"},
+	{"0g", "0\u202Fg"},
+	{"max ", "max. "},
+	{"pet lahev", "PET lahev"},
+	{"1 + 1", "1+1"},
+	{"4 + 2", "4+2"},
+	{" + ", " +"},
+	{" & ", "&"},
+	{" - ", "-"},
+	{"6 7 edice", "edice Skrilla"},
+	{"-", "\u2011"},
+	{" \u0026 ", "\u0026"},
+}
+
+// reject goods
+var rejectedGoods = []struct {
+	Name   string
+	Volume string
+}{
+	{"Panenka", "1 ks"},
+}
+
+// shouldRejectGoods - helper to reject goods by rules
+func shouldRejectGoods(g Goods) bool {
+	for _, rule := range rejectedGoods {
+		if rule.Name != "" && g.Name != rule.Name {
+			continue
+		}
+		if rule.Volume != "" && g.Volume != rule.Volume {
+			continue
+		}
+		return true
+	}
+	return false
+}
+
 // token bucket
 var rateLimiter chan struct{}
 
@@ -174,24 +169,19 @@ var rateLimiter chan struct{}
 var (
 	// předložky a spojky
 	rePreps = regexp.MustCompile(`(?i)(^|[\s])([svzkaiou])\s+`)
-
 	// číslo + mezera + jednotka
 	reUnits = regexp.MustCompile(`(\d+)\s+(g|kg|ml|l|ks)\b`)
-
 	// datum v minulosti
 	rePastDate = regexp.MustCompile(`\D*(\d{1,2})\.\s*(\d{1,2})\.`)
-
 	// datum v budoucnosti
 	reFutureDate = regexp.MustCompile(`\D*(\d+)\.\s*(\d+)\.`)
-
 	// non-alphanumeric
 	nonAlphanumeric = regexp.MustCompile("[^a-z0-9]+")
-
 	// bones
 	regaz = regexp.MustCompile(`[^a-z\s]+`)
 )
 
-// markets to ignore
+// ignore markets
 var blockedMarkets = []string{
 	"auto kelly",
 	"barvy a laky",
@@ -212,7 +202,7 @@ var blockedMarkets = []string{
 	"šlak drogerie",
 }
 
-// blocked goods strings
+// block goods
 var blockedGoods = []string{
 	"alverde",
 	"bambucké",
