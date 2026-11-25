@@ -109,8 +109,8 @@ button.chip .market-image {
 .debugger-on {padding: 10px;transition: all 0.3s ease;}
 
 /* PROGRESS BAR */
+.progress-bar {height: 4px;background: rgb(33, 0, 219);transition: width 0.1s ease;}
 .progress-container {position: fixed;top: 0;left: 0;height: 4px;width: 100%;background-color: #000;z-index: 9999;}
-.progress-bar {height: 4px;background: rgb(9, 253, 41);transition: width 0.1s ease;}
 
 /* PWA installer */
 .install-btn {z-index: 100;}
@@ -659,19 +659,19 @@ nav.bottom button {
         <h3>🛠️ Nastavení</h3><hr>
         <div class="s m l center-align">
             <button class="handedness-button blue settings-button">
-                <span class="levak hidden">👍️</span> levák &ndash; pravák <span class="pravak hidden">👍️</span>
+                <span class="levak hidden">👍️</span> levák &mdash; pravák <span class="pravak hidden">👍️</span>
             </button>
             <br>
         </div>
 
         <div class="saveload center-align">
-            <button class="save-button green hover settings-button">➡️💾 uložit</button>
-            <button class="load-button green hover settings-button">💾➡️ načíst</button>
+            <button class="load-button green hover settings-button">načíst nastavení 💾</button>
+            <button class="save-button orange hover settings-button">uložit nastavení 💾</button>
+            <button class="delete-button red hover settings-button">smazat nastavení ☠️</button>
         </div>
         <input id="file" type="file" style="display:none" accept=".json">
 
         <h3>🏪 Moje obchody</h3><hr>
-        Pokud zde není nic vybráno, zobrazí se všechny slevy.
         <div id="mymarkets" class="center-align padding s m l"></div>
 
         <h3>📑 Moje kategorie</h3><hr>
@@ -730,14 +730,18 @@ deals.myCats = [];
 deals.myMarkets = [];
 deals.catbut = 1;
 
+// DEFAULTS
+deals.defaultMarkets = ['Albert', 'Lidl', 'Kaufland', 'Penny Market'];
+
 // RESTORE DATA from LOCAL STORAGE
 try {
-    window.deals.myMarkets = JSON.parse(localStorage.getItem('myMarkets')) || [];
-    window.deals.myCats = JSON.parse(localStorage.getItem('myCats')) || [];
+    deals.myMarkets = JSON.parse(localStorage.getItem('myMarkets')) || deals.defaultMarkets;
+    deals.myCats = JSON.parse(localStorage.getItem('myCats')) || [];
 } catch (e) {
-    window.deals.myMarkets = [];
-    window.deals.myCats = [];
+    deals.myMarkets = deals.defaultMarkets;
+    deals.myCats = [];
 }
+if (deals.myMarkets.length === 0) deals.myMarkets = deals.defaultMarkets;
 
 // WEBSHARE
 const webShare = async (title, text, url) => {
@@ -850,6 +854,8 @@ function checkUpdate() {
     }, 5000);
 }
 
+
+
 // *** START ***
 document.addEventListener('DOMContentLoaded', () => {
     progressBar();
@@ -862,13 +868,12 @@ window.settings_flag = false; // bool: is about/settings active?
 
 const progressBar = () => {
     var bar = "_" + Date.now();
-    document.getElementsByTagName("body")[0].insertAdjacentHTML(
-        'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
-    );
-
     var lastScrollTop = 0;
     var scrollStartPos = 0;
     var $extras = $('.extras');
+    document.getElementsByTagName("body")[0].insertAdjacentHTML(
+        'beforeend', '<div class="progress-container"><div class="progress-bar" id="' + bar + '" style="width: 0%"></div></div>'
+    );
 
     // fn: scrolling event handler
     function onscroll() {
@@ -1020,7 +1025,7 @@ const initApp = () => {
 const renderDeals = (deals) => {
     const dealsGrid = document.getElementById('deals');
     if (!dealsGrid) return;
-    const activeMarkets = new Set(window.deals.myMarkets || []);
+    const activeMarkets = new Set(window.deals.myMarkets || deals.defaultMarkets);
     const activeCats = new Set(window.deals.myCats || []);
 
     dealsGrid.innerHTML = deals.filter(deal => {
@@ -1068,7 +1073,7 @@ const renderMarkets = (markets) => {
     const marketsDiv = document.getElementById('mymarkets');
     if (!marketsDiv) return;
     window.deals = window.deals || {};
-    window.deals.myMarkets = window.deals.myMarkets || [];
+    window.deals.myMarkets = window.deals.myMarkets || deals.defaultMarkets;
     marketsDiv.innerHTML = markets.map(market => {
         const isActive = window.deals.myMarkets.includes(market);
         const chipClass = isActive ? 'blue' : 'outline';
@@ -1313,6 +1318,12 @@ $(document).ready(function() {
         webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public alfa)', 'https://slevicky.pages.dev/');
     });
 
+    // DELETE button
+    $('.delete-button').on('click', function(e) {
+        umlog('delete_settings');
+        deleteSettings();
+    });
+
     // SAVE button
     $('.save-button').on('click', function(e) {
         umlog('save_settings');
@@ -1323,6 +1334,8 @@ $(document).ready(function() {
     $('.load-button').click(function (e) {
         $('#file').click();
     });
+
+    // LOAD FILE event handler
     $('#file').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -1470,6 +1483,7 @@ $(document).ready(function() {
     }
 
     // fn: setHandedness() - set visibilities for hands
+    window.setHandedness = setHandedness;
     function setHandedness() {
         const mode = deals.handedness
         if (mode === 'left') {
@@ -1487,7 +1501,14 @@ $(document).ready(function() {
             $('.heartcartrow').removeClass('row-reverse');
         }
     }
-    window.setHandedness = setHandedness;
+
+    // fn: deleteSettings() - DELETE SETTINGS
+    function deleteSettings() {
+        localStorage.removeItem('myCats');
+        localStorage.removeItem('myMarkets');
+        localStorage.removeItem('myLikes');
+        refresh();
+    }
 
     // fn: exportSettings() - EXPORT SETTINGS
     function exportSettings() {
@@ -1508,7 +1529,6 @@ $(document).ready(function() {
         a.download = 'slevicky_settings.json';
         document.body.appendChild(a); 
         a.click();
-
         setTimeout(() => {document.body.removeChild(a);window.URL.revokeObjectURL(url);}, 0);
     }
 
@@ -1535,7 +1555,7 @@ $(document).ready(function() {
                 localStorage.setItem('myCats', JSON.stringify(deals.myCats));
                 localStorage.setItem('myMarkets', JSON.stringify(deals.myMarkets));
                 localStorage.setItem('myLikes', JSON.stringify(deals.myLikes));
-                alert("Nastavení bylo úspěšně importováno.");
+                //alert("Nastavení bylo úspěšně importováno.");
                 refresh();
             } catch (err) {
                 alert("Chyba při parsování JSONu: " + err.message);
@@ -1578,9 +1598,9 @@ $(document).ready(function() {
         });
     });
 
-    // fn: setCategory() - set category by clicking on buttons 1-5
+    // fn: setCategory() - set category and click the button (1-5)
     function setCategory(no) {
-        const categoryNo = (no >= 1 && no <= 5) ? no : 0;
+        const categoryNo = (no >= 1 && no <= 5) ? no : null;
         if (!no) return;
         deals.catbut = categoryNo;
         $('.but' + categoryNo).trigger('click');
@@ -1621,12 +1641,12 @@ $(document).ready(function() {
         if (!cats) return;
         if (window.refresh_flag) refresh();
 
-        deals.cats = cats;
+        deals.cats = cats; // cats = string
         $('nav.bottom button').addClass('grayscaled').removeClass('active');
 
         const myClass = $(this).attr('class').split(' ').find(c => c.startsWith('but'));
         $('.' + myClass).removeClass('grayscaled').addClass('active');
-        deals.catbut = myClass.split('but')[1];
+        deals.catbut = myClass.split('but')[1]; // catbut = integer
         //console.log(`CAT BUTTON: ${deals.catbut}`);
 
         $('#deals article').addClass('hidden-force');        
