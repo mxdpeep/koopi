@@ -697,7 +697,7 @@ nav.bottom button {
         <div class="saveload center-align">
             <button class="load-button green hover settings-button">načíst nastavení &nbsp; 💾</button>
             <button class="save-button orange hover settings-button">uložit nastavení &nbsp; 💾</button>
-            <button class="delete-button red hover settings-button">smazat nastavení &nbsp; ☠️</button>
+            <button class="delete-button red hover settings-button">smazat nastavení a cache &nbsp; ☠️</button>
         </div>
         <input id="file" type="file" style="display:none" accept=".json">
 
@@ -1005,6 +1005,14 @@ const initApp = () => {
             $('#loading-info').text('Žádné slevy k zobrazení!');
             window.umlog('error_bad_data_structure');
             console.error('Struktura dat neodpovídá:', data);
+            return;
+        }
+
+        // TEST NA STARÝ FORMÁT DAT V CACHE
+        if ('description' in goods[0] && !sessionStorage.getItem('cache_migrated')) {
+            sessionStorage.setItem('cache_migrated', '1');
+            localStorage.removeItem(cacheKey);
+            refresh();
             return;
         }
 
