@@ -922,19 +922,19 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		cleanedItem := make(map[string]any)
 		cleanedItem["id"] = md5Hash
 		cleanedItem["cat"] = item.Category
-		cleanedItem["sub"] = item.Sub
-		cleanedItem["query"] = item.Query
+		//cleanedItem["sub"] = item.Sub
+		//cleanedItem["query"] = item.Query
 		cleanedItem["name"] = item.Name
 		cleanedItem["price"] = strings.Replace(item.Price, ",", ".", 1)
 		cleanedItem["ppunit"] = strings.Replace(item.PricePerUnit, ".", ",", 1)
-		cleanedItem["discount"] = item.Discount
+		cleanedItem["disc"] = item.Discount
 		cleanedItem["note"] = item.Note
 		cleanedItem["club"] = item.Club
-		cleanedItem["volume"] = item.Volume
+		cleanedItem["vol"] = item.Volume
 		cleanedItem["market"] = item.Market
-		cleanedItem["validity"] = item.Validity
+		cleanedItem["valid"] = item.Validity
 		cleanedItem["url"] = strings.TrimPrefix(item.Url, KOOPI_HOME_URL)
-		cleanedItem["scrapedat"] = item.ScrapedAt
+		//cleanedItem["scrapedat"] = item.ScrapedAt
 
 		cleanPrice := strings.ReplaceAll(item.Price, "Kč", "")
 		cleanPrice = strings.ReplaceAll(cleanPrice, " ", "")
@@ -1036,13 +1036,11 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			imageURL = "default.webp"
 		}
 		cleanedItem["image"] = imageURL
-
 		if offerCount <= 1 {
-			cleanedItem["offer_count"] = ""
+			cleanedItem["oc"] = ""
 		} else {
-			cleanedItem["offer_count"] = fmt.Sprintf("%dx", offerCount)
+			cleanedItem["oc"] = fmt.Sprintf("%d", offerCount)
 		}
-
 		cleanedGoods = append(cleanedGoods, cleanedItem)
 	}
 

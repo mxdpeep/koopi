@@ -97,6 +97,25 @@ button.chip .market-image {
     object-fit: initial !important; 
 }
 
+/* AI prompt button */
+.ai-prompt-button {
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    z-index: 9999;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 50px; /* Zakulacený "pill" tvar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-prompt-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
 /* ABOUT */
 #changelog-check {display: none;}
 #changelog-check:not(:checked) ~ .content {display: none;}
@@ -572,6 +591,7 @@ nav.bottom button {
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
+        <button class="ai-prompt-button orange black-text hover settings-button">🤖 AI prompt pro tvůj chatbot</button>
         <h3>📈 Statistika</h3><hr>
         <div id="stats"></div>
         <div id="speed-bench" class="s m l"></div>
@@ -583,7 +603,7 @@ nav.bottom button {
         👩‍🔧 revize: <b>{{COUNT_REV}}</b>
         <br>
         📦️ local storage: <span id="info_localStorage" class="bold"></span>
-        
+
         <div id="webshare" class="webshare center-align"><br><button><i>share</i> <span class="bigger mono">📲</span>&nbsp;&nbsp;sdílej přátelům</button><br><br></div>
 
         <div class="center-align">
@@ -1099,7 +1119,7 @@ const renderDeals = (deals) => {
                  data-id="${deal.id}" data-market="${deal.market}">
             <div class="heartcartrow row center-align">
                 <div class="center-align">
-                    <div class="grayscaled myheart bigger-like relative">♥️${deal.offer_count ? `<span class="badge circle tiny top right blue white-text">${deal.offer_count}</span>` : ''}</div>
+                    <div class="grayscaled myheart bigger-like relative">♥️${deal.oc ? `<span class="badge circle tiny top right blue white-text">${deal.oc}x</span>` : ''}</div>
                 </div>
                 <div>
                     <img src="/markets-v2/${deal.market}.webp" class="market-image" width="60" height="60" loading="lazy">
@@ -1117,11 +1137,11 @@ const renderDeals = (deals) => {
             <div class="product-note">${deal.note}</div>
             <div class="product-club indigo5 white-text center-align">${deal.club}</div>
             <div class="product-price">
-                <span class="discount mono">${deal.discount}</span>
-                <span class="price">${deal.pw}<span class="smaller">,${deal.pd}</span> <span class="volume">(${deal.volume})</span></span>
+                <span class="discount mono">${deal.disc}</span>
+                <span class="price">${deal.pw}<span class="smaller">,${deal.pd}</span> <span class="volume">(${deal.vol})</span></span>
                 <span class="ppunit">${deal.ppunit}</span>
             </div>
-            <div class="${deal.valcol} validity nowrap bold">${deal.validity}</div>
+            <div class="${deal.valcol} validity nowrap bold">${deal.valid}</div>
         </article>
     `;
     }).join('');
@@ -1233,6 +1253,49 @@ function updateFavIcons() {
 function saveLikes() {
     const hashesToSave = window.deals.myLikes.map(id => deals.idhashmap[id]);
     localStorage.setItem('myLikes', JSON.stringify(hashesToSave.filter(Boolean)));
+}
+
+// generuje AI prompt z Likes
+window.generateAiPrompt = generateAiPrompt;
+function generateAiPrompt() {
+    if (!window.deals?.myLikes) {
+        loadAllLikes();
+    }
+
+    const likedSet = new Set(window.deals?.myLikes || []);
+    const allGoods = window.deals?.goods || [];
+
+    // pomocná funkce pro převod validDate
+    const formatValidDate = (validStr) => {
+        if (!validStr) return '';
+        const match = validStr.match(/(\d{1,2})\.\s*(\d{1,2})\./);
+        if (!match) return validStr; // pokud formát neodpovídá, vrátí původní text
+        const day = match[1].padStart(2, '0');
+        const month = match[2].padStart(2, '0');
+        const currentYear = new Date().getFullYear();
+        return `${currentYear}-${month}-${day}`;
+    };
+
+    // mapování položek do řádků oddělených trubkou "|"
+    const rows = allGoods
+        .filter(item => likedSet.has(item.id))
+        .map(item => {
+            const name = (item.name || '').replace(/\|/g, ' ').trim();
+            const shop = (item.market || '').replace(/\|/g, ' ').trim();
+            const price = (item.price || '').replace(/[^\d.,]/g, '').replace(',', '.').trim();
+            const volume = (item.vol || '').replace(/\|/g, ' ').trim();
+            const validTo = formatValidDate(item.valid || item.validity);
+            return `${name}|${shop}|${price}|${volume}|${validTo}`;
+        });
+    if (rows.length === 0) {
+        return null;
+    }
+
+    const promptHeader = "Analyzuj moje oblíbené potraviny v akci. Seskup nákup podle obchodů, přepočítej jednotkové ceny podle objemu/váhy, vypíchni nejvýhodnější nabídky:\n\n";
+    const tableHeader = "item|market|price_czk|volume|valid_to_date\n";
+    const fullPrompt = promptHeader + tableHeader + rows.join('\n');
+    console.log(fullPrompt);
+    return fullPrompt;
 }
 
 // fn: loadAllLikes() - populate deals.myLikes from a localStorage string
@@ -1389,6 +1452,41 @@ $(document).ready(function() {
     $('.load-button').click(function (e) {
         $('#file').click();
     });
+
+    // AI prompt button
+    $('.ai-prompt-button').click(function (e) {
+        const promptText = generateAiPrompt();
+        if (!promptText) return;
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(promptText)
+                .then(function() {
+                    debug("Zkopírováno do schránky.");
+                })
+                .catch(function(err) {
+                    copy2clipboard(promptText);
+                });
+        } else {
+            copy2clipboard(promptText);
+            debug("Zkopírováno do schránky.");
+        }
+    });
+
+    window.copy2clipboard = fallbackCopyText;
+    function fallbackCopyText(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand("copy");
+        } catch (err) {
+            debug("Kopírování selhalo:", err);
+        }
+        document.body.removeChild(textArea);
+    }
 
     // LOAD FILE event handler
     $('#file').on('change', function(e) {
