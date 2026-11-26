@@ -591,7 +591,7 @@ nav.bottom button {
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
-        <button class="ai-prompt-button orange black-text hover settings-button">Chatbot prompt 🤖</button>
+        <button class="ai-prompt-button orange black-text bold hover settings-button">Chatbot prompt 🤖</button>
         <h3>📈 Statistika</h3><hr>
         <div id="stats"></div>
         <div id="speed-bench" class="s m l"></div>
@@ -1116,7 +1116,7 @@ const renderDeals = (deals) => {
     }).map(deal => {
         return `
         <article class="noselect notip product-card c-${deal.cat}" 
-                 data-id="${deal.id}" data-market="${deal.market}">
+                 data-id="${deal.id}" data-market="${deal.market}" data-url="${deal.url}">
             <div class="heartcartrow row center-align">
                 <div class="center-align">
                     <div class="grayscaled myheart bigger-like relative">♥️${deal.oc ? `<span class="badge circle tiny top right blue white-text">${deal.oc}x</span>` : ''}</div>
@@ -1255,7 +1255,7 @@ function saveLikes() {
     localStorage.setItem('myLikes', JSON.stringify(hashesToSave.filter(Boolean)));
 }
 
-// generuje AI prompt z Likes
+// fn: generateAiPrompt() - generate AI prompt from user's Likes and Markets
 window.generateAiPrompt = generateAiPrompt;
 function generateAiPrompt() {
     if (!window.deals?.myLikes) {
@@ -1264,21 +1264,42 @@ function generateAiPrompt() {
 
     const likedSet = new Set(window.deals?.myLikes || []);
     const allGoods = window.deals?.goods || [];
+    const allowedMarkets = new Set(
+        (window.deals?.myMarkets || []).map(m => String(m).trim().toLowerCase())
+    );
 
     // pomocná funkce pro převod validDate
     const formatValidDate = (validStr) => {
         if (!validStr) return '';
         const match = validStr.match(/(\d{1,2})\.\s*(\d{1,2})\./);
-        if (!match) return validStr; // pokud formát neodpovídá, vrátí původní text
-        const day = match[1].padStart(2, '0');
-        const month = match[2].padStart(2, '0');
-        const currentYear = new Date().getFullYear();
-        return `${currentYear}-${month}-${day}`;
+        if (!match) return validStr;
+
+        const dayNum = parseInt(match[1], 10);
+        const monthNum = parseInt(match[2], 10);
+
+        const now = new Date();
+        let year = now.getFullYear();
+        const currentMonth = now.getMonth() + 1; // getMonth() vrací 0–11
+
+        // datum je v příštím roce
+        if (monthNum < currentMonth - 3) {
+            year += 1;
+        }
+
+        const day = String(dayNum).padStart(2, '0');
+        const month = String(monthNum).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     // mapování položek do řádků oddělených trubkou "|"
     const rows = allGoods
-        .filter(item => likedSet.has(item.id))
+        .filter(item => {
+            const isLiked = likedSet.has(item.id);
+            const itemMarket = String(item.market || '').trim().toLowerCase();
+            const isAllowedMarket = allowedMarkets.has(itemMarket);
+            
+            return isLiked && isAllowedMarket;
+        })
         .map(item => {
             const name = (item.name || '').replace(/\|/g, ' ').trim();
             const shop = (item.market || '').replace(/\|/g, ' ').trim();
@@ -1287,6 +1308,7 @@ function generateAiPrompt() {
             const validTo = formatValidDate(item.valid || item.validity);
             return `${name}|${shop}|${price}|${volume}|${validTo}`;
         });
+
     if (rows.length === 0) {
         return null;
     }
@@ -1535,7 +1557,7 @@ $(document).ready(function() {
 
     // ABOUT button
     $('.about-btn').on('click', function() {
-        window.scrollTo({top: 0});
+        //window.scrollTo({top: 0});
         var isVisible = $('#about').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible === true) {
@@ -1551,7 +1573,7 @@ $(document).ready(function() {
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
-        window.scrollTo({top: 0});
+        //window.scrollTo({top: 0});
         var isVisible = $('#settings').is(':visible');
         $('#about, #settings, #deals').hide();
         if (isVisible === true) {
@@ -1883,21 +1905,24 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
-// context event handler - open Kupi website
+// context event handler - open website
 window.handleContextEvent = function(e) {
     const card = e.target.closest('.product-card');
     if (card) {
-        const productName = card.querySelector('.product-name')?.innerText;
+        const url = card.dataset.url;
+        if (!url) return;
+
         // flashbomb vfx
         $(card).addClass('flashbomb');
         setTimeout(() => {
             $(card).removeClass('flashbomb');
-            if (productName) {
-                const searchUrl = 'https://www.kupi.cz/hledej?f=' + encodeURIComponent(productName);
-                window.open(searchUrl, '_blank');
+            if (url) {
+                const remote = 'https://www.kupi.cz' + url;
+                window.open(remote, '_blank');
             }}, 250);
         return false;
     }
+
     // data-id
     const elementWithId = e.target.closest('[data-id]');
     if (elementWithId) {
@@ -1905,14 +1930,16 @@ window.handleContextEvent = function(e) {
         //debug('data-id: ' + id);
         return false;
     }
+
     // fallback
     const info = e.target.title || e.target.id || e.target.tagName;
     //debug('target: ' + info);
+
     return false;
 }
 
 // context menu handler
-window.addEventListener('contextmenu', function(e) {
+window.addEventListener('xcontextmenu', function(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
     window.handleContextEvent(e);
