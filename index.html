@@ -59,8 +59,8 @@ a {text-decoration: underline!important;color: black;}
 hr {border: none;height: 4px;width: 50%;background: linear-gradient(to right, black, transparent);margin-bottom: 1rem;}
 
 /* BUTTONS */
-:focus {outline: none !important;box-shadow: none !important;}
 .button, button {margin: 0 5px!important;}
+:focus {outline: none !important;box-shadow: none !important;}
 
 /* LOADING */
 #loading {
@@ -126,10 +126,13 @@ button.chip .market-image {
 /* ABOUT */
 #changelog-check {display: none;}
 #changelog-check:not(:checked) ~ .content {display: none;}
-#why-check {display: none;}
-#why-check:not(:checked) ~ .content {display: none;}
-
-.menicko {font-size: 1.5rem;}
+#usage-check {display: none;}
+#usage-check:not(:checked) ~ .content {display: none;}
+label[for="changelog-check"] i {transition: transform 0.2s ease;}
+article:has(#changelog-check:checked) label[for="changelog-check"] i {transform: rotate(180deg);}
+label[for="usage-check"] i {transition: transform 0.2s ease;}
+article:has(#usage-check:checked) label[for="usage-check"] i {transform: rotate(180deg);}
+.accordion {font-size: 1.5rem;}
 
 /* DEBUGGER */
 #debugger {width: 100%;opacity: 0.8;position: fixed;top: 70px;left: 0;z-index: 100;max-height: 300px;overflow-y: auto;}
@@ -625,18 +628,30 @@ nav.bottom button {
                 <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
                 </svg> github.com/mxdpeep/koopi</a>
         </div>
+
         <br>
 
         <article>
+            <label for="usage-check" class="row cursor-pointer">
+                <div class="max hover accordion"><strong>🧠 Návod k použití</strong></div>
+                <i class="hover">expand_more</i>
+            </label>
+            <input type="checkbox" id="usage-check">
+            <div class="content padding">
+                Tady bude v blízké budoucnosti návod k použití...
+            </div>
+        </article>
+
+        <article>
             <label for="changelog-check" class="row cursor-pointer">
-                <div class="max hover menicko"><strong>🧠 Seznam změn</strong></div>
+                <div class="max hover accordion"><strong>🧠 Seznam změn</strong></div>
                 <i class="hover">expand_more</i>
             </label>
             <input type="checkbox" id="changelog-check">
             <div class="content padding">
                 <ul>
                     <li><b>2026-11-27</b>
-                        <br>◾️ opravy
+                        <br>◾️ všemožné opravy a vylepšení
                     </li>
                     <li><b>2026-11-26</b>
                         <br>◾️ UI: chatbot prompt z podmnožiny dostupných Likes+Markets
@@ -698,6 +713,7 @@ nav.bottom button {
                 </ul>
             </div>
         </article>
+        
     </div>
 
     <div id="settings" class="hidden container">
@@ -728,43 +744,24 @@ nav.bottom button {
 <script>
 'use strict';
 
-// UUID
-var uuid = null;
-try {
-  uuid = crypto.randomUUID();
-} catch (e) {
-  uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
-      c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
-}
-window.uuid = uuid;
-window.vfxdelay = 750;
-
 // detect legacy browsers
 (function() {
     const features = {
         'fetch': window.fetch,
-        'ES6-Template-Literals': (function() { try { return !!new Function("return `t`")(); } catch(e) { return false; } })()
+        'ES6-Template-Literals': (function() {try {return !!new Function("return `t`")();} catch(e) {return false;}})()
     };
     const missing = Object.keys(features).filter(key => !features[key]);
     if (missing.length > 0) {
         document.addEventListener('DOMContentLoaded', function() {
             document.body.innerHTML = `
-            <div style="font-family: sans-serif; padding: 40px; text-align: center; background: #fff5f5; color: #c0392b; border: 5px solid #c0392b; margin: 20px;">
-                <h1>⚠️ Zastaralý prohlížeč</h1>
-                <p>Pro správné fungování prosím <strong>aktualizuj prohlížeč</strong> nebo použij novější počítač.</p>
-                </div>
-                `;
+                <div style="font-family:sans-serif;padding:40px;text-align:center;background:#fff5f5;color:#c0392b;border:5px solid #c0392b;margin:20px;">
+                <h1>⚠️ Zastaralý prohlížeč!</h1>
+                <p>Pro správné fungování si prosím <strong>aktualizuj prohlížeč</strong> nebo použij novější počítač.</p></div>`;
             });
             throw new Error("Legacy browser detected. Stopping execution.");
         window.stop();
     }
 })();
-
-// remove cache buster
-if (window.location.search.length > 0) {
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
 
 // SHUFFLE prototype
 if (!Array.prototype.shuffle) {
@@ -776,6 +773,20 @@ if (!Array.prototype.shuffle) {
         return this;
     };
 }
+
+// UUID
+var uuid = null;
+try {
+  uuid = crypto.randomUUID();
+} catch (e) {
+  uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
+      c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+window.uuid = uuid;
+
+// remove cache buster
+if (window.location.search.length > 0) {window.history.replaceState({}, document.title, window.location.pathname);}
 
 // SPLASH SCREEN on
 document.getElementById('loading').style.display = 'flex';
@@ -798,10 +809,10 @@ deals.myCats = [];
 deals.myMarkets = [];
 deals.catbut = 1;
 
-var snackbarDelay = 2500;
-
-// DEFAULTS
+// DEFAULTS, PARAMETERS
 deals.defaultMarkets = ['Albert', 'Lidl', 'Kaufland', 'Penny Market'];
+deals.vfxdelay = 750;
+deals.snackbardelay = 2500;
 
 // RESTORE DATA from LOCAL STORAGE
 try {
@@ -823,6 +834,7 @@ const webShare = async (title, text, url) => {
                 url: url
             });
         } catch (err) {
+            console.error(err);
         }
     }
 };
@@ -865,7 +877,7 @@ try {
     storage.removeItem('luid');
 } catch (e) {
     nolocalstorage = true;
-    console.warn('SLEVIČKY: localStorage je zablokován');
+    console.warn('local storage is blocked!');
 }
 window.nolocalstorage = nolocalstorage;
 if (nolocalstorage) {
@@ -873,7 +885,7 @@ if (nolocalstorage) {
     $('#load').prop('disabled', true);
     $('#save').prop('disabled', true);
 }
-$('#info_localStorage').text(!nolocalstorage ? 'OK' : "ZABLOKOVÁNO");
+$('#info_localStorage').text(!nolocalstorage ? 'OK' : "BLOKOVÁNO");
 
 // MAIN CONSTANTS
 const dept = '{{DEPT}}';
@@ -882,7 +894,7 @@ const git_build_date = '{{DATE_REV}}';
 const git_revisions = '{{COUNT_REV}}';
 const dataFile = './data.json'; 
 const cacheKey = 'deals_cache';
-const catIcons = {
+const catIconsSet1 = {
     CUKROVINKY: '🍬',
     KOŘENÍ: '🌶️',
     LUŠTĚNINY: '🫘',
@@ -899,6 +911,7 @@ const catIcons = {
     VEJCE: '🥚',
     ZELENINA: '🥦',
 };
+const catIcons = catIconsSet1;
 const categories = Object.keys(catIcons);
 
 // fn: checkUpdate() - version checker
@@ -925,16 +938,17 @@ document.addEventListener('DOMContentLoaded', () => {
 window.extras_flag = true; // bool: is extras row visible?
 window.hearts_flag = false; // bool: is hearts active?
 window.settings_flag = false; // bool: is about/settings active?
+window.refresh_flag = false; // bool: should we refresh browser?
 
 // control extras row visibility
 window.setExtrasVisible = (visible) => {
     const $extras = $('.extras');
     if (visible) {
         $extras.removeClass('extras-hidden');
-        window.extras_flag = true;
+        extras_flag = true;
     } else {
         $extras.addClass('extras-hidden');
-        window.extras_flag = false;
+        extras_flag = false;
     }
 };
 
@@ -1010,7 +1024,7 @@ const initApp = () => {
         console.timeEnd('JSON-Fetch');
         if (!data) {
             $('#loading-info').text('Chyba nahrávání dat!');
-            window.umlog('error_no_data');
+            umlog('error_no_data');
             return;
         }
         $('#loading-info').text('👽️ Renderuji');
@@ -1020,7 +1034,7 @@ const initApp = () => {
         }
         if (goods.length === 0) {
             $('#loading-info').text('Žádné slevy k zobrazení!');
-            window.umlog('error_bad_data_structure');
+            umlog('error_bad_data_structure');
             console.error('Struktura dat neodpovídá:', data);
             return;
         }
@@ -1084,7 +1098,7 @@ const initApp = () => {
         $('#speed-bench').html(`VYKRESLENÍ <b class=sbigger>${renderDuration} ms</b>`);
         $('#deals').removeClass('hidden');
         window.scrollTo({top:0});
-        setTimeout(() => {$('#loading').addClass('fade-away');setDefaults();}, window.vfxdelay);
+        setTimeout(() => {$('#loading').addClass('fade-away');setDefaults();}, deals.vfxdelay);
     }
 
     const cachedRaw = localStorage.getItem(cacheKey);
@@ -1092,7 +1106,7 @@ const initApp = () => {
         try {
             $('#info_localStorage').text((new Blob([localStorage[cacheKey]]).size / 1024).toFixed(1) + ' KB');
             console.log('Processing cached data.');
-            window.umlog('data_from_cache');
+            umlog('data_from_cache');
             processData(JSON.parse(cachedRaw));
             return;
         } catch (e) {
@@ -1117,12 +1131,12 @@ const initApp = () => {
                 console.error('Nepodařilo se uložit data do localStorage:', e);
             }
             console.log('Processing online data.');
-            window.umlog('data_from_online');
+            umlog('data_from_online');
             processData(data);
         })
         .catch(error => {
-            window.umlog('error_downloading');
             console.error('Error downloading data:', error);
+            umlog('error_downloading');
         });
 };
 
@@ -1416,7 +1430,7 @@ function filterFavs() {
 
         // flashbomb vfx
         $('body').addClass('flashbomb2');
-        setTimeout(() => {$('body').removeClass('flashbomb2');}, window.vfxdelay);
+        setTimeout(() => {$('body').removeClass('flashbomb2');}, deals.vfxdelay);
         updateMyFavCountNoVfx();
         updateCategoryBadges(window.deals.catcounts);
     });
@@ -1478,6 +1492,7 @@ $(document).ready(function() {
             $('.extras').addClass('extras-hidden');
             $('.catbuttons').hide();
         } else {
+            if (window.refresh_flag) refresh();
             window.settings_flag = false;
             $('.extras').removeClass('extras-hidden');
             $('.catbuttons').show();
@@ -1492,13 +1507,13 @@ $(document).ready(function() {
 
     // DELETE button click
     $('.delete-button').on('click', function(e) {
-        window.umlog('delete_settings');
+        umlog('delete_settings');
         deleteSettings();
     });
 
     // SAVE button click
     $('.save-button').on('click', function(e) {
-        window.umlog('save_settings');
+        umlog('save_settings');
         exportSettings();
     });
 
@@ -1548,7 +1563,7 @@ $(document).ready(function() {
         document.body.removeChild(textArea);
     }
 
-    // show chatbot snack for snackbarDelay
+    // show chatbot snack
     let snackTimer = null;
     function showsnack() {
         const $snack = $('#chatbot-prompt');
@@ -1556,14 +1571,14 @@ $(document).ready(function() {
         clearTimeout(snackTimer);
         snackTimer = setTimeout(() => {
             $snack.removeClass('active');
-        }, snackbarDelay);
+        }, deals.snackbardelay);
     }
 
     // LOAD FILE event handler
     $('#file').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
-            window.umlog('load_settings');
+            umlog('load_settings');
             importSettings(file);
         }
         $(this).val('');
@@ -1585,9 +1600,9 @@ $(document).ready(function() {
             renderDeals(currentData);
 
             // flashbomb vfx
-            flash_flag = true;
+            window.flash_flag = true;
             $('body').addClass('flashbomb2');
-            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, window.vfxdelay);
+            setTimeout(() => {$('body').removeClass('flashbomb2');window.flash_flag = false;}, deals.vfxdelay);
 
             updateFavIcons();
             loadAllLikes();
@@ -1646,14 +1661,14 @@ $(document).ready(function() {
 
     // SMILEY button
     $('.mrsmiley').on('click', function() {
-        window.umlog('roulette');
+        umlog('roulette');
         roulette();
     });
 
     // fn: roulette() - EMOJI ANIMATION function
     function roulette() {
-        if (face_flag) return;
-        face_flag = true;
+        if (window.face_flag) return;
+        window.face_flag = true;
         currentFaceIsYummy = !currentFaceIsYummy;
         const newface = currentFaceIsYummy ? '😋' : '🤑';
         const $face = $('.dollarface');
@@ -1665,7 +1680,7 @@ $(document).ready(function() {
         }, 200);
         setTimeout(() => {
             $face.removeClass('facespinner');
-            face_flag = false;
+            window.face_flag = false;
         }, 1200);
 
         const currentData = window.deals.goods_orig.shuffle();
@@ -1674,9 +1689,9 @@ $(document).ready(function() {
             renderDeals(currentData);
 
             // flashbomb vfx
-            flash_flag = true;
+            window.flash_flag = true;
             $('body').addClass('flashbomb2');
-            setTimeout(() => {$('body').removeClass('flashbomb2');flash_flag = false;}, window.vfxdelay);
+            setTimeout(() => {$('body').removeClass('flashbomb2');window.flash_flag = false;}, deals.vfxdelay);
 
             updateFavIcons();
             loadAllLikes();
@@ -1709,9 +1724,9 @@ $(document).ready(function() {
         setHandedness();
 
         // flashbomb vfx
-        flash_flag = true;
+        window.flash_flag = true;
         $('nav').addClass('flashbomb');
-        setTimeout(() => {$('nav').removeClass('flashbomb');flash_flag = false;}, window.vfxdelay);
+        setTimeout(() => {$('nav').removeClass('flashbomb');window.flash_flag = false;}, deals.vfxdelay);
     }
 
     // fn: setHandedness() - set visibilities for hands
