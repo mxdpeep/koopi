@@ -1286,10 +1286,18 @@ function generateFavSet() {
     if (!window.deals?.myLikes) {
         loadAllLikes();
     }
-    const likedSet = new Set(window.deals?.myLikes || []);
+
+    if (!window.deals?.myMarkets?.length || !window.deals?.myLikes?.length) {
+        return [];
+    }
+
     const allGoods = window.deals?.goods || [];
+    const likedSet = new Set(window.deals?.myLikes || []);
     const allowedMarkets = new Set(
         (window.deals?.myMarkets || []).map(m => String(m).trim().toLowerCase())
+    );
+    const allowedCats = new Set(
+        (window.deals?.myCats || []).map(c => String(c).trim().toLowerCase())
     );
 
     // pomocná funkce pro převod validDate
@@ -1310,13 +1318,15 @@ function generateFavSet() {
         return `${year}-${month}-${day}`;
     };
 
-    // filtrování a mapování položek do pole řádků oddělených trubkou "|"
+    // filtrování přes Market a Cat, mapování položek do pole řádků oddělených trubkou "|"
     return allGoods
         .filter(item => {
             const isLiked = likedSet.has(item.id);
             const itemMarket = String(item.market || '').trim().toLowerCase();
             const isAllowedMarket = allowedMarkets.has(itemMarket);
-            return isLiked && isAllowedMarket;
+            const itemCat = String(item.cat || '').trim().toLowerCase();
+            const isAllowedCat = allowedCats.size === 0 || allowedCats.has(itemCat);
+            return isLiked && isAllowedMarket && isAllowedCat;
         })
         .map(item => {
             const name = (item.name || '').replace(/\|/g, ' ').trim();
