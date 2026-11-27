@@ -12,8 +12,8 @@
 <link rel="preconnect" href="https://umami.gscloud.cz">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="referrer" content="no-referrer-when-downgrade">
-<meta name="description" content="Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public alfa)">
-<meta property="og:description" content="Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public alfa)">
+<meta name="description" content="Aktuální slevy potravin + akční zboží přehledně na jednom místě. (beta)">
+<meta property="og:description" content="Aktuální slevy potravin + akční zboží přehledně na jednom místě. (beta)">
 <meta name="theme-color" content="#fff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1294,7 +1294,7 @@ function generateAiPrompt() {
         const monthNum = parseInt(match[2], 10);
         const now = new Date();
         let year = now.getFullYear();
-        const currentMonth = now.getMonth() + 1; // getMonth() vrací 0–11
+        const currentMonth = now.getMonth() + 1;
         if (monthNum < currentMonth - 3) { // datum je v příštím roce
             year += 1;
         }
@@ -1320,15 +1320,12 @@ function generateAiPrompt() {
             const validTo = formatValidDate(item.valid || item.validity);
             return `${name}|${shop}|${price}|${ppunit}|${volume}|${validTo}`;
         });
-
-        if (rows.length === 0) {
+    if (rows.length === 0) {
         return null;
     }
-
     const promptHeader = "Analyzuj moje oblíbené potraviny v akci. Seskup nákup podle obchodů, přepočítej jednotkové ceny podle objemu/váhy, vypíchni nejvýhodnější nabídky:\n\n";
     const tableHeader = "item|market|price_czk|price_per_unit|volume|valid_to_date\n";
     const fullPrompt = promptHeader + tableHeader + rows.join('\n');
-    //console.log(fullPrompt);
     return fullPrompt;
 }
 
@@ -1467,7 +1464,7 @@ $(document).ready(function() {
 
     // SHARE button
     $('#webshare').on('click', function() {
-        webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public beta)', 'https://slevicky.hmcgames.com/');
+        webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (beta)', 'https://slevicky.hmcgames.com/');
     });
 
     // DELETE button
