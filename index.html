@@ -639,7 +639,7 @@ nav.bottom button {
                         <br>◾️ opravy
                     </li>
                     <li><b>2026-11-26</b>
-                        <br>◾️ UI: chatbot prompt z množiny dostupných Likes+Markets
+                        <br>◾️ UI: chatbot prompt z podmnožiny dostupných Likes+Markets
                         <br>◾️ DATA: zkrácení JSON properties
                     </li>
                     <li><b>2026-11-25</b>
@@ -1377,7 +1377,7 @@ function updateMyFavCountNoVfx() {
     $('.filter-favs').html(icon + '&nbsp;&nbsp;' + window.deals.myLikes.length);
 }
 
-// fn: filterFavs() - 
+// fn: filterFavs()
 let isFavFilterActive = false;
 function filterFavs() {
     $('.filter-favs').on('click', function() {
@@ -1441,7 +1441,7 @@ function updateCategoryBadges(catCounts) {
     });
 }
 
-// UPDATE NAVICONS
+// fn: updateNavIcons 
 const updateNavIcons = () => {
     const activeCats = new Set(window.deals.myCats || []);
     $('nav.bottom button').each(function() {
@@ -1458,8 +1458,8 @@ const updateNavIcons = () => {
 
 // UI BINDINGS
 $(document).ready(function() {
+    window.face_flag = false; // bool: is face animation pending?
     window.flash_flag = false; // bool: is flash animation pending?
-    let face_flag = false; // bool: is face animation pending?
 
     // fn: setSettingsMode(bool) - set to true if ABOUT or SETTINGS is pressed
     function setSettingsMode(state) {
@@ -1475,45 +1475,31 @@ $(document).ready(function() {
         }
     }
 
-    // SHARE button
+    // SHARE button click
     $('#webshare').on('click', function() {
         webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (beta)', 'https://slevicky.hmcgames.com/');
     });
 
-    // DELETE button
+    // DELETE button click
     $('.delete-button').on('click', function(e) {
         window.umlog('delete_settings');
         deleteSettings();
     });
 
-    // SAVE button
+    // SAVE button click
     $('.save-button').on('click', function(e) {
         window.umlog('save_settings');
         exportSettings();
     });
 
-    // LOAD button
+    // LOAD button click
     $('.load-button').click(function (e) {
         $('#file').click();
     });
 
-    // show chatbot snack for snackbarDelay
-    function showsnack() {
-        $('#chatbot-prompt').addClass('active');
-        setTimeout(function() {
-            $('#chatbot-prompt').removeClass('active');
-        }, snackbarDelay);
-    }
-
-    // AI prompt button
-    let lastAiCopy = 0;
+    // AI prompt button click
     $(document).on('click', '.ai-prompt-button', async function (e) {
         e.preventDefault();
-
-        const now = Date.now();
-        if (now - lastAiCopy < 200) return;
-        lastAiCopy = now;
-
         const promptText = generateAiPrompt();
         if (!promptText) return;
 
@@ -1530,21 +1516,37 @@ $(document).ready(function() {
         }
     });
 
+    // legacy copy to clipboard
     window.copy2clipboard = copy2clipboard;
     function copy2clipboard(text) {
-        const textArea = document.createElement("textarea");
-        textArea.style.left = "-9999px";
-        textArea.style.position = "fixed";
+        const textArea = document.createElement('textarea');
         textArea.value = text;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'fixed';
+        textArea.style.top = '0';
+        textArea.style.left = '-9999px';
         document.body.appendChild(textArea);
+        textArea.focus();
         textArea.select();
+        textArea.setSelectionRange(0, text.length);
         try {
-            document.execCommand("copy");
+            document.execCommand('copy');
         } catch (err) {
-            debug("Kopírování do clipboardu selhalo.");
-            console.error("Copy to clipboard failed:", err);
+            debug('Kopírování do clipboardu selhalo.');
+            console.error('Copy to clipboard failed:', err);
         }
         document.body.removeChild(textArea);
+    }
+
+    // show chatbot snack for snackbarDelay
+    let snackTimer = null;
+    function showsnack() {
+        const $snack = $('#chatbot-prompt');
+        $snack.addClass('active');
+        clearTimeout(snackTimer);
+        snackTimer = setTimeout(() => {
+            $snack.removeClass('active');
+        }, snackbarDelay);
     }
 
     // LOAD FILE event handler
@@ -1728,7 +1730,9 @@ $(document).ready(function() {
         localStorage.removeItem('myCats');
         localStorage.removeItem('myMarkets');
         localStorage.removeItem('myLikes');
-        refresh();
+        setTimeout(() => {
+            refresh();
+        }, 100);
     }
 
     // fn: exportSettings() - EXPORT SETTINGS
@@ -1750,7 +1754,10 @@ $(document).ready(function() {
         a.download = 'slevicky_settings.json';
         document.body.appendChild(a); 
         a.click();
-        setTimeout(() => {document.body.removeChild(a);window.URL.revokeObjectURL(url);}, 0);
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
     }
 
     // fn: importSettings() - IMPORT SETTINGS
@@ -1798,7 +1805,9 @@ $(document).ready(function() {
     function setRefreshBtn() {
         localStorage.removeItem(cacheKey);
         $('.refresh-btn').removeClass('icon-wave icon-spin').addClass('orange-text icon-wave bold');
-        setTimeout(() => {$('.refresh-btn').addClass('orange-text icon-spin bold');}, 300);
+        setTimeout(() => {
+            $('.refresh-btn').addClass('orange-text icon-spin bold');
+        }, 300);
     }
 
     // fn: refresh() - refresh the page using a buster
@@ -1882,11 +1891,12 @@ $(document).ready(function() {
 
     // UMAMI identity
     $(function() {
+        let attempts = 0;
         const pushUmamiIdentity = () => {
-            if (typeof umami !== 'undefined' && window.uuid) {
-                umami.identify({user_id: window.uuid});
-            } else {
-                setTimeout(pushUmamiIdentity, 100);
+            if (typeof umami?.identify === 'function' && window.uuid) {
+                umami.identify({ user_id: window.uuid });
+            } else if (attempts++ < 20) {
+                setTimeout(pushUmamiIdentity, 250);
             }
         };
         pushUmamiIdentity();
@@ -1894,22 +1904,30 @@ $(document).ready(function() {
 
     // UMAMI stats
     $(function() {
+        let attempts = 0;
         const logDailyStats = () => {
-            const today = new Date().toISOString().slice(2, 10).replace(/-/g, '');
-            const lastLog = localStorage.getItem('sync_stats');
-            if (lastLog === today) return;
-            if (typeof umlog === 'function' && window.uuid && window.nolocalstorage === false) {
-                localStorage.setItem('sync_stats', today);
+            if (window.nolocalstorage !== false) return;
+
+            const today = new Date().toLocaleDateString('sv').slice(2).replace(/-/g, ''); // lokální YYMMDD
+            if (localStorage.getItem('sync_stats') === today) return;
+
+            if (typeof umlog === 'function' && window.uuid) {
+                try {
+                    localStorage.setItem('sync_stats', today);
+                } catch (e) {
+                    return;
+                }
                 window.umlog('daily_stats', {
-                    markets: localStorage.getItem('myMarkets'),
-                    categories: localStorage.getItem('myCats')
+                    markets: localStorage.getItem('myMarkets') || '',
+                    categories: localStorage.getItem('myCats') || ''
                 });
-            } else {
+            } else if (attempts++ < 6) { // max. 1 minuta (6 × 10 s)
                 setTimeout(logDailyStats, 10000);
             }
         };
         setTimeout(logDailyStats, 10000);
     });
+
 });
 
 // SERVICE WORKER registration
@@ -1948,7 +1966,7 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
-// context event handler - open website
+// context event - open Koopi website
 window.handleContextEvent = function(e) {
     const card = e.target.closest('.product-card');
     if (card) {
