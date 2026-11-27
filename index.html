@@ -1292,16 +1292,12 @@ function generateAiPrompt() {
 
         const dayNum = parseInt(match[1], 10);
         const monthNum = parseInt(match[2], 10);
-
         const now = new Date();
         let year = now.getFullYear();
         const currentMonth = now.getMonth() + 1; // getMonth() vrací 0–11
-
-        // datum je v příštím roce
-        if (monthNum < currentMonth - 3) {
+        if (monthNum < currentMonth - 3) { // datum je v příštím roce
             year += 1;
         }
-
         const day = String(dayNum).padStart(2, '0');
         const month = String(monthNum).padStart(2, '0');
         return `${year}-${month}-${day}`;
@@ -1325,14 +1321,14 @@ function generateAiPrompt() {
             return `${name}|${shop}|${price}|${ppunit}|${volume}|${validTo}`;
         });
 
-    if (rows.length === 0) {
+        if (rows.length === 0) {
         return null;
     }
 
     const promptHeader = "Analyzuj moje oblíbené potraviny v akci. Seskup nákup podle obchodů, přepočítej jednotkové ceny podle objemu/váhy, vypíchni nejvýhodnější nabídky:\n\n";
     const tableHeader = "item|market|price_czk|price_per_unit|volume|valid_to_date\n";
     const fullPrompt = promptHeader + tableHeader + rows.join('\n');
-    console.log(fullPrompt);
+    //console.log(fullPrompt);
     return fullPrompt;
 }
 
