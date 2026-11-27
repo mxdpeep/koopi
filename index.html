@@ -111,7 +111,8 @@ button.chip .market-image {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.ai-prompt-button:hover {
+.ai-prompt-button:not(:disabled):hover {
+    cursor: pointer !important;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
@@ -493,7 +494,6 @@ nav.bottom button {
 </style>
 </head>
 <body class="light">
-
 <!-- HTML5 TOP NAV -->
 <nav class="righthanded top notap nowrap black white-text vertical">
     <div class="basic row width-100">
@@ -553,7 +553,6 @@ nav.bottom button {
         <button disabled title="vyhledávání" class="nowrap btn-secrow white-text bold s1 transparent">🔍</button>
     </div> 
 </nav>
-
 <!-- HTML5 BOTTOM NAV -->
 <nav class="catbuttons righthanded bottom notap black white-text grid no-space" style="display: grid; grid-template-columns: repeat(5, 1fr); height: auto; z-index: 999999; opacity:0;">
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
@@ -569,10 +568,8 @@ nav.bottom button {
     <button title="MASO - UZENINY - TUKY" data-cats=".c-MASO, .c-UZENINY, .c-TUKY" class="but4 nowrap btn-bottom black white-text bold s1">🥩🥓🧈</button>
     <button title="NÁPOJE - CUKROVINKY - OSTATNÍ" data-cats=".c-NÁPOJE, .c-CUKROVINKY, .c-OSTATNÍ" class="but5 nowrap btn-bottom black white-text bold s1">🍷🍬📦</button>
 </nav>
-
 <!-- HTML5 DEBUGGER -->
 <div id="debugger" class="notap noselect blue-grey white-text bold debugger"></div>
-
 <!-- HTML5 CONTENT -->
 <main class="container">
     <noscript>
@@ -591,7 +588,12 @@ nav.bottom button {
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
-        <button class="ai-prompt-button orange black-text bold hover settings-button">Chatbot prompt 🤖</button>
+        <button class="ai-prompt-button orange black-text bold settings-button">Chatbot prompt 🤖</button>
+        <div class="snackbar primary" id="chatbot-prompt">
+            <i>check_circle</i>
+            <span>Prompt uložen do clipboardu.</span>
+        </div>
+
         <h3>📈 Statistika</h3><hr>
         <div id="stats"></div>
         <div id="speed-bench" class="s m l"></div>
@@ -786,6 +788,8 @@ deals.myLikes = [];
 deals.myCats = [];
 deals.myMarkets = [];
 deals.catbut = 1;
+
+var snackbarDelay = 2500;
 
 // DEFAULTS
 deals.defaultMarkets = ['Albert', 'Lidl', 'Kaufland', 'Penny Market'];
@@ -1309,7 +1313,6 @@ function generateAiPrompt() {
             const isLiked = likedSet.has(item.id);
             const itemMarket = String(item.market || '').trim().toLowerCase();
             const isAllowedMarket = allowedMarkets.has(itemMarket);
-            
             return isLiked && isAllowedMarket;
         })
         .map(item => {
@@ -1468,7 +1471,7 @@ $(document).ready(function() {
 
     // SHARE button
     $('#webshare').on('click', function() {
-        webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public alfa)', 'https://slevicky.pages.dev/');
+        webShare('🤑 SLEVIČKY', 'Aktuální slevy potravin + akční zboží přehledně na jednom místě. (public beta)', 'https://slevicky.hmcgames.com/');
     });
 
     // DELETE button
@@ -1496,29 +1499,40 @@ $(document).ready(function() {
         if (navigator.clipboard) {
             navigator.clipboard.writeText(promptText)
                 .then(function() {
-                    debug("Zkopírováno do schránky.");
+                    $('#chatbot-prompt').addClass('active');
+                    setTimeout(function() {
+                        $('#chatbot-prompt').removeClass('active');
+                    }, snackbarDelay);
                 })
                 .catch(function(err) {
                     copy2clipboard(promptText);
+                    $('#chatbot-prompt').addClass('active');
+                    setTimeout(function() {
+                        $('#chatbot-prompt').removeClass('active');
+                    }, snackbarDelay);
                 });
         } else {
             copy2clipboard(promptText);
-            debug("Zkopírováno do schránky.");
+            $('#chatbot-prompt').addClass('active');
+            setTimeout(function() {
+                $('#chatbot-prompt').removeClass('active');
+            }, snackbarDelay);
         }
     });
 
-    window.copy2clipboard = fallbackCopyText;
-    function fallbackCopyText(text) {
+    window.copy2clipboard = copy2clipboard;
+    function copy2clipboard(text) {
         const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
         textArea.style.left = "-9999px";
+        textArea.style.position = "fixed";
+        textArea.value = text;
         document.body.appendChild(textArea);
         textArea.select();
         try {
             document.execCommand("copy");
         } catch (err) {
-            debug("Kopírování selhalo:", err);
+            debug("Kopírování do clipboardu selhalo.");
+            console.error("Kopírování do clipboardu selhalo:", err);
         }
         document.body.removeChild(textArea);
     }
@@ -1581,6 +1595,11 @@ $(document).ready(function() {
             setSettingsMode(true);
             $('#about, #settings, #deals').hide();
             $('#about').show();
+            if (generateAiPrompt() === null) {
+                $('.ai-prompt-button').attr('disabled', 'disabled');
+            } else {
+                $('.ai-prompt-button').removeAttr('disabled');
+            }
         }
     });
 
