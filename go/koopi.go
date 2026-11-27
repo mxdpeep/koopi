@@ -1022,7 +1022,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 
 		// store the values
 		cleanedItem["valcol"] = valcol
-		cleanedItem["validity"] = validity
+		cleanedItem["valid"] = validity
 
 		// image
 		imageURL := item.ImageUrl
@@ -1094,16 +1094,16 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 		catCounts[item["cat"].(string)]++
 	}
 
-	// output data
+	// JSON output data
 	outputData := make(map[string]any)
-	outputData["created"] = time.Now().Format(time.RFC3339)
+	outputData["catcounts"] = catCounts
 	outputData["count"] = len(cleanedGoods)
+	outputData["created"] = time.Now().Format(time.RFC3339)
 	outputData["goods"] = cleanedGoods
-	outputData["markets"] = markets
+	outputData["idhashmap"] = reversedHashmap
 	outputData["keywords"] = strings.Join(uniqueWords, " ")
 	outputData["keywordsindex"] = keywordsIndex
-	outputData["idhashmap"] = reversedHashmap
-	outputData["catcounts"] = catCounts
+	outputData["markets"] = markets
 
 	// save to JSON
 	encoder := json.NewEncoder(file)

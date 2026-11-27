@@ -111,6 +111,12 @@ button.chip .market-image {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.ai-prompt-head {
+    font-size: 1.5rem;
+    position: relative;
+    top: -5px;
+}
+
 .ai-prompt-button:not(:disabled):hover {
     cursor: pointer !important;
     transform: translateY(-2px);
@@ -588,7 +594,7 @@ nav.bottom button {
     </div>
     <div id="deals"></div>
     <div id="about" class="hidden">
-        <button class="ai-prompt-button orange black-text bold settings-button">Chatbot prompt 🤖</button>
+        <button class="ai-prompt-button orange black-text bold settings-button"><span class="ai-prompt-head">🤖</span> chatbot prompt <span class="ai-prompt-count"></span></button>
         <div class="snackbar primary" id="chatbot-prompt">
             <i>check_circle</i>
             <span>Prompt uložen do clipboardu.</span>
@@ -1271,13 +1277,12 @@ function saveLikes() {
     localStorage.setItem('myLikes', JSON.stringify(hashesToSave.filter(Boolean)));
 }
 
-// fn: generateAiPrompt() - generate AI prompt from user's Likes and Markets
-window.generateAiPrompt = generateAiPrompt;
-function generateAiPrompt() {
+// fn: generateFavSet() - získá pole naformátovaných řádků oblíbených položek ve vybraných obchodech
+window.generateFavSet = generateFavSet;
+function generateFavSet() {
     if (!window.deals?.myLikes) {
         loadAllLikes();
     }
-
     const likedSet = new Set(window.deals?.myLikes || []);
     const allGoods = window.deals?.goods || [];
     const allowedMarkets = new Set(
@@ -1289,12 +1294,11 @@ function generateAiPrompt() {
         if (!validStr) return '';
         const match = validStr.match(/(\d{1,2})\.\s*(\d{1,2})\./);
         if (!match) return validStr;
-
-        const dayNum = parseInt(match[1], 10);
-        const monthNum = parseInt(match[2], 10);
         const now = new Date();
         let year = now.getFullYear();
         const currentMonth = now.getMonth() + 1;
+        const dayNum = parseInt(match[1], 10);
+        const monthNum = parseInt(match[2], 10);
         if (monthNum < currentMonth - 3) { // datum je v příštím roce
             year += 1;
         }
@@ -1303,8 +1307,8 @@ function generateAiPrompt() {
         return `${year}-${month}-${day}`;
     };
 
-    // mapování položek do řádků oddělených trubkou "|"
-    const rows = allGoods
+    // filtrování a mapování položek do pole řádků oddělených trubkou "|"
+    return allGoods
         .filter(item => {
             const isLiked = likedSet.has(item.id);
             const itemMarket = String(item.market || '').trim().toLowerCase();
@@ -1320,13 +1324,19 @@ function generateAiPrompt() {
             const validTo = formatValidDate(item.valid || item.validity);
             return `${name}|${shop}|${price}|${ppunit}|${volume}|${validTo}`;
         });
+}
+
+// fn: generateAiPrompt() - sestaví kompletní AI prompt s využitím generateFavSet()
+window.generateAiPrompt = generateAiPrompt;
+function generateAiPrompt() {
+    const rows = generateFavSet();
     if (rows.length === 0) {
         return null;
     }
+
     const promptHeader = "Analyzuj moje oblíbené potraviny v akci. Seskup nákup podle obchodů, přepočítej jednotkové ceny podle objemu/váhy, vypíchni nejvýhodnější nabídky:\n\n";
     const tableHeader = "item|market|price_czk|price_per_unit|volume|valid_to_date\n";
-    const fullPrompt = promptHeader + tableHeader + rows.join('\n');
-    return fullPrompt;
+    return promptHeader + tableHeader + rows.join('\n');
 }
 
 // fn: loadAllLikes() - populate deals.myLikes from a localStorage string
@@ -1484,32 +1494,36 @@ $(document).ready(function() {
         $('#file').click();
     });
 
+    // show chatbot snack for snackbarDelay
+    function showsnack() {
+        $('#chatbot-prompt').addClass('active');
+        setTimeout(function() {
+            $('#chatbot-prompt').removeClass('active');
+        }, snackbarDelay);
+    }
+
     // AI prompt button
-    $('.ai-prompt-button').click(function (e) {
+    let lastAiCopy = 0;
+    $(document).on('click', '.ai-prompt-button', async function (e) {
+        e.preventDefault();
+
+        const now = Date.now();
+        if (now - lastAiCopy < 200) return;
+        lastAiCopy = now;
+
         const promptText = generateAiPrompt();
         if (!promptText) return;
 
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(promptText)
-                .then(function() {
-                    $('#chatbot-prompt').addClass('active');
-                    setTimeout(function() {
-                        $('#chatbot-prompt').removeClass('active');
-                    }, snackbarDelay);
-                })
-                .catch(function(err) {
-                    copy2clipboard(promptText);
-                    $('#chatbot-prompt').addClass('active');
-                    setTimeout(function() {
-                        $('#chatbot-prompt').removeClass('active');
-                    }, snackbarDelay);
-                });
-        } else {
+        try {
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(promptText);
+            } else {
+                copy2clipboard(promptText);
+            }
+            showsnack();
+        } catch (err) {
             copy2clipboard(promptText);
-            $('#chatbot-prompt').addClass('active');
-            setTimeout(function() {
-                $('#chatbot-prompt').removeClass('active');
-            }, snackbarDelay);
+            showsnack();
         }
     });
 
@@ -1525,7 +1539,7 @@ $(document).ready(function() {
             document.execCommand("copy");
         } catch (err) {
             debug("Kopírování do clipboardu selhalo.");
-            console.error("Kopírování do clipboardu selhalo:", err);
+            console.error("Copy to clipboard failed:", err);
         }
         document.body.removeChild(textArea);
     }
@@ -1591,6 +1605,7 @@ $(document).ready(function() {
             if (generateAiPrompt() === null) {
                 $('.ai-prompt-button').attr('disabled', 'disabled');
             } else {
+                $('.ai-prompt-count').text("(" + generateFavSet().length + ")");
                 $('.ai-prompt-button').removeAttr('disabled');
             }
         }
