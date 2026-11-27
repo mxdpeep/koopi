@@ -1570,33 +1570,33 @@ $(document).ready(function() {
 
     // ABOUT button
     $('.about-btn').on('click', function() {
-        //window.scrollTo({top: 0});
+        window.scrollTo({top: 0});
         var isVisible = $('#about').is(':visible');
-        $('#about, #settings, #deals').hide();
         if (isVisible === true) {
             setSettingsMode(false);
+            $('#about, #settings, #deals').hide();
             $('#deals').show();
             setHandedness();
         } else {
             setSettingsMode(true);
+            $('#about, #settings, #deals').hide();
             $('#about').show();
-            window.umlog('about_tab');
         }
     });
 
     // SETTINGS button
     $('.settings-btn').on('click', function() {
-        //window.scrollTo({top: 0});
+        window.scrollTo({top: 0});
         var isVisible = $('#settings').is(':visible');
-        $('#about, #settings, #deals').hide();
         if (isVisible === true) {
             setSettingsMode(false);
+            $('#about, #settings, #deals').hide();
             $('#deals').show();
             setHandedness();
         } else {
             setSettingsMode(true);
+            $('#about, #settings, #deals').hide();
             $('#settings').show();
-            window.umlog('settings_tab');
         }
     });
 

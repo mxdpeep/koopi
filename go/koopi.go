@@ -618,6 +618,7 @@ func extractGoodsFromHtml(doc *goquery.Document, category string, query string, 
 			newGoods.Validity = strings.TrimSpace(offer.Find(".discounts_validity").Text())
 			newGoods.Validity = strings.TrimPrefix(newGoods.Validity, "v ")
 			newGoods.Validity = sanitizeString(newGoods.Validity)
+			newGoods.Validity = strings.ReplaceAll(newGoods.Validity, "platí do", "do")
 
 			// markets
 			newGoods.Market = strings.TrimSpace(offer.Find(".discounts_shop_name a span").Text())
