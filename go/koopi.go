@@ -1050,7 +1050,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 	hashmap := make(map[string]int)
 	wordsSeen := make(map[string]bool)
 	keywordsIndex := make(map[string][]int)
-	cleaner := strings.NewReplacer("%", "", "°", "", ",", "", "!", "")
+	cleaner := strings.NewReplacer("%", "", "°", "", ",", " ", "!", "", "/", " ", "-", " ")
 	var uniqueWords []string
 	for i := range cleanedGoods {
 		hash := cleanedGoods[i]["id"].(string)
@@ -1068,7 +1068,7 @@ func appendToJson(goods []Goods, filename string, markets []string, mutex *sync.
 			w = cleaner.Replace(w)
 			w = strings.Trim(w, ".,;:!/-+‑")
 			w = nonAlphanumeric.ReplaceAllString(w, "")
-			if len(w) >= 3 && len(w) <= 20 && w != "" {
+			if len(w) >= 3 && len(w) <= 20 && strings.Trim(w, "0123456789") != "" {
 				existingIDs := keywordsIndex[w]
 				if len(existingIDs) == 0 || existingIDs[len(existingIDs)-1] != currentIntID {
 					keywordsIndex[w] = append(existingIDs, currentIntID)
