@@ -52,7 +52,7 @@
 }
 
 /* SCROLLBAR */
-* {scrollbar-width: 32px;scrollbar-color: #000000 #858585;}
+* {scrollbar-width: 64px;scrollbar-color: #ff0000 #000;}
 
 body {min-width: 320px;font-family: var(--font);-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overscroll-behavior-y: contain;-webkit-text-size-adjust: 100%;}
 a {text-decoration: underline!important;color: black;}
@@ -108,6 +108,7 @@ button.chip .market-image {
     border-radius: 50px; /* Zakulacený "pill" tvar */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     cursor: pointer;
+    margin: 1rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -600,6 +601,7 @@ nav.bottom button {
     <div id="deals"></div>
     <div id="about" class="hidden">
         <button class="ai-prompt-button orange black-text bold settings-button"><span class="ai-prompt-head">🤖</span> chatbot prompt <span class="ai-prompt-count"></span></button>
+
         <div class="snackbar primary" id="chatbot-prompt">
             <i>check_circle</i>
             <span>Prompt uložen do clipboardu.</span>
@@ -640,7 +642,31 @@ nav.bottom button {
             </label>
             <input type="checkbox" id="usage-check">
             <div class="content padding">
-                Tady bude v blízké budoucnosti návod k použití...
+                <h2>1. Základní ovládání a prohlížení</h2>
+                <b>Řazení:</b> Produkty lze snadno řadit abecedně (A–Z / Z–A).
+                <br>
+                <b>Detail produktu:</b> Na libovolné kartě produktu stačí použít pravé tlačítko myši (RMB), dvojklik nebo dlouhé podržení prstu na kartě (na mobilu) a okamžitě se otevře externí detail daného zboží.
+                <br>
+                <b>Objevování náhodných slev:</b> Kliknutím na veselý smajlík v rohu zamícháš pořadí všech produktů v jednotlivých sekcích (5 bloků po 3 kategoriích) – ideální, když se chceš nechat inspirovat.
+
+                <h2>2. Oblíbené položky (FAVS)</h2>
+                <b>Ukládání:</b> Kliknutím na srdíčko si ukládáš položky do svých oblíbených napříč všemi obchody najednou.
+                <br>
+                <b>Přehled:</b> Aktuální počet uložených položek vidíš vždy přímo u ikony srdíček.
+
+                <h2>3. Nastavení</h2>
+                <b>Výběr obchodů:</b> Zvol si jen ty řetězce, do kterých reálně chodíš. Tip: Čím více obchodů zapneš, tím více dat se zpracovává a aplikace bude o něco pomalejší při vykreslování karet.
+                <br>
+                <b>Výběr z 15 kategorií:</b> Můžeš odfiltrovat sortiment, který tě nezajímá (zrychlí to načítání i orientaci). Pokud necháš kategorie bez výběru, zobrazí se automaticky všechny.
+                <br>
+                <b>Ergonomie:</b> Je zde unikátní možnost přepnutí rozhraní pro praváka nebo leváka, na mobilu určitě oceníš.
+                <br>
+                <b>Záloha a reset:</b> Nastavení (včetně FAVS) lze jednoduše exportovat a importovat. Tlačítko pro smazání nastavení vyresetuje kompletně vše včetně lokální datové cache.
+
+                <h2>4. Info a napojení na AI</h2>
+                <b>Stav aplikace:</b> Zobrazuje technický přehled aktuálního buildu. Pokud je dostupná aktualizace nebo se změní nastavení aplikace, je nutné udělat reload, což indikuje otáčející se oranžová ikona. Stačí na ni kliknout.
+                <br>
+                <b>Export do chatbot promptu:</b> Jedním kliknutím vygeneruješ textový prompt obsahující průnik tvých vybraných obchodů, kategorií a oblíbených položek (FAVS). Schránku (clipboard) pak jen stačí vložit do libovolného AI chatbota (např. na promyšlení jídelníčku ze surovin nebo optimalizaci nákupu).
             </div>
         </article>
 
