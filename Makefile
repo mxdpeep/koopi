@@ -5,10 +5,9 @@ DATE_REV := $(shell date +%Y%m%d)
 HASH_REV := $(shell git rev-parse --short=8 HEAD)
 GIT_REV := $(DATE_REV)-$(HASH_REV)
 TIMESTAMP := $(shell date +%Y-%m-%d)
-STEMS_DIR := stems
 
 all:
-	@echo "backup | build | hashmap | clear | db | img | cf"
+	@echo "backup | build | clear | db | img | cf"
 	@echo "macro: everything | normalize"
 
 clear:
@@ -29,12 +28,6 @@ img:
 	@echo "Converting images ..."
 	@./imgconv
 
-hashmap:
-	@echo "Generating hashmap ..."
-	@find ./stems -name "data_2026-*.json" -print0 | xargs -0 cat | jq -cs \
-		'reduce .[] as $$file ({};($$file.idhashmap // {}) as $$local_map | reduce ($$file.goods[] ? | select(.id != null)) as $$item (.;($$local_map[$$item.id | tostring]) as $$global_hash | if $$global_hash then .[$$global_hash] = {image: $$item.image, name: $$item.name, volume: $$item.volume} else . end))' > ./hashmap.json
-	@echo "Created hashmap with $$(jq 'length' ./hashmap.json) unique items."
-
 backup:
 	@echo "Making backup ..."
 	@rclone copy -P --exclude '.git/**' --exclude 'cache/' --exclude 'export/' . gsc:koopi/
@@ -42,9 +35,7 @@ backup:
 db: build
 	@cd go/ && ./koopi
 	@cp go/koopi.json ./data.json
-	@mkdir -p $(STEMS_DIR)
-	@cp data.json $(STEMS_DIR)/data_$(TIMESTAMP).json
-	@printf '{\n  "count": "%s",\n  "date": "%s",\n  "hash": "%s",\n  "version": "%s"\n}\n' \
+	@printf '{\n  "count": "%s",\n  "date": "%s",\n  "revision hash": "%s",\n  "version": "%s"\n}\n' \
 		"$(COUNT_REV)" "$(DATE_REV)" "$(HASH_REV)" "$(GIT_REV)" > meta.json
 
 cf:
@@ -58,7 +49,6 @@ cf:
 
 	@cp index.html export/
 	@cp manifest.json export/
-	@cp hashmap.json export/
 	@cp meta.json export/
 	@cp go/koopi.json export/data.json
 	@cp sw.js export/
@@ -73,12 +63,12 @@ cf:
 	@cd export && git commit -m 'automatic update: $$(date)' || true
 	@cd export && git push origin master
 
-normalize: db img hashmap cf
+normalize: db img cf
 	@-git add -A
 	@-git commit -am 'automatic update'
 	@-git push origin master
 
-everything: clear db img hashmap cf backup
+everything: clear db img cf backup
 	@-git add -A
 	@-git commit -am 'automatic update'
 	@-git push origin master
